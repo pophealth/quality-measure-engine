@@ -1,0 +1,3 @@
+This project will provide a library that can ingest HITSP C32's and ASTM CCR's and extract values needed to compute heath quality measures for a population. It will then be able to query over a population to compute how many people within a population conform to the measure.
+
+More to come...
