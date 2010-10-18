@@ -1,0 +1,30 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (3.0.1)
+    bson (1.1)
+    diff-lcs (1.1.2)
+    mongo (1.1)
+      bson (>= 1.0.5)
+    mongomatic (0.5.8)
+      activesupport (>= 2.3.5)
+      bson (= 1.1)
+      mongo (= 1.1)
+    rspec (2.0.0)
+      rspec-core (= 2.0.0)
+      rspec-expectations (= 2.0.0)
+      rspec-mocks (= 2.0.0)
+    rspec-core (2.0.0)
+    rspec-expectations (2.0.0)
+      diff-lcs (>= 1.1.2)
+    rspec-mocks (2.0.0)
+      rspec-core (= 2.0.0)
+      rspec-expectations (= 2.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mongo
+  mongomatic
+  rspec
