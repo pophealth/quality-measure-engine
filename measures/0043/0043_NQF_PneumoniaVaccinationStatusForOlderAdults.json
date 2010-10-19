@@ -39,18 +39,17 @@
       "minus": ["@effective_date", {"val": 65, "unit": "year"}]
     },
     "earliest_encounter": {
-      "minus": ["@effective_date", {"val": 65, "unit": "year"}]
+      "minus": ["@effective_date", {"val": 1, "unit": "year"}]
     }
   },
   "population": {
     "birthdate": {"$lte": "@earliest_birthdate"}
   },
   "denominator": {
-    {"encounter": {"$gte": "@earliest_encounter"}
+    "encounter": {"$gte": "@earliest_encounter"}
   },
   "numerator": {
-      {"vaccination": true}
-    ]
+    "vaccination": true
   },
   "exception": {}
 }
