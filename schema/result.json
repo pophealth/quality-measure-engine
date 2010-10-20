@@ -17,7 +17,7 @@
       }
     },
     "exclusions": {
-      "type": "integer",
+      "type": "array",
       "description": "Individuals that should be in the denominator but have characteristics that make them inappropriate for the measure.",
       "optional": true,
       "items": {
