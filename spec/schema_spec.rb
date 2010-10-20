@@ -11,3 +11,11 @@ describe JSON, "All JSON Schemas" do
     end
   end
 end
+
+describe JSON, 'Result Example' do 
+  it 'should conform to the schema defined' do
+    schema = File.open("schema/result.json", 'rb'){|f| JSON.parse(f.read)}
+    data = File.open('fixtures/result_example.json', 'rb'){|f| JSON.parse(f.read)}
+    JSON::Schema.validate(data, schema)
+  end
+end
