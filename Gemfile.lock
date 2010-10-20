@@ -5,6 +5,7 @@ GEM
     bson (1.1)
     bson_ext (1.1.1)
     diff-lcs (1.1.2)
+    jsonschema (2.0.0)
     mongo (1.1)
       bson (>= 1.0.5)
     mongomatic (0.5.8)
@@ -28,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
+  jsonschema
   mongo
   mongomatic
   rake
