@@ -80,7 +80,7 @@ describe Engine::Measure do
     hash = JSON.parse(measure_json)
     date = Time.now.to_i
     measure = Engine::Measure.new(hash, :effective_date=>date)
-    measure.parameters[:earliest_encounter].value.should eql(date-365*24*60*60)
+    measure.parameters[:earliest_encounter].value.should eql(date-Engine::Measure::YEAR_IN_SECONDS)
   end
 end
 

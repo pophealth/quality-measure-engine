@@ -17,7 +17,7 @@ module Engine
   # Represents a quality measure definition
   class Measure
 
-    YEAR_IN_SECONDS = 365
+    YEAR_IN_SECONDS = 365*24*60*60
     
     attr_reader :id, :name, :steward, :properties, :parameters
 
@@ -44,7 +44,7 @@ module Engine
           value['type'], params[parameter.intern])
       end
       ctx = V8::Context.new
-      ctx['year']=365*24*60*60
+      ctx['year']=YEAR_IN_SECONDS
       @parameters.each do |key, param|
         ctx[key]=param.value
       end
