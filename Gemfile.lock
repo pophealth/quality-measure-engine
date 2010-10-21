@@ -23,6 +23,7 @@ GEM
     rspec-mocks (2.0.0)
       rspec-core (= 2.0.0)
       rspec-expectations (= 2.0.0)
+    therubyracer (0.7.5)
 
 PLATFORMS
   ruby
@@ -34,3 +35,4 @@ DEPENDENCIES
   mongomatic
   rake
   rspec
+  therubyracer
