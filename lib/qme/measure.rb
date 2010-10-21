@@ -1,21 +1,18 @@
-require 'v8'
-
-module Engine
-
-  SUPPORTED_PROPERTY_TYPES = {'long'=>:long, 'boolean'=>:boolean}
-  class << SUPPORTED_PROPERTY_TYPES
-    def get_type(name)
-      if has_key?(name)
-        self[name]
-      else
-        raise "Unsupported property type: #{type}"
-      end
-    end
-  end
-
+module QME
 
   # Represents a quality measure definition
   class Measure
+
+    SUPPORTED_PROPERTY_TYPES = {'long'=>:long, 'boolean'=>:boolean}
+    class << SUPPORTED_PROPERTY_TYPES
+      def get_type(name)
+        if has_key?(name)
+          self[name]
+        else
+          raise "Unsupported property type: #{type}"
+        end
+      end
+    end
 
     YEAR_IN_SECONDS = 365*24*60*60
     
@@ -61,7 +58,7 @@ module Engine
 
     def initialize(name, type, codes)
       @name = name
-      @type = SUPPORTED_PROPERTY_TYPES.get_type(type)
+      @type = Measure::SUPPORTED_PROPERTY_TYPES.get_type(type)
       @codes = codes
     end
   end
@@ -72,7 +69,7 @@ module Engine
 
     def initialize(name, type, value)
       @name = name
-      @type = SUPPORTED_PROPERTY_TYPES.get_type(type)
+      @type = Measure::SUPPORTED_PROPERTY_TYPES.get_type(type)
       @value = value
     end
   end

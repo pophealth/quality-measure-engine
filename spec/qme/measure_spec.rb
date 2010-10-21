@@ -1,7 +1,4 @@
-# Test the Engine::Measure class
-
-require 'json'
-require 'measure'
+# Test the QME::Measure class
 
 invalid_measure_json = <<END_OF_INVALID_MEASURE
 {
@@ -28,11 +25,11 @@ invalid_measure_json = <<END_OF_INVALID_MEASURE
 }
 END_OF_INVALID_MEASURE
 
-describe Engine::Measure do
+describe QME::Measure do
   it 'should extract the measure metadata' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
-    measure = Engine::Measure.new(hash, :effective_date=>Time.now.to_i)
+    measure = QME::Measure.new(hash, :effective_date=>Time.now.to_i)
     measure.id.should eql('0043')
     measure.name.should eql('Pneumonia Vaccination Status for Older Adults')
     measure.steward.should eql('NCQA')
@@ -40,7 +37,7 @@ describe Engine::Measure do
   it 'should extract three properties for measure 0043' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
-    measure = Engine::Measure.new(hash, :effective_date=>Time.now.to_i)
+    measure = QME::Measure.new(hash, :effective_date=>Time.now.to_i)
     measure.properties.size.should eql(3)
     measure.properties.should have_key(:birthdate)
     measure.properties.should have_key(:encounter)
@@ -58,7 +55,7 @@ describe Engine::Measure do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
     time = Time.now.to_i
-    measure = Engine::Measure.new(hash, :effective_date=>time)
+    measure = QME::Measure.new(hash, :effective_date=>time)
     measure.parameters.size.should eql(3)
     measure.parameters.should have_key(:effective_date)
     measure.parameters[:effective_date].type.should eql(:long)
@@ -66,21 +63,21 @@ describe Engine::Measure do
   end
   it 'should raise a RuntimeError for invalid measures' do
     hash = JSON.parse(invalid_measure_json)
-    lambda { Engine::Measure.new(hash, :effective_date=>Time.now.to_i) }.should
+    lambda { QME::Measure.new(hash, :effective_date=>Time.now.to_i) }.should
       raise_error(RuntimeError, 'Unsupported property type: invalid_type')
   end
   it 'should raise a RuntimeError if not passed all the parameters' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
-    lambda { Engine::Measure.new(hash) }.should
+    lambda { QME::Measure.new(hash) }.should
       raise_error(RuntimeError, 'No value supplied for measure parameter: effective_date')
   end
   it 'should calculate the calculated dates correctly' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
     date = Time.now.to_i
-    measure = Engine::Measure.new(hash, :effective_date=>date)
-    measure.parameters[:earliest_encounter].value.should eql(date-Engine::Measure::YEAR_IN_SECONDS)
+    measure = QME::Measure.new(hash, :effective_date=>date)
+    measure.parameters[:earliest_encounter].value.should eql(date-QME::Measure::YEAR_IN_SECONDS)
   end
 end
 
