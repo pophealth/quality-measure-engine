@@ -54,12 +54,12 @@ describe Engine::Measure do
     measure.properties[:encounter].codes.should have_key('ICD-9-CM')
     measure.properties[:vaccination].type.should eql(:boolean)
   end
-  it 'should extract one parameter for measure 0043' do
+  it 'should extract three parameters for measure 0043 (one provided, two calculated)' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
     time = Time.now.to_i
     measure = Engine::Measure.new(hash, :effective_date=>time)
-    measure.parameters.size.should eql(1)
+    measure.parameters.size.should eql(3)
     measure.parameters.should have_key(:effective_date)
     measure.parameters[:effective_date].type.should eql(:long)
     measure.parameters[:effective_date].value.should eql(time)
@@ -74,6 +74,13 @@ describe Engine::Measure do
     hash = JSON.parse(measure_json)
     lambda { Engine::Measure.new(hash) }.should
       raise_error(RuntimeError, 'No value supplied for measure parameter: effective_date')
+  end
+  it 'should calculate the calculated dates correctly' do
+    measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
+    hash = JSON.parse(measure_json)
+    date = Time.now.to_i
+    measure = Engine::Measure.new(hash, :effective_date=>date)
+    measure.parameters[:earliest_encounter].value.should eql(date-365*24*60*60)
   end
 end
 

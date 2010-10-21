@@ -41,21 +41,23 @@
     }
   },
   "calculated_dates": {
-    "earliest_birthdate": {
-      "$minus": ["@effective_date", {"val": 65, "unit": "year"}]
-    },
-    "earliest_encounter": {
-      "$minus": ["@effective_date", {"val": 1, "unit": "year"}]
-    }
+    "earliest_birthdate": "effective_date - 65*year",
+    "earliest_encounter": "effective_date - year"
   },
   "population": {
-    "birthdate": {"$lte": "@earliest_birthdate"}
+    "category": "Patient Characteristics",
+    "title": "Age >= 64 before measure period",
+    "query": {"birthdate": {"$lte": "@earliest_birthdate"}}
   },
   "denominator": {
-    "encounter": {"$gte": "@earliest_encounter"}
+    "category": "Outpatient Encounter",
+    "title": "Outpatient encounter within the measurement period",
+    "query": {"encounter": {"$gte": "@earliest_encounter"}}
   },
   "numerator": {
-    "vaccination": true
+    "category": "Medication Administered",
+    "title": "Pneumococcal vaccination",
+    "query": {"vaccination": true}
   },
   "exception": {}
 }
