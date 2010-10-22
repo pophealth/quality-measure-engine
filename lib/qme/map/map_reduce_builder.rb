@@ -1,10 +1,31 @@
 module QME
   module MapReduce
     class Builder
+      attr_reader :id, :parameters
+
+      YEAR_IN_SECONDS = 365*24*60*60
+
       def initialize(measure_def, params)
         @measure_def = measure_def
-        @measure = QME::Measure.new(measure_def, params)
-        @property_prefix = 'this.measures["'+@measure.id+'"].'
+        @id = measure_def['id']
+        @parameters = {}
+        measure_def['parameters'] ||= {}
+        measure_def['parameters'].each do |parameter, value|
+          if !params.has_key?(parameter.intern)
+            raise "No value supplied for measure parameter: #{parameter}"
+          end
+          @parameters[parameter.intern] = params[parameter.intern]
+        end
+        ctx = V8::Context.new
+        ctx['year']=YEAR_IN_SECONDS
+        @parameters.each do |key, param|
+          ctx[key]=param
+        end
+        measure_def['calculated_dates'] ||= {}
+        measure_def['calculated_dates'].each do |parameter, value|
+          @parameters[parameter.intern]=ctx.eval(value)
+        end
+        @property_prefix = 'this.measures["'+@id+'"].'
       end
 
       def map_function
@@ -132,7 +153,7 @@ END_OF_REDUCE_FN
 
       def get_value(value)
         if value.kind_of?(String) && value[0]=='@'
-          @measure.parameters[value[1..-1].intern].value.to_s
+          @parameters[value[1..-1].intern].to_s
         elsif value.kind_of?(String)
           '"'+value+'"'
         else
