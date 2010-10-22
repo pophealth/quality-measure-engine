@@ -4,7 +4,7 @@ module QME
       def initialize(measure_def, params)
         @measure_def = measure_def
         @measure = QME::Measure.new(measure_def, params)
-        @property_prefix = 'measures.'+@measure.id+'.'
+        @property_prefix = 'measures["'+@measure.id+'"].'
       end
 
       def population
@@ -28,11 +28,30 @@ module QME
           # leaf node
           query = expr['query']
           triple = leaf_expr(query)
-          @property_prefix+triple[0]+triple[1]+triple[2]
+          '('+@property_prefix+triple[0]+triple[1]+triple[2]+')'
+        elsif expr.size==1
+          operator = expr.keys[0]
+          result = logical_expr(operator, expr[operator])
+          operator = result.shift
+          js = '('
+          result.each_with_index do |operand,index|
+            if index>0
+              js+=operator
+            end
+            js+=operand
+          end
+          js+=')'
+          js
+        elsif expr.size==0
+          '(false)'
         else
-          # logical operator $and, $or etc
-          ''
+          throw "Unexpected number of keys in: #{expr}"
         end
+      end
+
+      def logical_expr(operator, args)
+        operands = args.collect { |arg| javascript(arg) }
+        [get_operator(operator)].concat(operands)
       end
 
       def leaf_expr(query)
@@ -57,14 +76,20 @@ module QME
           '<'
         when '$lte'
           '<='
+        when '$and'
+          '&&'
+        when '$or'
+          '||'
         else
           throw "Unknown operator: #{operator}"
         end
       end
 
       def get_value(value)
-        if value.kind_of?(String) && value[0] = '@'
+        if value.kind_of?(String) && value[0]=='@'
           @measure.parameters[value[1..-1].intern].value.to_s
+        elsif value.kind_of?(String)
+          '"'+value+'"'
         else
           value.to_s
         end

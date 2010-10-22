@@ -28,11 +28,13 @@ module QME
       @name = measure['name']
       @steward = measure['steward']
       @properties = {}
+      measure['properties'] ||= {}
       measure['properties'].each do |property, value|
         @properties[property.intern] = Property.new(value['name'],
           value['type'], value['codes'])
       end
       @parameters = {}
+      measure['parameters'] ||= {}
       measure['parameters'].each do |parameter, value|
         if !params.has_key?(parameter.intern)
           raise "No value supplied for measure parameter: #{parameter}"
@@ -45,6 +47,7 @@ module QME
       @parameters.each do |key, param|
         ctx[key]=param.value
       end
+      measure['calculated_dates'] ||= {}
       measure['calculated_dates'].each do |parameter, value|
         @parameters[parameter.intern]=Parameter.new(parameter, 'long', ctx.eval(value))
       end
