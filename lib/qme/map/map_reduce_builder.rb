@@ -7,6 +7,42 @@ module QME
         @property_prefix = 'measures["'+@measure.id+'"].'
       end
 
+      def map_function
+        "function () {\n" +
+        "  var value = {i: 0, d: 0, n: 0, e: 0};\n" +
+        "  if #{population} {\n" +
+        "    value.i++;\n" +
+        "    if #{denominator} {\n" +
+        "      value.d++;\n" +
+        "      if #{numerator} {\n" +
+        "        value.n++;\n" +
+        "      } else if #{exception} {\n" +
+        "        value.e++;\n" +
+        "        value.d--;\n" +
+        "      }\n" +
+        "    }\n" +
+        "  }\n" +
+        "  emit(null, value);\n" +
+        "};\n"
+      end
+
+      REDUCE_FUNCTION = <<END_OF_REDUCE_FN
+function (key, values) {
+  var total = {i: 0, d: 0, n: 0, e: 0};
+  for (var i = 0; i < values.length; i++) {
+    total.i += values[i].i;
+    total.d += values[i].d;
+    total.n += values[i].n;
+    total.e += values[i].e;
+  }
+  return total;
+};
+END_OF_REDUCE_FN
+
+      def reduce_function
+        REDUCE_FUNCTION
+      end
+
       def population
         javascript(@measure_def['population'])
       end
@@ -68,17 +104,17 @@ module QME
 
       def get_operator(operator)
         case operator
-        when '$gt'
+        when '_gt'
           '>'
-        when '$gte'
+        when '_gte'
           '>='
-        when '$lt'
+        when '_lt'
           '<'
-        when '$lte'
+        when '_lte'
           '<='
-        when '$and'
+        when 'and'
           '&&'
-        when '$or'
+        when 'or'
           '||'
         else
           throw "Unknown operator: #{operator}"

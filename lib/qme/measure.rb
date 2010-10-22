@@ -3,20 +3,9 @@ module QME
   # Represents a quality measure definition
   class Measure
 
-    SUPPORTED_PROPERTY_TYPES = {'long'=>:long, 'boolean'=>:boolean}
-    class << SUPPORTED_PROPERTY_TYPES
-      def get_type(name)
-        if has_key?(name)
-          self[name]
-        else
-          raise "Unsupported property type: #{type}"
-        end
-      end
-    end
-
     YEAR_IN_SECONDS = 365*24*60*60
     
-    attr_reader :id, :name, :steward, :properties, :parameters
+    attr_reader :id, :name, :steward, :parameters
 
     # Parses the supplied measure definition, extracts the measure properties
     # and calculates the values of any calculated dates. <tt>measure</tt> is 
@@ -27,12 +16,6 @@ module QME
       @id = measure['id']
       @name = measure['name']
       @steward = measure['steward']
-      @properties = {}
-      measure['properties'] ||= {}
-      measure['properties'].each do |property, value|
-        @properties[property.intern] = Property.new(value['name'],
-          value['type'], value['codes'])
-      end
       @parameters = {}
       measure['parameters'] ||= {}
       measure['parameters'].each do |parameter, value|
@@ -40,7 +23,7 @@ module QME
           raise "No value supplied for measure parameter: #{parameter}"
         end
         @parameters[parameter.intern] = Parameter.new(value['name'],
-          value['type'], params[parameter.intern])
+          params[parameter.intern])
       end
       ctx = V8::Context.new
       ctx['year']=YEAR_IN_SECONDS
@@ -49,30 +32,18 @@ module QME
       end
       measure['calculated_dates'] ||= {}
       measure['calculated_dates'].each do |parameter, value|
-        @parameters[parameter.intern]=Parameter.new(parameter, 'long', ctx.eval(value))
+        @parameters[parameter.intern]=Parameter.new(parameter, ctx.eval(value))
       end
     end
 
-  end
-
-  # Represents a property of a quality measure
-  class Property
-    attr_reader :name, :type, :codes
-
-    def initialize(name, type, codes)
-      @name = name
-      @type = Measure::SUPPORTED_PROPERTY_TYPES.get_type(type)
-      @codes = codes
-    end
   end
 
   # Represents a parameter of a quality measure
   class Parameter
     attr_reader :name, :type, :value
 
-    def initialize(name, type, value)
+    def initialize(name, value)
       @name = name
-      @type = Measure::SUPPORTED_PROPERTY_TYPES.get_type(type)
       @value = value
     end
   end
