@@ -9,4 +9,5 @@ gem 'therubyracer', :require => 'v8'
 group :test do
   gem 'rspec'
   gem 'jsonschema'
+  gem 'awesome_print', :require => 'ap'
 end
