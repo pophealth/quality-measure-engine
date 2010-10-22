@@ -4,7 +4,7 @@ describe QME::Measure do
   it 'should extract the measure metadata' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
-    measure = QME::Measure.new(hash, :effective_date=>Time.now.to_i)
+    measure = QME::Measure.new(hash, :effective_date=>Time.gm(2010, 9, 19).to_i)
     measure.id.should eql('0043')
     measure.name.should eql('Pneumonia Vaccination Status for Older Adults')
     measure.steward.should eql('NCQA')
@@ -12,7 +12,8 @@ describe QME::Measure do
   it 'should extract three parameters for measure 0043 (one provided, two calculated)' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
-    time = Time.now.to_i
+    time = Time.gm(2010, 9, 19).to_i
+
     measure = QME::Measure.new(hash, :effective_date=>time)
     measure.parameters.size.should eql(3)
     measure.parameters.should have_key(:effective_date)
@@ -27,7 +28,7 @@ describe QME::Measure do
   it 'should calculate the calculated dates correctly' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
     hash = JSON.parse(measure_json)
-    date = Time.now.to_i
+    date = Time.gm(2010, 9, 19).to_i
     measure = QME::Measure.new(hash, :effective_date=>date)
     measure.parameters[:earliest_encounter].value.should eql(date-QME::Measure::YEAR_IN_SECONDS)
   end

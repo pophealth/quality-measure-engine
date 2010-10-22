@@ -4,7 +4,7 @@ module QME
       def initialize(measure_def, params)
         @measure_def = measure_def
         @measure = QME::Measure.new(measure_def, params)
-        @property_prefix = 'measures["'+@measure.id+'"].'
+        @property_prefix = 'this.measures["'+@measure.id+'"].'
       end
 
       def map_function
@@ -64,7 +64,8 @@ END_OF_REDUCE_FN
           # leaf node
           query = expr['query']
           triple = leaf_expr(query)
-          '('+@property_prefix+triple[0]+triple[1]+triple[2]+')'
+          property_name = munge_property_name(triple[0])
+          '('+property_name+triple[1]+triple[2]+')'
         elsif expr.size==1
           operator = expr.keys[0]
           result = logical_expr(operator, expr[operator])
@@ -82,6 +83,14 @@ END_OF_REDUCE_FN
           '(false)'
         else
           throw "Unexpected number of keys in: #{expr}"
+        end
+      end
+
+      def munge_property_name(name)
+        if name=='birthdate'
+          'this.'+name
+        else
+          @property_prefix+name
         end
       end
 
