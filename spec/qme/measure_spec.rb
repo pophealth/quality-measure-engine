@@ -17,7 +17,7 @@ describe QME::Measure do
     measure = QME::Measure.new(hash, :effective_date=>time)
     measure.parameters.size.should eql(3)
     measure.parameters.should have_key(:effective_date)
-    measure.parameters[:effective_date].value.should eql(time)
+    measure.parameters[:effective_date].should eql(time)
   end
   it 'should raise a RuntimeError if not passed all the parameters' do
     measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
@@ -30,7 +30,7 @@ describe QME::Measure do
     hash = JSON.parse(measure_json)
     date = Time.gm(2010, 9, 19).to_i
     measure = QME::Measure.new(hash, :effective_date=>date)
-    measure.parameters[:earliest_encounter].value.should eql(date-QME::Measure::YEAR_IN_SECONDS)
+    measure.parameters[:earliest_encounter].should eql(date-QME::Measure::YEAR_IN_SECONDS)
   end
 end
 

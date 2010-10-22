@@ -132,7 +132,7 @@ END_OF_REDUCE_FN
 
       def get_value(value)
         if value.kind_of?(String) && value[0]=='@'
-          @measure.parameters[value[1..-1].intern].value.to_s
+          @measure.parameters[value[1..-1].intern].to_s
         elsif value.kind_of?(String)
           '"'+value+'"'
         else

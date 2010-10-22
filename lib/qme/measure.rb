@@ -22,30 +22,19 @@ module QME
         if !params.has_key?(parameter.intern)
           raise "No value supplied for measure parameter: #{parameter}"
         end
-        @parameters[parameter.intern] = Parameter.new(value['name'],
-          params[parameter.intern])
+        @parameters[parameter.intern] = params[parameter.intern]
       end
       ctx = V8::Context.new
       ctx['year']=YEAR_IN_SECONDS
       @parameters.each do |key, param|
-        ctx[key]=param.value
+        ctx[key]=param
       end
       measure['calculated_dates'] ||= {}
       measure['calculated_dates'].each do |parameter, value|
-        @parameters[parameter.intern]=Parameter.new(parameter, ctx.eval(value))
+        @parameters[parameter.intern]=ctx.eval(value)
       end
     end
 
-  end
-
-  # Represents a parameter of a quality measure
-  class Parameter
-    attr_reader :name, :type, :value
-
-    def initialize(name, value)
-      @name = name
-      @value = value
-    end
   end
 
 end
