@@ -3,7 +3,7 @@ describe QME::MapReduce::Executor do
     db = Mongo::Connection.new('localhost', 27017).db('test')
     e = QME::MapReduce::Executor.new(db)
     
-    r = e.execute('0043', :effective_date=>Time.gm(2010, 9, 19).to_i)
+    r = e.measure_result('0043', :effective_date=>Time.gm(2010, 9, 19).to_i)
     
     r[:population].should eql(3)
     r[:numerator].should eql(1)

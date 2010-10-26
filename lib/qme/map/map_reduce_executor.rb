@@ -5,14 +5,14 @@ module QME
         @db = db
       end
 
-      def get_measure_def(measure_id)
+      def measure_def(measure_id)
         measures = @db.collection('measures')
         measures.find({'id'=> "#{measure_id}"}).to_a[0]
       end
 
-      def execute(measure_id, parameter_values)
+      def measure_result(measure_id, parameter_values)
         
-        measure = Builder.new(get_measure_def(measure_id), parameter_values)
+        measure = Builder.new(measure_def(measure_id), parameter_values)
 
         records = @db.collection('records')
         results = records.map_reduce(measure.map_function, measure.reduce_function)
