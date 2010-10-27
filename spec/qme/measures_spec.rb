@@ -1,7 +1,13 @@
 describe QME::MapReduce::Executor do
 
   before do
-    @db = Mongo::Connection.new('localhost', 27017).db('test')
+    db_host = nil
+    if ENV['TEST_DB_HOST']
+      db_host = ENV['TEST_DB_HOST']
+    else
+      db_host = 'localhost'
+    end
+    @db = Mongo::Connection.new(db_host, 27017).db('test')
     @measures = Dir.glob('measures/*')
   end
   
