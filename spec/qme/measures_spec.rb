@@ -9,7 +9,9 @@ describe QME::MapReduce::Executor do
     print "\n"
     @measures.each do |dir|
       # load db with measure and sample patient records
-      measure_file = Dir.glob(File.join(dir,'*.json'))[0]
+      files = Dir.glob(File.join(dir,'*.json'))
+      files.size.should eql(1)
+      measure_file = files[0]
       patient_files = Dir.glob(File.join(dir, 'patients', '*.json'))
       measure = JSON.parse(File.read(measure_file))
       measure_id = measure['id']

@@ -134,6 +134,8 @@ END_OF_REDUCE_FN
 
       def get_operator(operator)
         case operator
+        when '_eql'
+          '=='
         when '_gt'
           '>'
         when '_gte'
@@ -156,6 +158,8 @@ END_OF_REDUCE_FN
           @parameters[value[1..-1].intern].to_s
         elsif value.kind_of?(String)
           '"'+value+'"'
+        elsif value==nil
+          'null'
         else
           value.to_s
         end
