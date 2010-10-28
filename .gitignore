@@ -2,3 +2,5 @@
 *.DS_Store
 vendor
 nbproject
+pkg
+.redcar
