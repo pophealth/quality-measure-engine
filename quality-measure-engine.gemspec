@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
      "measures/0043/patients/numerator.json",
      "measures/0043/patients/population.json",
      "measures/0043/result/result.json",
+     "quality-measure-engine.gemspec",
      "schema/result.json",
      "schema/schema.json",
      "spec/qme/map/map_reduce_builder_spec.rb",
