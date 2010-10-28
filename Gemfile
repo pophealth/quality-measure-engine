@@ -11,3 +11,8 @@ group :test do
   gem 'jsonschema'
   gem 'awesome_print', :require => 'ap'
 end
+
+group :build do
+  gem 'jeweler'
+end
+

@@ -6,6 +6,13 @@ GEM
     bson (1.1)
     bson_ext (1.1.1)
     diff-lcs (1.1.2)
+    gemcutter (0.6.1)
+    git (1.2.5)
+    jeweler (1.4.0)
+      gemcutter (>= 0.1.0)
+      git (>= 1.2.5)
+      rubyforge (>= 2.0.0)
+    json_pure (1.4.6)
     jsonschema (2.0.0)
     mongo (1.1)
       bson (>= 1.0.5)
@@ -24,6 +31,8 @@ GEM
     rspec-mocks (2.0.0)
       rspec-core (= 2.0.0)
       rspec-expectations (= 2.0.0)
+    rubyforge (2.0.4)
+      json_pure (>= 1.1.7)
     therubyracer (0.7.5)
 
 PLATFORMS
@@ -32,6 +41,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   bson_ext
+  jeweler
   jsonschema
   mongo
   mongomatic
