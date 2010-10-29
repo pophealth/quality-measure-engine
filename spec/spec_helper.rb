@@ -12,4 +12,4 @@ Bundler.require(:default, :test)
 
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
 
-require PROJECT_ROOT + 'lib/quality_measure_engine'
+require PROJECT_ROOT + 'lib/quality-measure-engine'
