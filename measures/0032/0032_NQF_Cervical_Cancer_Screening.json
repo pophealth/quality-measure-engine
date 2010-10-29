@@ -149,8 +149,8 @@
       {
         "or": [
           {
-            "category": "Procedure performed",
-            "title": "No hysterectomy",
+            "category": "Procedure not performed",
+            "title": "Hysterectomy",
             "query": {"hysterectomy": null}
           },
           {
@@ -163,8 +163,8 @@
     ]
   },
   "numerator": {
-    "category": "Medication Administered",
-    "title": "Pneumococcal vaccination",
+    "category": "Laboratory test result",
+    "title": "Pap test",
     "query": {"pap_test": {"_gte": "@earliest_pap"}}
   },
   "exception": {}
