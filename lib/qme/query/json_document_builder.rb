@@ -18,17 +18,35 @@ module QME
       # Calculates all dates necessary to create a query for this measure
       # This will be run by the constructor if params were passed in
       def calculate_dates
-        ctx = V8::Context.new
+        @calculated_dates = {}
+        
+        ctx = V8::Context.new        
         @parameters.each_pair do |key, value|
           ctx[key] = value
+          @calculated_dates[key] = value
         end
 
         ctx['year'] = 365 * 24 * 60 * 60 # TODO: Replace this with a js file that has all constants
 
-        @calculated_dates = {}
         @measure_json["calculated_dates"].each_pair do |key, value|
           @calculated_dates[key] = ctx.eval(value)
         end
+      end
+
+      def numerator_query
+        create_query(@measure_json['numerator']).merge(denominator_query)
+      end
+      
+      def denominator_query
+        create_query(@measure_json['denominator']).merge(initial_population_query)
+      end
+      
+      def initial_population_query
+        create_query(@measure_json['population'])
+      end
+      
+      def exclusions_query
+        create_query(@measure_json['exception'])
       end
 
       # Creates the appropriate JSON document to query MongoDB based on
@@ -45,7 +63,11 @@ module QME
           definition_json['or'].each do |operand|
             operands << create_query(operand)
           end
-          args['$or'] = operands
+          if args['$or']
+            args['$ne'] = {'$or' => operands}
+          else
+            args['$or'] = operands
+          end
         elsif definition_json.has_key?('query')
           process_query(definition_json['query'], args)
         end
