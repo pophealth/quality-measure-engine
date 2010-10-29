@@ -22,3 +22,35 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "awesome_print", "~> 0.2.1"
   gem.add_development_dependency "jeweler", "~> 1.4.0"
 end
+
+desc 'Load all the measures and sample patient files into the database'
+task :loaddb do
+  require './spec/spec_helper'
+  db_host = nil
+  if ENV['TEST_DB_HOST']
+    db_host = ENV['TEST_DB_HOST']
+  else
+    db_host = 'localhost'
+  end
+  db = Mongo::Connection.new(db_host, 27017).db('test')
+  
+  db.drop_collection('measures')
+  db.drop_collection('records')
+
+  measures = Dir.glob('measures/*')
+  measures.each do |dir|
+    # load db with measure and sample patient records
+    files = Dir.glob(File.join(dir,'*.json'))
+    measure_file = files[0]
+    patient_files = Dir.glob(File.join(dir, 'patients', '*.json'))
+    measure = JSON.parse(File.read(measure_file))
+    measure_id = measure['id']
+    measure_collection = db.create_collection('measures')
+    record_collection = db.create_collection('records')
+    measure_collection.save(measure)
+    patient_files.each do |patient_file|
+      patient = JSON.parse(File.read(patient_file))
+      record_collection.save(patient)
+    end
+  end
+end
