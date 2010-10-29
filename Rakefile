@@ -5,6 +5,7 @@ RSpec::Core::RakeTask.new do |t|
   t.pattern = 'spec/**/*_spec.rb'
 end
 
+desc 'Load all the measures and sample patient files into the database'
 task :loaddb do
   require './spec/spec_helper'
   db_host = nil
