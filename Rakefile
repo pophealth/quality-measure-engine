@@ -15,9 +15,7 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Marc Hadley", "Andy Gregorowicz"]
   
   gem.add_dependency 'mongo', '~> 1.1'
-  gem.add_dependency 'mongomatic', '~> 0.5.8'
   gem.add_dependency 'therubyracer', '~> 0.7.5'
-  gem.add_dependency 'bson_ext', '~> 1.1.1'
   
   gem.add_development_dependency "jsonschema", "~> 2.0.0"
   gem.add_development_dependency "rspec", "~> 2.0.0"
