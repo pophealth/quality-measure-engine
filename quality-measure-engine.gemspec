@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{quality-measure-engine}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marc Hadley", "Andy Gregorowicz"]
-  s.date = %q{2010-10-29}
+  s.date = %q{2010-11-01}
   s.description = %q{A library for extracting quality measure information from HITSP C32's and ASTM CCR's}
   s.email = %q{talk@projectpophealth.org}
   s.extra_rdoc_files = [
