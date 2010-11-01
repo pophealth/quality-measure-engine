@@ -1,3 +1,5 @@
+Bundler.require(:default)
+
 LIB = File.dirname(__FILE__)
 
 require LIB + '/patches/v8'
