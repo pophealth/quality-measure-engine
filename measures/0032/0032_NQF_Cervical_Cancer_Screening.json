@@ -5,13 +5,13 @@
   "parameters": {
     "effective_date": {
       "name": "Effective end date for measure",
-      "type": "long"
+      "type": "datetime"
     }
   },
   "properties": {
     "birthdate": {
       "name": "Date of birth",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "HL7",
@@ -22,7 +22,7 @@
     },
     "encounter_outpatient": {
       "name": "Date of outpatient encounter",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",
@@ -38,7 +38,7 @@
     },
     "encounter_obgyn": {
       "name": "Date of ObGyn encounter",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "ICD-9-CM",
@@ -49,7 +49,7 @@
     },
     "hysterectomy": {
       "name": "Hysterectomy performed",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",
@@ -75,7 +75,7 @@
     },
     "pap_test": {
       "name": "Pap test",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",

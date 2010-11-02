@@ -5,13 +5,13 @@
   "parameters": {
     "effective_date": {
       "name": "Effective end date for measure",
-      "type": "long"
+      "type": "datetime"
     }
   },
   "properties": {
     "birthdate": {
       "name": "Date of birth",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "HL7",
@@ -22,7 +22,7 @@
     },
     "encounter": {
       "name": "Date of encounter",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",
@@ -38,7 +38,7 @@
     },
     "vaccination": {
       "name": "Pneumococcal vaccination",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "RxNorm",
