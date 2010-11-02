@@ -135,14 +135,32 @@
       {
         "or": [
           {
-            "category": "Outpatient Encounter",
-            "title": "Outpatient encounter within last two years",
-            "query": {"encounter_outpatient": {"_gte": "@earliest_encounter"}}
+            "and": [
+              {
+                "category": "Outpatient Encounter",
+                "title": "Outpatient encounter before effective date",
+                "query": {"encounter_outpatient": {"_lte": "@effective_date"}}
+              },
+              {
+                "category": "Outpatient Encounter",
+                "title": "Outpatient encounter less than two years before effective date",
+                "query": {"encounter_outpatient": {"_gte": "@earliest_encounter"}}
+              }
+            ]
           },
           {
-            "category": "ObGyn Encounter",
-            "title": "ObGyn encounter within last two years",
-            "query": {"encounter_obgyn": {"_gte": "@earliest_encounter"}}
+            "and": [
+              {
+                "category": "ObGyn Encounter",
+                "title": "ObGyn encounter before effective date",
+                "query": {"encounter_obgyn": {"_lte": "@effective_date"}}
+              },
+              {
+                "category": "ObGyn Encounter",
+                "title": "ObGyn encounter less than two years before effective date",
+                "query": {"encounter_obgyn": {"_gte": "@earliest_encounter"}}
+              }
+            ]
           }
         ]
       },
