@@ -3,9 +3,9 @@ function () {
   var value = {i: 0, d: 0, n: 0, e: 0};
   if (this.birthdate<=-764985600) {
     value.i++;
-    if (this.measures["0043"].encounter>=1253318400) {
+    if ((this.measures["0043"].encounter>=1253318400)&&(this.measures["0043"].encounter<=1284854400)) {
       value.d++;
-      if (this.measures["0043"].vaccination==true) {
+      if (this.measures["0043"].vaccination<=1284854400) {
         value.n++;
       } else if (false) {
         value.e++;
@@ -50,9 +50,9 @@ describe QME::MapReduce::Builder do
   it 'should produce valid JavaScript expressions for the query components' do
     date = Time.gm(2010, 9, 19).to_i
     builder = QME::MapReduce::Builder.new(@measure_json, :effective_date=>date)
-    builder.numerator.should eql('(this.measures["0043"].vaccination==true)')
-    builder.denominator.should eql('(this.measures["0043"].encounter>='+builder.parameters[:earliest_encounter].to_s+')')
-    builder.population.should eql('(this.birthdate<='+builder.parameters[:earliest_birthdate].to_s+')')
+    builder.numerator.should eql("(this.measures[\"0043\"].vaccination<=#{date})")
+    builder.denominator.should eql("((this.measures[\"0043\"].encounter>=#{builder.parameters[:earliest_encounter]})&&(this.measures[\"0043\"].encounter<=#{date}))")
+    builder.population.should eql("(this.birthdate<=#{builder.parameters[:earliest_birthdate]})")
     builder.exception.should eql('(false)')
     builder.map_function.should eql(MAP_FUNCTION)
     builder.reduce_function.should eql(QME::MapReduce::Builder::REDUCE_FUNCTION)

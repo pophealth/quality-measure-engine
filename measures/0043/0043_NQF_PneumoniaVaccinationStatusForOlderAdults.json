@@ -38,7 +38,7 @@
     },
     "vaccination": {
       "name": "Pneumococcal vaccination",
-      "type": "boolean",
+      "type": "long",
       "codes": [
         {
           "set": "RxNorm",
@@ -58,14 +58,23 @@
     "query": {"birthdate": {"_lte": "@earliest_birthdate"}}
   },
   "denominator": {
-    "category": "Outpatient Encounter",
-    "title": "Outpatient encounter within the measurement period",
-    "query": {"encounter": {"_gte": "@earliest_encounter"}}
+    "and" : [
+      {
+        "category": "Outpatient Encounter",
+        "title": "Less than a year before the effective date",
+        "query": {"encounter": {"_gte": "@earliest_encounter"}}
+      },
+      {
+        "category": "Outpatient Encounter",
+        "title": "Before effective date",
+        "query": {"encounter": {"_lte": "@effective_date"}}
+      }
+    ]
   },
   "numerator": {
     "category": "Medication Administered",
     "title": "Pneumococcal vaccination",
-    "query": {"vaccination": true}
+    "query": {"vaccination": {"_lte": "@effective_date"}}
   },
   "exception": {}
 }
