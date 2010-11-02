@@ -15,6 +15,7 @@ GEM
     jsonschema (2.0.0)
     mongo (1.1)
       bson (>= 1.0.5)
+    nokogiri (1.4.3.1)
     rake (0.8.7)
     rspec (2.0.0)
       rspec-core (= 2.0.0)
@@ -39,6 +40,7 @@ DEPENDENCIES
   jeweler
   jsonschema
   mongo
+  nokogiri
   rake
   rspec
   therubyracer
