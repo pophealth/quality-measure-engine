@@ -1,10 +1,10 @@
-{
+{ // doesn't match denominator since no encounter within a year
   "first": "Bert",                                    // personal data
   "last": "Bloggs",
   "birthdate": -921542400,                            // Time.gm(1940, 10, 19).to_i
   "measures": {                                       // bag of measures, one entry per measure
     "0043": {
-      "vaccination": true
+      "vaccination": 1284854400                       // Time.gm(2010, 9, 19)
     }
   }
 }

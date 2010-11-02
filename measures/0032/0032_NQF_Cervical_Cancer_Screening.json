@@ -5,13 +5,13 @@
   "parameters": {
     "effective_date": {
       "name": "Effective end date for measure",
-      "type": "long"
+      "type": "datetime"
     }
   },
   "properties": {
     "birthdate": {
       "name": "Date of birth",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "HL7",
@@ -22,7 +22,7 @@
     },
     "encounter_outpatient": {
       "name": "Date of outpatient encounter",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",
@@ -38,7 +38,7 @@
     },
     "encounter_obgyn": {
       "name": "Date of ObGyn encounter",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "ICD-9-CM",
@@ -49,7 +49,7 @@
     },
     "hysterectomy": {
       "name": "Hysterectomy performed",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",
@@ -75,7 +75,7 @@
     },
     "pap_test": {
       "name": "Pap test",
-      "type": "long",
+      "type": "datetime",
       "codes": [
         {
           "set": "CPT",
@@ -135,14 +135,32 @@
       {
         "or": [
           {
-            "category": "Outpatient Encounter",
-            "title": "Outpatient encounter within last three years",
-            "query": {"encounter_outpatient": {"_gte": "@earliest_encounter"}}
+            "and": [
+              {
+                "category": "Outpatient Encounter",
+                "title": "Outpatient encounter before effective date",
+                "query": {"encounter_outpatient": {"_lte": "@effective_date"}}
+              },
+              {
+                "category": "Outpatient Encounter",
+                "title": "Outpatient encounter less than two years before effective date",
+                "query": {"encounter_outpatient": {"_gte": "@earliest_encounter"}}
+              }
+            ]
           },
           {
-            "category": "ObGyn Encounter",
-            "title": "ObGyn encounter within last three years",
-            "query": {"encounter_obgyn": {"_gte": "@earliest_encounter"}}
+            "and": [
+              {
+                "category": "ObGyn Encounter",
+                "title": "ObGyn encounter before effective date",
+                "query": {"encounter_obgyn": {"_lte": "@effective_date"}}
+              },
+              {
+                "category": "ObGyn Encounter",
+                "title": "ObGyn encounter less than two years before effective date",
+                "query": {"encounter_obgyn": {"_gte": "@earliest_encounter"}}
+              }
+            ]
           }
         ]
       },
