@@ -46,7 +46,7 @@ module QME
       end
       
       def exclusions_query
-        create_query(@measure_json['exception'])
+        create_query(@measure_json['exclusions'])
       end
 
       # Creates the appropriate JSON document to query MongoDB based on

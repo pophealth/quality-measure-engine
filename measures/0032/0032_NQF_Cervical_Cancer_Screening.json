@@ -185,5 +185,5 @@
     "title": "Pap test",
     "query": {"pap_test": {"_gte": "@earliest_pap"}}
   },
-  "exception": {}
+  "exclusions": {}
 }

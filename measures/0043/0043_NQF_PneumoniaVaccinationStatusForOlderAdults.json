@@ -76,5 +76,5 @@
     "title": "Pneumococcal vaccination",
     "query": {"vaccination": {"_lte": "@effective_date"}}
   },
-  "exception": {}
+  "exclusions": {}
 }

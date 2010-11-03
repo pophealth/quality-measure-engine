@@ -30,10 +30,10 @@ module QME
         
         exclusions_query = jdb.exclusions_query
         if exclusions_query.empty?
-          result[:exceptions] = 0
+          result[:exclusions] = 0
         else
           collection.find(exclusions_query) do |cursor|
-            result[:exceptions] = cursor.count
+            result[:exclusions] = cursor.count
           end
         end
         
