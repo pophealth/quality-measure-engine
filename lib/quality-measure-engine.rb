@@ -10,6 +10,9 @@ require LIB + '/qme/map/map_reduce_executor'
 require LIB + '/qme/query/json_document_builder'
 require LIB + '/qme/query/json_query_executor'
 
+require 'singleton'
+
+require LIB + '/qme/importer/patient_importer'
+
 require 'json'
 require 'mongo'
-require 'singleton'
