@@ -1,0 +1,29 @@
+{
+  "root": "root.json",
+  "combinations": [
+    {
+      "sub_id": "a",
+      "subtitle": "combination a",
+      "denominator": "denominator1.json",
+      "numerator": "numerator1.json"
+    },
+    {
+      "sub_id": "b",
+      "subtitle": "combination b",
+      "denominator": "denominator1.json",
+      "numerator": "numerator2.json"
+    },
+    {
+      "sub_id": "c",
+      "subtitle": "combination c",
+      "denominator": "denominator2.json",
+      "numerator": "numerator1.json"
+    },
+    {
+      "sub_id": "d",
+      "subtitle": "combination d",
+      "denominator": "denominator2.json",
+      "numerator": "numerator2.json"
+    }
+  ]
+}

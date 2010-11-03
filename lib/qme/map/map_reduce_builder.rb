@@ -37,7 +37,7 @@ module QME
         "      value.d++;\n" +
         "      if #{numerator} {\n" +
         "        value.n++;\n" +
-        "      } else if #{exception} {\n" +
+        "      } else if #{exclusions} {\n" +
         "        value.e++;\n" +
         "        value.d--;\n" +
         "      }\n" +
@@ -76,8 +76,8 @@ END_OF_REDUCE_FN
         javascript(@measure_def['numerator'])
       end
 
-      def exception
-        javascript(@measure_def['exception'])
+      def exclusions
+        javascript(@measure_def['exclusions'])
       end
 
       def javascript(expr)

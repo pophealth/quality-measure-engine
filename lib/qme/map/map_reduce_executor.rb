@@ -23,7 +23,7 @@ module QME
           :population=>value['i'].to_i,
           :denominator=> value['d'].to_i,
           :numerator=> value['n'].to_i,
-          :exceptions=> value['e'].to_i
+          :exclusions=> value['e'].to_i
         }
       end
     end

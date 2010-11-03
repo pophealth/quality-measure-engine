@@ -10,19 +10,13 @@
       "description": "Individuals who should meet the measure. Sometimes equivalent to the initial population."
     },
     "numerator": {
-      "type": "array",
-      "description": "Individuals who do meet the measure.",
-      "items": {
-        "type": "integer"
-      }
+      "type": "integer",
+      "description": "Individuals who do meet the measure."
     },
     "exclusions": {
-      "type": "array",
+      "type": "integer",
       "description": "Individuals that should be in the denominator but have characteristics that make them inappropriate for the measure.",
-      "optional": true,
-      "items": {
-        "type": "integer"
-      }
+      "optional": true
     }
   }
 }

@@ -53,7 +53,7 @@ describe QME::MapReduce::Builder do
     builder.numerator.should eql("(this.measures[\"0043\"].vaccination<=#{date})")
     builder.denominator.should eql("((this.measures[\"0043\"].encounter>=#{builder.parameters[:earliest_encounter]})&&(this.measures[\"0043\"].encounter<=#{date}))")
     builder.population.should eql("(this.birthdate<=#{builder.parameters[:earliest_birthdate]})")
-    builder.exception.should eql('(false)')
+    builder.exclusions.should eql('(false)')
     builder.map_function.should eql(MAP_FUNCTION)
     builder.reduce_function.should eql(QME::MapReduce::Builder::REDUCE_FUNCTION)
   end

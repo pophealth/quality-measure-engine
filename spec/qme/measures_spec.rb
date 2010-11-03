@@ -42,7 +42,7 @@ describe QME::MapReduce::Executor do
       result[:population].should eql(expected['initialPopulation'])
       result[:numerator].should eql(expected['numerator'])
       result[:denominator].should eql(expected['denominator'])
-      result[:exceptions].should eql(expected['exclusions'])
+      result[:exclusions].should eql(expected['exclusions'])
       print " - done\n"
     end
   end
