@@ -22,7 +22,7 @@ module QME
       # @param [String] code_system_oid the oid of the code system used
       # @param [String] code to check
       # @param [String] property_name name of the property to match in the JSON definition
-      # @property [Hash] measure_definition the measure definition JSON
+      # @param [Hash] measure_definition the measure definition JSON
       # @return [true, false] whether the code is in the list of desired codes
       def self.is_in_code_list?(code_system_oid, code, property_name, measure_definition)
         code_system_name = code_system_for(code_system_oid)
