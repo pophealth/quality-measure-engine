@@ -87,12 +87,11 @@ module QME
         document_value = nil
         query_value = definition_json[query_property]
         if query_value.kind_of?(Hash)
-          if query_value.size > 1
-            raise 'A query value should only have one property'
+          document_value = {}
+          query_value.each_pair do |k, v|
+            document_value[k.sub('_', '$')] = substitute_variables(v)
           end
 
-          document_value = {query_value.keys.first.gsub('_', '$') =>
-                            substitute_variables(query_value.values.first)}
           if args[document_key]
             args[document_key].merge!(document_value)
           else
