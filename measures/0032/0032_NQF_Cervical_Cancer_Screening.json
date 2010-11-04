@@ -117,50 +117,38 @@
     "earliest_pap": "effective_date - 3*year"
   },
   "population": {
-    "and": [
-      {
-        "category": "Patient Characteristic",
-        "title": "Age >= 23 before measure period",
-        "query": {"birthdate": {"_lte": "@latest_birthdate"}}
-      },
-      {
-        "category": "Patient Characteristic",
-        "title": "Age <= 64 before measure period",
-        "query": {"birthdate": {"_gte": "@earliest_birthdate"}}
+    "category": "Patient Characteristic",
+    "title": "Age between 23 and 65",
+    "query": {
+      "birthdate": {
+        "_lte": "@latest_birthdate",
+        "_gte": "@earliest_birthdate"
       }
-    ]
+    }
   },
   "denominator": {
     "and": [
       {
         "or": [
           {
-            "and": [
-              {
-                "category": "Outpatient Encounter",
-                "title": "Outpatient encounter before effective date",
-                "query": {"encounter_outpatient": {"_lte": "@effective_date"}}
-              },
-              {
-                "category": "Outpatient Encounter",
-                "title": "Outpatient encounter less than two years before effective date",
-                "query": {"encounter_outpatient": {"_gte": "@earliest_encounter"}}
+            "category": "Outpatient Encounter",
+            "title": "Outpatient encounter within two years of the effective date",
+            "query": {
+              "encounter_outpatient": {
+                "_lte": "@effective_date",
+                "_gte": "@earliest_encounter"
               }
-            ]
+            }
           },
           {
-            "and": [
-              {
-                "category": "ObGyn Encounter",
-                "title": "ObGyn encounter before effective date",
-                "query": {"encounter_obgyn": {"_lte": "@effective_date"}}
-              },
-              {
-                "category": "ObGyn Encounter",
-                "title": "ObGyn encounter less than two years before effective date",
-                "query": {"encounter_obgyn": {"_gte": "@earliest_encounter"}}
+            "category": "ObGyn Encounter",
+            "title": "ObGyn encounter within two years of the effective date",
+            "query": {
+              "encounter_obgyn": {
+                "_lte": "@effective_date",
+                "_gte": "@earliest_encounter"
               }
-            ]
+            }
           }
         ]
       },
@@ -182,8 +170,13 @@
   },
   "numerator": {
     "category": "Laboratory test result",
-    "title": "Pap test",
-    "query": {"pap_test": {"_gte": "@earliest_pap"}}
+    "title": "Pap test within three years of the effective date",
+    "query": {
+      "pap_test": {
+        "_gte": "@earliest_pap",
+        "_lte": "@effective_date"
+      }
+    }
   },
   "exclusions": {}
 }

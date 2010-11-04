@@ -84,18 +84,23 @@ END_OF_REDUCE_FN
         if expr.has_key?('query')
           # leaf node
           query = expr['query']
-          triple = leaf_expr(query)
-          property_name = munge_property_name(triple[0])
-          '('+property_name+triple[1]+triple[2]+')'
+          triples = leaf_expr(query)
+          js = ''
+          js+='(' if triples.size>1
+          triples.each_with_index do |triple, index|
+            property_name = munge_property_name(triple[0])
+            js+='&&' if index>0
+            js+='('+property_name+triple[1]+triple[2]+')'
+          end
+          js+=')' if triples.size>1
+          js
         elsif expr.size==1
           operator = expr.keys[0]
           result = logical_expr(operator, expr[operator])
           operator = result.shift
           js = '('
           result.each_with_index do |operand,index|
-            if index>0
-              js+=operator
-            end
+            js+=operator if index>0
             js+=operand
           end
           js+=')'
@@ -121,15 +126,17 @@ END_OF_REDUCE_FN
       end
 
       def leaf_expr(query)
+        triples = []
         property_name = query.keys[0]
         property_value_expression = query[property_name]
         if property_value_expression.kind_of?(Hash)
-          operator = property_value_expression.keys[0]
-          value = property_value_expression[operator]
-          [property_name, get_operator(operator), get_value(value)]
+          property_value_expression.each do |operator, value|
+            triples << [property_name, get_operator(operator), get_value(value)]
+          end
         else
-          [property_name, '==', get_value(property_value_expression)]
+          triples << [property_name, '==', get_value(property_value_expression)]
         end
+        triples
       end
 
       def get_operator(operator)
