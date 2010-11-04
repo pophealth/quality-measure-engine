@@ -13,6 +13,7 @@ require LIB + '/qme/query/json_query_executor'
 require 'singleton'
 
 require LIB + '/qme/importer/patient_importer'
+require LIB + '/qme/importer/code_system_helper'
 
 require 'json'
 require 'mongo'
