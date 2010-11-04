@@ -16,7 +16,6 @@
         <patientRole>
             <id root="CLINICID" extension="PatientID"/>
             <addr use="HP">
-            Are any of the following specifically required or can the address be just text at this location?
                 <streetAddressLine>100 Bureau Drive</streetAddressLine>
                 <city>Gaithersburg</city>
                 <state>MD</state>
