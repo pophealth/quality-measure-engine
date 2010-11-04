@@ -1,5 +1,6 @@
 require 'rspec/core/rake_task'
 require 'jeweler'
+require 'yard'
 
 Dir['lib/tasks/*.rake'].sort.each do |ext|
   load ext
@@ -26,3 +27,5 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "awesome_print", "~> 0.2.1"
   gem.add_development_dependency "jeweler", "~> 1.4.0"
 end
+
+YARD::Rake::YardocTask.new

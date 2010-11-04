@@ -14,5 +14,7 @@ end
 
 group :build do
   gem 'jeweler'
+  gem 'yard'
+  gem 'bluecloth' # needed by yard
 end
 
