@@ -58,18 +58,14 @@
     "query": {"birthdate": {"_lte": "@earliest_birthdate"}}
   },
   "denominator": {
-    "and" : [
-      {
-        "category": "Outpatient Encounter",
-        "title": "Less than a year before the effective date",
-        "query": {"encounter": {"_gte": "@earliest_encounter"}}
-      },
-      {
-        "category": "Outpatient Encounter",
-        "title": "Before effective date",
-        "query": {"encounter": {"_lte": "@effective_date"}}
+    "category": "Outpatient Encounter",
+    "title": "Within a year of the effective date",
+    "query": {
+      "encounter": {
+        "_gte": "@earliest_encounter",
+        "_lte": "@effective_date"
       }
-    ]
+    }
   },
   "numerator": {
     "category": "Medication Administered",
