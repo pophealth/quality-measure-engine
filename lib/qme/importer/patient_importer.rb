@@ -25,9 +25,7 @@ module QME
         patient['last'] = ns_context.first('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:name/cda:family').text
         birthdate_in_hl7ts_node = ns_context.first('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:birthTime')
         birthdate_in_hl7ts = birthdate_in_hl7ts_node['value']
-        patient['birthdate'] = Time.gm(birthdate_in_hl7ts[0..3].to_i,
-                                       birthdate_in_hl7ts[4..5].to_i,
-                                       birthdate_in_hl7ts[6..7].to_i).to_i
+        patient['birthdate'] = HL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
         gender_node = ns_context.first('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:administrativeGenderCode')
         patient['gender'] = gender_node['code']
       end
