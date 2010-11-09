@@ -7,7 +7,7 @@
 # passed into a JavaScript context to a Float
 module V8
   class Object
-    alias :old_index_setter :'[]='
+    alias :old_index_setter :[]=
     
     def []=(key, value)
       if value.kind_of?(Bignum)
