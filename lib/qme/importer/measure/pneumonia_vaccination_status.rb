@@ -18,20 +18,13 @@ module QME
           measure_info = {}
           sa_elements = doc.xpath("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration")
           sa_elements.each do |sa_element|
-            code_elements = sa_element.xpath("./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
-            code_elements.each do |code_element|
-              if CodeSystemHelper.is_in_code_list?(code_element['codeSystem'], code_element['code'], 'vaccination', @definition)
-                measure_info['vaccination'] = HL7Helper.timestamp_to_integer(sa_element.at_xpath('cda:effectiveTime')['value'])
-              end
-            end
+            create_property_from_code(sa_element, "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
+                                      'vaccination', measure_info)
           end
           
           encounter_elements = doc.xpath("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
           encounter_elements.each do |encounter_element|
-            code_element = encounter_element.at_xpath("./cda:code")
-            if CodeSystemHelper.is_in_code_list?(code_element['codeSystem'], code_element['code'], 'encounter', @definition)
-              measure_info['encounter'] = HL7Helper.timestamp_to_integer(encounter_element.at_xpath('cda:effectiveTime')['value'])
-            end
+            create_property_from_code(encounter_element, "./cda:code", 'encounter', measure_info)
           end
           
           measure_info
