@@ -14,7 +14,11 @@ module QME
       # Will find the code as a child of the element passed in based on a supplied
       # XPath expression. If the code is in the list of acceptable codes for the
       # property, it will find the effective time, convert it to an Integer
-      # and set the property
+      # and set the property.
+      #
+      # If a property is not set, it will set the property with and Integer value. If
+      # the property is already set, it will make sure that it is an Array, and append
+      # the new value.
       #
       # @param [Nokogiri::XML::Node] parent_element The node to look for the code under. It is assumed
       #        that the effectiveTime element will be a direct child of this node
