@@ -38,6 +38,18 @@ module QME
           end
         end
       end
+      
+      # Finds encounter elements in the Encounters section using the following XPath expression
+      #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter
+      #
+      # @param [Nokogiri::XML::Node] doc The parsed C32 document
+      # @yield [encounter_element] the block will be passed the encounter element
+      def encounter_elements(doc)
+        encounter_elements = doc.xpath("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
+        encounter_elements.each do |encounter_element|
+          yield encounter_element
+        end
+      end
     end
   end
 end
