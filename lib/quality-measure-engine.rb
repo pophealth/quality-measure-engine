@@ -26,12 +26,12 @@ require 'mongo'
 
 pi = QME::Importer::PatientImporter.instance
 
-raw_measure_json = File.read('measures/0032/0032_NQF_Cervical_Cancer_Screening.json')
+raw_measure_json = File.read(LIB + '/../measures/0032/0032_NQF_Cervical_Cancer_Screening.json')
 measure_json = JSON.parse(raw_measure_json)
 ccs = QME::Importer::Measure::CervicalCancerScreening.new(measure_json)
 pi.add_measure(ccs)
 
-raw_measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
+raw_measure_json = File.read(LIB + '/../measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
 measure_json = JSON.parse(raw_measure_json)
 pvs = QME::Importer::Measure::PneumoniaVaccinationStatus.new(measure_json)
 pi.add_measure(pvs)
