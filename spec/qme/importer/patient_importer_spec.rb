@@ -10,4 +10,14 @@ describe QME::Importer::PatientImporter do
     patient['birthdate'].should == -87696000
     patient['gender'].should == 'M'
   end
+  
+  it 'should import a whole patient' do
+    doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0032/numerator.xml'))
+    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+    patient = QME::Importer::PatientImporter.instance.parse_c32(doc)
+    
+    patient['first'].should == 'FirstName'
+    patient['measures']['0032']['encounter_outpatient'].should == 1270598400
+    patient['measures']['0043']['encounter'].should == 1270598400
+  end
 end

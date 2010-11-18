@@ -2,6 +2,8 @@ module QME
   module Importer
 
     # A base class for all measure HITSP C32 measure importers
+    #
+    # @abstract Should be subclassed and implementers should provide a parse method
     class MeasureBase
 
       # Creates a measure importer with the definition passed in
@@ -9,6 +11,11 @@ module QME
       # @param [Hash] definition the parsed representation of the measure definition
       def initialize(definition)
         @definition = definition
+      end
+      
+      def extract_measure_properties(patient_hash, doc)
+        measure_info = parse(doc)
+        patient_hash['measures'][@definition['id']] = measure_info
       end
       
       # Will find the code as a child of the element passed in based on a supplied
