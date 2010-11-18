@@ -1,0 +1,13 @@
+{
+  "first": "Sally",                                    // personal data
+  "last": "Bloggs",
+  "birthdate": -290390400,                            // Time.gm(1960, 10, 19).to_i
+  "measures": {                                       // bag of measures, one entry per measure
+    "0013": {
+      "encounter_outpatient": [1277856000, 1277856000],           // Time.gm(2010, 6, 30).to_i
+      "hypertension": 1277856000,                   // Time.gm(2010, 6, 30).to_i
+      "systolic_blood_pressure": 1277856000,   		// Time.gm(2010, 6, 30).to_i
+      "diastolic_blood_pressure": 1277856000   	    // Time.gm(2010, 6, 30).to_i
+    }
+  }
+}
