@@ -128,12 +128,20 @@
     }
   },
   "population": {
-    "category": "Patient Characteristics",
+    "category": "Patient Characteristic",
     "title": "Age between 23 and 63"
   },
   "denominator": {
-    "category": "No hysterectomy and outpatient or obgyn encounter",
-    "title": "Within 2 years"
+    "and": [
+      {
+        "category": "Encounter",
+        "title": "Outpatient or ObGyn within 2 years"
+      },
+      {
+        "category": "Procedure Performed",
+        "title": "No Hysterectomy"
+      }
+    ]
   },
   "numerator": {
     "category": "Laboratory test result",
