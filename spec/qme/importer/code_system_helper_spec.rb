@@ -1,6 +1,6 @@
 describe QME::Importer::CodeSystemHelper do
   before do
-    raw_measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
+    raw_measure_json = File.read('measures/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json')
     @measure_json = JSON.parse(raw_measure_json)
   end
   

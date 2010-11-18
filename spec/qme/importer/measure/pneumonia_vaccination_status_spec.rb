@@ -4,7 +4,7 @@ describe QME::Importer::Measure::PneumoniaVaccinationStatus do
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
     patient = {}
     
-    raw_measure_json = File.read('measures/0043/0043_NQF_PneumoniaVaccinationStatusForOlderAdults.json')
+    raw_measure_json = File.read('measures/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json')
     measure_json = JSON.parse(raw_measure_json)
     
     pvs = QME::Importer::Measure::PneumoniaVaccinationStatus.new(measure_json)

@@ -26,7 +26,7 @@ module QME
       # @return [true, false] whether the code is in the list of desired codes
       def self.is_in_code_list?(code_system_oid, code, property_name, measure_definition)
         code_system_name = code_system_for(code_system_oid)
-        code_lists = measure_definition['properties'][property_name]['codes']
+        code_lists = measure_definition['measure'][property_name]['codes']
         codes_for_system = code_lists.find {|cs| cs['set'] == code_system_name}
         if codes_for_system
           if codes_for_system['values'].include?(code)
