@@ -19,21 +19,3 @@ describe JSON, 'All patient samples' do
     end
   end
 end
-
-describe JSON, 'All measure collections' do
-  it 'should be valid JSON' do
-    Dir.glob('measures/*/patients/*.col').each do |measure_file|
-      measure = File.read(measure_file)
-      json = JSON.parse(measure)
-    end
-  end
-end
-
-describe JSON, 'All measure fragments' do
-  it 'should be valid JSON' do
-    Dir.glob('measures/*/components/*.json').each do |measure_file|
-      measure = File.read(measure_file)
-      json = JSON.parse(measure)
-    end
-  end
-end

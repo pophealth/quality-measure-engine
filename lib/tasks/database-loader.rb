@@ -13,26 +13,6 @@ module QME
         end
       end
       
-      # Return an array of measure definitions created by processing
-      # the supplied collection definition using components from the
-      # supplied file directory
-      def create_collection(collection_file, component_dir)
-        collection_def = JSON.parse(File.read(collection_file))
-        measures = []
-        collection_def['combinations'].each do |combination|
-          measure = load_json(component_dir, collection_def['root'])
-          measure['sub_id'] = combination['sub_id']
-          measure['subtitle'] = combination['subtitle']
-          ['population', 'denominator', 'numerator', 'exclusions'].each do |component|
-            if combination[component]
-              measure[component] = load_json(component_dir, combination[component])
-            end
-          end
-          measures << measure
-        end
-        measures
-      end
-      
       # Load a JSON file from the specified directory
       def load_json(dir_path, filename)
         file_path = File.join(dir_path, filename)
