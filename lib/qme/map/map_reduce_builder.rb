@@ -19,7 +19,11 @@ module QME
 
       def initialize(measure_def, params)
         @id = measure_def['id']
-        @params = params
+        @params = {}
+        # normalize parameters hash to accept either symbol or string keys
+        params.each do |name, value|
+          @params[name.to_s] = value
+        end
         @measure_def = measure_def
         @measure_def['parameters'] ||= {}
         @measure_def['parameters'].each do |parameter, value|
