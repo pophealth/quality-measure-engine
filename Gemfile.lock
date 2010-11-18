@@ -29,7 +29,6 @@ GEM
       rspec-expectations (= 2.0.0)
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
-    therubyracer (0.7.5)
 
 PLATFORMS
   ruby
@@ -43,4 +42,3 @@ DEPENDENCIES
   nokogiri
   rake
   rspec
-  therubyracer

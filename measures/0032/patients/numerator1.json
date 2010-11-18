@@ -5,7 +5,7 @@
   "measures": {                                       // bag of measures, one entry per measure
     "0032": {
       "encounter_obgyn": 1277856000,                  // Time.gm(2010, 6, 30).to_i
-      "pap_test": 1214784000                         // Time.gm(2008, 6, 30).to_i
+      "pap_test": 1214784000                        // Time.gm(2008, 6, 30).to_i
     }
   }
 }
