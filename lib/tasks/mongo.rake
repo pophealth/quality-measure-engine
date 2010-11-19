@@ -42,12 +42,12 @@ namespace :mongo do
     Dir.glob(dir_pattern).each do |dir|
       files = Dir.glob(File.join(dir,'*.json'))
       if files.length!=1 
-        raise "Unexpected number of measure files in #{dir}"
+        raise "Unexpected number of measure files in #{dir}, expected 1"
       end
       measure_file = files[0]
       files = Dir.glob(File.join(dir,'*.js'))
       if files.length!=1
-        raise "Unexpected number of map functions in #{dir}"
+        raise "Unexpected number of map functions in #{dir}, expected 1"
       end
       map_file = files[0]
       measure = JSON.parse(File.read(measure_file))
