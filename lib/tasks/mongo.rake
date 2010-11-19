@@ -20,13 +20,7 @@ namespace :mongo do
   desc 'Remove all measures and reload'
   task :reload_measures => :drop_measures do
     # load static measure files
-    load_files(loader, File.join(measure_dir, '*', '*.json'), 'measures')
-    Dir.glob(File.join(measure_dir, '*', '*.col')).each do |file|
-      component_dir = File.join(File.dirname(file),'components')
-      loader.create_collection(file, component_dir).each do |measure|
-        loader.save('measures', measure)
-      end
-    end
+    load_measure_files(loader, File.join(measure_dir, '*'), 'measures')
   end
   
   desc 'Remove all patient records and reload'
@@ -44,4 +38,22 @@ namespace :mongo do
     end
   end
 
+  def load_measure_files(loader, dir_pattern, collection_name)
+    Dir.glob(dir_pattern).each do |dir|
+      files = Dir.glob(File.join(dir,'*.json'))
+      if files.length!=1 
+        raise "Unexpected number of measure files in #{dir}"
+      end
+      measure_file = files[0]
+      files = Dir.glob(File.join(dir,'*.js'))
+      if files.length!=1
+        raise "Unexpected number of map functions in #{dir}"
+      end
+      map_file = files[0]
+      measure = JSON.parse(File.read(measure_file))
+      map_fn = File.read(map_file)
+      measure['map_fn'] = map_fn
+      loader.save(collection_name, measure)
+    end
+  end
 end
