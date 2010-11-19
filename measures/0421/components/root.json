@@ -1,0 +1,121 @@
+{
+  "id": "0421",
+  "name": "Adult Weight Screening and Follow-Up",
+  "steward": "QIP",
+  "parameters": {
+    "effective_date": {
+      "name": "Effective end date for measure",
+      "type": "datetime"
+    }
+  },
+  "properties": {
+    "birthdate": {
+      "name": "Date of birth",
+      "type": "datetime",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["00110"]
+        }
+      ]
+    },
+    "bmi": {
+      "name": "Body Mass Index",
+      "type": "int",
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "2010",
+          "values": ["225171007", "301331008", "60621009"]
+        },
+        {
+          "set": "LOINC",
+          "version": "2.3",
+          "values": ["39156-5"]
+        }
+      ]
+    },
+    "dietary_consultation_order": {
+      "name": "Dietary Consultation Order",
+      "type": "datetime",
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "2009",
+          "values": ["103699006", "306163007", "408289007"]
+        }
+      ]
+    },
+    "encounter": {
+      "name": "Outpatient Encounter",
+      "type": "datetime",
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["90801", "90802", "90804", "90805", "90806", "90807", "90808", "90809", "97001", "97003", "97802", "97803", "98960", "99201", "99202", "99203", "99204", "99205", "99211", "99212", "99213", "99214", "99215", "99324", "99325", "99326", "99327", "99328", "99334", "99335", "99336", "99337", "99341", "99342", "99343", "99344", "99345", "99347", "99348", "99349", "99350"]
+        },
+        {
+          "set": "HCPCS",
+          "version": "2010",
+          "values": ["D7140", "D7210", "G0101", "G0108", "G0270"]
+        }
+      ]
+    },
+    "bmi_management": {
+      "name": "Follow-up Plan BMI Management",
+      "type": "datetime",
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2009",
+          "values": ["43644", "43645", "43770", "43771", "43772", "43773", "43774", "43842", "43843", "43845", "43846", "43847", "43848", "97804", "98961", "98962", "99078"]
+        },
+        {
+          "set": "HCPCS",
+          "version": "2009",
+          "values": ["G8417", "S9449", "S9451", "S9452", "S9470"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "2009",
+          "values": ["V65.3"]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "2009",
+          "values": ["169411000", "170795002", "225171007", "268523001", "275919002", "305849009", "307818003", "401003006"]
+        }
+      ]
+    },
+    "physical_exam_not_done": {
+      "name": "Physical Exam Not Done",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["21703", "21704", "21738", "21745", "21747", "21815", "21990", "22259", "22261", "22855"]
+        }
+      ]
+    }
+  },
+  "denominator": {
+    "category": "Outpatient Encounter",
+    "title": "Within a year of the effective date",
+    "query": {
+      "encounter": {
+        "_gte": "@earliest_encounter",
+        "_lte": "@effective_date"
+      }
+    }
+  },
+  "exclusions": {
+    "category": "Physical Exam Not Done",
+    "title": "Patient or medical reason",
+    "query": {
+      "physical_exam_not_done": true
+    }
+  }
+}

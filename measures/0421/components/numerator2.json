@@ -1,0 +1,12 @@
+{
+  "or": [
+    {
+      "category": "Patient Characteristic",
+      "title": "BMI within limits"
+    },
+    {
+      "category": "Patient Characteristic",
+      "title": "BMI outside limits and management plan"
+    }
+  ]
+}

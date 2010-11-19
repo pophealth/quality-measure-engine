@@ -1,0 +1,19 @@
+{
+  "root": "root.json",
+  "combinations": [
+    {
+      "sub_id": "a",
+      "subtitle": "Age 65 or older",
+      "map_fn": "map_fn1.js",
+      "population": "population1.json",
+      "numerator": "numerator1.json"
+    },
+    {
+      "sub_id": "b",
+      "subtitle": "Age 18 to 64",
+      "map_fn": "map_fn2.js",
+      "population": "population2.json",
+      "numerator": "numerator2.json"
+    }
+  ]
+}
