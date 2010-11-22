@@ -2,21 +2,31 @@ require 'erb'
 
 module QME
   module MapReduce
+  
+    # Builds Map and Reduce functions for a particular measure
     class Builder
       attr_reader :id, :params
 
+      # Utility class used to supply a binding to Erb
       class Context
+        # Create a new context
+        # @param [Hash] vars a hash of parameter names (String) and values (Object). Each entry is added as an instance variable of the new Context
         def initialize(vars)
           vars.each do |name, value|
             instance_variable_set(('@'+name).intern, value)
           end
         end
       
+        # Get a binding that contains all the instance variables
+        # @return [Binding]
         def get_binding
           binding
         end
       end
 
+      # Create a new Builder
+      # @param [Hash] measure_def a JSON hash of the measure, field values may contain Erb directives to inject the values of supplied parameters into the map function
+      # @param [Hash] params a hash of parameter names (String or Symbol) and their values
       def initialize(measure_def, params)
         @id = measure_def['id']
         @params = {}
@@ -41,6 +51,8 @@ module QME
         end
       end
 
+      # Get the map function for the measure
+      # @return [String] the map function
       def map_function
         @measure_def['map_fn']
       end
@@ -58,6 +70,8 @@ function (key, values) {
 };
 END_OF_REDUCE_FN
 
+      # Get the reduce function for the measure
+      # @return [String] the reduce function
       def reduce_function
         REDUCE_FUNCTION
       end

@@ -7,6 +7,26 @@ describe QME::MapReduce::Executor do
     @measures = Dir.glob('measures/*')
   end
   
+  it 'should produce a list of available measures' do
+    @loader.drop_collection('measures')
+    @measures.each do |dir|
+      @loader.save_measure(dir, 'measures')
+    end
+    executor = QME::MapReduce::Executor.new(@loader.get_db)
+    measure_list = executor.all_measures
+    measure_list.should have_key('0013')
+    measure_list.should have_key('0032')
+    measure_list.should have_key('0043')
+    measure_list.should have_key('0421')
+    
+    hypertension = measure_list['0013']
+    hypertension[:id].should eql('0013')
+    hypertension[:variants].should have(0).items
+    bmi = measure_list['0421']
+    bmi[:id].should eql('0421')
+    bmi[:variants].should have(2).items
+  end
+  
   it 'should produce the expected results for each measure' do
     print "\n"
     @measures.each do |dir|
