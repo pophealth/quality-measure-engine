@@ -1,62 +1,47 @@
+require './lib/tasks/database-loader'
+
 describe QME::MapReduce::Executor do
 
   before do
-    db_host = nil
-    if ENV['TEST_DB_HOST']
-      db_host = ENV['TEST_DB_HOST']
-    else
-      db_host = 'localhost'
-    end
-    @db = Mongo::Connection.new(db_host, 27017).db('test')
+    @loader = QME::Database::Loader.new('test')
     @measures = Dir.glob('measures/*')
   end
   
   it 'should produce the expected results for each measure' do
     print "\n"
     @measures.each do |dir|
-      # TODO integrate with rake db tasks and db loader to support multi-pop/num
-      # measures
-      # load db with measure and sample patient records
-      files = Dir.glob(File.join(dir,'*.json'))
-      if files.length==1
-        measure_file = files[0]
-        files = Dir.glob(File.join(dir,'*.js'))
-        files.should have_at_most(1).items
-        map_file = files[0]
-        patient_files = Dir.glob(File.join(dir, 'patients', '*.json'))
-        patient_files.should have_at_least(1).items
-  
-        measure = JSON.parse(File.read(measure_file))
+      puts "Parsing #{dir}"
+
+      @loader.drop_collection('measures')
+      @loader.drop_collection('records')
+      
+      # load db with measure
+      measures = @loader.save_measure(dir, 'measures')
+      
+      # load db with sample patient records
+      patient_files = Dir.glob(File.join(dir, 'patients', '*.json'))
+      patient_files.each do |patient_file|
+        patient = JSON.parse(File.read(patient_file))
+        @loader.save('records', patient)
+      end
+        
+      # load expected results
+      result_file = File.join(dir, 'result', 'result.json')
+      expected = JSON.parse(File.read(result_file))
+      
+      # evaulate measure using Map/Reduce and validate results
+      executor = QME::MapReduce::Executor.new(@loader.get_db)
+      measures.each do |measure|
         measure_id = measure['id']
-        puts "Validating measure #{measure_id}"
-        if map_file
-          map_fn = File.read(map_file)
-          measure['map_fn'] = map_fn
-        end
-        
-        @db.drop_collection('measures')
-        @db.drop_collection('records')
-        measure_collection = @db.create_collection('measures')
-        record_collection = @db.create_collection('records')
-        measure_collection.save(measure)
-        patient_files.each do |patient_file|
-          patient = JSON.parse(File.read(patient_file))
-          record_collection.save(patient)
-        end
-        
-        # load expected results
-        result_file = File.join(dir, 'result', 'result.json')
-        expected = JSON.parse(File.read(result_file))
-        
-        # evaulate measure using Map/Reduce and validate results
-        executor = QME::MapReduce::Executor.new(@db)
-        result = executor.measure_result(measure_id, 'effective_date'=>Time.gm(2010, 9, 19).to_i)
+        sub_id = measure['sub_id']
+        puts "Validating measure #{measure_id}#{sub_id}"
+        result = executor.measure_result(measure_id, sub_id, 'effective_date'=>Time.gm(2010, 9, 19).to_i)
         result[:population].should eql(expected['initialPopulation'])
         result[:numerator].should eql(expected['numerator'])
         result[:denominator].should eql(expected['denominator'])
         result[:exclusions].should eql(expected['exclusions'])
-        puts " - done"
       end
+      puts " - done"
     end
   end
   

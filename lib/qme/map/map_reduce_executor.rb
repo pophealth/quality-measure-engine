@@ -5,14 +5,18 @@ module QME
         @db = db
       end
 
-      def measure_def(measure_id)
+      def measure_def(measure_id, sub_id)
         measures = @db.collection('measures')
-        measures.find({'id'=> "#{measure_id}"}).to_a[0]
+        if sub_id
+          measures.find({'id'=>"#{measure_id}", 'sub_id'=>"#{sub_id}"}).to_a[0]
+        else
+          measures.find({'id'=>"#{measure_id}"}).to_a[0]
+        end
       end
 
-      def measure_result(measure_id, parameter_values)
+      def measure_result(measure_id, sub_id, parameter_values)
         
-        measure = Builder.new(measure_def(measure_id), parameter_values)
+        measure = Builder.new(measure_def(measure_id, sub_id), parameter_values)
 
         records = @db.collection('records')
         results = records.map_reduce(measure.map_function, measure.reduce_function)

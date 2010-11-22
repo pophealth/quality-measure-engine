@@ -1,0 +1,11 @@
+{ // 70 year old - older population match with exception
+  "first": "Bert",                                    // personal data
+  "last": "Bloggs",
+  "birthdate": -921542400,                            // Time.gm(1940, 10, 19)
+  "measures": {
+    "0421": {
+      "encounter": [1271721600],                       // Time.gm(2010, 4, 20)
+      "physical_exam_not_done": true
+    }
+  }
+}

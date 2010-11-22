@@ -10,7 +10,7 @@
   },
   "properties": {
     "birthdate": {
-      "name": "Date of birth",
+      "description": "Date of birth",
       "type": "datetime",
       "codes": [
         {
@@ -21,8 +21,22 @@
       ]
     },
     "bmi": {
-      "name": "Body Mass Index",
-      "type": "int",
+      "description": "Body Mass Index",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "BMI value",
+            "type": "number"
+          },
+          "date": {
+            "description": "Date of BMI result",
+            "type": "number",
+            "format": "utc-sec"
+          }
+        }
+      },
       "codes": [
         {
           "set": "SNOMED-CT",
@@ -37,8 +51,12 @@
       ]
     },
     "dietary_consultation_order": {
-      "name": "Dietary Consultation Order",
-      "type": "datetime",
+      "description": "Dietary Consultation Order",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes": [
         {
           "set": "SNOMED-CT",
@@ -48,8 +66,12 @@
       ]
     },
     "encounter": {
-      "name": "Outpatient Encounter",
-      "type": "datetime",
+      "description": "Outpatient Encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes": [
         {
           "set": "CPT",
@@ -64,8 +86,12 @@
       ]
     },
     "bmi_management": {
-      "name": "Follow-up Plan BMI Management",
-      "type": "datetime",
+      "description": "Follow-up Plan BMI Management",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes": [
         {
           "set": "CPT",
@@ -90,7 +116,7 @@
       ]
     },
     "physical_exam_not_done": {
-      "name": "Physical Exam Not Done",
+      "description": "Physical Exam Not Done",
       "type": "boolean",
       "codes": [
         {

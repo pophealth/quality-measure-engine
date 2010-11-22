@@ -35,7 +35,31 @@ module QME
         measures
       end
       
-      # Load a measure file and map function from the specified directory
+      # Load a measure from the supplied directory and save it in the supplied database
+      # collection
+      def save_measure(measure_dir, collection_name)
+        measures = []
+        component_dir = File.join(measure_dir, 'components')
+        Dir.glob(File.join(measure_dir, '*.col')).each do |collection_file|
+          create_collection(collection_file, component_dir).each do |measure|
+            measures << measure
+            save(collection_name, measure)
+          end
+        end
+        Dir.glob(File.join(measure_dir, '*.json')).each do |measure_file|
+          files = Dir.glob(File.join(measure_dir,'*.js'))
+          if files.length!=1
+            raise "Unexpected number of map functions in #{measure_dir}, expected 1"
+          end
+          map_file = files[0]
+          measure = load_measure(measure_file, map_file)
+          measures << measure
+          save(collection_name, measure)
+        end
+        measures
+      end
+      
+      # Load a measure file and map function
       def load_measure(measure_file, map_fn_file)
         map_fn = File.read(map_fn_file)
         measure = JSON.parse(File.read(measure_file))
