@@ -4,6 +4,8 @@ function () {
   var period_start = effective_date - year;
   var latest_birthdate = effective_date - 18*year;
   var measure = this.measures["0013"];
+  if (measure==null)
+    measure={};
   
   var is_array = function(o) {
     return Object.prototype.toString.call(o) === '[object Array]';

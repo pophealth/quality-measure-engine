@@ -6,6 +6,8 @@ function () {
   var earliest_encounter = effective_date - 2*year;
   var earliest_pap = effective_date - 3*year;
   var measure = this.measures["0032"];
+  if (measure==null)
+    measure={};
   
   var is_array = function(o) {
     return Object.prototype.toString.call(o) === '[object Array]';

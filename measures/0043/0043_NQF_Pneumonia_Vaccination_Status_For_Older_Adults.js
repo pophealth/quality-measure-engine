@@ -4,6 +4,8 @@ function () {
   var earliest_birthdate = effective_date - 65*year;
   var earliest_encounter = effective_date - 1*year;
   var measure = this.measures["0043"];
+  if (measure==null)
+    measure={};
   
   var is_array = function(o) {
     return Object.prototype.toString.call(o) === '[object Array]';
