@@ -36,7 +36,11 @@ module QME
         code_elements = parent_element.xpath(xpath_expression)
         code_elements.each do |code_element|
           if CodeSystemHelper.is_in_code_list?(code_element['codeSystem'], code_element['code'], property_name, @definition)
-            date = HL7Helper.timestamp_to_integer(parent_element.at_xpath('cda:effectiveTime')['value'])
+            if parent_element.at_xpath('cda:effectiveTime')['value']
+              date = HL7Helper.timestamp_to_integer(parent_element.at_xpath('cda:effectiveTime')['value'])
+            elsif parent_element.at_xpath('cda:effectiveTime/cda:low')['value']
+              date = HL7Helper.timestamp_to_integer(parent_element.at_xpath('cda:effectiveTime/cda:low')['value'])
+            end
             if measure_info[property_name]
               if measure_info[property_name].kind_of?(Array)
                 measure_info[property_name] << date
