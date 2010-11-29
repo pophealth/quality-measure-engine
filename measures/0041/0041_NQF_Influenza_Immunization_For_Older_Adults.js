@@ -7,6 +7,8 @@ function () {
   var start_flu_encounter = effective_date - 122*day;
   var end_flu_encounter = effective_date - 58*day;
   var measure = this.measures["0041"];
+  if (measure==null)
+    measure={};
   
   var is_array = function(o) {
     return Object.prototype.toString.call(o) === '[object Array]';
