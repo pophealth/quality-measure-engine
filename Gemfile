@@ -3,7 +3,7 @@ source :gemcutter
 gem 'mongo'
 gem 'bson_ext'
 gem 'rake'
-gem 'therubyracer', :require => 'v8'
+gem 'nokogiri'
 
 group :test do
   gem 'rspec'
@@ -13,4 +13,6 @@ end
 
 group :build do
   gem 'jeweler'
+  gem 'yard'
+  gem 'bluecloth' # needed by yard
 end

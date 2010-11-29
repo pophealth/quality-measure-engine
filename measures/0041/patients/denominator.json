@@ -1,0 +1,10 @@
+{
+  "first": "Bert",
+  "last": "Bloggs",
+  "birthdate": -921542400, // Time.gm(1940, 10, 19)
+  "measures": {
+    "0041": {
+      "encounter_prev_med_40_or_older": [1276214400, 1284854400]    // Time.gm(2010, 9, 19) and 100 days before then
+    }
+  }
+}

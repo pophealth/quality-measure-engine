@@ -1,50 +1,60 @@
+require 'erb'
+
 module QME
   module MapReduce
+  
+    # Builds Map and Reduce functions for a particular measure
     class Builder
-      attr_reader :id, :parameters
+      attr_reader :id, :params
 
-      YEAR_IN_SECONDS = 365*24*60*60
-
-      def initialize(measure_def, params)
-        @measure_def = measure_def
-        @id = measure_def['id']
-        @parameters = {}
-        measure_def['parameters'] ||= {}
-        measure_def['parameters'].each do |parameter, value|
-          if !params.has_key?(parameter.intern)
-            raise "No value supplied for measure parameter: #{parameter}"
+      # Utility class used to supply a binding to Erb
+      class Context
+        # Create a new context
+        # @param [Hash] vars a hash of parameter names (String) and values (Object). Each entry is added as an instance variable of the new Context
+        def initialize(vars)
+          vars.each do |name, value|
+            instance_variable_set(('@'+name).intern, value)
           end
-          @parameters[parameter.intern] = params[parameter.intern]
         end
-        ctx = V8::Context.new
-        ctx['year']=YEAR_IN_SECONDS
-        @parameters.each do |key, param|
-          ctx[key]=param
+      
+        # Get a binding that contains all the instance variables
+        # @return [Binding]
+        def get_binding
+          binding
         end
-        measure_def['calculated_dates'] ||= {}
-        measure_def['calculated_dates'].each do |parameter, value|
-          @parameters[parameter.intern]=ctx.eval(value)
-        end
-        @property_prefix = 'this.measures["'+@id+'"].'
       end
 
+      # Create a new Builder
+      # @param [Hash] measure_def a JSON hash of the measure, field values may contain Erb directives to inject the values of supplied parameters into the map function
+      # @param [Hash] params a hash of parameter names (String or Symbol) and their values
+      def initialize(measure_def, params)
+        @id = measure_def['id']
+        @params = {}
+        # normalize parameters hash to accept either symbol or string keys
+        params.each do |name, value|
+          @params[name.to_s] = value
+        end
+        @measure_def = measure_def
+        @measure_def['parameters'] ||= {}
+        @measure_def['parameters'].each do |parameter, value|
+          if !@params.has_key?(parameter)
+            raise "No value supplied for measure parameter: #{parameter}"
+          end
+        end
+        # if the map function is specified then replace any erb templates with their values
+        # taken from the supplied params
+        # always true for actual measures, not always true for unit tests
+        if (@measure_def['map_fn'])
+          template = ERB.new(@measure_def['map_fn'])
+          context = Context.new(@params)
+          @measure_def['map_fn'] = template.result(context.get_binding)
+        end
+      end
+
+      # Get the map function for the measure
+      # @return [String] the map function
       def map_function
-        "function () {\n" +
-        "  var value = {i: 0, d: 0, n: 0, e: 0};\n" +
-        "  if #{population} {\n" +
-        "    value.i++;\n" +
-        "    if #{denominator} {\n" +
-        "      value.d++;\n" +
-        "      if #{numerator} {\n" +
-        "        value.n++;\n" +
-        "      } else if #{exception} {\n" +
-        "        value.e++;\n" +
-        "        value.d--;\n" +
-        "      }\n" +
-        "    }\n" +
-        "  }\n" +
-        "  emit(null, value);\n" +
-        "};\n"
+        @measure_def['map_fn']
       end
 
       REDUCE_FUNCTION = <<END_OF_REDUCE_FN
@@ -60,110 +70,13 @@ function (key, values) {
 };
 END_OF_REDUCE_FN
 
+      # Get the reduce function for the measure
+      # @return [String] the reduce function
       def reduce_function
         REDUCE_FUNCTION
       end
 
-      def population
-        javascript(@measure_def['population'])
-      end
 
-      def denominator
-        javascript(@measure_def['denominator'])
-      end
-
-      def numerator
-        javascript(@measure_def['numerator'])
-      end
-
-      def exception
-        javascript(@measure_def['exception'])
-      end
-
-      def javascript(expr)
-        if expr.has_key?('query')
-          # leaf node
-          query = expr['query']
-          triple = leaf_expr(query)
-          property_name = munge_property_name(triple[0])
-          '('+property_name+triple[1]+triple[2]+')'
-        elsif expr.size==1
-          operator = expr.keys[0]
-          result = logical_expr(operator, expr[operator])
-          operator = result.shift
-          js = '('
-          result.each_with_index do |operand,index|
-            if index>0
-              js+=operator
-            end
-            js+=operand
-          end
-          js+=')'
-          js
-        elsif expr.size==0
-          '(false)'
-        else
-          throw "Unexpected number of keys in: #{expr}"
-        end
-      end
-
-      def munge_property_name(name)
-        if name=='birthdate'
-          'this.'+name
-        else
-          @property_prefix+name
-        end
-      end
-
-      def logical_expr(operator, args)
-        operands = args.collect { |arg| javascript(arg) }
-        [get_operator(operator)].concat(operands)
-      end
-
-      def leaf_expr(query)
-        property_name = query.keys[0]
-        property_value_expression = query[property_name]
-        if property_value_expression.kind_of?(Hash)
-          operator = property_value_expression.keys[0]
-          value = property_value_expression[operator]
-          [property_name, get_operator(operator), get_value(value)]
-        else
-          [property_name, '==', get_value(property_value_expression)]
-        end
-      end
-
-      def get_operator(operator)
-        case operator
-        when '_eql'
-          '=='
-        when '_gt'
-          '>'
-        when '_gte'
-          '>='
-        when '_lt'
-          '<'
-        when '_lte'
-          '<='
-        when 'and'
-          '&&'
-        when 'or'
-          '||'
-        else
-          throw "Unknown operator: #{operator}"
-        end
-      end
-
-      def get_value(value)
-        if value.kind_of?(String) && value[0]=='@'
-          @parameters[value[1..-1].intern].to_s
-        elsif value.kind_of?(String)
-          '"'+value+'"'
-        elsif value==nil
-          'null'
-        else
-          value.to_s
-        end
-      end
     end
   end
 end

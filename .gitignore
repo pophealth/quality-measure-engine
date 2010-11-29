@@ -4,3 +4,5 @@ vendor
 nbproject
 pkg
 .redcar
+doc
+.yardoc

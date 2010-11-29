@@ -4,14 +4,16 @@
   "steward": "NCQA",
   "parameters": {
     "effective_date": {
-      "name": "Effective end date for measure",
-      "type": "long"
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
     }
   },
-  "properties": {
+  "patient": {
     "birthdate": {
-      "name": "Date of birth",
-      "type": "long",
+      "description": "Date of birth",
+      "type":"number",
+      "format": "utc-sec",
       "codes": [
         {
           "set": "HL7",
@@ -19,10 +21,16 @@
           "values": ["00110"]
         }
       ]
-    },
+    }
+  },
+  "measure": {
     "encounter": {
-      "name": "Date of encounter",
-      "type": "long",
+      "description": "Date of encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes": [
         {
           "set": "CPT",
@@ -37,8 +45,12 @@
       ]
     },
     "vaccination": {
-      "name": "Pneumococcal vaccination",
-      "type": "boolean",
+      "description": "Pneumococcal vaccination",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes": [
         {
           "set": "RxNorm",
@@ -48,24 +60,17 @@
       ]
     }
   },
-  "calculated_dates": {
-    "earliest_birthdate": "effective_date - 65*year",
-    "earliest_encounter": "effective_date - year"
-  },
   "population": {
-    "category": "Patient Characteristics",
-    "title": "Age >= 64 before measure period",
-    "query": {"birthdate": {"_lte": "@earliest_birthdate"}}
+    "category": "Patient Characteristic",
+    "title": "Age >= 64"
   },
   "denominator": {
     "category": "Outpatient Encounter",
-    "title": "Outpatient encounter within the measurement period",
-    "query": {"encounter": {"_gte": "@earliest_encounter"}}
+    "title": "Within a year"
   },
   "numerator": {
     "category": "Medication Administered",
-    "title": "Pneumococcal vaccination",
-    "query": {"vaccination": true}
+    "title": "Pneumococcal vaccination"
   },
-  "exception": {}
+  "exclusions": {}
 }
