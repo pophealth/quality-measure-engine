@@ -59,7 +59,8 @@ function () {
   }
   
   var exclusion = function(patient) {
-    return measure.physical_exam_not_done;
+    pregnant = in_range(measure.pregnancy, earliest_encounter, effective_date);
+    return pregnant || measure.physical_exam_not_done || measure.terminal_illness;
   }
   
   var value = {i: 0, d: 0, n: 0, e: 0};
