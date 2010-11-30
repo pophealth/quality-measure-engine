@@ -17,9 +17,9 @@ module QME
       def measure_def(measure_id, sub_id)
         measures = @db.collection('measures')
         if sub_id
-          measures.find({'id'=>"#{measure_id}", 'sub_id'=>"#{sub_id}"}).to_a[0]
+          measures.find({'id'=>measure_id, 'sub_id'=>sub_id}).to_a[0]
         else
-          measures.find({'id'=>"#{measure_id}"}).to_a[0]
+          measures.find({'id'=>measure_id}).to_a[0]
         end
       end
 
