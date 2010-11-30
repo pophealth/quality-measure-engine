@@ -12,6 +12,8 @@ require LIB + '/qme/importer/code_system_helper'
 require LIB + '/qme/importer/hl7_helper'
 require LIB + '/qme/importer/measure_base'
 
+require LIB + '/qme/mongo_helpers'
+
 # Require all of the ruby files in the measure directory
 Dir.glob(File.join(LIB, 'qme', 'importer', 'measure', '*.rb')).each do |measure_rb|
   require measure_rb.sub('.rb', '')
