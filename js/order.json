@@ -1,5 +1,0 @@
-// Specifies the order in which files will be loaded. Files not specified
-// here will be loaded after all specified files in directory listing order
-{
-  "files": ["underscore-min.js"]
-}
