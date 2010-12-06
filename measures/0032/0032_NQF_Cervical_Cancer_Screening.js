@@ -30,6 +30,5 @@ function () {
     return false;
   }
   
-  result = map(population, denominator, numerator, exclusion);
-  emit(null, result);
+  map(population, denominator, numerator, exclusion);
 };

@@ -46,6 +46,5 @@ function () {
     return pregnant || measure.physical_exam_not_done || measure.terminal_illness;
   }
   
-  result = map(population, denominator, numerator, exclusion);
-  emit(null, result);
+  map(population, denominator, numerator, exclusion);
 };

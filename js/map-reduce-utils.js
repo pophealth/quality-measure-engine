@@ -34,7 +34,7 @@
         }
       }
     }
-    return value;
+    emit(null, value);
   };
   
 })();
