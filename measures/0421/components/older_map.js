@@ -7,31 +7,13 @@ function () {
   if (measure==null)
     measure={};
   
-  var is_array = function(o) {
-    return Object.prototype.toString.call(o) === '[object Array]';
-  }
-  
-  var in_range = function(value, min, max) {
-    var count = 0;
-    if (is_array(value)) {
-      for (i=0;i<value.length;i++) {
-        if ((value[i]>=min) && (value[i]<=max))
-          count++;
-      }
-    } else {
-      if ((value>=min) && (value<=max))
-        count++;
-    }
-    return count;
-  }
-  
   var population = function(patient) {
     correct_age = patient.birthdate <= latest_birthdate;
     return (correct_age);
   }
   
   var denominator = function(patient) {
-    return in_range(measure.encounter, earliest_encounter, effective_date);
+    return inRange(measure.encounter, earliest_encounter, effective_date);
   }
   
   var numerator = function(patient) {
@@ -44,7 +26,7 @@ function () {
         return false;
       for (j=0;j<measure.bmi.length;j++) {
         bmi = measure.bmi[j];
-        if (in_range(bmi.date, earliest_bmi, encounter_date)) {
+        if (inRange(bmi.date, earliest_bmi, encounter_date)) {
           if (bmi.value>=22 && bmi.value<30)
             return true;
           else if (measure.dietary_consultation_order!=null && measure.dietary_consultation_order.length>0)
@@ -58,7 +40,7 @@ function () {
   }
   
   var exclusion = function(patient) {
-    pregnant = in_range(measure.pregnancy, earliest_encounter, effective_date);
+    pregnant = inRange(measure.pregnancy, earliest_encounter, effective_date);
     return pregnant || measure.physical_exam_not_done || measure.terminal_illness;
   }
   

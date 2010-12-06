@@ -7,29 +7,11 @@ function () {
   if (measure==null)
     measure={};
   
-  var is_array = function(o) {
-    return Object.prototype.toString.call(o) === '[object Array]';
-  }
-  
-  var in_range = function(value, min, max) {
-    var count = 0;
-    if (is_array(value)) {
-      for (i=0;i<value.length;i++) {
-        if ((value[i]>=min) && (value[i]<=max))
-          count++;
-      }
-    } else {
-      if ((value>=min) && (value<=max))
-        count++;
-    }
-    return count;
-  }
-  
   var population = function(patient) {
     correct_age = patient.birthdate <= latest_birthdate;
-    hypertension = in_range(measure.hypertension, period_start, effective_date);
-    encounter_outpatient = in_range(measure.encounter_outpatient, period_start, effective_date);
-    encounter_nursing = in_range(measure.encounter_nursing_facility, period_start, effective_date);
+    hypertension = inRange(measure.hypertension, period_start, effective_date);
+    encounter_outpatient = inRange(measure.encounter_outpatient, period_start, effective_date);
+    encounter_nursing = inRange(measure.encounter_nursing_facility, period_start, effective_date);
     return (correct_age && hypertension && ((encounter_outpatient+encounter_nursing)>=2));
   }
   
@@ -38,8 +20,8 @@ function () {
   }
   
   var numerator = function(patient) {
-    systolic = in_range(measure.systolic_blood_pressure, period_start, effective_date);
-    diastolic = in_range(measure.diastolic_blood_pressure, period_start, effective_date);
+    systolic = inRange(measure.systolic_blood_pressure, period_start, effective_date);
+    diastolic = inRange(measure.diastolic_blood_pressure, period_start, effective_date);
     return (systolic && diastolic);
   }
   

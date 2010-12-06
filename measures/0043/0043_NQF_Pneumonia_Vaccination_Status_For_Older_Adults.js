@@ -7,29 +7,12 @@ function () {
   if (measure==null)
     measure={};
   
-  var is_array = function(o) {
-    return Object.prototype.toString.call(o) === '[object Array]';
-  }
-  
-  var in_range = function(value, min, max) {
-    var count = 0;
-    if (is_array(value)) {
-      for (i=0;i<value.length;i++) {
-        if ((value[i]>=min) && (value[i]<=max))
-          count++;
-      }
-    } else if ((value>=min) && (value<=max)) {
-      count++;
-    }
-    return count;
-  }
-  
   var population = function(patient) {
     return (patient.birthdate <= earliest_birthdate);
   }
   
   var denominator = function(patient) {
-    outpatient_encounter = in_range(measure.encounter, earliest_encounter, effective_date);
+    outpatient_encounter = inRange(measure.encounter, earliest_encounter, effective_date);
     return (outpatient_encounter);
   }
   
