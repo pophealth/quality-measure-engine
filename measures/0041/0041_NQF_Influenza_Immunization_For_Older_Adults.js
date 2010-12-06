@@ -1,4 +1,9 @@
 function () {
+  var patient = this;
+  var measure = patient.measures["0041"];
+  if (measure==null)
+    measure={};
+
   var day = 24*60*60;
   var year = 365*day;
   var effective_date = <%= @effective_date %>;
@@ -6,11 +11,8 @@ function () {
   var earliest_encounter = effective_date - 1*year;
   var start_flu_encounter = effective_date - 122*day;
   var end_flu_encounter = effective_date - 58*day;
-  var measure = this.measures["0041"];
-  if (measure==null)
-    measure={};
   
-  var population = function(patient) {
+  var population = function() {
     outpatient_encounters = inRange(measure.encounter_outpatient, earliest_encounter, effective_date);
     other_encounters = 
       inRange(measure.encounter_prev_med_40_or_older, earliest_encounter, effective_date) +
@@ -22,7 +24,7 @@ function () {
     return (patient.birthdate<=earliest_birthdate && (outpatient_encounters>1 || other_encounters>0));
   }
   
-  var denominator = function(patient) {
+  var denominator = function() {
     flu_encounters = 
       inRange(measure.encounter_outpatient, start_flu_encounter, end_flu_encounter) + 
       inRange(measure.encounter_prev_med_40_or_older, start_flu_encounter, end_flu_encounter) + 
@@ -34,12 +36,12 @@ function () {
     return (flu_encounters>0);
   }
   
-  var numerator = function(patient) {
+  var numerator = function() {
     // should this be start_flu -> end_flu instead ?
     return inRange(measure.immunization, earliest_encounter, effective_date);
   }
   
-  var exclusion = function(patient) {
+  var exclusion = function() {
     return measure.allergy_to_eggs ||
       measure.immunization_allergy ||
       measure.immunization_adverse_event ||
@@ -51,18 +53,6 @@ function () {
       measure.system_reason;
   }
   
-  var value = {i: 0, d: 0, n: 0, e: 0};
-  if (population(this)) {
-    value.i++;
-    if (denominator(this)) {
-      value.d++;
-      if (numerator(this)) {
-        value.n++;
-      } else if (exclusion(this)) {
-        value.e++;
-        value.d--;
-      }
-    }
-  }
-  emit(null, value);
+  result = map(population, denominator, numerator, exclusion);
+  emit(null, result);
 };
