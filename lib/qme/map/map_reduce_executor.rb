@@ -17,9 +17,9 @@ module QME
       def measure_def(measure_id, sub_id=nil)
         measures = @db.collection('measures')
         if sub_id
-          measures.find({'id'=>measure_id, 'sub_id'=>sub_id}).to_a[0]
+          measures.find_one({'id'=>measure_id, 'sub_id'=>sub_id})
         else
-          measures.find({'id'=>measure_id}).to_a[0]
+          measures.find_one({'id'=>measure_id})
         end
       end
 
@@ -33,7 +33,7 @@ module QME
 
         records = @db.collection('records')
         results = records.map_reduce(measure.map_function, measure.reduce_function)
-        result = results.find.to_a[0]
+        result = results.find_one
         value = result['value']
 
         {
