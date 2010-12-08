@@ -1,11 +1,14 @@
 {
   "id": "0013",
   "name": "Hypertension: Blood Pressure Measurement",
+  "description": "Patients more than 18 years old who have a diagnosis of hypertension seen in at least two office visits, with blood pressure recorded.",
+  "category": "Core",
   "steward": "AMA",
   "parameters": {
     "effective_date": {
       "name": "Effective end date for measure",
-      "type": "datetime"
+      "type": "number",
+      "format": "utc-sec"
     }
   },
   "patient": {

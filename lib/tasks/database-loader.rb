@@ -15,10 +15,15 @@ module QME
         @db_port = ENV['TEST_DB_PORT'] ? ENV['TEST_DB_PORT'].to_i : 27017
       end
       
-      # Lazily creates a connection to the database
+      # Lazily creates a connection to the database and initializes the
+      # JavaScript environment
       # @return [Mongo::Connection]
       def get_db
-        @db ||= Mongo::Connection.new(@db_host, @db_port).db(@db_name)
+        if @db==nil
+          @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
+          QME::MongoHelpers.initialize_javascript_frameworks(@db)
+        end
+        @db
       end
       
       # Create a collection of measures definitions by processing a collection

@@ -23,11 +23,11 @@ describe QME::MapReduce::Builder do
 end
 
 describe QME::MapReduce::Builder::Context do
-  it 'should set instance variables from the supplied hash' do
+  it 'should set instance methods from the supplied hash' do
     vars = {'a'=>10, 'b'=>20}
     context = QME::MapReduce::Builder::Context.new(vars)
     binding = context.get_binding
-    eval("@a",binding).should eql(10)
-    eval("@b",binding).should eql(20)
+    eval("a",binding).should eql(10)
+    eval("b",binding).should eql(20)
   end
 end
