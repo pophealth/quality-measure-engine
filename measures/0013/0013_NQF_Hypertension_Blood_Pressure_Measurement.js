@@ -31,5 +31,5 @@ function () {
     return false;
   }
 
-  map(population, denominator, numerator, exclusion);
+  map(patient, population, denominator, numerator, exclusion);
 };

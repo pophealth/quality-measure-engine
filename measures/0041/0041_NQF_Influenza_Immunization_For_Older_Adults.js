@@ -53,5 +53,5 @@ function () {
       measure.system_reason;
   }
   
-  map(population, denominator, numerator, exclusion);
+  map(patient, population, denominator, numerator, exclusion);
 };

@@ -57,23 +57,12 @@ module QME
         @measure_def['map_fn']
       end
 
-      REDUCE_FUNCTION = <<END_OF_REDUCE_FN
-function (key, values) {
-  var total = {i: 0, d: 0, n: 0, e: 0};
-  for (var i = 0; i < values.length; i++) {
-    total.i += values[i].i;
-    total.d += values[i].d;
-    total.n += values[i].n;
-    total.e += values[i].e;
-  }
-  return total;
-};
-END_OF_REDUCE_FN
-
-      # Get the reduce function for the measure
+      # Get the reduce function for the measure, this is a simple
+      # wrapper for the reduce utility function specified in
+      # map-reduce-utils.js
       # @return [String] the reduce function
       def reduce_function
-        REDUCE_FUNCTION
+        'function (key, values) { return reduce(key, values);};'
       end
 
 
