@@ -16,4 +16,3 @@ group :build do
   gem 'yard'
   gem 'bluecloth' # needed by yard
 end
-
