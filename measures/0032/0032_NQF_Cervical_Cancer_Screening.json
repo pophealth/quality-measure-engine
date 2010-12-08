@@ -1,6 +1,8 @@
 {
   "id": "0032",
   "name": "Cervical Cancer Screening",
+  "description": "Women from 21 to 64 years old who received one or more Pap tests.",
+  "category": "Women's Health",
   "steward": "NCQA",
   "parameters": {
     "effective_date": {

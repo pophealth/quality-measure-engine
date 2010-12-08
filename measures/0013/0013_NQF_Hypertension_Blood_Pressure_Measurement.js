@@ -5,7 +5,7 @@ function () {
     measure={};
 
   var year = 365*24*60*60;
-  var effective_date = <%= @effective_date %>;
+  var effective_date = <%= effective_date %>;
   var period_start = effective_date - year;
   var latest_birthdate = effective_date - 18*year;
   
@@ -31,5 +31,5 @@ function () {
     return false;
   }
 
-  map(population, denominator, numerator, exclusion);
+  map(patient, population, denominator, numerator, exclusion);
 };

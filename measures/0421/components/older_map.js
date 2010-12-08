@@ -5,7 +5,7 @@ function () {
     measure={};
 
   var year = 365*24*60*60;
-  var effective_date = <%= @effective_date %>;
+  var effective_date = <%= effective_date %>;
   var latest_birthdate = effective_date - 65*year;
   var earliest_encounter = effective_date - year;
   
@@ -46,5 +46,5 @@ function () {
     return pregnant || measure.physical_exam_not_done || measure.terminal_illness;
   }
   
-  map(population, denominator, numerator, exclusion);
+  map(patient, population, denominator, numerator, exclusion);
 };

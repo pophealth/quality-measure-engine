@@ -20,21 +20,33 @@
     return count;
   };
   
-  root.map = function(population, denominator, numerator, exclusion) {
-    var value = {i: 0, d: 0, n: 0, e: 0};
+  root.map = function(record, population, denominator, numerator, exclusion) {
+    var value = {population: [], denominator: [], numerator: [], exclusions: []};
+    patient = record._id;
     if (population()) {
-      value.i++;
+      value.population.push(patient);
       if (denominator()) {
-        value.d++;
+        value.denominator.push(patient);
         if (numerator()) {
-          value.n++;
+          value.numerator.push(patient);
         } else if (exclusion()) {
-          value.e++;
-          value.d--;
+          value.exclusions.push(patient)
+          value.denominator.pop();
         }
       }
     }
     emit(null, value);
+  };
+  
+  root.reduce = function (key, values) {
+    var total = {population: [], denominator: [], numerator: [], exclusions: []};
+    for (var i = 0; i < values.length; i++) {
+      total.population = total.population.concat(values[i].population);
+      total.denominator = total.denominator.concat(values[i].denominator);
+      total.numerator = total.numerator.concat(values[i].numerator);
+      total.exclusions = total.exclusions.concat(values[i].exclusions);
+    }
+    return total;
   };
   
 })();
