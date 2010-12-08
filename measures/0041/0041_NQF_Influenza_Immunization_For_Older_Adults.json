@@ -1,6 +1,8 @@
 {
   "id": "0041",
   "name": "Preventive Care and Screening: Influenza Immunization for Patients > 50 Years Old",
+  "description": "Patients more than 50 years old who received a flu vaccine (September to February)",
+  "category": "Core Alternate",
   "steward": "AMA",
   "parameters": {
     "effective_date": {
