@@ -49,10 +49,10 @@ module QME
       def all_measures
         result = {}
         measures = @db.collection('measures')
-        measures.find().to_a.each do |measure|
+        measures.find().each do |measure|
           entry = result[measure['id']]
           if entry==nil
-            entry = {:id=>measure['id'], :name=>measure['name'], :steward=>measure['steward'], :variants=>[]}
+            entry = {:id=>measure['id'], :name=>measure['name'], :steward=>measure['steward'], :variants=>[], :description=>measure['description'], :category=>measure['category']}
             result[entry[:id]] = entry
           end
           if measure['sub_id']
