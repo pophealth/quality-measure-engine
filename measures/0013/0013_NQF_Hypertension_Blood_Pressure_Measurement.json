@@ -5,7 +5,8 @@
   "parameters": {
     "effective_date": {
       "name": "Effective end date for measure",
-      "type": "datetime"
+      "type": "number",
+      "format": "utc-sec"
     }
   },
   "patient": {
