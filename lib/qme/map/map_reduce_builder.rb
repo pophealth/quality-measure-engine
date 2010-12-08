@@ -1,4 +1,5 @@
 require 'erb'
+require 'ostruct'
 
 module QME
   module MapReduce
@@ -8,13 +9,11 @@ module QME
       attr_reader :id, :params
 
       # Utility class used to supply a binding to Erb
-      class Context
+      class Context < OpenStruct
         # Create a new context
-        # @param [Hash] vars a hash of parameter names (String) and values (Object). Each entry is added as an instance variable of the new Context
+        # @param [Hash] vars a hash of parameter names (String) and values (Object). Each entry is added as an accessor of the new Context
         def initialize(vars)
-          vars.each do |name, value|
-            instance_variable_set(('@'+name).intern, value)
-          end
+          super(vars)
         end
       
         # Get a binding that contains all the instance variables

@@ -6,7 +6,7 @@ function () {
 
   var day = 24*60*60;
   var year = 365*day;
-  var effective_date = <%= @effective_date %>;
+  var effective_date = <%= effective_date %>;
   var earliest_birthdate = effective_date - 50*year;
   var earliest_encounter = effective_date - 1*year;
   var start_flu_encounter = effective_date - 122*day;

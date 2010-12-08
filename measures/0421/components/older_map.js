@@ -5,7 +5,7 @@ function () {
     measure={};
 
   var year = 365*24*60*60;
-  var effective_date = <%= @effective_date %>;
+  var effective_date = <%= effective_date %>;
   var latest_birthdate = effective_date - 65*year;
   var earliest_encounter = effective_date - year;
   
