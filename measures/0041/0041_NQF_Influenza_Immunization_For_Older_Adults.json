@@ -282,11 +282,11 @@
           },
           {
             "category": "Encounter",
-            "title": "Preventive medicine group couselling"
+            "title": "Preventive medicine group counseling"
           },
           {
             "category": "Encounter",
-            "title": "Preventive medicine individual couselling"
+            "title": "Preventive medicine individual counseling"
           },
           {
             "category": "Encounter",
@@ -316,7 +316,7 @@
     "or": [
       {
         "category": "Medication not done",
-        "title": "Influenza immunization contrindication"
+        "title": "Influenza immunization contraindication"
       },
       {
         "category": "Allergy",
