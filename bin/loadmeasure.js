@@ -24,3 +24,8 @@ eval("var record = " + recordString);
 var boundMap = _.bind(map_fn, record);
 
 boundMap();
+
+print("Population: "+mockOutput[null].population.length.toString());
+print("Denominator: "+mockOutput[null].denominator.length.toString());
+print("Numerator: "+mockOutput[null].numerator.length.toString());
+print("Exclusions: "+mockOutput[null].exclusions.length.toString());
