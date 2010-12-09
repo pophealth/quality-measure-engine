@@ -11,12 +11,16 @@ Then run bundler to grab all of the necessay gems:
 
     bundle install
 
+The Quality Measure engine relies on a MongoDB [MongoDB](http://www.mongodb.org/) running a minimum of version 1.6.* or higher.  To get and install Mongo refer to :
+
+	http://www.mongodb.org/display/DOCS/Quickstart
+
 Testing
 -------
 
 This project uses [RSpec](http://github.com/rspec/rspec-core) for testing. To run the suite, just enter the following:
 
-    rake spec
+    bundle exec rake spec
 
 Project Practices
 ------------------
