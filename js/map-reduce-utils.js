@@ -21,7 +21,7 @@
   };
   
   root.map = function(record, population, denominator, numerator, exclusion) {
-    var value = {population: [], denominator: [], numerator: [], exclusions: []};
+    var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     patient = record._id;
     if (population()) {
       value.population.push(patient);
@@ -30,8 +30,10 @@
         if (numerator()) {
           value.numerator.push(patient);
         } else if (exclusion()) {
-          value.exclusions.push(patient)
+          value.exclusions.push(patient);
           value.denominator.pop();
+        } else {
+          value.antinumerator.push(patient);
         }
       }
     }
@@ -39,12 +41,13 @@
   };
   
   root.reduce = function (key, values) {
-    var total = {population: [], denominator: [], numerator: [], exclusions: []};
+    var total = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     for (var i = 0; i < values.length; i++) {
       total.population = total.population.concat(values[i].population);
       total.denominator = total.denominator.concat(values[i].denominator);
       total.numerator = total.numerator.concat(values[i].numerator);
       total.exclusions = total.exclusions.concat(values[i].exclusions);
+      total.antinumerator = total.antinumerator.concat(values[i].antinumerator);
     }
     return total;
   };

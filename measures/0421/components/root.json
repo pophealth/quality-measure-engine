@@ -1,7 +1,7 @@
 {
   "id": "0421",
   "name": "Adult Weight Screening and Follow-Up",
-  "description": "Patients more than 18 years old whose BMI2 was calculated within six months, and who have a documented follow-up plan if BMI falls outside parameters.",
+  "description": "Patients more than 18 years old whose BMI was calculated within six months, and who have a documented follow-up plan if BMI falls outside parameters.",
   "steward": "QIP",
   "category": "Core",
   "parameters": {

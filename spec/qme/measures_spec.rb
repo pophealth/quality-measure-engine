@@ -63,6 +63,7 @@ describe QME::MapReduce::Executor do
         result[:numerator].should eql(expected['numerator'])
         result[:denominator].should eql(expected['denominator'])
         result[:exclusions].should eql(expected['exclusions'])
+        (result[:numerator]+result[:antinumerator]).should eql(result[:denominator])
       end
       puts " - done"
     end

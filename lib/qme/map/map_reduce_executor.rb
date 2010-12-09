@@ -37,7 +37,7 @@ module QME
         value = result['value']
 
         summary = {}
-        %w(population denominator numerator exclusions).each do |field|
+        %w(population denominator numerator antinumerator exclusions).each do |field|
           summary[field.intern] = value[field].length
           summary[(field+'_members').intern] = value[field]
         end
