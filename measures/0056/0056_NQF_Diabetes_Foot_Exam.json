@@ -1,0 +1,441 @@
+{
+  "id": "0056",
+  "name": "Diabetes Foot Exam",
+  "description": "The percentage of patients aged 18‐75 years with diabetes (type 1 or type 2) who had a foot exam (visual inspection, sensory exam with monofilament, or pulse exam).",
+  "category": "Diabetes",
+  "steward": "NCQA",
+  "parameters": {
+    "effective_date": {
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient": {
+    "birthdate": {
+      "description": "Date of birth",
+      "type":"number",
+      "format": "utc-sec",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["00110"]
+        }
+      ]
+    }
+  },
+  "measure": {
+    "diagnosis_diabetes": {
+      "description": "Dates of Diabetes Diagnosis",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["111552007", "111558006", "11530004", "123763000", "127013003", "127014009", "190321005", "190328004", "190330002", "190331003", "190336008", "190353001", "190361006", "190368000", "190369008", "190371008", "190372001", "190383005", "190389009", "190390000", "190392008", "190406000", "190407009", "190410002", "190411003", "190412005", "190416001", "190417004", "190418009", "190419001", "190422004", "193184006", "197605007", "198609003", "199223000", "199227004", "199229001", "199230006", "199231005", "199234002", "201250006", "201251005", "201252003", "23045005", "230572002", "230577008", "237599002", "237600004", "237601000", "237604008", "237613005", "237618001", "237619009", "237627000", "25907005", "26298008", "267379000", "267380002", "2751001", "275918005", "28032008", "28453007", "290002008", "309426007", "310387003", "311366001", "312912001", "313435000", "313436004", "314537004", "314771006", "314772004", "314893005", "314902007", "314903002", "33559001", "34140002", "359611005", "359638003", "359642000", "360546002", "371087003", "38542009", "39058009", "39181008", "408539000", "408540003", "413183008", "414890007", "414906009", "420414003", "420422005", "421750000", "421847006", "421895002", "422183001", "422228004", "422275004", "423263001", "424736006", "424989000", "425159004", "425442003", "426705001", "426875007", "427089005", "428896009", "42954008", "44054006", "4627003", "46635009", "50620007", "51002006", "5368009", "54181000", "57886004", "59079001", "5969009", "70694009", "73211009", "74263009", "75524006", "75682002", "76751001", "81531005", "81830002", "8801005", "91352004", "9859006"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["250", "250.0", "250.00", "250.01", "250.02", "250.03", "250.10", "250.11", "250.12", "250.13", "250.20", "250.21", "250.22", "250.23", "250.30", "250.31", "250.32", "250.33", "250.4", "250.40", "250.41", "250.42", "250.43", "250.50", "250.51", "250.52", "250.53", "250.60", "250.61", "250.62", "250.63", "250.7", "250.70", "250.71", "250.72", "250.73", "250.8", "250.80", "250.81", "250.82", "250.83", "250.9", "250.90", "250.91", "250.92", "250.93", "357.2", "362.0", "362.01", "362.02", "362.03", "362.04", "362.05", "362.06", "362.07", "366.41", "648.0", "648.00", "648.01", "648.02", "648.03", "648.04"]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "values": ["31", "E10.36", "E11.36", "E11.9", "E13", "E13.32", "E13.33", "E13.34", "E13.35", "E13.43", "O24.42"]
+        }
+      ]
+    },
+	"diagnosis_gestational_diabetes": {
+      "description": "Dates of Gestational Diabetes Diagnosis",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["11687002", "420491007", "420738003", "420989005", "421223006", "421389009", "421443003", "422155003", "46894009", "71546005", "75022004"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["648.8", "648.80", "648.81", "648.82", "648.83", "648.84"]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "values": ["R73.02", "R73.09"]
+        }
+      ]
+    },
+	"diagnosis_steroid_induced_diabetes": {
+      "description": "Dates of Steroid Induced Diabetes Diagnosis",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["190416008", "190447002", "53126001"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["249", "249.0", "249.00", "249.01", "249.1", "249.10", "249.11", "249.2", "249.20", "249.21", "249.3", "249.30", "249.31", "249.4", "249.40", "249.41", "249.5", "249.50", "249.51", "249.6", "249.60", "249.61", "249.7", "249.70", "249.71", "249.8", "249.80", "249.81", "249.9", "249.90", "249.91", "251.8", "962.0"]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "values": ["E08", "E10", "T38"]
+        }
+      ]
+    },
+    "encounter_acute_inpatient": {
+      "description": "Dates of Acute Inpatient encounters",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["99221", "99222", "99223", "99231", "99232", "99233", "99238", "99239", "99251", "99252", "99253", "99254", "99255", "99291", "99281", "99282", "99283", "99284", "99285"]
+        }
+      ]
+    },
+    "encounter_non_acute_inpatient": {
+      "description": "Dates of Non-Acute Inpatient encounters",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["99304", "99305", "99306", "99307", "99308", "99309", "99310", "99315", "99316", "99318", "99324", "99325", "99326", "99327", "99328", "99334", "99335", "99336", "99337"]
+        }
+      ]
+    },
+	"encounter_outpatient": {
+      "description": "Dates of Outpatient Encounters",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["99201", "99202", "99203", "99204", "99205", "99211", "99212", "99213", "99214", "99215", "99217", "99218", "99219", "99220", "99241", "99242", "99243", "99244", "99245", "99341", "99342", "99343", "99344", "99345", "99347-99350", "99384", "99385", "99386", "99387", "99394", "99395", "99396", "99397", "99401", "99402", "99403", "99404", "99411", "99412", "99420", "99429", "99455", "99456"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["V70.0", "V70.3", "V70.5", "V70.6", "V70.8", "V70.9"]
+        }
+      ]
+    },
+	"encounter_outpatient_opthamological_services": {
+      "description": "Dates of Outpatient Opthamological Encounters",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["92002", "92003", "92004", "92005", "92006", "92007", "92008", "92009", "92010", "92011", "92012", "92013", "92014"]
+        }
+      ]
+    },
+	"medication_alpha_glucosidas_inhibitors": {
+      "description": "Dates of Alpha Glucosidas Inhibitors",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["199149", "199150", "200132", "205329", "205330", "205331", "401938"]
+        }
+      ]
+    },
+	"medication_amylin_analogs": {
+      "description": "Dates of Amylin Analogs",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["1200256", "200257", "200258", "311919", "314142", "389139", "861035", "861039", "861042", "861044", "861787", "861790"]
+        }
+      ]
+    },
+	"medication_antidiabetic_agent": {
+      "description": "Dates of Anti-Diabetic Agent",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["744863", "847910", "847915"]
+        }
+      ]
+    },
+	"medication_antidiabetic_combinations": {
+      "description": "Dates of Antidiabetic Combinations",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["602544", "602549", "602550", "647237", "647239", "706895", "706896", "861731", "861736", "861740", "861743", "861748", "861753", "861760", "861763", "861769", "861783", "861787", "861790", "861795", "861806", "861816", "861819", "861822"]
+        }
+      ]
+    },
+	"medication_biguanides": {
+      "description": "Dates of Biguanides",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["665033", "665038", "665042", "860975", "860978", "860981", "860984", "860996", "860999", "861004", "861007", "861010", "861021", "861025", "861731", "861736", "861740", "861743", "861748", "861753", "861760", "861763", "861769", "861783", "861787", "861790", "861795", "861806", "861816", "861819", "861822"]
+        }
+      ]
+    },
+	"medication_insulin": {
+      "description": "Dates of Insulin",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["205314", "237527", "242120", "242916", "242917", "259111", "260265", "283394", "311040", "311041", "311053", "311054", "311055", "311056", "311057", "311058", "311059", "311060", "311061", "314038", "317800", "351297", "358349", "484322", "485210", "544614", "763002", "763007", "763013", "763014", "833159", "847191", "847207", "847211", "847230", "847239", "847252", "847259", "847263", "847416"]
+        }
+      ]
+    },
+	"medication_meglitinides": {
+      "description": "Dates of Meglitinides",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["200256", "200257", "200258", "311919", "314142", "389139"]
+        }
+      ]
+    },
+	"medication_sulfonylureas": {
+      "description": "Dates of Sulfonylureas",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["105374", "153842", "197306", "197307", "197495", "197496", "197737", "198291", "198292", "198293", "198294", "199245", "199246", "199247", "199825", "199984", "199985", "200065", "252960", "310488", "310489", "310490", "310534", "310536", "310537", "310539", "312440", "312441", "312859", "312860", "312861", "313418", "313419", "314000", "314006", "315107", "315239", "317573", "379804", "389137", "602544", "602549", "602550", "647237", "647239", "706895", "706896", "757710", "757712", "844809", "844824", "844827", "861731", "861736", "861740", "861743", "861748", "861753", "861760", "861763", "861783", "861795", "861806", "861816", "861822"]
+        }
+      ]
+    },
+	"medication_thiazolidinediones": {
+      "description": "Dates of Thiazolidinediones",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["312440", "312441", "312859", "312860", "312861", "317573"]
+        }
+      ]
+    },
+	"polycystic_ovaries": {
+      "description": "Dates of Polycystic Ovaries Diagnosis",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["69878008"]
+        },
+		{
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["256.4"]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "values": ["E28.2"]
+        }
+      ]
+    },
+	"proceedure_foot_exam": {
+      "description": "Dates of Foot Exam Procedure Performed",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["401191002", "80314008", "89521000", "91161007"]
+        }
+      ]
+    }
+  },
+  "population": {
+    "category": "Patient Characteristic",
+    "title": "Age between 17 and 74"
+  },
+  "denominator": {
+    "or": [
+      {
+        "category": "Medication",
+        "title": "Medication indicative of diabetes within 2 years"
+      },
+      {
+		"and": [
+          {
+            "category": "Diagnosis",
+            "title": "Diabetes active within 2 years"
+          },
+          {
+		    "or": [
+              {
+                "category": "Encounter",
+                "title": "Acute inpatient or ED"
+              },
+		      {
+                "category": "Encounter",
+                "title": "Non‐acute inpatient, outpatient, or ophthalmology"
+              }
+            ]
+          }
+        ]
+	  }
+    ]
+  },
+  "numerator": {
+    "category": "Procedure Performed",
+    "title": "Foot exam"
+  },
+  "exclusions": {
+ 	"or": [
+      {
+	    "and": [
+          {
+            "category": "Diagnosis",
+            "title": "Polycystic ovaries"
+          },
+          {
+            "and": [
+              {
+                "category": "Diagnosis",
+                "title": "Diabetes not active within 2 years"
+              },
+		      {
+                "or": [
+			      {
+                    "category": "Encounter",
+                    "title": "No acute inpatient or ED"
+			      },
+				  {
+                    "category": "Encounter",
+                    "title": "No non‐acute inpatient, outpatient, or ophthalmology"
+			      }
+			    ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+	    "and": [
+          {
+            "category": "Diagnosis",
+            "title": "Gestational diabetes or seteriod induced diabetes within 2 years"
+          },
+          {
+            "category": "Medication",
+            "title": "Medications indicative of diabetes within 2 years"
+          },
+	      {
+            "category": "Diagnosis",
+            "title": "Diabetes active within 2 years"
+	      },
+	      {
+		    "or": [
+			  {
+	            "category": "Encounter",
+	            "title": "Acute inpatient or ED within 2 years"
+	          },
+	          {
+	            "category": "Encounter",
+	            "title": "Non‐acute inpt, outpatient, or ophthalmology"
+	          }
+		    ]
+	      }
+        ]
+      }
+    ]
+  }
+}

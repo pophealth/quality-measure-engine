@@ -18,6 +18,7 @@ describe QME::MapReduce::Executor do
     measure_list.should have_key('0032')
     measure_list.should have_key('0043')
     measure_list.should have_key('0041')
+    measure_list.should have_key('0056')
     measure_list.should have_key('0421')
     
     hypertension = measure_list['0013']
