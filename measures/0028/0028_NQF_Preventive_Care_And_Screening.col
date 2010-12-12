@@ -1,0 +1,19 @@
+{
+  "root": "root.json",
+  "combinations": [
+    {
+      "sub_id": "a",
+      "subtitle": "Tobacco Use Assessment",
+      "map_fn": "tobacco_use_map.js",
+      "denominator": "denominator1.json",
+      "numerator": "numerator1.json"
+    },
+    {
+      "sub_id": "b",
+      "subtitle": "Tobacco Cessation Intervention",
+      "map_fn": "tobacco_cessation_map.js",
+      "denominator": "denominator2.json",
+      "numerator": "numerator2.json"
+    }
+  ]
+}

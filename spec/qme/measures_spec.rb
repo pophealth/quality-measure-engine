@@ -19,6 +19,7 @@ describe QME::MapReduce::Executor do
     measure_list.should have_key('0043')
     measure_list.should have_key('0041')
     measure_list.should have_key('0421')
+    measure_list.should have_key('0028')
     
     hypertension = measure_list['0013']
     hypertension[:id].should eql('0013')
@@ -59,10 +60,22 @@ describe QME::MapReduce::Executor do
         sub_id = measure['sub_id']
         puts "Validating measure #{measure_id}#{sub_id}"
         result = executor.measure_result(measure_id, sub_id, 'effective_date'=>Time.gm(2010, 9, 19).to_i)
-        result[:population].should eql(expected['initialPopulation'])
-        result[:numerator].should eql(expected['numerator'])
-        result[:denominator].should eql(expected['denominator'])
-        result[:exclusions].should eql(expected['exclusions'])
+        if sub_id != nil
+          expected['results'].each do |expect|
+            if expect['sub_id'] .eql? sub_id
+              result[:population].should eql(expect['initialPopulation'])
+              result[:numerator].should eql(expect['numerator'])
+              result[:denominator].should eql(expect['denominator'])
+              result[:exclusions].should eql(expect['exclusions'])
+              break
+            end
+          end
+        else
+          result[:population].should eql(expected['initialPopulation'])
+          result[:numerator].should eql(expected['numerator'])
+          result[:denominator].should eql(expected['denominator'])
+          result[:exclusions].should eql(expected['exclusions'])
+        end
       end
       puts " - done"
     end
