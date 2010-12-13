@@ -61,7 +61,7 @@
     }
     emit(null, value);
   };
-  
+
   root.reduce = function (key, values) {
     var total = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     for (var i = 0; i < values.length; i++) {
@@ -73,6 +73,5 @@
     }
     return total;
   };
-  
+
 })();
-  

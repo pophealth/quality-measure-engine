@@ -1,5 +1,5 @@
 {
-  "id": "0056",
+  "id": "0055",
   "name": "Diabetes Foot Exam",
   "description": "The percentage of patients aged 18‐75 years with diabetes (type 1 or type 2) who had a foot exam (visual inspection, sensory exam with monofilament, or pulse exam).",
   "category": "Diabetes",
@@ -326,8 +326,8 @@
         }
       ]
     },
-    "proceedure_foot_exam": {
-      "description": "Dates of Foot Exam Procedure Performed",
+    "proceedure_eye_exam": {
+      "description": "Dates of Eye Exam Procedure Performed",
       "type":"array",
       "items": {
         "type": "number",
@@ -335,9 +335,24 @@
       },
       "codes": [
         {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["67028", "67030", "67031", "67036", "67038", "67039", "67040", "67041", "67042", "67043", "67101", "67105", "67107", "67108", "67110", "67112", "67113", "67121", "67141", "67145", "67208", "67210", "67218", "67220", "67221", "67227", "67228", "92002", "92004", "92012", "92014", "92018", "92019", "92225", "92226", "92230", "92235", "92240", "92250", "92260"]
+        },
+        {
+          "set": "HCPCS",
+          "version": "06/2009",
+          "values": ["S0620", "S0621", "S0625", "S3000"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["14.1", "14.2", "14.3", "14.4", "14.5", "14.9", "95.02", "95.03", "95.04", "95.11", "95.12", "95.16", "V72.0"]
+        },  
+        {
           "set": "SNOMED-CT",
           "version": "07/2009",
-          "values": ["401191002", "80314008", "89521000", "91161007"]
+          "values": ["134395001", "390735007", "390847009", "390855002"]
         }
       ]
     }

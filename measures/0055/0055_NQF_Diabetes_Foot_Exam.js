@@ -1,6 +1,6 @@
 function () {
   var patient = this;
-  var measure = patient.measures["0056"];
+  var measure = patient.measures["0055"];
   if (measure==null)
     measure={};
 
@@ -26,7 +26,7 @@ function () {
   // the denominator, and the exclusions are shared in the 'diabetes_utils.js' file
   // that is located in the /js directory of the project
   var numerator = function() {
-    return inRange(measure.proceedure_foot_exam, earliest_diagnosis, effective_date);
+    return inRange(measure.proceedure_eye_exam, earliest_diagnosis, effective_date);
   }
   
   var exclusion = function() {
