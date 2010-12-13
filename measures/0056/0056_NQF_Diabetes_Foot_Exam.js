@@ -4,6 +4,9 @@ function () {
   if (measure==null)
     measure={};
 
+  // TODO: rjm Get these definitions into the 'diabetes_utils.js' file
+  // that is located in the /js directory of the project for shared 
+  // code across all of the diabetes measures. 
   var year = 365 * 24 * 60 * 60;
   var effective_date =  <%= effective_date %>;
   var earliest_birthdate =  effective_date - 74 * year;
@@ -11,32 +14,24 @@ function () {
   var earliest_diagnosis =  effective_date - 2 * year;
 
   var population = function() {
-    return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
+    return diabetes_population(patient, earliest_birthdate, latest_birthdate);
   }
 
   var denominator = function() {
-    diagnosis_diabetes =            inRange(measure.diagnosis_diabetes, earliest_diagnosis, effective_date);
-    encounter_acute_inpatient =     inRange(measure.encounter_acute_inpatient, earliest_diagnosis, effective_date);
-    encounter_non_acute_inpatient = inRange(measure.encounter_non_acute_inpatient, earliest_diagnosis, effective_date);
-    return (medications_indicative_of_diabetes(measure, earliest_diagnosis, effective_date) 
-            || 
-            (diagnosis_diabetes && (encounter_acute_inpatient || encounter_non_acute_inpatient == 2)));
+    return diabetes_denominator(measure, earliest_diagnosis, effective_date);
   }
 
+  // This numerator function is the only code that is specific to this particular 
+  // MU diabetes measure.  All of the other definitions for the initial population, 
+  // the denominator, and the exclusions are shared in the 'diabetes_utils.js' file
+  // that is located in the /js directory of the project
   var numerator = function() {
     return inRange(measure.proceedure_foot_exam, earliest_diagnosis, effective_date);
   }
-
+  
   var exclusion = function() {
-    diagnosis_gestational_diabetes =        inRange(measure.diagnosis_gestational_diabetes, earliest_diagnosis, effective_date);
-    diagnosis_steroid_induced_diabetes =    inRange(measure.diagnosis_steroid_induced_diabetes, earliest_diagnosis, effective_date);
-    return ((measure.polycystic_ovaries && !(diagnosis_diabetes && (encounter_acute_inpatient || encounter_non_acute_inpatient)))
-            ||
-            ((diagnosis_gestational_diabetes || diagnosis_steroid_induced_diabetes) 
-             && medications_indicative_of_diabetes(measure, earliest_diagnosis, effective_date) 
-             && !(diagnosis_diabetes && (encounter_acute_inpatient || encounter_non_acute_inpatient))));
+    return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }
 
   map(patient, population, denominator, numerator, exclusion);
-
 };
