@@ -23,11 +23,13 @@ function () {
     if (measure.encounter==null)
       return false;
     for(i=0;i<measure.encounter.length;i++) {
+      // for each encounter date
       encounter_date = measure.encounter[i];
       earliest_bmi = encounter_date - year/2;
       if (measure.bmi==null)
         return false;
       for (j=0;j<measure.bmi.length;j++) {
+        // look for BMI measurements <=6 months before current encounter
         bmi = measure.bmi[j];
         if (inRange(bmi.date, earliest_bmi, encounter_date)) {
           if (bmi.value>=18.5 && bmi.value<25)
