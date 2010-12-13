@@ -19,7 +19,7 @@
     }
     return count;
   };
-  
+
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     patient = record._id;
@@ -39,7 +39,7 @@
     }
     emit(null, value);
   };
-  
+
   root.reduce = function (key, values) {
     var total = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     for (var i = 0; i < values.length; i++) {
@@ -51,6 +51,5 @@
     }
     return total;
   };
-  
+
 })();
-  
