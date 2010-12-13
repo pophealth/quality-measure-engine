@@ -6,6 +6,8 @@
 
   var root = this;
 
+  // returns the number of values which fall between the supplied limits
+  // value may be a number or an array of numbers
   root.inRange = function(value, min, max) {
     var count = 0;
     if (_.isArray(value)) {
@@ -20,6 +22,26 @@
     return count;
   };
   
+  // Returns the minimum of readings[i].value where readings[i].date is in
+  // the supplied startDate and endDate. If no reading meet this criteria,
+  // returns defaultValue.
+  root.minValueInDateRange = function(readings, startDate, endDate, defaultValue) {
+    var readingInDateRange = function(reading) {
+      result = inRange(reading.date, startDate, endDate);
+      return result;
+    };
+    
+    if (!readings || readings.length<1)
+      return defaultValue;
+  
+    allInDateRange = _.select(readings, readingInDateRange);
+    min = _.min(allInDateRange, function(reading) {return reading.value;});
+    if (min)
+      return min.value;
+    else
+      return defaultValue;
+  };
+    
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     patient = record._id;
