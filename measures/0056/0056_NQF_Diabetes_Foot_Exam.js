@@ -10,31 +10,25 @@ function () {
   var latest_birthdate =    effective_date - 17*year;
   var earliest_diagnosis =  effective_date - 2*year;
   
+  // any of the following medications should be considered medication indicative of diabetes for the purpose of this measure
+  var medication_indicative_of_diabetes = function() {
+    return (inRange(measure.medication_alpha_glucosidas_inhibitors, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_amylin_analogs, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_antidiabetic_agent, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_antidiabetic_combinations, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_biguanides, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_insulin, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_meglitinides, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_sulfonylureas, earliest_diagnosis, effective_date)
+            || inRange(measure.medication_thiazolidinediones, earliest_diagnosis, effective_date));
+  }
+
   var population = function() {
     return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
   }
   
   var denominator = function() {
-    // any of the following medications should be considered medication indicative of diabetes for the purpose of this measure
-    medication_indicative_of_diabetes =     (inRange(measure.medication_alpha_glucosidas_inhibitors, earliest_diagnosis, effective_date)
-                                               || 
-                                             inRange(measure.medication_amylin_analogs, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_antidiabetic_agent, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_antidiabetic_combinations, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_biguanides, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_insulin, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_meglitinides, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_sulfonylureas, earliest_diagnosis, effective_date)
-                                               ||
-                                             inRange(measure.medication_thiazolidinediones, earliest_diagnosis, effective_date)
-                                            );
-    
+    medication_indicative_of_diabetes = medication_indicative_of_diabetes()
     diagnosis_diabetes =                    inRange(measure.diagnosis_diabetes, earliest_diagnosis, effective_date);
     encounter_acute_inpatient =             inRange(measure.encounter_acute_inpatient, earliest_diagnosis, effective_date);
     encounter_non_acute_inpatient =         inRange(measure.encounter_non_acute_inpatient, earliest_diagnosis, effective_date);
@@ -50,7 +44,7 @@ function () {
     diagnosis_gestational_diabetes =        inRange(measure.diagnosis_gestational_diabetes, earliest_diagnosis, effective_date);
     diagnosis_steroid_induced_diabetes =    inRange(measure.diagnosis_steroid_induced_diabetes, earliest_diagnosis, effective_date);
     return ((measure.polycystic_ovaries && !(diagnosis_diabetes && (encounter_acute_inpatient || encounter_non_acute_inpatient)))
-             ||
+            ||
             ((diagnosis_gestational_diabetes || diagnosis_steroid_induced_diabetes) && (medication_indicative_of_diabetes) && !(diagnosis_diabetes && (encounter_acute_inpatient || encounter_non_acute_inpatient))));
   }
   
