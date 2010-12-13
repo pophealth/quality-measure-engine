@@ -1,6 +1,18 @@
 {
-  "initialPopulation": 5,
-  "numerator": 2,
-  "denominator": 3,
-  "exclusions": 1
+  "results":[
+    {
+      "sub_id": "a",
+      "initialPopulation": 5,
+      "numerator": 2,
+      "denominator": 3,
+      "exclusions": 1
+    },
+    {
+      "sub_id": "b",
+      "initialPopulation": 5,
+      "numerator": 2,
+      "denominator": 3,
+      "exclusions": 1
+    }
+  ]
 }

@@ -1,0 +1,273 @@
+{
+  "id": "0028",
+  "name": "Preventive Care and Screening: Tobacco Use and Cessation Intervention",
+  "description": "Percentage of patients aged 18 years or older who have been seen for at least 2 office visits, who were queried about tobacco use one or more times within 24 months. If identified as tobacco users, patient received cessation intervention.",
+  "steward": "AMA",
+  "category": "Miscellaneous",
+  "parameters": {
+    "effective_date": {
+      "name": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient": {
+    "birthdate": {
+      "description": "Date of birth",
+      "category_type": "patient_characteristic",
+      "type": "number",
+      "format": "utc-sec",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["00110"]
+        }
+      ]
+    }
+  },
+  "measure": {  
+    "behavior_encounter": {
+      "description": "Health and Behavior Assessment Encounter",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["96150", "96152"]
+        }
+      ]
+    },
+	"occupational_therapy_encounter": {
+      "description": "Occupational Therapy Encounter",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["97003", "97004"]
+        }
+      ]
+    },
+	"office_encounter": {
+      "description": "Office Visit Encounter",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99201", "99202", "99203", "99204", "99205", "99212", "99213", "99214", "99215"]
+        }
+      ]
+    },
+	"psychiatric_encounter": {
+      "description": "Psychiatric and Psychologic Encounter",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["90801", "90802", "90804", "90805", "90806", "90807", "90808", "90809", "90810", "90811", "90812", "90813", "90814", "90815", "90845", "90862"]
+        }
+      ]
+    },
+	"adult_preventive_med_encounter": {
+      "description": "Preventive medicine services 18 and older",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99385", "99386", "99387", "99395", "99396", "99397"]
+        }
+      ]
+    },
+    "other_preventive_med_encounter": {
+      "description": "Preventive medicine other services",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99420", "99429"]
+        }
+      ]
+    },
+	"individual_counseling_encounter": {
+      "description": "Preventive medicine individual counseling",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99401", "99402", "99403", "99404"]
+        }
+      ]
+    },
+	"group_counseling_encounter": {
+      "description": "Preventive medicine group counseling",
+      "category_type": "encounter",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99411", "99412"]
+        }
+      ]
+    },
+    "tobacco_non_user": {
+      "description": "Tobacco Non-User",
+      "category_type": "condition",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["105539002", "105540000", "105541001", "160618006", "160620009", "160621008", "228501004", "228502006", "228503001", "228512004", "266919005", "266921000", "266922007", "266923002", "266924008", "266925009", "266928006", "26921000", "281018007", "360890004", "360900008", "360918006", "360929005", "405746006", "53896009", "8392000", "8517006", "87739003"]
+        }
+      ]
+    },
+    "tobacco_user": {
+      "description": "Tobacco User",
+      "category_type": "condition",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["160603005", "160604004", "160605003", "160606002", "160619003", "228494002", "228504007", "228514003", "228515002", "228516001", "228517005", "228518000", "230059006", "230060001", "230062009", "230063004", "230064005", "230065006", "266920004", "65568007", "81703003", "82302008"]
+        }
+      ]
+    },   
+    "cessation_agent": {
+      "description": "Smoking Cessation Agents",
+      "category_type": "medication",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "values": ["105075", "198029", "198030", "198031", "198406", "198407", "199677", "227177", "250983", "311975", "314119", "359817", "359818", "388082", "636353"]
+        }
+      ]
+    },
+	"cessation_counseling": {
+      "description": "Tobacco Use Cessation Counseling",
+      "category_type": "procedure",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99406", "99407"]
+        },
+		{
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["171055003", "185792005", "185793000", "185794006", "185795007", "185796008", "225323000", "225324006", "310429001", "315232003", "384742004"]
+        }
+      ]
+    }
+  },
+  "population": {
+    "and": [
+    {
+      "category": "Patient Characteristic",
+      "title": "Age >= 18"
+    },
+    {
+      "or": [
+        {
+          "category": "Encounter",
+          "title": "2 or more health and behavior assessment encounter"
+        },
+        {
+          "category": "Encounter",
+          "title": "2 or more occupational therapy encounter"
+        },
+        {
+          "category": "Encounter",
+          "title": "2 or more office visit encounter"
+        },
+        {
+          "category": "Encounter",
+          "title": "2 or more psychiatric and psychologic encounter"
+        },
+        {
+          "category": "Encounter",
+          "title": "1 or more preventive medicine services 18 and older"
+        },
+        {
+          "category": "Encounter",
+          "title": "1 or more preventive medicine other services"
+        },
+        {
+          "category": "Encounter",
+          "title": "1 or more preventive medicine individual counseling"
+        },
+		{
+          "category": "Encounter",
+          "title": "1 or more preventive medicine group counseling"
+        }
+        ]
+      }
+    ]
+  },
+  "exclusions": {}
+}
