@@ -33,13 +33,14 @@ module QME
       # @return [Array] an array of measure definition JSON hashes
       def create_collection(collection_file, component_dir)
         collection_def = JSON.parse(File.read(collection_file))
+        measure_file = File.join(component_dir, collection_def['root'])
         measures = []
         collection_def['combinations'].each do |combination|
-          measure_file = File.join(component_dir, collection_def['root'])
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure(measure_file, map_file) 
-          measure['sub_id'] = combination['sub_id']
-          measure['subtitle'] = combination['subtitle']
+          combination['metadata'].each do |key, value|
+            measure[key] = value
+          end
           ['population', 'denominator', 'numerator', 'exclusions'].each do |component|
             if combination[component]
               measure[component] = load_json(component_dir, combination[component])
