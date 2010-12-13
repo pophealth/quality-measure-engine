@@ -1892,7 +1892,7 @@
                 }
             ]
         },
-        "procedures_indicative_of_ESRD": {
+        "procedures_indicative_of_esrd": {
             "description": "ESRD Procedure",
             "category_type": "procedure_performed",
             "type": "array",
