@@ -42,6 +42,26 @@
       return defaultValue;
   };
     
+  // Returns the most recent readings[i].value where readings[i].date is in
+  // the supplied startDate and endDate. If no reading meet this criteria,
+  // returns defaultValue.
+  root.latestValueInDateRange = function(readings, startDate, endDate, defaultValue) {
+    var readingInDateRange = function(reading) {
+      result = inRange(reading.date, startDate, endDate);
+      return result;
+    };
+    
+    if (!readings || readings.length<1)
+      return defaultValue;
+  
+    allInDateRange = _.select(readings, readingInDateRange);
+    latest = _.max(allInDateRange, function(reading) {return reading.date;});
+    if (latest)
+      return latest.value;
+    else
+      return defaultValue;
+  };
+    
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
     patient = record._id;

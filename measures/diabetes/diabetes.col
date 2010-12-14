@@ -18,6 +18,15 @@
       },
       "map_fn": "0056_NQF_Diabetes_Foot_Exam.js",
       "numerator": "0056_NQF_Diabetes_Foot_Exam_Numerator.json"
+    },
+    {
+      "metadata": {
+        "id": "0059",
+        "name": "Diabetes HbA1c Poor Control",
+        "description": "The percentage of patients 18–75 years of age with diabetes (type 1 or type 2) who had HbA1c >9.0%."
+      },
+      "map_fn": "0059_NQF_Diabetes_HbA1c_Poor_Control.js",
+      "numerator": "0059_NQF_Diabetes_HbA1c_Poor_Control_Numerator.json"
     }
   ]
 }
