@@ -5,6 +5,7 @@
   "measures": {                           // bag of measures, one entry per measure
     "0061": {
       "medication_insulin": 1277856000,   // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
       "polycystic_ovaries": 1272585600    // Time.gm(2010, 4, 30).to_i
     }
   }
