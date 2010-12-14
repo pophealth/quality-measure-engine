@@ -1,13 +1,14 @@
 {
-  "first": "Curt",                              // personal data
+  "first": "Curt",                                      // personal data
   "last": "Smith",
-  "birthdate": -290390400,                      // Time.gm(1960, 10, 19).to_i
-  "measures": {                                 // bag of measures, one entry per measure
+  "birthdate": -290390400,                              // Time.gm(1960, 10, 19).to_i
+  "measures": {                                         // bag of measures, one entry per measure
     "0059": {
-      "medication_insulin": 1277856000,         // Time.gm(2010, 6, 30).to_i
+      "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
       "hba1c_test": [
         {
-          "date": 1277856000,        // Time.gm(2010, 6, 30).to_i
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
           "value": 8.9
         }
       ]
