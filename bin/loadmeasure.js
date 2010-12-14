@@ -8,6 +8,7 @@ var emit = function(key, value) {
 // Load up Underscore.js
 load("js/underscore-min.js");
 load("js/map-reduce-utils.js");
+load("js/diabetes-utils.js");
 
 // Read in the map function JavaScript
 var rawMeasure = readFile(arguments[0]);

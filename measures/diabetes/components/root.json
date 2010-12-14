@@ -427,6 +427,96 @@
           "values": ["83036", "83037"]
         }
       ]
+    },
+    "diastolic_blood_pressure": {
+      "description": "DBP",
+      "category_type": "physical_exam_finding",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "DBP",
+            "type": "number" 
+          },
+          "date": {
+            "description": "DBP Measurement Date",
+            "type": "number",
+            "format": "utc-sec" 
+          }
+        }
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "Jul-09",
+          "values": [
+            "271649006",
+            "314438006",
+            "314439003",
+            "314440001",
+            "314441002",
+            "314442009",
+            "314443004",
+            "314444005",
+            "314445006",
+            "314446007",
+            "72313002"
+          ]
+        }
+      ]
+    },
+    "systolic_blood_pressure": {
+      "description": "SBP",
+      "category_type": "physical_exam_finding",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "SBP",
+            "type": "number" 
+          },
+          "date": {
+            "description": "SBP Measurement Date",
+            "type": "number",
+            "format": "utc-sec" 
+          }
+        }
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "Jul-09",
+          "values": [
+            "12929001",
+            "163030003",
+            "251070002",
+            "251071003",
+            "271649006",
+            "314438006",
+            "314439003",
+            "314440001",
+            "314441002",
+            "314442009",
+            "314443004",
+            "314444005",
+            "314445006",
+            "314446007",
+            "314447003",
+            "314448008",
+            "314449000",
+            "314464000",
+            "315612005",
+            "399304008",
+            "400974009",
+            "407554009",
+            "407556006",
+            "72313002",
+            "81010002"
+          ]
+        }
+      ]
     }
   },
   "population": {

@@ -1,0 +1,12 @@
+{
+  "and": [
+    {
+      "category": "Physical Exam Finding",
+      "title": "Minimum diastolic BP during most recent encounter < 90"
+    },
+    {
+      "category": "Physical Exam Finding",
+      "title": "Minimum systolic BP during most recent encounter < 140"
+    }
+  ]
+}

@@ -27,6 +27,15 @@
       },
       "map_fn": "0059_NQF_Diabetes_HbA1c_Poor_Control.js",
       "numerator": "0059_NQF_Diabetes_HbA1c_Poor_Control_Numerator.json"
+    },
+    {
+      "metadata": {
+        "id": "0061",
+        "name": "Diabetes Blood Pressure Management",
+        "description": "The percentage of patients 18–75 years of age with diabetes (type 1 or type 2) who had BP <140/90 mmHg."
+      },
+      "map_fn": "0061_NQF_Diabetes_Blood_Pressure_Management.js",
+      "numerator": "0061_NQF_Diabetes_Blood_Pressure_Management_Numerator.json"
     }
   ]
 }

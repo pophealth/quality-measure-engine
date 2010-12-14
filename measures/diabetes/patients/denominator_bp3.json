@@ -1,0 +1,11 @@
+{
+  "first": "Paul",                                        // personal data
+  "last": "Hewson",
+  "birthdate": 340761600,                                 // Time.gm(1980, 10, 19).to_i
+  "measures": {                                           // bag of measures, one entry per measure
+    "0061": {
+      "diagnosis_diabetes": 1277856000,                   // Time.gm(2010, 6, 30).to_i
+      "encounter_non_acute_inpatient": [1275177600, 1277856000]   // Time.gm(2010, 5, 30).to_i and Time.gm(2010, 6, 30).to_i
+    }
+  }
+}
