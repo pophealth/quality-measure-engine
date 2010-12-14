@@ -8,16 +8,8 @@
   var root = this;
 
   root.has_medications_indicative_of_diabetes = function(measure, earliest_diagnosis, effective_date) {
-    return (inRange(measure.medication_alpha_glucosidas_inhibitors,    earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_amylin_analogs,              earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_antidiabetic_agent,          earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_antidiabetic_combinations,   earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_biguanides,                  earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_insulin,                     earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_meglitinides,                earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_sulfonylureas,               earliest_diagnosis,    effective_date)
-            || inRange(measure.medication_thiazolidinediones,          earliest_diagnosis,    effective_date));
-  };
+    return inRange(measure.medications_indicative_of_diabetes, earliest_diagnosis, effective_date);
+  }
 
   root.diabetes_population = function(patient, earliest_birthdate, latest_birthdate) {
     return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
