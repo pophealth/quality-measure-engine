@@ -60,10 +60,13 @@ describe QME::MapReduce::Executor do
         measure_id = measure['id']
         sub_id = measure['sub_id']
         puts "Validating measure #{measure_id}#{sub_id}"
-        result = executor.measure_result(measure_id, sub_id, 'effective_date'=>Time.gm(2010, 9, 19).to_i)
-        if sub_id != nil
+        result = executor.measure_result(measure_id, sub_id, 
+          'effective_date'=>Time.gm(2010, 9, 19).to_i)
+        if expected['initialPopulation'] == nil
+          # multiple results for multi numerator/denominator measure
+          # loop through list of results to find the matching one
           expected['results'].each do |expect|
-            if expect['sub_id'] .eql? sub_id
+            if expect['id'].eql?(measure_id) && (sub_id==nil || expect['sub_id'].eql?(sub_id))
               result[:population].should eql(expect['initialPopulation'])
               result[:numerator].should eql(expect['numerator'])
               result[:denominator].should eql(expect['denominator'])

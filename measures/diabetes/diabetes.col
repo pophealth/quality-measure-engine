@@ -1,0 +1,23 @@
+{
+  "root": "root.json",
+  "combinations": [
+    {
+      "metadata": {
+        "id": "0055",
+        "name": "Diabetes Eye Exam",
+        "description": "The percentage of patients aged 18‐75 years with diabetes (type 1 or type 2) who had a foot exam (visual inspection, sensory exam with monofilament, or pulse exam)."
+      },
+      "map_fn": "0055_NQF_Diabetes_Eye_Exam.js",
+      "numerator": "0055_NQF_Diabetes_Eye_Exam_Numerator.json"
+    },
+    {
+      "metadata": {
+        "id": "0056",
+        "name": "Diabetes Foot Exam",
+        "description": "The percentage of patients aged 18‐75 years with diabetes (type 1 or type 2) who had a foot exam (visual inspection, sensory exam with monofilament, or pulse exam)."
+      },
+      "map_fn": "0056_NQF_Diabetes_Foot_Exam.js",
+      "numerator": "0056_NQF_Diabetes_Foot_Exam_Numerator.json"
+    }
+  ]
+}

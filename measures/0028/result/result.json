@@ -1,6 +1,7 @@
 {
   "results":[
     {
+      "id": "0028",
       "sub_id": "a",
       "initialPopulation": 4,
       "numerator": 2,
@@ -8,6 +9,7 @@
       "exclusions": 0
     },
     {
+      "id": "0028",
       "sub_id": "b",
       "initialPopulation": 4,
       "numerator": 1,

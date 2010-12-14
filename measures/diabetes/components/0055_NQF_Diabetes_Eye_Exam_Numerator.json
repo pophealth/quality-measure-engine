@@ -1,0 +1,20 @@
+{
+  "or": [
+    {
+      "category": "Procedure Performed",
+      "title": "Eye exam within 2 years"
+    },
+    {
+      "and": [
+        {
+          "category": "Procedure Performed",
+          "title": "Eye exam during the year prior to the measurement period"
+        },
+        {
+          "category": "Diagnosis",
+          "title": "Diabetic retinopathy during the year prior to the measurement period"
+        }
+      ]
+    }
+  ]
+}

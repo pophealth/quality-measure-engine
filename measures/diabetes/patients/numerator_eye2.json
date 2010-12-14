@@ -1,0 +1,11 @@
+{
+  "first": "Suzanne",                     // personal data
+  "last": "Smith",
+  "birthdate": -290390400,                // Time.gm(1960, 10, 19).to_i
+  "measures": {                           // bag of measures, one entry per measure
+    "0055": {
+      "medication_insulin": 1277856000,   // Time.gm(2010, 6, 30).to_i
+      "proceedure_eye_exam": 1209513600   // Time.gm(2008, 4, 30).to_i
+    }
+  }
+}

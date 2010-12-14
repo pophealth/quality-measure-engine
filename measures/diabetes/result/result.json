@@ -1,0 +1,18 @@
+{
+  "results":[
+    {
+      "id": "0055",
+      "initialPopulation": 14,
+      "numerator": 2,
+      "denominator": 6,
+      "exclusions": 1
+    },
+    {
+      "id": "0056",
+      "initialPopulation": 14,
+      "numerator": 1,
+      "denominator": 4,
+      "exclusions": 1
+    }
+  ]
+}
