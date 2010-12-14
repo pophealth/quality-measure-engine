@@ -409,6 +409,41 @@
           "values": ["401191002", "80314008", "89521000", "91161007"]
         }
       ]
+    },
+    "hba1c_test": {
+      "descirption": "Results of HbA1c tests",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "HbA1c test result",
+            "type": "number" 
+          },
+          "date": {
+            "description": "HbA1c test date",
+            "type": "number",
+            "format": "utc-sec" 
+          }
+        }
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["117346004", "165680008", "259689004", "259690008", "313835008", "33601001", "40402000", "408254005", "43396009"]
+        },
+        {
+          "set": "LOINC",
+          "version": "06/2009",
+          "values": ["17856-6", "4548-4", "4549-2"]
+        },
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["83036", "83037"]
+        }
+      ]
     }
   },
   "population": {
