@@ -14,6 +14,7 @@ describe QME::MapReduce::Executor do
     end
     executor = QME::MapReduce::Executor.new(@loader.get_db)
     measure_list = executor.all_measures
+    measure_list.should have_key('0001')
     measure_list.should have_key('0013')
     measure_list.should have_key('0032')
     measure_list.should have_key('0043')
