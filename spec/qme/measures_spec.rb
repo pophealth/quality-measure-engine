@@ -21,6 +21,9 @@ describe QME::MapReduce::Executor do
     measure_list.should have_key('0041')
     measure_list.should have_key('0055')
     measure_list.should have_key('0056')
+    measure_list.should have_key('0059')
+    measure_list.should have_key('0061')
+    measure_list.should have_key('0062')
     measure_list.should have_key('0421')
     measure_list.should have_key('0028')
     
