@@ -11,11 +11,11 @@ function () {
   var latest_encounter = effective_date - 1*year;
   
   var population = function() {
-	other_encounters = 
-	  inRange(measure.behavior_encounter, earliest_encounter, effective_date) +
-	  inRange(measure.occupational_therapy_encounter, earliest_encounter, effective_date) +
-	  inRange(measure.office_encounter, earliest_encounter, effective_date) +
-	  inRange(measure.psychiatric_encounter, earliest_encounter, effective_date);
+    other_encounters = 
+      inRange(measure.behavior_encounter, earliest_encounter, effective_date) +
+      inRange(measure.occupational_therapy_encounter, earliest_encounter, effective_date) +
+      inRange(measure.office_encounter, earliest_encounter, effective_date) +
+      inRange(measure.psychiatric_encounter, earliest_encounter, effective_date);
     preventive_encounters = 
       inRange(measure.adult_preventive_med_encounter, latest_encounter, effective_date) +
       inRange(measure.other_preventive_med_encounter, latest_encounter, effective_date) +
@@ -29,7 +29,7 @@ function () {
   }
   
   var numerator = function() {
-	if (measure.tobacco_user==null && measure.tobacco_non_user==null)
+    if (measure.tobacco_user==null && measure.tobacco_non_user==null)
         return false;
     tobacco_user = inRange(measure.tobacco_user, earliest_encounter, effective_date);
     tobacco_non_user = inRange(measure.tobacco_non_user, earliest_encounter, effective_date);
