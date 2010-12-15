@@ -1,0 +1,32 @@
+{
+  "or": [
+    {
+      "category": "Diagnosis Active",
+      "title": "Nephropathy"
+    },
+    {
+      "category": "Procedure Performed",
+      "title": "Nephropathy-related procedures"
+    },
+    {
+      "category": "Laboratory Test Performed",
+      "title": "Urine microalbumin"
+    },
+    {
+      "category": "Laboratory Test Performed",
+      "title": "Nephropathy screening"
+    },
+    {
+      "category": "Medication Order",
+      "title": "ACE Inhibitors/ARBs"
+    },
+    {
+      "category": "Medication Dispensed",
+      "title": "ACE Inhibitors/ARBs"
+    },
+    {
+      "category": "Medication Active",
+      "title": "ACE Inhibitors/ARBs"
+    }
+  ]
+}

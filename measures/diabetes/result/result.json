@@ -2,30 +2,37 @@
   "results":[
     {
       "id": "0055",
-      "initialPopulation": 26,
+      "initialPopulation": 9,
       "numerator": 2,
       "denominator": 6,
       "exclusions": 1
     },
     {
       "id": "0056",
-      "initialPopulation": 26,
+      "initialPopulation": 9,
       "numerator": 1,
       "denominator": 4,
       "exclusions": 1
     },
     {
       "id": "0059",
-      "initialPopulation": 26,
+      "initialPopulation": 9,
       "numerator": 1,
       "denominator": 5,
       "exclusions": 1
     },
     {
       "id": "0061",
-      "initialPopulation": 26,
+      "initialPopulation": 9,
       "numerator": 1,
       "denominator": 5,
+      "exclusions": 1
+    },
+    {
+      "id": "0062",
+      "initialPopulation": 9,
+      "numerator": 1,
+      "denominator": 4,
       "exclusions": 1
     }
   ]

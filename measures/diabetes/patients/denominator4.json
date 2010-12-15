@@ -3,6 +3,22 @@
   "last": "Smith",
   "birthdate": -290390400,                      // Time.gm(1960, 10, 19).to_i
   "measures": {                                 // bag of measures, one entry per measure
+    "0055": {
+      "medication_amylin_analogs": 1277856000,          // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "proceedure_eye_exam": 1209513600,                // Time.gm(2008, 4, 30).to_i
+      "diabetic_retinopathy": 1209513600                // Time.gm(2008, 4, 30).to_i
+    },
+    "0059": {
+      "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "hba1c_test": [
+        {
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
+          "value": 8.9
+        }
+      ]
+    },
     "0061": {
       "medication_insulin": 1277856000,         // Time.gm(2010, 6, 30).to_i
       "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i

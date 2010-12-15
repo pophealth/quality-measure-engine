@@ -36,6 +36,15 @@
       },
       "map_fn": "0061_NQF_Diabetes_Blood_Pressure_Management.js",
       "numerator": "0061_NQF_Diabetes_Blood_Pressure_Management_Numerator.json"
+    },
+    {
+      "metadata": {
+        "id": "0062",
+        "name": "Diabetes Urine Screening",
+        "description": "The percentage of patients 18–75 years of age with diabetes (type 1 or type 2) who had a nephropathy screening test or evidence of nephropathy."
+      },
+      "map_fn": "0062_NQF_Diabetes_Urine_Screening.js",
+      "numerator": "0062_NQF_Diabetes_Urine_Screening_Numerator.json"
     }
   ]
 }
