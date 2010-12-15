@@ -38,8 +38,13 @@ module QME
         collection_def['combinations'].each do |combination|
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure(measure_file, map_file) 
+          combination['metadata'] ||= {}
           combination['metadata'].each do |key, value|
             measure[key] = value
+          end
+          combination['measure'] ||= {}
+          combination['measure'].each do |key, value|
+            measure['measure'][key] = value
           end
           ['population', 'denominator', 'numerator', 'exclusions'].each do |component|
             if combination[component]

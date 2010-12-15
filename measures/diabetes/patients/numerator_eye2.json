@@ -1,5 +1,5 @@
 {
-  "first": "Suzanne",                                   // personal data
+  "first": "Lilian",                                   // personal data
   "last": "Smith",
   "birthdate": -290390400,                              // Time.gm(1960, 10, 19).to_i
   "measures": {                                         // bag of measures, one entry per measure

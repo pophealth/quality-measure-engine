@@ -4,20 +4,48 @@
     {
       "metadata": {
         "sub_id": "a",
-        "subtitle": "Age 65 or older"
+        "subtitle": "Age 65 or older",
+        "numerator": {
+          "or": [
+            {
+              "category": "Patient Characteristic",
+              "title": "22 <= BMI <= 30"
+            },
+            {
+              "category": "Patient Characteristic",
+              "title": "BMI outside limits with management plan"
+            }
+          ]
+        },
+        "population": {
+          "category": "Patient Characteristic",
+          "title": "Age greater than 65"
+        }
       },
-      "map_fn": "older_map.js",
-      "population": "population1.json",
-      "numerator": "numerator1.json"
+      "map_fn": "older_map.js"
     },
     {
       "metadata": {
         "sub_id": "b",
-        "subtitle": "Age 18 to 64"
+        "subtitle": "Age 18 to 64",
+        "numerator": {
+          "or": [
+            {
+              "category": "Patient Characteristic",
+              "title": "18.5 <= BMI <= 25"
+            },
+            {
+              "category": "Patient Characteristic",
+              "title": "BMI outside limits with management plan"
+            }
+          ]
+        },
+        "population": {
+          "category": "Patient Characteristic",
+          "title": "Age between 18 and 65"
+        }
       },
-      "map_fn": "younger_map.js",
-      "population": "population2.json",
-      "numerator": "numerator2.json"
+      "map_fn": "younger_map.js"
     }
   ]
 }
