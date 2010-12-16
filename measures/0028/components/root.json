@@ -44,7 +44,7 @@
         }
       ]
     },
-	"occupational_therapy_encounter": {
+    "occupational_therapy_encounter": {
       "description": "Occupational Therapy Encounter",
       "category_type": "encounter",
       "type":"array",
@@ -60,7 +60,7 @@
         }
       ]
     },
-	"office_encounter": {
+    "office_encounter": {
       "description": "Office Visit Encounter",
       "category_type": "encounter",
       "type":"array",
@@ -76,7 +76,7 @@
         }
       ]
     },
-	"psychiatric_encounter": {
+    "psychiatric_encounter": {
       "description": "Psychiatric and Psychologic Encounter",
       "category_type": "encounter",
       "type":"array",
@@ -92,7 +92,7 @@
         }
       ]
     },
-	"adult_preventive_med_encounter": {
+    "adult_preventive_med_encounter": {
       "description": "Preventive medicine services 18 and older",
       "category_type": "encounter",
       "type":"array",
@@ -124,7 +124,7 @@
         }
       ]
     },
-	"individual_counseling_encounter": {
+    "individual_counseling_encounter": {
       "description": "Preventive medicine individual counseling",
       "category_type": "encounter",
       "type":"array",
@@ -140,7 +140,7 @@
         }
       ]
     },
-	"group_counseling_encounter": {
+    "group_counseling_encounter": {
       "description": "Preventive medicine group counseling",
       "category_type": "encounter",
       "type":"array",
@@ -204,7 +204,7 @@
         }
       ]
     },
-	"cessation_counseling": {
+    "cessation_counseling": {
       "description": "Tobacco Use Cessation Counseling",
       "category_type": "procedure",
       "type":"array",
@@ -218,7 +218,7 @@
           "version": "2010",
           "values": ["99406", "99407"]
         },
-		{
+        {
           "set": "SNOMED-CT",
           "version": "07/2009",
           "values": ["171055003", "185792005", "185793000", "185794006", "185795007", "185796008", "225323000", "225324006", "310429001", "315232003", "384742004"]
@@ -262,7 +262,7 @@
           "category": "Encounter",
           "title": "1 or more preventive medicine individual counseling"
         },
-		{
+        {
           "category": "Encounter",
           "title": "1 or more preventive medicine group counseling"
         }
