@@ -33,3 +33,8 @@ raw_measure_json = File.read(LIB + '/../measures/0043/0043_NQF_Pneumonia_Vaccina
 measure_json = JSON.parse(raw_measure_json)
 pvs = QME::Importer::Measure::PneumoniaVaccinationStatus.new(measure_json)
 pi.add_measure(pvs)
+
+raw_measure_json = File.read(LIB + '/../measures/0032/0032_NQF_Cervical_Cancer_Screening.json')
+measure_json = JSON.parse(raw_measure_json)
+dee = QME::Importer::Measure::CervicalCancerScreening.new(measure_json)
+pi.add_measure(pvs)
