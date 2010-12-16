@@ -27,7 +27,7 @@ module QME
       # @param [String] measure_id value of the measure's id field
       # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
       # @param [Hash] parameter_values a hash of the measure parameter values. Keys may be either a String or Symbol
-      # @return [Hash] a hash of the measure result with Symbol keys: population, denominator, numerator and exclusions whose values are the count of patient records that meet the criteria for each component of the measure. Also included are keys: population_members, denominator_members, numerator_members and exclusions_members whose values are arrays of the patient record identifiers that meet the criteria for each component of the measure.
+      # @return [Hash] a hash of the measure result with Symbol keys: population, denominator, numerator, antinumerator and exclusions whose values are the count of patient records that meet the criteria for each component of the measure. Also included are keys: population_members, denominator_members, numerator_members, antinumerator_members and exclusions_members whose values are arrays of the patient record identifiers that meet the criteria for each component of the measure.
       def measure_result(measure_id, sub_id, parameter_values)
         measure = Builder.new(measure_def(measure_id, sub_id), parameter_values)
 
