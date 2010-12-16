@@ -4,6 +4,10 @@ describe QME::Importer::Measure::DiabetesEyeExam do
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
     patient = {}
     
+    # TODO: *rjm  This importer only uses about 90% of the data because the numerator 
+    # for all of the diabetes measures is defined in the 'diabetes.col' file.  To really 
+    # validate that the diabetes importers are working, the JSON should be extracted
+    # from the database, and not the file system
     raw_measure_json = File.read('measures/diabetes/components/root.json')
     measure_json = JSON.parse(raw_measure_json)
 
@@ -22,6 +26,11 @@ describe QME::Importer::Measure::DiabetesEyeExam do
     measure_info['diagnosis_steroid_induced_diabetes'].should == 1275177600 # Time.gm(2010, 5, 30).to_i
     measure_info['polycystic_ovaries'].should ==                 1275177600 # Time.gm(2010, 5, 30).to_i
     
-    #measure_info['proceedure_eye_exam'].should ==                1275177600 # Time.gm(2010, 5, 30).to_i
+    # TODO: *rjm  This importer only uses about 90% of the data because the numerator 
+    # for all of the diabetes measures is defined in the 'diabetes.col' file.  To really 
+    # validate that the diabetes importers are working, the JSON should be extracted
+    # from the database, and not the file system.  Once that is done, the next line can 
+    # be uncommented and will fully test the importer
+    #measure_info['proceedure_eye_exam'].should == 1275177600 # Time.gm(2010, 5, 30).to_i
   end
 end

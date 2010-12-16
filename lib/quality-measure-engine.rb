@@ -46,6 +46,10 @@ measure_json = JSON.parse(raw_measure_json)
 pvs = QME::Importer::Measure::TobaccoUseScreening.new(measure_json)
 pi.add_measure(pvs)
 
+# TODO: *rjm  This importer only uses about 90% of the data because the numerator 
+# for all of the diabetes measures is defined in the 'diabetes.col' file.  To really 
+# validate that the diabetes importers are working, the JSON should be extracted
+# from the database, and not the file system
 raw_measure_json = File.read(LIB + '/../measures/diabetes/components/root.json')
 measure_json = JSON.parse(raw_measure_json)
 dee = QME::Importer::Measure::DiabetesEyeExam.new(measure_json)
