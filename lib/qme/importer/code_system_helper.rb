@@ -11,6 +11,7 @@ module QME
         '2.16.840.1.113883.6.103' =>  'ICD-9-CM',
         '2.16.840.1.113883.6.104' =>  'ICD-9-CM',
         '2.16.840.1.113883.6.90' =>   'ICD-10-CM'
+        '2.16.840.1.113883.6.14' =>   'HCPCS'
       }
       
       # Returns the name of a code system given an oid
