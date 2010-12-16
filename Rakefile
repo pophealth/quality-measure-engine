@@ -1,6 +1,7 @@
 require 'rspec/core/rake_task'
 require 'jeweler'
 require 'yard'
+require 'metric_fu'
 
 Dir['lib/tasks/*.rake'].sort.each do |ext|
   load ext
@@ -38,6 +39,17 @@ namespace :cover_me do
   
 end
 
-task :spec do
+task :coverage do
+  Rake::Task['spec'].invoke
   Rake::Task['cover_me:report'].invoke
+end
+
+MetricFu::Configuration.run do |config|
+    #define which metrics you want to use
+    config.metrics  = [:roodi, :reek, :churn, :flog, :flay]
+    config.graphs   = [:flog, :flay]
+    config.flay ={:dirs_to_flay => ['measures', 'lib', 'js'],
+                  :minimum_score => 50,
+                  :filetypes => ['rb', 'js', 'json', 'col'] }
+    
 end
