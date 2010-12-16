@@ -33,3 +33,13 @@ raw_measure_json = File.read(LIB + '/../measures/0043/0043_NQF_Pneumonia_Vaccina
 measure_json = JSON.parse(raw_measure_json)
 pvs = QME::Importer::Measure::PneumoniaVaccinationStatus.new(measure_json)
 pi.add_measure(pvs)
+
+raw_measure_json = File.read(LIB + '/../measures/0013/0013_NQF_Hypertension_Blood_Pressure_Measurement.json')
+measure_json = JSON.parse(raw_measure_json)
+pvs = QME::Importer::Measure::Hypertension.new(measure_json)
+pi.add_measure(pvs)
+
+raw_measure_json = File.read(LIB + '/../measures/0028/components/root.json')
+measure_json = JSON.parse(raw_measure_json)
+pvs = QME::Importer::Measure::TobaccoUseScreening.new(measure_json)
+pi.add_measure(pvs)
