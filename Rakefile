@@ -28,3 +28,16 @@ Jeweler::Tasks.new do |gem|
 end
 
 YARD::Rake::YardocTask.new
+
+namespace :cover_me do
+  
+  task :report do
+    require 'cover_me'
+    CoverMe.complete!
+  end
+  
+end
+
+task :spec do
+  Rake::Task['cover_me:report'].invoke
+end

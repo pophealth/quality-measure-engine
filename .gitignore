@@ -6,3 +6,4 @@ pkg
 .redcar
 doc
 .yardoc
+coverage*
