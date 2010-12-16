@@ -24,6 +24,8 @@ require 'mongo'
 
 pi = QME::Importer::PatientImporter.instance
 
+# TODO: *rjm We need to use the database when we pull the JSON definitions for all of the
+# quality measures, instead of using the file system.
 raw_measure_json = File.read(LIB + '/../measures/0032/0032_NQF_Cervical_Cancer_Screening.json')
 measure_json = JSON.parse(raw_measure_json)
 ccs = QME::Importer::Measure::CervicalCancerScreening.new(measure_json)
@@ -43,3 +45,8 @@ raw_measure_json = File.read(LIB + '/../measures/0028/components/root.json')
 measure_json = JSON.parse(raw_measure_json)
 pvs = QME::Importer::Measure::TobaccoUseScreening.new(measure_json)
 pi.add_measure(pvs)
+
+raw_measure_json = File.read(LIB + '/../measures/diabetes/components/root.json')
+measure_json = JSON.parse(raw_measure_json)
+dee = QME::Importer::Measure::DiabetesEyeExam.new(measure_json)
+pi.add_measure(dee)
