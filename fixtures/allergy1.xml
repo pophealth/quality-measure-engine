@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<allergy xmlns="http://projecthdata.org/hdata/schemas/2009/06/allergy" xmlns:ns3="http://projecthdata.org/hdata/schemas/2009/06/core">
+    <ns3:date>2006-05-04T18:13:51.0Z</ns3:date>
+    <type codeSystem="SNOMEDCT" code="420134006" displayName="propensity to adverse reactions "/>
+    <product code="code3" codeSystem="codeSystem3" displayName="displayName3">product0</product>
+    <reaction codeSystem="SNOMEDCT" code="code5" displayName="displayName5"/>
+    <severity codeSystem="SNOMEDCT" code="255604002" displayName="mild"/>
+            <ns3:informationSource>
+                <ns3:author>
+                    <ns3:name>
+                        <ns3:suffix>suffix0</ns3:suffix>
+                        <ns3:lastname>lastname0</ns3:lastname>
+                    </ns3:name>
+                    <ns3:address>
+                        <ns3:streetaddress>streetaddress0</ns3:streetaddress>
+                        <ns3:streetaddress>streetaddress1</ns3:streetaddress>
+                        <ns3:city>city0</ns3:city>
+                        <ns3:stateOrProvince>stateOrProvince0</ns3:stateOrProvince>
+                        <ns3:zip>zip0</ns3:zip>
+                        <ns3:country>country0</ns3:country>
+                    </ns3:address>
+                    <ns3:address>
+                        <ns3:streetaddress>streetaddress2</ns3:streetaddress>
+                        <ns3:streetaddress>streetaddress3</ns3:streetaddress>
+                        <ns3:city>city1</ns3:city>
+                        <ns3:stateOrProvince>stateOrProvince1</ns3:stateOrProvince>
+                        <ns3:zip>zip1</ns3:zip>
+                        <ns3:country>country1</ns3:country>
+                    </ns3:address>
+                    <ns3:telecom value="value1" use="use1"/>
+                    <ns3:telecom value="value3" use="use3"/>
+                </ns3:author>
+                <ns3:date>2006-05-04T18:13:51.0Z</ns3:date>
+                <ns3:reference>reference0</ns3:reference>
+                <ns3:informant>
+                    <ns3:organization>
+                        <name>name0</name>
+                        <pointOfContacts>
+                        </pointOfContacts>
+                        <ns3:address>
+                            <ns3:city>city2</ns3:city>
+                        </ns3:address>
+                        <ns3:address>
+                            <ns3:city>city3</ns3:city>
+                        </ns3:address>
+                    </ns3:organization>
+                </ns3:informant>
+            </ns3:informationSource>
+            <ns3:description>
+                <ns3:text>text0</ns3:text>
+                <ns3:codedValue code="code9" codeSystem="codeSystem9" displayName="displayName9">codedValue0</ns3:codedValue>
+                <ns3:codedValue code="code11" codeSystem="codeSystem11" displayName="displayName11">codedValue1</ns3:codedValue>
+            </ns3:description>
+</allergy>

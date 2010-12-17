@@ -11,12 +11,29 @@ Then run bundler to grab all of the necessay gems:
 
     bundle install
 
+The Quality Measure engine relies on a MongoDB [MongoDB](http://www.mongodb.org/) running a minimum of version 1.6.* or higher.  To get and install Mongo refer to :
+
+	http://www.mongodb.org/display/DOCS/Quickstart
+
 Testing
 -------
 
 This project uses [RSpec](http://github.com/rspec/rspec-core) for testing. To run the suite, just enter the following:
 
-    rake spec
+    bundle exec rake spec
+
+The coverage of the test suite is monitored with [cover_me](https://github.com/markbates/cover_me) and can be run with:
+
+    bundle exec rake coverage
+
+Source Code Analysis
+--------------------
+
+This project uses [metric_fu](http://metric-fu.rubyforge.org/) for source code analysis. Reports can be run with:
+
+    bundle exec rake metrics:all
+
+The project is currently configured to run Flay, Flog, Churn, Reek and Roodi
 
 Project Practices
 ------------------

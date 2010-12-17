@@ -1,0 +1,344 @@
+{
+  "id": "0041",
+  "name": "Preventive Care and Screening: Influenza Immunization for Patients > 50 Years Old",
+  "description": "Patients more than 50 years old who received a flu vaccine (September to February)",
+  "category": "Core Alternate",
+  "steward": "AMA",
+  "parameters": {
+    "effective_date": {
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient": {
+    "birthdate": {
+      "description": "Date of birth",
+      "critical": true,
+      "type":"number",
+      "format": "utc-sec",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["00110"]
+        }
+      ]
+    }
+  },
+  "measure": {
+    "encounter_outpatient": {
+      "description": "Date of outpatient encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99201", "99202", "99203", "99204", "99205", "99212", "99213", "99214", "99215", "99241", "99242", "99243", "99244", "99245", "99324", "99325", "99326", "99327", "99328", "99334", "99335", "99336", "99337", "99341", "99342", "99343", "99344", "99345", "99347", "99348", "99349", "99350"]
+        }
+      ]
+    },
+    "encounter_prev_med_40_or_older": {
+      "description": "Date of preventative medicine encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99386", "99387", "99396", "99397"]
+        }
+      ]
+    },
+    "encounter_prev_med_group": {
+      "description": "Date of preventative medicine group counseling",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99411", "99412"]
+        }
+      ]
+    },
+    "encounter_prev_med_ind": {
+      "description": "Date of preventative medicine individual counseling",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99401", "99402", "99403", "99404"]
+        }
+      ]
+    },
+    "encounter_prev_med_other": {
+      "description": "Date of preventative medicine other services",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99420", "99429"]
+        }
+      ]
+    },
+    "encounter_nursing": {
+      "description": "Date of nursing facility encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99304", "99305", "99306", "99307", "99308", "99309", "99310"]
+        }
+      ]
+    },
+    "encounter_nursing_discharge": {
+      "description": "Date of nursing discharge",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "values": ["99315", "99316"]
+        }
+      ]
+    },
+    "immunization": {
+      "description": "Influenza immunization",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "values": ["857924", "857942", "857965"]
+        }
+      ]
+    },
+    "allergy_to_eggs": {
+      "description": "Allergy to eggs",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["1484830012", "213020009", "292098007", "293104008", "293112000", "293113005", "420113004", "91930004"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "2010",
+          "values": ["V15.03"]
+        }
+      ]
+    },
+    "immunization_allergy": {
+      "description": "Influenza immunization allergy",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "values": ["857924", "857942", "857965"]
+        }
+      ]
+    },
+    "immunization_adverse_event": {
+      "description": "Influenza immunization adverse event",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "values": ["857924", "857942", "857965"]
+        }
+      ]
+    },
+    "immunization_intolerance": {
+      "description": "Influenza immunization intolerance",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "values": ["857924", "857942", "857965"]
+        }
+      ]
+    },
+    "immunization_containdication": {
+      "description": "Influenza immunization contraindication",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["390796006"]
+        }
+      ]
+    },
+    "immunization_declined": {
+      "description": "Influenza immunization declined",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "values": ["315640000"]
+        }
+      ]
+    },
+    "patient_reason": {
+      "description": "Influenza immunization not done for patient reason",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["14880", "15985", "19729", "21708", "21710", "21741", "21743", "21746", "22260", "22851"]
+        }
+      ]
+    },
+    "medical_reason": {
+      "description": "Influenza immunization not done for medical reason",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["21703", "21704", "21738", "21745", "21747", "21815", "21990", "22259", "22261", "22855"]
+        }
+      ]
+    },
+    "system_reason": {
+      "description": "Influenza immunization not done for system reason",
+      "type": "boolean",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["19730", "19731", "19733", "19734", "19735", "19736", "19987", "19988", "19989", "19990", "21408", "21493", "21568", "21706", "21707", "21709", "21728", "21729", "21730", "21731", "21732", "21733", "21734", "21735", "21744", "22023", "22024", "22165", "22166", "22167", "22168", "22169", "22857", "22858", "22859", "22865", "22866", "22867", "22907", "22909", "22911", "22912", "22913"]
+        }
+      ]
+    }
+  },
+  
+  "population": {
+    "and": [
+      {
+        "category": "Patient Characteristic",
+        "title": "Age >= 50"
+      },
+      {
+        "or": [
+          {
+            "category": "Encounter",
+            "title": "2 or more outpatient"
+          },
+          {
+            "category": "Encounter",
+            "title": "Preventive medicine 40 and older"
+          },
+          {
+            "category": "Encounter",
+            "title": "Preventive medicine group counseling"
+          },
+          {
+            "category": "Encounter",
+            "title": "Preventive medicine individual counseling"
+          },
+          {
+            "category": "Encounter",
+            "title": "Preventive medicine other services"
+          },
+          {
+            "category": "Encounter",
+            "title": "Nursing facility"
+          },
+          {
+            "category": "Encounter",
+            "title": "Nursing discharge"
+          }
+        ]
+      }
+    ]
+  },
+  "denominator": {
+    "category": "Encounter",
+    "title": "Between 58 and 122 days prior to effective date"
+  },
+  "numerator": {
+    "category": "Medication Administered",
+    "title": "Influenza vaccine"
+  },
+  "exclusions": {
+    "or": [
+      {
+        "category": "Medication not done",
+        "title": "Influenza immunization contraindication"
+      },
+      {
+        "category": "Allergy",
+        "title": "Eggs"
+      },
+      {
+        "category": "Medication not done",
+        "title": "Influenza immunization declined"
+      },
+      {
+        "category": "Medication not done",
+        "title": "Influenza immunization for patient reason"
+      },
+      {
+        "category": "Medication not done",
+        "title": "Influenza immunization for medical reason"
+      },
+      {
+        "category": "Medication not done",
+        "title": "Influenza immunization for system reason"
+      }
+    ]
+  }
+}

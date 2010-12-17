@@ -1,0 +1,79 @@
+{
+  "id": "0043",
+  "name": "Pneumonia Vaccination Status for Older Adults",
+  "description": "Patients more than 65 years old who received a pneumococcal vaccine.",
+  "category": "Miscellaneous",
+  "steward": "NCQA",
+  "parameters": {
+    "effective_date": {
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient": {
+    "birthdate": {
+      "description": "Date of birth",
+      "critical": true,
+      "type":"number",
+      "format": "utc-sec",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["00110"]
+        }
+      ]
+    }
+  },
+  "measure": {
+    "encounter": {
+      "description": "Date of encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "values": ["99201", "99202", "99203", "99204", "99205", "99211", "99212", "99213", "99214", "99215", "99217", "99218", "99219", "99220", "99241", "99242", "99243", "99244", "99245", "99341", "99342", "99343", "99344", "99345", "99347-99350", "99384", "99385", "99386", "99387", "99394", "99395", "99396", "99397", "99401", "99402", "99403", "99404", "99411", "99412", "99420", "99429", "99455", "99456"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "values": ["V70.0", "V70.3", "V70.5", "V70.6", "V70.8", "V70.9"]
+        }
+      ]
+    },
+    "vaccination": {
+      "description": "Pneumococcal vaccination",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "values": ["854931", "854933", "854935", "854937", "854939", "854941", "854943", "854945", "854947", "854949", "854951", "854953", "854955", "854957", "854959", "854961", "854963", "854965", "854967", "854969", "854971", "854973", "854975", "854977"]
+        }
+      ]
+    }
+  },
+  "population": {
+    "category": "Patient Characteristic",
+    "title": "Age >= 64"
+  },
+  "denominator": {
+    "category": "Outpatient Encounter",
+    "title": "Within a year"
+  },
+  "numerator": {
+    "category": "Medication Administered",
+    "title": "Pneumococcal vaccination"
+  },
+  "exclusions": {}
+}

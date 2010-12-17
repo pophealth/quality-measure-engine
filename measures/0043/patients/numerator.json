@@ -5,7 +5,7 @@
   "measures": {                                       // bag of measures, one entry per measure
     "0043": {
       "encounter": 1284854400,                        // Time.gm(2010, 9, 19)
-      "vaccination": true
+      "vaccination": 1284854400                        // Time.gm(2010, 9, 19)
     }
   }
 }
