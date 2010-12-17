@@ -1,3 +1,4 @@
+require 'cover_me'
 require 'bundler/setup'
 
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'

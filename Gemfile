@@ -9,6 +9,8 @@ group :test do
   gem 'rspec'
   gem 'jsonschema'
   gem 'awesome_print', :require => 'ap'
+  gem 'cover_me', '>= 1.0.0.rc4'
+  gem 'metric_fu'
 end
 
 group :build do

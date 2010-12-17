@@ -22,6 +22,19 @@ This project uses [RSpec](http://github.com/rspec/rspec-core) for testing. To ru
 
     bundle exec rake spec
 
+The coverage of the test suite is monitored with [cover_me](https://github.com/markbates/cover_me) and can be run with:
+
+    bundle exec rake coverage
+
+Source Code Analysis
+--------------------
+
+This project uses [metric_fu](http://metric-fu.rubyforge.org/) for source code analysis. Reports can be run with:
+
+    bundle exec rake metrics:all
+
+The project is currently configured to run Flay, Flog, Churn, Reek and Roodi
+
 Project Practices
 ------------------
 

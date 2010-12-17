@@ -1,6 +1,7 @@
 require 'rspec/core/rake_task'
 require 'jeweler'
 require 'yard'
+require 'metric_fu'
 
 Dir['lib/tasks/*.rake'].sort.each do |ext|
   load ext
@@ -28,3 +29,24 @@ Jeweler::Tasks.new do |gem|
 end
 
 YARD::Rake::YardocTask.new
+
+namespace :cover_me do
+  
+  task :report do
+    require 'cover_me'
+    CoverMe.complete!
+  end
+  
+end
+
+task :coverage do
+  Rake::Task['spec'].invoke
+  Rake::Task['cover_me:report'].invoke
+end
+
+MetricFu::Configuration.run do |config|
+    #define which metrics you want to use
+    config.metrics  = [:roodi, :reek, :churn, :flog, :flay]
+    config.graphs   = [:flog, :flay]
+    config.flay ={:dirs_to_flay => []} #Flay doesn't seem to be handling CLI arguments well... so this config squashes them
+end
