@@ -19,7 +19,7 @@ module QME
       # gestational diabetes, steroid induced_diabetes, and polycystic ovaries)
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/
       #cda:act/cda:entryRelationship/cda:observation
-      class DiabetesEyeExam < MeasureBase
+      class DiabetesEyeExam < DiabetesMeasureBase
       
         def parse(doc)
           measure_info = {}
