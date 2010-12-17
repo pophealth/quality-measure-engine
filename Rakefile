@@ -48,8 +48,5 @@ MetricFu::Configuration.run do |config|
     #define which metrics you want to use
     config.metrics  = [:roodi, :reek, :churn, :flog, :flay]
     config.graphs   = [:flog, :flay]
-    config.flay ={:dirs_to_flay => ['measures', 'lib', 'js'],
-                  :minimum_score => 50,
-                  :filetypes => ['rb', 'js', 'json', 'col'] }
-    
+    config.flay ={:dirs_to_flay => []} #Flay doesn't seem to be handling CLI arguments well... so this config squashes them
 end
