@@ -15,6 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "critical": true,
+      "category_type": "patient_characteristic",
       "type":"number",
       "format": "utc-sec",
       "codes": [
@@ -29,6 +30,7 @@
   "measure": {
     "encounter": {
       "description": "Date of encounter",
+      "category_type": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -49,6 +51,7 @@
     },
     "vaccination": {
       "description": "Pneumococcal vaccination",
+      "category_type": "medication_administered",
       "type": "array",
       "items": {
         "type": "number",
