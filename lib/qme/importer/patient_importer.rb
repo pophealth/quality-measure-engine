@@ -11,6 +11,24 @@ module QME
       
       def initialize
         @measures = []
+        @measure_classes = []
+      end
+      
+      # Will create instances of the importers based on the added Measures. It will look in the
+      # measures and figure out their id's and sub id's by calling methods on their classes
+      # It will then look for the definitions of these measures in the "measures" collection
+      # of the database passed in.
+      def initialize_measures(db)
+        @measure_classes.each do |mc|
+          definition = nil
+          if mc.measure_sub_id
+            definition = db['measures'].find_one(:id => mc.measure_id)
+          else
+            definition = db['measures'].find_one(:id => mc.measure_id, :sub_id => mc.measure_sub_id)
+          end
+          
+          @measures << mc.new(definition)
+        end
       end
       
       # Parses a HITSP C32 document and returns a Hash of of the patient.
@@ -31,9 +49,10 @@ module QME
       
       # Adds a measure to run on a C32 that is passed in
       #
-      # @param [MeasureBase] measure an instance of a measure you want to run on any C32 that is passed in to the importer
+      # @param [MeasureBase] measure an Class that can extract information from a C32 that is necessary
+      #        to calculate the measure
       def add_measure(measure)
-        @measures << measure
+        @measure_classes << measure
       end
       
       # Inspects a C32 document and populates the patient Hash with first name, last name

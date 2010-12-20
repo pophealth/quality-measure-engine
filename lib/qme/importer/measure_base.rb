@@ -5,6 +5,29 @@ module QME
     #
     # @abstract Should be subclassed and implementers should provide a parse method
     class MeasureBase
+      
+      # Anytime that the MeasureBase class is subclassed, it will inform the PatientImporter
+      # that a new importer is being created
+      def self.inherited(subclass)
+         PatientImporter.instance.add_measure(subclass)
+      end
+      
+      def self.measure_id
+        @measure_id
+      end
+      
+      def self.measure_sub_id
+        @measure_sub_id
+      end
+      
+      # Used by subclasses to define their identifiers
+      def self.measure(identifiers={})
+        @measure_id = identifiers[:id]
+        
+        if identifiers[:sub_id]
+          @measure_sub_id = identifiers[:sub_id]
+        end
+      end
 
       # Creates a measure importer with the definition passed in
       #
