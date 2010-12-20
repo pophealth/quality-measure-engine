@@ -15,6 +15,7 @@ module QME
       # For finding vital sign observations(used to find systolic and diastolic blood pressure)
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']
       class Hypertension < MeasureBase
+        measure :id => '0013'
         
         def parse(doc)
           measure_info = {}

@@ -20,7 +20,8 @@ module QME
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/
       #cda:act/cda:entryRelationship/cda:observation
       class DiabetesEyeExam < MeasureBase
-      
+        measure :id => '0055'
+
         def parse(doc)
           measure_info = {}
       

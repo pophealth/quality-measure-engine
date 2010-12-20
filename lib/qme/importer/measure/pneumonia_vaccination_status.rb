@@ -13,6 +13,7 @@ module QME
       # Finding encounter elements in the Encounters section
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter
       class PneumoniaVaccinationStatus < MeasureBase
+        measure :id => '0043'
         
         def parse(doc)
           measure_info = {}

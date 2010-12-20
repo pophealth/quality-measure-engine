@@ -14,6 +14,7 @@ module QME
       # For finding result observations (to see if a pap test has been performed)
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
       class CervicalCancerScreening < MeasureBase
+        measure :id => '0032'
         
         def parse(doc)
           measure_info = {}
