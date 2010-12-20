@@ -1,17 +1,14 @@
 describe QME::Importer::Measure::DiabetesEyeExam do
+  before do
+    @loader = load_measures
+  end
+  
   it "should import the the information relevant to determining diabetic eye exam measure status" do
     doc = Nokogiri::XML(File.new('fixtures/c32_fragments/diabetes/numerator.xml'))
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
     patient = {}
-    
-    # TODO: *rjm  This importer only uses about 90% of the data because the numerator 
-    # for all of the diabetes measures is defined in the 'diabetes.col' file.  To really 
-    # validate that the diabetes importers are working, the JSON should be extracted
-    # from the database, and not the file system
-    raw_measure_json = File.read('measures/diabetes/components/root.json')
-    measure_json = JSON.parse(raw_measure_json)
 
-    dee = QME::Importer::Measure::DiabetesEyeExam.new(measure_json)
+    dee = QME::Importer::Measure::DiabetesEyeExam.new(measure_definition(@loader, '0055'))
     measure_info = dee.parse(doc)
 
     measure_info['encounter_acute_inpatient'].should ==                    1275177600 # Time.gm(2010, 5, 30).to_i
