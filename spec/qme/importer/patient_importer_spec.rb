@@ -1,11 +1,6 @@
 describe QME::Importer::PatientImporter do
   before do
-    @loader = QME::Database::Loader.new('test')
-    measures = Dir.glob('measures/*')
-    @loader.drop_collection('measures')
-    measures.each do |dir|
-      @loader.save_measure(dir, 'measures')
-    end
+    @loader = load_measures
   end
   
   it "should import demographic information" do
