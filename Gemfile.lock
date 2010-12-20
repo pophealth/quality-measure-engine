@@ -40,7 +40,7 @@ GEM
     hoe (2.8.0)
       rake (>= 0.8.7)
     i18n (0.5.0)
-    jeweler (1.5.1)
+    jeweler (1.5.2)
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
@@ -100,6 +100,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  Saikuro
   awesome_print
   bluecloth
   bson_ext
