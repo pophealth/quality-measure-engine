@@ -1,11 +1,39 @@
 {
   "root": "root.json",
-  "combinations": [
+  "combinations": 
+  [
     {
-      "metadata": {
+      "metadata": 
+	  {
         "sub_id": "a",
         "subtitle": "DTaP vaccine",
-        "numerator": {}
+        "numerator": 
+		{
+          "and": 
+		  [
+            {
+              "category": "Medication Administered",
+              "title": ">= 4 Counts tetanus and acellular pertussis (DTaP) from 42 days old - 2 years"
+            },
+			{
+			  "or": 
+			  [
+                {
+              	  "category": "No Medication allergy",
+              	  "title": "DTaP vaccine”
+                },
+                {
+              	  "category": "No Diagnosis",
+              	  "title": "Active Encephalopathy"
+                },
+                {
+                  "category": "No Diagnosis",
+              	  "title": "Active Progressive Neurological Disorder"
+                }
+			  ]
+	        }
+          ]
+		}
       },
       "map_fn": "dtap_vaccine_map.js"
     },
@@ -13,7 +41,37 @@
       "metadata": {
         "sub_id": "b",
         "subtitle": "Medication administered: IPV",
-        "numerator": {}
+        "numerator": 
+		{
+          "and": 
+		  [
+            {
+              "category": "Medication Administered",
+              "title": ">= 3 Counts Polio (IPV) from 42 days old - 2 years"
+            },
+			{
+			  "or": 
+			  [
+                {
+              	  "category": "No Medication allergy",
+              	  "title": "IPV Vaccine”
+                },
+                {
+              	  "category": "No Medication allergy",
+              	  "title": "Neomycin”;”
+                },
+                {
+              	  "category": "No Medication allergy",
+              	  "title": "Streptomycin”
+                },
+                {
+              	  "category": "No Medication allergy",
+              	  "title": "Polymyxin”
+                }
+			  ]
+	        }
+          ]
+		}
       },
       "map_fn": "medication_administered_ipv_map.js"
     }

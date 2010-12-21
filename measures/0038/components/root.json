@@ -80,7 +80,7 @@
     },
     "dtap_vaccine_administrered": 
     {
-      "description": "DTAP Vaccine",
+      "description": "Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
       "standard_concept_id": "N_c406",
       "standard_categories": ["medication_administered", "medication_allergy"],
       "category_type": "medication",
@@ -133,7 +133,8 @@
       "standard_categories": ["diagnosis_resolved"],
       "category_type": "diagnosis-condition-problem",
       "type": "array",
-      "items": {
+      "items": 
+      {
         "type": "number",
         "format": "utc-sec"
       },
@@ -227,7 +228,7 @@
     },
     "ipv": 
     {
-      "description": "IPV",
+      "description": "Polio (IPV) Vaccine",
       "standard_concept_id": "N_c407",
       "standard_categories": ["medication_administered"],
       "category_type": "medication",

@@ -10,8 +10,8 @@ function () {
   var earliest_birthdate =  effective_date - 2 * year;
   var latest_birthdate =    effective_date - 1 * year;
 
-  // dtap vaccines are considered when they are occurring >=42 days and 
-  // <2 years after the patients' birthdate
+  // dtap vaccines are considered when they are occurring >= 42 days and 
+  // < 2 years after the patients' birthdate
   var earliest_dtap_vaccine = patient.birthdate + 42 * day;
   var latest_dtap_vaccine =   patient.birthdate + 2  * year;
 
