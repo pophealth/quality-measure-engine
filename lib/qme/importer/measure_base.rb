@@ -54,6 +54,7 @@ module QME
       #        that the effectiveTime element will be a direct child of this node
       # @param [String] xpath_expression The expression to get the code element
       # @param [String] property_name The name of the property as specified in the measure definition
+      # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
       # @param [Hash] measure_info where all of the extracted measure information will be stored
       def create_property_from_code(parent_element, xpath_expression, property_name, measure_info)
         code_elements = parent_element.xpath(xpath_expression)
@@ -66,13 +67,47 @@ module QME
             end
             if measure_info[property_name]
               if measure_info[property_name].kind_of?(Array)
-                measure_info[property_name] << date
+                measure_info[property_name]['date'] << date         
               else
                 measure_info[property_name] = [measure_info[property_name], date]
               end
             else
               measure_info[property_name] = date
-            end
+            end                  
+          end
+        end
+      end
+      
+      # Will find the code as a child of the element passed in based on a supplied
+      # XPath expression. If the code is in the list of acceptable codes for the
+      # property, it will find the value, and set the property.
+      #
+      # If a property is not set, it will set the property with an Integer value. If
+      # the property is already set, it will make sure that it is an Array, and append
+      # the new value.
+      #
+      # @param [Nokogiri::XML::Node] parent_element The node to look for the code under. It is assumed
+      #        that the value element will be a direct child of this node
+      # @param [String] xpath_expression The expression to get the code element
+      # @param [String] property_name The name of the property as specified in the measure definition
+      # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
+      # @param [Hash] measure_info where all of the extracted measure information will be stored
+      def extract_property_value(parent_element, xpath_expression, property_name, measure_info)
+        code_elements = parent_element.xpath(xpath_expression)
+        code_elements.each do |code_element|
+          if CodeSystemHelper.is_in_code_list?(code_element['codeSystem'], code_element['code'], property_name, @definition)
+            if parent_element.at_xpath('cda:value')['value']
+              value = parent_element.at_xpath('cda:value')['value']
+              if measure_info[property_name]
+                if measure_info[property_name].kind_of?(Array)
+                  measure_info[property_name]['value'] << value         
+                else
+                  measure_info[property_name] = [measure_info[property_name], value]
+                end
+              else
+                measure_info[property_name] = value
+              end
+            end     
           end
         end
       end

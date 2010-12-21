@@ -29,6 +29,9 @@
   "measure": {
     "encounter_outpatient": {
       "description": "Dates of outpatient encounters",
+      "standard_categories": [
+         "encounter"
+      ],
       "type":"array",
       "items": {
         "type": "number",
@@ -49,6 +52,9 @@
     },
     "encounter_obgyn": {
       "description": "Dates of ObGyn encounters",
+      "standard_categories": [
+         "encounter"
+      ],
       "type":"array",
       "items": {
         "type": "number",
@@ -64,6 +70,9 @@
     },
     "pap_test": {
       "description": "Dates of PAP tests",
+      "standard_categories": [
+         "encounter", "laboratory_test"
+      ],
       "type":"array",
       "items": {
         "type": "number",
@@ -104,6 +113,9 @@
     },
     "hysterectomy": {
       "description": "Date of hysterectomy",
+      "standard_categories": [
+         "procedure"
+      ],
       "type":"number",
       "format": "utc-sec",
       "codes": [
