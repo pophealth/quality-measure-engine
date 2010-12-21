@@ -90,7 +90,8 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes": 
+      [
         {
           "set": "RxNorm",
           "version": "07/2009",
@@ -447,7 +448,8 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes": 
+      [
         {
           "set": "RxNorm",
           "version": "07/2009",
@@ -457,7 +459,8 @@
         }
       ]
     },
-    "diagnosis_of_asymptomatic_hiv": {
+    "diagnosis_of_asymptomatic_hiv": 
+    {
       "description": "Asymptomatic HIV",
       "standard_concept_id": "N_c490",
       "standard_categories": ["diagnosis_active"],
@@ -493,7 +496,8 @@
         }
       ]
     },
-    "diagnosis_of_cancer_of_lymphoreticular_or_histiocytic_tissue": {
+    "diagnosis_of_cancer_of_lymphoreticular_or_histiocytic_tissue": 
+    {
       "description": "Cancer of Lymphoreticular or Histiocytic Tissue",
       "standard_concept_id": "N_c491",
       "standard_categories": ["diagnosis_inactive"],
@@ -570,7 +574,8 @@
         }
       ]
     },
-    "diagnosis_of_encephalopathy": {
+    "diagnosis_of_encephalopathy": 
+    {
       "description": "Encephalopathy",
       "standard_concept_id": "N_c492",
       "standard_categories": ["diagnosis_active"],
@@ -639,10 +644,10 @@
           "version": "06/2009",
           "standard_concept": "encounter_outpatient",
           "standard_concept_id": "N_c27",
-          "values": ["99201", "99202", "99203", "99204", "99205", "99211", "99212", "99213", "99214", "99215", "99217", "99218", 
-                     "99219", "99220", "99241", "99242", "99243", "99244", "99245", "99341", "99342", "99343", "99344", "99345", 
-                     "99347", "99348", "99349", "99350", "99384", "99385", "99386", "99387", "99394", "99395", "99396", "99397", 
-                     "99401", "99402", "99403", "99404", "99411", "99412", "99420", "99429", "99455", "99456"]
+          "values": ["99201", "99202", "99203", "99204", "99205", "99211", "99212", "99213", "99214", "99215", "99217", "99218", "99219", 
+                     "99220", "99241", "99242", "99243", "99244", "99245", "99341", "99342", "99343", "99344", "99345", "99347", "99348", 
+                     "99349", "99350", "99384", "99385", "99386", "99387", "99394", "99395", "99396", "99397", "99401", "99402", "99403", 
+                     "99404", "99411", "99412", "99420", "99429", "99455", "99456"]
         },
         {
           "set": "ICD-9-CM",
@@ -686,8 +691,8 @@
           "version": "Jul-09",
           "standard_concept": "hepatitis_a_diagnosis",
           "standard_concept_id": "N_c561",
-          "values": ["111879004", "16060001", "186621007", "18917003", "206373002", "25102003", "40468003", "424758008", 
-                     "43634002", "79031007"]
+          "values": ["111879004", "16060001", "186621007", "18917003", "206373002", "25102003", "40468003", "424758008", "43634002", 
+                     "79031007"]
         }
       ]
     },
@@ -804,7 +809,8 @@
         }
       ]
     },
-    "measles": {
+    "measles": 
+    {
       "description": "Measles",
       "standard_concept_id": "N_c508",
       "standard_categories": ["diagnosis_active"],
@@ -939,13 +945,33 @@
       ]
     }
   },
-  "population": {
-
+  "population": 
+  {
+     "and": 
+      [
+        {
+          "or": 
+          [
+            {
+              "category": "Patient Characteristic",
+              "title": "Gender Male"
+            },
+            {
+              "category": "Patient Characteristic",
+              "title": "Gender Male"
+            }
+          ]
+        },
+        {
+          "category": "Patient Characteristic",
+          "title": "Age between 1 and 2"
+        }
+      ]
   },
-  "denominator": {
-
+  "denominator": 
+  {
+    "category": "Encounter",
+    "title": "Outpatient with PCP and OBGYN"
   },
-  "exclusions": {
-
-  }
+  "exclusions": {}
 }

@@ -14,11 +14,11 @@ function () {
   }
 
   var denominator = function() {
-    return false;
+    return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
   var numerator = function() {
-    return has_outpatient_encounter_with_pcp_obgyn(measure, earliest_diagnosis, effective_date);
+    return false;
   }
 
   var exclusion = function() {
