@@ -1,8 +1,8 @@
 {
-  "first": "Suzanne",                              // personal data
+  "first": "Suzanne",
   "last": "Smith",
-  "birthdate": -290390400,                      // Time.gm(1960, 10, 19).to_i
-  "measures": {                                 // bag of measures, one entry per measure
+  "birthdate": -290390400,                              // Time.gm(1960, 10, 19).to_i
+  "measures": {
     "0055": {
       "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
       "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
@@ -24,18 +24,18 @@
       ]
     },
     "0061": {
-      "medication_insulin": 1277856000,         // Time.gm(2010, 6, 30).to_i
+      "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
       "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
-      "encounter_outpatient": [1275177600, 1277856000],   // Time.gm(2010, 5, 30).to_i and Time.gm(2010, 6, 30).to_i
+      "encounter_outpatient": [1275177600, 1277856000], // Time.gm(2010, 5, 30).to_i and Time.gm(2010, 6, 30).to_i
       "systolic_blood_pressure": [
         {
-          "date": 1277856000,        // Time.gm(2010, 6, 30).to_i
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
           "value": 145
         }
       ],
       "diastolic_blood_pressure": [
         {
-          "date": 1277856000,        // Time.gm(2010, 6, 30).to_i
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
           "value": 85
         }
       ]
@@ -44,6 +44,27 @@
       "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
       "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
       "nephropathy_screening": 1277856000               // Time.gm(2010, 6, 30).to_i
+    },
+    "0064": {
+      "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "ldl_test_dates": [1277856000],                   // Time.gm(2010, 6, 30).to_i
+      "ldl_test_results": [
+        {
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
+          "value": 90
+        }
+      ]
+    },
+    "0575": { // note that this doesn't make medical sense since it contradicts 0059
+      "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "hba1c_test": [
+        {
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
+          "value": 7.9
+        }
+      ]
     }
   }
 }
