@@ -1,4 +1,8 @@
 describe QME::Importer::PatientImporter do
+  before do
+    @loader = load_measures
+  end
+  
   it "should import demographic information" do
     doc = Nokogiri::XML(File.new('fixtures/c32_fragments/demographics.xml'))
     patient = {}
@@ -14,6 +18,9 @@ describe QME::Importer::PatientImporter do
   it 'should import a whole patient' do
     doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0032/numerator.xml'))
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+    
+    QME::Importer::PatientImporter.instance.initialize_measures(@loader.get_db)
+    
     patient = QME::Importer::PatientImporter.instance.parse_c32(doc)
     
     patient['first'].should == 'FirstName'

@@ -20,12 +20,12 @@ module QME
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/
       #cda:act/cda:entryRelationship/cda:observation
       class DiabetesEyeExam < MeasureBase
-      
+        measure :id => '0055'
+
         def parse(doc)
           measure_info = {}
-      
-          encounter_elements = doc.xpath("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
-          encounter_elements.each do |encounter_element|
+
+          encounter_elements(doc) do |encounter_element|
             create_property_from_code(encounter_element, "./cda:code", 'encounter_acute_inpatient',                     measure_info)
             create_property_from_code(encounter_element, "./cda:code", 'encounter_non_acute_inpatient',                 measure_info)
             create_property_from_code(encounter_element, "./cda:code", 'encounter_outpatient',                          measure_info)
