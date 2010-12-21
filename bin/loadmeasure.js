@@ -14,7 +14,7 @@ load("js/diabetes-utils.js");
 var rawMeasure = readFile(arguments[0]);
 
 // Evaluate it with an effective_date
-var populatedMeasure = _.template(rawMeasure, {"effective_date": 1284854400});
+var populatedMeasure = _.template(rawMeasure, {"effective_date": 1284854400}); // September 19th, 2010
 eval("var map_fn = " + populatedMeasure);
 
 // Grab a patient record

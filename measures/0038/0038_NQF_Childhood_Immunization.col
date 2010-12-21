@@ -1,0 +1,21 @@
+{
+  "root": "root.json",
+  "combinations": [
+    {
+      "metadata": {
+        "sub_id": "a",
+        "subtitle": "DTaP vaccine",
+        "numerator": {}
+      },
+      "map_fn": "dtap_vaccine_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "b",
+        "subtitle": "Medication administered: IPV",
+        "numerator": {}
+      },
+      "map_fn": "medication_administered_ipv_map.js"
+    }
+  ]
+}

@@ -606,7 +606,7 @@
         }
       ]
     },
-    "outpatient/outpatient_with_pcp_and_obgyn__encounter": 
+    "outpatient_with_pcp_and_obgyn_encounter": 
     {
       "description": "Encounter Outpatient with PCP and OBGNY",
       "standard_concept_id": "N_c442",
@@ -943,9 +943,6 @@
 
   },
   "denominator": {
-
-  },
-  "numerator": {
 
   },
   "exclusions": {

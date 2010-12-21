@@ -6,7 +6,6 @@ gem 'rake'
 gem 'nokogiri'
 
 group :test do
-  gem 'Saikuro'
   gem 'rspec'
   gem 'jsonschema'
   gem 'awesome_print', :require => 'ap'

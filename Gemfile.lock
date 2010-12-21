@@ -100,7 +100,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  Saikuro
   awesome_print
   bluecloth
   bson_ext
