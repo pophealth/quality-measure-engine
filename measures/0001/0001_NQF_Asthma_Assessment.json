@@ -15,7 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "critical": true,
-      "type":"number",
+      "type": "number",
       "format": "utc-sec",
       "codes": [
         {

@@ -22,6 +22,14 @@
     "0062": {
       "diagnosis_diabetes": 1277856000,         // Time.gm(2010, 6, 30).to_i
       "encounter_acute_inpatient": 1277856000   // Time.gm(2010, 6, 30).to_i
+    },
+    "0064": {
+      "diagnosis_diabetes": 1277856000,         // Time.gm(2010, 6, 30).to_i
+      "encounter_acute_inpatient": 1277856000   // Time.gm(2010, 6, 30).to_i
+    },
+    "0575": {
+      "diagnosis_diabetes": 1277856000,         // Time.gm(2010, 6, 30).to_i
+      "encounter_acute_inpatient": 1277856000   // Time.gm(2010, 6, 30).to_i
     }
   }
 }

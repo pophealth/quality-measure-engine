@@ -22,6 +22,14 @@
     "0062": {
       "medication_alpha_glucosidas_inhibitors": 1277856000, // Time.gm(2010, 6, 30).to_i
       "medications_indicative_of_diabetes": 1277856000      // Time.gm(2010, 6, 30).to_i
+    },
+    "0064": {
+      "medication_alpha_glucosidas_inhibitors": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000      // Time.gm(2010, 6, 30).to_i
+    },
+    "0575": {
+      "medication_alpha_glucosidas_inhibitors": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000      // Time.gm(2010, 6, 30).to_i
     }
   }
 }
