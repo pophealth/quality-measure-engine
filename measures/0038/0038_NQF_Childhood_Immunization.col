@@ -4,36 +4,36 @@
   [
     {
       "metadata": 
-	  {
+      {
         "sub_id": "a",
         "subtitle": "DTaP vaccine",
         "numerator": 
-		{
+        {
           "and": 
-		  [
+          [
             {
               "category": "Medication Administered",
               "title": ">= 4 Counts tetanus and acellular pertussis (DTaP) from 42 days old - 2 years"
             },
-			{
-			  "or": 
-			  [
+            {
+              "or": 
+              [
                 {
-              	  "category": "No Medication allergy",
-              	  "title": "DTaP vaccine”
+                  "category": "Allergy",
+                  "title": "No DTaP Vaccine Allergy"
                 },
                 {
-              	  "category": "No Diagnosis",
-              	  "title": "Active Encephalopathy"
+                  "category": "Diagnosis",
+                  "title": "No Active Encephalopathy"
                 },
                 {
-                  "category": "No Diagnosis",
-              	  "title": "Active Progressive Neurological Disorder"
+                  "category": "Diagnosis",
+                  "title": "No Active Progressive Neurological Disorder"
                 }
-			  ]
-	        }
+              ]
+            }
           ]
-		}
+        }
       },
       "map_fn": "dtap_vaccine_map.js"
     },
@@ -42,36 +42,36 @@
         "sub_id": "b",
         "subtitle": "Medication administered: IPV",
         "numerator": 
-		{
+        {
           "and": 
-		  [
+          [
             {
               "category": "Medication Administered",
               "title": ">= 3 Counts Polio (IPV) from 42 days old - 2 years"
             },
-			{
-			  "or": 
-			  [
+            {
+              "or": 
+              [
                 {
-              	  "category": "No Medication allergy",
-              	  "title": "IPV Vaccine”
+                  "category": "Allergy",
+                  "title": "No IPV Vaccine Allergy"
                 },
                 {
-              	  "category": "No Medication allergy",
-              	  "title": "Neomycin”;”
+                  "category": "Allergy",
+                  "title": "No Neomycin Allergy"
                 },
                 {
-              	  "category": "No Medication allergy",
-              	  "title": "Streptomycin”
+                  "category": "Allergy",
+                  "title": "No Streptomycin Allergy"
                 },
                 {
-              	  "category": "No Medication allergy",
-              	  "title": "Polymyxin”
+                  "category": "Allergy",
+                  "title": "No Polymyxin Allergy"
                 }
-			  ]
-	        }
+              ]
+            }
           ]
-		}
+        }
       },
       "map_fn": "medication_administered_ipv_map.js"
     }
