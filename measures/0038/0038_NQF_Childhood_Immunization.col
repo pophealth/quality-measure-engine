@@ -73,7 +73,7 @@
           ]
         }
       },
-      "map_fn": "medication_administered_ipv_map.js"
+      "map_fn": "ipv_map.js"
     }
   ]
 }
