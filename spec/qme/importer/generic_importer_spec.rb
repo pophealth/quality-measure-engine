@@ -68,4 +68,18 @@ describe QME::Importer::GenericImporter do
     
     measure_info['proceedure_eye_exam'].should include(1275177600)
   end
+
+  it "should import the information relevant to determining hypertension blood pressure measurement" do
+    doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0013/numerator.xml'))
+    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+    patient = {}
+
+    gi = QME::Importer::GenericImporter.new(measure_definition(@loader, '0013'))
+    measure_info = gi.parse(doc)
+
+    measure_info['encounter_outpatient'].should include(1270598400)
+    measure_info['hypertension'].should include(1262304000)
+    measure_info['diastolic_blood_pressure'].should include(942537600)
+    measure_info['systolic_blood_pressure'].should include(942537600)
+  end
 end
