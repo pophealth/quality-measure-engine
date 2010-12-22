@@ -183,7 +183,7 @@
     },
     "hib": 
     {
-      "description": "HIB",
+      "description": "H influenza type B",
       "standard_concept_id": "N_c409",
       "standard_categories": ["medication_administered"],
       "category_type": "medication",
@@ -274,7 +274,7 @@
     },
     "mmr_vaccine": 
     {
-      "description": "MMR Vaccine",
+      "description": "Measles, Mumps and Rubella Vaccine",
       "standard_concept_id": "N_c408",
       "standard_categories": ["medication_administered"],
       "category_type": "medication",
@@ -959,7 +959,7 @@
             },
             {
               "category": "Patient Characteristic",
-              "title": "Gender Male"
+              "title": "Gender Female"
             }
           ]
         },
