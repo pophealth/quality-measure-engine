@@ -32,6 +32,9 @@
     "measure": {
         "diastolic_blood_pressure": {
             "description": "DBP",
+            "standard_categories": [
+               "physical_exam"
+            ],
             "category_type": "physical_exam_finding",
             "type": "array",
             "items": {
@@ -58,6 +61,9 @@
         },
         "encounter_outpatient": {
             "description": "encounter outpatient",
+            "standard_categories": [
+               "encounter"
+            ],
             "category_type": "encounter",
             "type": "array",
             "items": {
@@ -133,6 +139,9 @@
         },
         "esrd": {
             "description": "ESRD Diagnosis",
+            "standard_categories": [
+               "diagnosis_condition_problem"
+            ],
             "category_type": "condition",
             "type": "array",
             "items": {
@@ -202,6 +211,9 @@
         },
         "hypertension": {
             "description": "Hypertension Diagnosis",
+            "standard_categories": [
+               "diagnosis_condition_problem"
+            ],
             "category_type": "diagnosis_active",
             "type": "array",
             "items": {
@@ -314,6 +326,9 @@
         },
         "pregnancy": {
             "description": "Pregnancy Diagnosis",
+            "standard_categories": [
+               "diagnosis_condition_problem"
+            ],
             "category_type": "diagnosis_active",
             "type": "array",
             "items": {
@@ -1883,6 +1898,9 @@
         },
         "procedures_indicative_of_esrd": {
             "description": "ESRD Procedure",
+            "standard_categories": [
+               "procedure"
+            ],
             "category_type": "procedure_performed",
             "type": "array",
             "items": {
@@ -1970,6 +1988,9 @@
         },
         "systolic_blood_pressure": {
             "description": "SBP",
+            "standard_categories": [
+               "physical_exam"
+            ],
             "category_type": "physical_exam_finding",
             "type": "array",
             "items": {
