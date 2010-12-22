@@ -26,13 +26,15 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @param [Hash] property_description The description of a measure property pulled from the JSON
       #        measure definition
+      # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
+      #        Defaults to "./cda:code"
       # @return [Array] Provides an Array of dates for entries that have codes inside of the measure code set
       #         Dates will be represented as an Integer in seconds since the epoch
-      def extract_date_list_based_on_section(xpath, doc, property_description)
+      def extract_date_list_based_on_section(xpath, doc, property_description, code_xpath="./cda:code")
         entry_list = []
         entry_elements = doc.xpath(xpath)
         entry_elements.each do |entry_element|
-          date = extract_date_by_code(entry_element, "./cda:code", property_description['codes'])
+          date = extract_date_by_code(entry_element, code_xpath, property_description['codes'])
           entry_list << date if date
         end
         

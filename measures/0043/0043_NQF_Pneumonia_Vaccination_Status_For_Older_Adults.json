@@ -30,6 +30,9 @@
   "measure": {
     "encounter": {
       "description": "Date of encounter",
+      "standard_categories": [
+         "encounter"
+      ],
       "category_type": "encounter",
       "type": "array",
       "items": {
@@ -51,6 +54,9 @@
     },
     "vaccination": {
       "description": "Pneumococcal vaccination",
+      "standard_categories": [
+         "medication"
+      ],
       "category_type": "medication_administered",
       "type": "array",
       "items": {
