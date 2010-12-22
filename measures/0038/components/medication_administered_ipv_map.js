@@ -27,7 +27,28 @@ function () {
   }
 
   var numerator = function() {
-    return false;
+    number_ipv_vaccine_administered = inRange(measure.ipv, 
+                                              earliest_dtap_vaccine, 
+                                              latest_dtap_vaccine);
+
+    // patient needs 3 different polio (IPV) vaccines from the time that they are 42 days old, 
+    // until the time that they are 2 years old
+    return ((number_ipv_vaccine_administered >= 3) && 
+            // The patient cannot have either:
+            // IPV vaccine allergy 
+            // OR neomycin allergy
+            // OR streptomycin allergy
+            // OR polymyxin allergy
+            //
+            // NOTE that this might belong in the exclusion logic
+            // and will be discussed with NCQA in the future
+            !((inRange(measure.ipv_vaccine_allergy,  patient.birthdate, effective_date))
+              ||
+              (inRange(measure.neomycin_allergy,     patient.birthdate, effective_date))
+              ||
+              (inRange(measure.streptomycin_allergy, patient.birthdate, effective_date))
+              ||
+              (inRange(measure.polymyxin_allergy,    patient.birthdate, effective_date))));
   }
 
   // no exclusions defined for any reports that are a part of NQF 0038
