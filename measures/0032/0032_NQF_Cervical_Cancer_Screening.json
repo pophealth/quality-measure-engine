@@ -116,8 +116,11 @@
       "standard_categories": [
          "procedure"
       ],
-      "type":"number",
-      "format": "utc-sec",
+      "type":"array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes": [
         {
           "set": "CPT",
