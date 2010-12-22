@@ -40,6 +40,18 @@ module QME
         
         false
       end
+      
+      def self.is_in_codes?(code_system_oid, code, code_lists)
+        code_system_name = code_system_for(code_system_oid)
+        codes_for_system = code_lists.find {|cs| cs['set'] == code_system_name}
+        if codes_for_system
+          if codes_for_system['values'].include?(code)
+            return true
+          end
+        end
+        
+        false
+      end
     end
   end
 end
