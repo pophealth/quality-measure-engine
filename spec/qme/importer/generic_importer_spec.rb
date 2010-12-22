@@ -45,4 +45,27 @@ describe QME::Importer::GenericImporter do
     measure_info['esrd'].should be_empty
     
   end
+  
+  it "should import the the information relevant to determining diabetic eye exam measure status" do
+    doc = Nokogiri::XML(File.new('fixtures/c32_fragments/diabetes/numerator.xml'))
+    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+    patient = {}
+
+    gi = QME::Importer::GenericImporter.new(measure_definition(@loader, '0055'))
+    measure_info = gi.parse(doc)
+
+    measure_info['encounter_acute_inpatient'].should include(1275177600)
+    measure_info['encounter_non_acute_inpatient'].should include(1275177600)
+    measure_info['encounter_outpatient'].should include(1275177600)
+    measure_info['encounter_outpatient_opthamological_services'].should include(1275177600)
+    
+    measure_info['medications_indicative_of_diabetes'].should include(1275177600)
+
+    measure_info['diagnosis_diabetes'].should include(1275177600)
+    measure_info['diagnosis_gestational_diabetes'].should include(1275177600)
+    measure_info['diagnosis_steroid_induced_diabetes'].should include(1275177600)
+    measure_info['polycystic_ovaries'].should include(1275177600)
+    
+    measure_info['proceedure_eye_exam'].should include(1275177600)
+  end
 end
