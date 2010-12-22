@@ -24,7 +24,9 @@ module QME
           when 'encounter'; memo << QME::Importer::Section::EncounterImporter
           when 'procedure'; memo << QME::Importer::Section::ProcedureImporter
           when 'laboratory_test'; memo << QME::Importer::Section::ResultImporter
+          when 'physical_exam'; memo << QME::Importer::Section::VitalSignImporter
           when 'medication'; memo << QME::Importer::Section::MedicationImporter
+          when 'diagnosis_condition_problem'; memo << QME::Importer::Section::ConditionImporter
           end
         end
       end

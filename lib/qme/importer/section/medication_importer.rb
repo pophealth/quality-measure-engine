@@ -1,7 +1,7 @@
 module QME
   module Importer
     module Section
-      # This module is used to import data from the Encounter section of a HITSP C32 document
+      # This module is used to import data from the Medication section of a HITSP C32 document
       module MedicationImporter
         extend SectionBase
         
