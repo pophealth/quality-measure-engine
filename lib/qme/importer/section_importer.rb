@@ -1,7 +1,27 @@
 module QME
   module Importer
-    module SectionBase
+    # Class that can be used to create an importer for a section of a HITSP C32 document. It usually
+    # operates by selecting all CDA entries in a section and then checking to see if they match
+    # a supplied code list
+    class SectionImporter
 
+      # Creates a new SectionImporter
+      # @param [String] entry_xpath An XPath expression that can be used to find the desired entries
+      # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
+      #        Defaults to "./cda:code"
+      def initialize(entry_xpath, code_xpath="./cda:code")
+        @entry_xpath = entry_xpath
+        @code_xpath = code_xpath
+      end
+
+      def extract(doc, property_description)
+        if is_date_list_property?(property_description)
+          extract_date_list_based_on_section(doc, property_description)
+        elsif is_value_date_property?(property_description)
+          extract_value_date_list_based_on_section(doc, property_description)
+        end
+      end
+      
       # Extracts the dates of any CDA entries that meet the code set defined for measure property.
       #
       # @param [String] xpath An XPath expression that can be used to find the desired entries
@@ -9,29 +29,24 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @param [Hash] property_description The description of a measure property pulled from the JSON
       #        measure definition
-      # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
-      #        Defaults to "./cda:code"
       # @return [Array] Provides an Array of dates for entries that have codes inside of the measure code set
       #         Dates will be represented as an Integer in seconds since the epoch
-      def extract_date_list_based_on_section(xpath, doc, property_description, code_xpath="./cda:code")
-        basic_extractor(xpath, doc, property_description, code_xpath) do |entry_element, entry_list, date|
+      def extract_date_list_based_on_section(doc, property_description)
+        basic_extractor(doc, property_description) do |entry_element, entry_list, date|
           entry_list << date if date
         end
       end
       
       # Extracts the dates and values of any CDA entries that meet the code set defined for measure property.
       #
-      # @param [String] xpath An XPath expression that can be used to find the desired entries
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @param [Hash] property_description The description of a measure property pulled from the JSON
       #        measure definition
-      # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
-      #        Defaults to "./cda:code"
       # @return [Array] Provides an Array of Hashes for entries that have codes inside of the measure code set
       #         Hashes will have a "value" and "date" property containing the respective data
-      def extract_value_date_list_based_on_section(xpath, doc, property_description, code_xpath="./cda:code")
-        basic_extractor(xpath, doc, property_description, code_xpath) do |entry_element, entry_list, date|
+      def extract_value_date_list_based_on_section(doc, property_description)
+        basic_extractor(doc, property_description) do |entry_element, entry_list, date|
           if date
             value = entry_element.at_xpath('cda:value')['value']
             entry_list << {'date' => date, 'value' => value}
@@ -59,21 +74,21 @@ module QME
       
       private
       
-      def basic_extractor(xpath, doc, property_description, code_xpath)
+      def basic_extractor(doc, property_description)
         entry_list = []
-        entry_elements = doc.xpath(xpath)
+        entry_elements = doc.xpath(@entry_xpath)
         entry_elements.each do |entry_element|
-          date = extract_date_by_code(entry_element, code_xpath, property_description['codes'])
+          date = extract_date_by_code(entry_element, property_description['codes'])
           yield entry_element, entry_list, date
         end
         
         entry_list
       end
       
-      def extract_date_by_code(parent_element, xpath_expression, code_list)
+      def extract_date_by_code(parent_element, code_list)
         date = nil
 
-        code_elements = parent_element.xpath(xpath_expression)
+        code_elements = parent_element.xpath(@code_xpath)
         code_elements.each do |code_element|
           if CodeSystemHelper.is_in_codes?(code_element['codeSystem'], code_element['code'], code_list)
             if parent_element.at_xpath('cda:effectiveTime')['value']
