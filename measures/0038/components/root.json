@@ -206,11 +206,34 @@
         }
       ]
     },
-    "hib": 
+    "h_influenza_type_b_vaccine_administered": 
     {
-      "description": "H influenza type B",
+      "description": "H influenza type B (HiB) Administered",
       "standard_concept_id": "N_c409",
       "standard_categories": ["medication_administered"],
+      "category_type": "medication",
+      "type": "array",
+      "items": 
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": 
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "hib",
+          "standard_concept_id": "N_c409",
+          "values": ["260123", "798282", "798348", "798440", "798447", "860904"]
+        }
+      ]
+    },
+    "h_influenza_type_b_vaccine_allergy": 
+    {
+      "description": "H influenza type B (HiB) Allergy",
+      "standard_concept_id": "N_c409",
+      "standard_categories": ["medication_allergy"],
       "category_type": "medication",
       "type": "array",
       "items": 
@@ -274,7 +297,7 @@
         }
       ]
     },
-    "measles_vaccine": 
+    "measles_vaccine_administered": 
     {
       "description": "Measles Vaccine",
       "standard_concept_id": "N_c317",
@@ -297,7 +320,7 @@
         }
       ]
     },
-    "mmr_vaccine": 
+    "mmr_vaccine_administered": 
     {
       "description": "Measles, Mumps and Rubella Vaccine",
       "standard_concept_id": "N_c408",
@@ -320,7 +343,7 @@
         }
       ]
     },
-    "mumps_vaccine": 
+    "mumps_vaccine_administered": 
     {
       "description": "Mumps Vaccine",
       "standard_concept_id": "N_c530",
@@ -368,7 +391,7 @@
         }
       ]
     },
-    "pneumococcal_vaccination": 
+    "pneumococcal_vaccination_administered": 
     {
       "description": "Pneumococcal Vaccination",
       "standard_concept_id": "N_c421",

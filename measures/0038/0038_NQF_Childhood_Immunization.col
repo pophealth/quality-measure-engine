@@ -6,7 +6,7 @@
       "metadata": 
       {
         "sub_id": "a",
-        "subtitle": "DTaP vaccine",
+        "subtitle": "Tetanus and Acellular Pertussis (DTAP) Vaccine",
         "numerator": 
         {
           "and": 
@@ -35,12 +35,12 @@
           ]
         }
       },
-      "map_fn": "dtap_vaccine_map.js"
+      "map_fn": "dtap_map.js"
     },
     {
       "metadata": {
         "sub_id": "b",
-        "subtitle": "Medication administered: IPV",
+        "subtitle": "Polio (IPV) vaccine",
         "numerator": 
         {
           "and": 
@@ -74,6 +74,32 @@
         }
       },
       "map_fn": "ipv_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "d",
+        "subtitle": "H influenza type B (HiB)",
+        "numerator": 
+        {
+          "and": 
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 2 Counts H influenza type B (HiB) from 42 days old - 2 years"
+            },
+            {
+              "and": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No HiB Vaccine Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "hib_map.js"
     }
   ]
 }
