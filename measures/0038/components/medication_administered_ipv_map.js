@@ -31,8 +31,8 @@ function () {
                                               earliest_dtap_vaccine, 
                                               latest_dtap_vaccine);
 
-    // patient needs 4 different Tetanus and Acellular Pertussis (DTAP) vaccines
-    // from the time that they are 42 days old, until the time that they are 2 years old
+    // patient needs 3 different polio (IPV) vaccines from the time that they are 42 days old, 
+    // until the time that they are 2 years old
     return ((number_ipv_vaccine_administered >= 3) && 
             // The patient cannot have either:
             // IPV vaccine allergy 
