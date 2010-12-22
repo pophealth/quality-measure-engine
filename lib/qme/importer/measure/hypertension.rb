@@ -9,7 +9,7 @@ module QME
       #cda:act/cda:entryRelationship/cda:observation
       #
       # Finding encounter elements in the Encounters section. This is used to find both outpatient and
-      # Nursing Facility encounters
+      # nursing facility encounters
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter
       #
       # For finding vital sign observations(used to find systolic and diastolic blood pressure)

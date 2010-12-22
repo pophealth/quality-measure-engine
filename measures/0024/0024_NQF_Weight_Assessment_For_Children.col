@@ -1,0 +1,86 @@
+{
+  "root": "root.json",
+  "combinations": [
+    {
+      "metadata": {
+        "sub_id": "a",
+        "subtitle": "Age 2 to 16 with BMI measurement"
+      },
+      "map_fn": "age_2_16_bmi.js",
+      "population": "age_2_16.json",
+      "numerator": "bmi_percentile.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "b",
+        "subtitle": "Age 2 to 16 with nutrition counseling"
+      },
+      "map_fn": "age_2_16_nutrition.js",
+      "population": "age_2_16.json",
+      "numerator": "nutrition.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "c",
+        "subtitle": "Age 2 to 16 with physical activity counseling"
+      },
+      "map_fn": "age_2_16_activity.js",
+      "population": "age_2_16.json",
+      "numerator": "activity.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "d",
+        "subtitle": "Age 2 to 10 with BMI measurement"
+      },
+      "map_fn": "age_2_10_bmi.js",
+      "population": "age_2_10.json",
+      "numerator": "bmi_percentile.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "e",
+        "subtitle": "Age 2 to 10 with nutrition counseling"
+      },
+      "map_fn": "age_2_10_nutrition.js",
+      "population": "age_2_10.json",
+      "numerator": "nutrition.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "f",
+        "subtitle": "Age 2 to 10 with physical activity counseling"
+      },
+      "map_fn": "age_2_10_activity.js",
+      "population": "age_2_10.json",
+      "numerator": "activity.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "g",
+        "subtitle": "Age 11 to 16 with BMI measurement"
+      },
+      "map_fn": "age_11_16_bmi.js",
+      "population": "age_11_16.json",
+      "numerator": "bmi_percentile.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "h",
+        "subtitle": "Age 11 to 16 with nutrition counseling"
+      },
+      "map_fn": "age_11_16_nutrition.js",
+      "population": "age_11_16.json",
+      "numerator": "nutrition.json"
+    },
+    {
+      "metadata": {
+        "sub_id": "i",
+        "subtitle": "Age 11 to 16 with physical activity counseling"
+      },
+      "map_fn": "age_11_16_activity.js",
+      "population": "age_11_16.json",
+      "numerator": "activity.json"
+    }
+  ]
+}

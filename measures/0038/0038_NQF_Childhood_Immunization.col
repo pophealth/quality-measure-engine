@@ -1,0 +1,79 @@
+{
+  "root": "root.json",
+  "combinations": 
+  [
+    {
+      "metadata": 
+      {
+        "sub_id": "a",
+        "subtitle": "DTaP vaccine",
+        "numerator": 
+        {
+          "and": 
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 4 Counts tetanus and acellular pertussis (DTaP) from 42 days old - 2 years"
+            },
+            {
+              "or": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No DTaP Vaccine Allergy"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Active Encephalopathy"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Active Progressive Neurological Disorder"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "dtap_vaccine_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "b",
+        "subtitle": "Medication administered: IPV",
+        "numerator": 
+        {
+          "and": 
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 3 Counts Polio (IPV) from 42 days old - 2 years"
+            },
+            {
+              "or": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No IPV Vaccine Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Neomycin Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Streptomycin Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Polymyxin Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "medication_administered_ipv_map.js"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "first": "Boris",        // personal data
+  "last": "Thompson",
+  "birthdate": 936144000,     // Time.gm(1999, 9, 1).to_i
+  "measures": {               // bag of measures, one entry per measure
+    "0024": {
+      "patient_encounter": 1277856000,
+      "bmi_percentile_measurement": 1277856000,
+      "counseling_for_nutrition": 1277856000,
+      "counseling_for_physical_activity": 1277856000
+    }
+  }
+}
