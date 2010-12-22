@@ -27,7 +27,7 @@ function () {
   }
 
   var numerator = function() {
-    number_ipv_vaccine_administered = inRange(measure.ipv, 
+    number_ipv_vaccine_administered = inRange(measure.ipv_vaccine_administered, 
                                               earliest_dtap_vaccine, 
                                               latest_dtap_vaccine);
 

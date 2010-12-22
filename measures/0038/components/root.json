@@ -82,7 +82,7 @@
     {
       "description": "Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
       "standard_concept_id": "N_c406",
-      "standard_categories": ["medication_administered", "medication_allergy"],
+      "standard_categories": ["medication_administered"],
       "category_type": "medication",
       "type": "array",
       "items": 
@@ -103,9 +103,34 @@
         }
       ]
     },
-    "streptomycin": 
+    "dtap_vaccine_allergy": 
     {
-      "description": "Streptomycin",
+      "description": "Allergy to Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
+      "standard_concept_id": "N_c406",
+      "standard_categories": ["medication_allergy"],
+      "category_type": "medication",
+      "type": "array",
+      "items": 
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": 
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "dtap_vaccine",
+          "standard_concept_id": "N_c406",
+          "values": ["204525", "205257", "205259", "260122", "359454", "562372", "795926", "795930", "795938", "795939", "795942", 
+                     "798309", "798347", "802049", "805375", "805379", "806587", "806593", "807277", "807415", "824542", "829894", 
+                     "829971", "829987", "830518", "830549", "830555", "830893", "835879"]
+        }
+      ]
+    },
+    "streptomycin_allergy": 
+    {
+      "description": "Streptomycin Allergy",
       "standard_concept_id": "N_c513",
       "standard_categories": ["medication_allergy"],
       "category_type": "medication",
@@ -158,7 +183,7 @@
         }
       ]
     },
-    "hepatitis_b_vaccine": 
+    "hepatitis_b_vaccine_allergy": 
     {
       "description": "Hepatitis B Vaccine",
       "standard_concept_id": "N_c418",
@@ -181,9 +206,9 @@
         }
       ]
     },
-    "hib": 
+    "h_influenza_type_b_vaccine_administered": 
     {
-      "description": "H influenza type B",
+      "description": "H influenza type B (HiB) Administered",
       "standard_concept_id": "N_c409",
       "standard_categories": ["medication_administered"],
       "category_type": "medication",
@@ -204,7 +229,30 @@
         }
       ]
     },
-    "influenza_vaccine": 
+    "h_influenza_type_b_vaccine_allergy": 
+    {
+      "description": "H influenza type B (HiB) Allergy",
+      "standard_concept_id": "N_c409",
+      "standard_categories": ["medication_allergy"],
+      "category_type": "medication",
+      "type": "array",
+      "items": 
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": 
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "hib",
+          "standard_concept_id": "N_c409",
+          "values": ["260123", "798282", "798348", "798440", "798447", "860904"]
+        }
+      ]
+    },
+    "influenza_vaccine_allergy": 
     {
       "description": "Influenzam Vaccine",
       "standard_concept_id": "N_c423",
@@ -226,7 +274,7 @@
         }
       ]
     },
-    "ipv": 
+    "ipv_vaccine_administered": 
     {
       "description": "Polio (IPV) Vaccine",
       "standard_concept_id": "N_c407",
@@ -249,7 +297,7 @@
         }
       ]
     },
-    "measles_vaccine": 
+    "measles_vaccine_administered": 
     {
       "description": "Measles Vaccine",
       "standard_concept_id": "N_c317",
@@ -272,7 +320,7 @@
         }
       ]
     },
-    "mmr_vaccine": 
+    "mmr_vaccine_administered": 
     {
       "description": "Measles, Mumps and Rubella Vaccine",
       "standard_concept_id": "N_c408",
@@ -295,7 +343,7 @@
         }
       ]
     },
-    "mumps_vaccine": 
+    "mumps_vaccine_administered": 
     {
       "description": "Mumps Vaccine",
       "standard_concept_id": "N_c530",
@@ -318,7 +366,7 @@
         }
       ]
     },
-    "neomycin": 
+    "neomycin_allergy": 
     {
       "description": "Neomycin",
       "standard_concept_id": "N_c510",
@@ -343,7 +391,7 @@
         }
       ]
     },
-    "pneumococcal_vaccination": 
+    "pneumococcal_vaccination_administered": 
     {
       "description": "Pneumococcal Vaccination",
       "standard_concept_id": "N_c421",
@@ -368,7 +416,7 @@
         }
       ]
     },
-    "polymyxin": 
+    "polymyxin_allergy": 
     {
       "description": "Polymyxin",
       "standard_concept_id": "N_c511",

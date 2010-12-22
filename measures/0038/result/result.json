@@ -3,17 +3,25 @@
     {
       "id": "0038",
       "sub_id": "a",
-      "initialPopulation": 5,
+      "initialPopulation": 12,
       "numerator": 1,
-      "denominator": 4,
+      "denominator": 11,
       "exclusions": 0
     },
     {
       "id": "0038",
       "sub_id": "b",
-      "initialPopulation": 5,
-      "numerator": 0,
-      "denominator": 4,
+      "initialPopulation": 12,
+      "numerator": 1,
+      "denominator": 11,
+      "exclusions": 0
+    },
+    {
+      "id": "0038",
+      "sub_id": "d",
+      "initialPopulation": 12,
+      "numerator": 1,
+      "denominator": 11,
       "exclusions": 0
     }
   ]
