@@ -18,7 +18,7 @@
     {
       "description": "Date of birth",
       "type": "number",
-      "category_type": "patient_characteristic",
+      "standard_category": "characteristic",
       "format": "utc-sec",
       "codes": 
       [
@@ -36,8 +36,7 @@
     {
       "description": "Baker's Yeast",
       "standard_concept_id": "N_c505",
-      "standard_categories": ["substance_allergy"],
-      "category_type": "substance",
+      "standard_category": "substance_allergy",
       "type": "array",
       "items": 
       {
@@ -55,35 +54,11 @@
         }
       ]
     },
-    "birthdate": 
-    {
-      "description": "Birthdate",
-      "standard_concept_id": "N_c8",
-      "standard_categories": ["patient_characteristic"],
-      "category_type": "individual_characteristic",
-      "type": "array",
-      "items": 
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes": 
-      [
-        {
-          "set": "HL7",
-          "version": "3.0",
-          "standard_concept": "birthdate",
-          "standard_concept_id": "N_c8",
-          "values": ["00110"]
-        }
-      ]
-    },
     "dtap_vaccine_administrered": 
     {
       "description": "Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
       "standard_concept_id": "N_c406",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -107,8 +82,7 @@
     {
       "description": "Allergy to Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
       "standard_concept_id": "N_c406",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": 
       {
@@ -132,8 +106,7 @@
     {
       "description": "Streptomycin Allergy",
       "standard_concept_id": "N_c513",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": 
       {
@@ -155,8 +128,7 @@
     {
       "description": "Hepatitis B Diagnosis",
       "standard_concept_id": "N_c532",
-      "standard_categories": ["diagnosis_resolved"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -187,8 +159,7 @@
     {
       "description": "Hepatitis B Vaccine",
       "standard_concept_id": "N_c418",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": 
       {
@@ -210,8 +181,7 @@
     {
       "description": "H influenza type B (HiB) Administered",
       "standard_concept_id": "N_c409",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -233,8 +203,7 @@
     {
       "description": "H influenza type B (HiB) Allergy",
       "standard_concept_id": "N_c409",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": 
       {
@@ -256,8 +225,7 @@
     {
       "description": "Influenzam Vaccine",
       "standard_concept_id": "N_c423",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": {
         "type": "number",
@@ -278,8 +246,7 @@
     {
       "description": "Polio (IPV) Vaccine",
       "standard_concept_id": "N_c407",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -301,8 +268,7 @@
     {
       "description": "Measles Vaccine",
       "standard_concept_id": "N_c317",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -324,8 +290,7 @@
     {
       "description": "Measles, Mumps and Rubella Vaccine",
       "standard_concept_id": "N_c408",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -347,8 +312,7 @@
     {
       "description": "Mumps Vaccine",
       "standard_concept_id": "N_c530",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -370,8 +334,7 @@
     {
       "description": "Neomycin",
       "standard_concept_id": "N_c510",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": 
       {
@@ -395,8 +358,7 @@
     {
       "description": "Pneumococcal Vaccination",
       "standard_concept_id": "N_c421",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -420,8 +382,7 @@
     {
       "description": "Polymyxin",
       "standard_concept_id": "N_c511",
-      "standard_categories": ["medication_allergy"],
-      "category_type": "medication",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": 
       {
@@ -443,8 +404,7 @@
     {
       "description": "Progressive Neurologic Disorder",
       "standard_concept_id": "N_c336",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -466,8 +426,7 @@
     {
       "description": "Rubella Vaccine",
       "standard_concept_id": "N_c346",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -489,8 +448,7 @@
     {
       "description": "VZV Vaccine",
       "standard_concept_id": "N_c420",
-      "standard_categories": ["medication_administered"],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -512,8 +470,7 @@
     {
       "description": "Asymptomatic HIV",
       "standard_concept_id": "N_c490",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -549,8 +506,7 @@
     {
       "description": "Cancer of Lymphoreticular or Histiocytic Tissue",
       "standard_concept_id": "N_c491",
-      "standard_categories": ["diagnosis_inactive"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -627,8 +583,7 @@
     {
       "description": "Encephalopathy",
       "standard_concept_id": "N_c492",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -664,8 +619,7 @@
     {
       "description": "Encounter Outpatient with PCP and OBGNY",
       "standard_concept_id": "N_c442",
-      "standard_categories": ["encounter"],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": 
       {
@@ -711,8 +665,7 @@
     {
       "description": "Hepatitis A Diagnosis",
       "standard_concept_id": "N_c531",
-      "standard_categories": ["diagnosis_resolved"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -749,8 +702,7 @@
     {
       "description": "Immunodeficiency",
       "standard_concept_id": "N_c493",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -812,8 +764,7 @@
     {
       "description": "Leukemia",
       "standard_concept_id": "N_c494",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -862,8 +813,7 @@
     {
       "description": "Measles",
       "standard_concept_id": "N_c508",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -899,8 +849,7 @@
     {
       "description": "Multiple Myeloma",
       "standard_concept_id": "N_c495",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -936,8 +885,7 @@
     {
       "description": "Mumps",
       "standard_concept_id": "N_c272",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -950,8 +898,7 @@
     {
       "description": "Rubella",
       "standard_concept_id": "N_c512",
-      "standard_categories": ["diagnosis_resolved"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {
@@ -964,8 +911,7 @@
     {
       "description": "VZV",
       "standard_concept_id": "N_c514",
-      "standard_categories": ["diagnosis_active"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": 
       {

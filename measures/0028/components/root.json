@@ -15,7 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "critical": true,
-      "category_type": "patient_characteristic",
+      "standard_category": "characteristic",
       "type": "number",
       "format": "utc-sec",
       "codes": [
@@ -30,10 +30,7 @@
   "measure": {  
     "behavior_encounter": {
       "description": "Health and Behavior Assessment Encounter",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -49,10 +46,7 @@
     },
     "occupational_therapy_encounter": {
       "description": "Occupational Therapy Encounter",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -68,10 +62,7 @@
     },
     "office_encounter": {
       "description": "Office Visit Encounter",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -87,10 +78,7 @@
     },
     "psychiatric_encounter": {
       "description": "Psychiatric and Psychologic Encounter",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -106,10 +94,7 @@
     },
     "adult_preventive_med_encounter": {
       "description": "Preventive medicine services 18 and older",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -125,10 +110,7 @@
     },
     "other_preventive_med_encounter": {
       "description": "Preventive medicine other services",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -144,10 +126,7 @@
     },
     "individual_counseling_encounter": {
       "description": "Preventive medicine individual counseling",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -163,10 +142,7 @@
     },
     "group_counseling_encounter": {
       "description": "Preventive medicine group counseling",
-      "standard_categories": [
-         "encounter"
-      ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -182,10 +158,7 @@
     },
     "tobacco_non_user": {
       "description": "Tobacco Non-User",
-      "standard_categories": [
-         "diagnosis_condition_problem"
-      ],
-      "category_type": "condition",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": {
         "type": "number",
@@ -201,10 +174,7 @@
     },
     "tobacco_user": {
       "description": "Tobacco User",
-      "standard_categories": [
-         "diagnosis_condition_problem"
-      ],
-      "category_type": "condition",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": {
         "type": "number",
@@ -220,10 +190,7 @@
     },   
     "cessation_agent": {
       "description": "Smoking Cessation Agents",
-      "standard_categories": [
-         "medication"
-      ],
-      "category_type": "medication",
+      "standard_category": "medication",
       "type":"array",
       "items": {
         "type": "number",
@@ -239,10 +206,7 @@
     },
     "cessation_counseling": {
       "description": "Tobacco Use Cessation Counseling",
-      "standard_categories": [
-         "procedure"
-      ],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type":"array",
       "items": {
         "type": "number",

@@ -55,10 +55,9 @@ module QME
         measure_info = {}
         
         @definition['measure'].each_pair do |property, description|
-          importers = importers_for_categories(description['standard_categories'])
-          measure_info[property] = importers.reduce([]) do |memo, importer|
-            memo + importer.extract(doc, description)
-          end
+          raise "No standard_category for #{property}" if !description['standard_category']
+          importer = importer_for_category(description['standard_category'])
+          measure_info[property] = importer.extract(doc, description)
         end
         
         measure_info
@@ -66,17 +65,17 @@ module QME
       
       private
       
-      def importers_for_categories(standard_categories)
-        standard_categories.reduce([]) do |memo, category|
-          case category
-          when 'encounter'; memo << @encounter_importer
-          when 'procedure'; memo << @procedure_importer
-          when 'laboratory_test'; memo << @result_importer
-          when 'physical_exam'; memo << @vital_sign_importer
-          when 'medication'; memo << @medication_importer
-          when 'diagnosis_condition_problem'; memo << @condition_importer
-          end
+      def importer_for_category(standard_category)
+        case standard_category
+        when 'encounter'; @encounter_importer
+        when 'procedure'; @procedure_importer
+        when 'laboratory_test';@result_importer
+        when 'physical_exam'; @vital_sign_importer
+        when 'medication'; @medication_importer
+        when 'diagnosis_condition_problem'; @condition_importer
+        else raise "No importer for catgeory #{standard_category}"
         end
+        
       end
     end
   end

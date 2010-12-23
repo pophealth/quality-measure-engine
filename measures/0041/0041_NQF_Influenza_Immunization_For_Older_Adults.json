@@ -15,7 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "critical": true,
-      "category_type": "patient_characteristic",
+      "standard_category": "characteristic",
       "type":"number",
       "format": "utc-sec",
       "codes": [
@@ -30,7 +30,7 @@
   "measure": {
     "encounter_outpatient": {
       "description": "Date of outpatient encounter",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -46,7 +46,7 @@
     },
     "encounter_prev_med_40_or_older": {
       "description": "Date of preventative medicine encounter",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -62,7 +62,7 @@
     },
     "encounter_prev_med_group": {
       "description": "Date of preventative medicine group counseling",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -78,7 +78,7 @@
     },
     "encounter_prev_med_ind": {
       "description": "Date of preventative medicine individual counseling",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -94,7 +94,7 @@
     },
     "encounter_prev_med_other": {
       "description": "Date of preventative medicine other services",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -110,7 +110,7 @@
     },
     "encounter_nursing": {
       "description": "Date of nursing facility encounter",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -126,7 +126,7 @@
     },
     "encounter_nursing_discharge": {
       "description": "Date of nursing discharge",
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -142,7 +142,7 @@
     },
     "immunization": {
       "description": "Influenza immunization",
-      "category_type": "medication_administered",
+      "standard_category": "medication",
       "type": "array",
       "items": {
         "type": "number",
@@ -158,7 +158,7 @@
     },
     "allergy_to_eggs": {
       "description": "Allergy to eggs",
-      "category_type": "substance_allergy",
+      "standard_category": "substance_allergy",
       "type": "boolean",
       "codes": [
         {
@@ -175,7 +175,7 @@
     },
     "immunization_allergy": {
       "description": "Influenza immunization allergy",
-      "category_type": "medication_intolerance",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": {
         "type": "number",
@@ -191,7 +191,7 @@
     },
     "immunization_adverse_event": {
       "description": "Influenza immunization adverse event",
-      "category_type": "medication_adverse_event",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": {
         "type": "number",
@@ -207,7 +207,7 @@
     },
     "immunization_intolerance": {
       "description": "Influenza immunization intolerance",
-      "category_type": "medication_intolerance",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items": {
         "type": "number",
@@ -223,7 +223,7 @@
     },
     "immunization_containdication": {
       "description": "Influenza immunization contraindication",
-      "category_type": "diagnosis_active",
+      "standard_category": "diagnosis_condition_problem",
       "type": "boolean",
       "codes": [
         {
@@ -235,7 +235,7 @@
     },
     "immunization_declined": {
       "description": "Influenza immunization declined",
-      "category_type": "medication_not_done",
+      "standard_category": "medication_not_done",
       "type": "boolean",
       "codes": [
         {
@@ -247,7 +247,7 @@
     },
     "patient_reason": {
       "description": "Influenza immunization not done for patient reason",
-      "category_type": "medication_not_done",
+      "standard_category": "medication_not_done",
       "type": "boolean",
       "codes": [
         {
@@ -259,7 +259,7 @@
     },
     "medical_reason": {
       "description": "Influenza immunization not done for medical reason",
-      "category_type": "medication_not_done",
+      "standard_category": "medication_not_done",
       "type": "boolean",
       "codes": [
         {
@@ -271,7 +271,7 @@
     },
     "system_reason": {
       "description": "Influenza immunization not done for system reason",
-      "category_type": "medication_not_done",
+      "standard_category": "medication_not_done",
       "type": "boolean",
       "codes": [
         {

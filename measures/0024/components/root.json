@@ -14,7 +14,7 @@
       "birthdate": {
          "description": "Date of birth",
          "type": "number",
-         "category_type": "patient_characteristic",
+         "standard_category": "characteristic",
          "format": "utc-sec",
          "codes": [
             {
@@ -31,10 +31,7 @@
       "encounter_pregnancy": {
          "description": "encounter_pregnancy",
          "standard_concept_id": "N_c543",
-         "standard_categories": [
-            "encounter"
-         ],
-         "category_type": "encounter",
+         "standard_category": "encounter",
          "type": "array",
          "items": {
             "type": "number",
@@ -71,10 +68,7 @@
       "bmi_percentile_measurement": {
          "description": "BMI percentile",
          "standard_concept_id": "bmi_percentile",
-         "standard_categories": [
-            "physical_exam_finding"
-         ],
-         "category_type": "physical_exam",
+         "standard_category": "physical_exam",
          "type": "array",
          "items": {
             "type": "object",
@@ -144,10 +138,7 @@
       "counseling_for_nutrition": {
          "description": "counseling_for_nutrition",
          "standard_concept_id": "N_c449",
-         "standard_categories": [
-            "communication_to_patient"
-         ],
-         "category_type": "communication",
+         "standard_category": "communication",
          "type": "array",
          "items": {
             "type": "number",
@@ -211,10 +202,7 @@
       "counseling_for_physical_activity": {
          "description": "counseling_for_physical_activity",
          "standard_concept_id": "N_c450",
-         "standard_categories": [
-            "communication_to_patient"
-         ],
-         "category_type": "communication",
+         "standard_category": "communication",
          "type": "array",
          "items": {
             "type": "number",
@@ -253,10 +241,7 @@
       "patient_encounter": {
          "description": "encounter_outpatient_w/_pcp_&_obgyn",
          "standard_concept_id": "N_c442",
-         "standard_categories": [
-            "encounter"
-         ],
-         "category_type": "encounter",
+         "standard_category": "encounter",
          "type": "array",
          "items": {
             "type": "number",
@@ -373,10 +358,7 @@
       "pregnancy_diagnosis": {
          "description": "pregnancy",
          "standard_concept_id": "N_c451",
-         "standard_categories": [
-            "diagnosis_active"
-         ],
-         "category_type": "diagnosis-condition-problem",
+         "standard_category": "diagnosis_condition_problem",
          "type": "array",
          "items": {
             "type": "number",
