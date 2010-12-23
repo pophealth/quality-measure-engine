@@ -235,7 +235,7 @@
     },
     "immunization_declined": {
       "description": "Influenza immunization declined",
-      "standard_category": "medication_not_done",
+      "standard_category": "negation_rationale",
       "type": "boolean",
       "codes": [
         {
@@ -247,7 +247,7 @@
     },
     "patient_reason": {
       "description": "Influenza immunization not done for patient reason",
-      "standard_category": "medication_not_done",
+      "standard_category": "negation_rationale",
       "type": "boolean",
       "codes": [
         {
@@ -259,7 +259,7 @@
     },
     "medical_reason": {
       "description": "Influenza immunization not done for medical reason",
-      "standard_category": "medication_not_done",
+      "standard_category": "negation_rationale",
       "type": "boolean",
       "codes": [
         {
@@ -271,7 +271,7 @@
     },
     "system_reason": {
       "description": "Influenza immunization not done for system reason",
-      "standard_category": "medication_not_done",
+      "standard_category": "negation_rationale",
       "type": "boolean",
       "codes": [
         {
