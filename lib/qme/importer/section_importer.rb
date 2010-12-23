@@ -14,6 +14,14 @@ module QME
         @code_xpath = code_xpath
       end
 
+      # Traverses that HITSP C32 document passed in using XPath and pulls out the values needed to
+      # calculate a quality measure
+      # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
+      #        will have the "cda" namespace registered to "urn:hl7-org:v3"
+      # @param [Hash] property_description The description of a measure property pulled from the JSON
+      #        measure definition
+      # @return [Hash] Keys of the hash will be names of the properties for a given quality measure.
+      #         Values will be the values (usually dates) extracted from the C32
       def extract(doc, property_description)
         if is_date_list_property?(property_description)
           extract_date_list_based_on_section(doc, property_description)
