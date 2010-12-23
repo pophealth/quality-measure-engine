@@ -66,6 +66,9 @@ module QME
       private
       
       def importer_for_category(standard_category)
+        # Currently unsupported categories:
+        # characteristic, substance_allergy, medication_allergy, negation_rationale,
+        # care_goal
         case standard_category
         when 'encounter'; @encounter_importer
         when 'procedure'; @procedure_importer
@@ -75,7 +78,6 @@ module QME
         when 'diagnosis_condition_problem'; @condition_importer
         else raise "No importer for catgeory #{standard_category}"
         end
-        
       end
     end
   end
