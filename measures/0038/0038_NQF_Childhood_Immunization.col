@@ -100,6 +100,40 @@
         }
       },
       "map_fn": "hib_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "e",
+        "subtitle": "Hepatitis B (Hep B)",
+        "numerator": 
+        {
+          "or": 
+		  [
+            {
+              "category": "Medication Administered",
+              "title": ">= 3 Counts Hepatitis B (Hep B) up until 2 years old"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Hepatitis B Resolved"
+            },
+            {
+              "or": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No Hepatitis B Vaccine Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Baker's Yeast Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "hep_b_map.js"
     }
   ]
 }

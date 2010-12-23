@@ -12,11 +12,11 @@ function () {
 
   // dtap vaccines are considered when they are occurring >= 42 days and 
   // < 2 years after the patients' birthdate
-  var earliest_dtap_vaccine = patient.birthdate + 42 * day;
-  var latest_dtap_vaccine =   patient.birthdate + 2  * year;
+  var earliest_ipv_vaccine = patient.birthdate + 42 * day;
+  var latest_ipv_vaccine =   patient.birthdate + 2  * year;
 
   var population = function() {
-    return inRange(patient.birthdate, earliest_birthdate, latest_dtap_vaccine);
+    return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
   }
 
   // the denominator logic is the same for all of the 0038 reports and this 
@@ -28,8 +28,8 @@ function () {
 
   var numerator = function() {
     number_ipv_vaccine_administered = inRange(measure.ipv_vaccine_administered, 
-                                              earliest_dtap_vaccine, 
-                                              latest_dtap_vaccine);
+                                              earliest_ipv_vaccine, 
+                                              latest_ipv_vaccine);
 
     // patient needs 3 different polio (IPV) vaccines from the time that they are 42 days old, 
     // until the time that they are 2 years old
