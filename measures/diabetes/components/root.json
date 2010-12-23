@@ -33,9 +33,7 @@
     "diagnosis_diabetes": 
     {
       "description": "Dates of Diabetes Diagnosis",
-      "standard_categories": [
-         "diagnosis_condition_problem"
-      ],
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": 
       {
@@ -64,9 +62,7 @@
     "diagnosis_gestational_diabetes": 
     {
       "description": "Dates of Gestational Diabetes Diagnosis",
-      "standard_categories": [
-         "diagnosis_condition_problem"
-      ],
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": 
       {
@@ -95,9 +91,7 @@
     "diagnosis_steroid_induced_diabetes": 
     {
       "description": "Dates of Steroid Induced Diabetes Diagnosis",
-      "standard_categories": [
-         "diagnosis_condition_problem"
-      ],
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": 
       {
@@ -126,9 +120,7 @@
     "encounter_acute_inpatient": 
     {
       "description": "Dates of Acute Inpatient encounters",
-      "standard_categories": [
-         "encounter"
-      ],
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -146,9 +138,7 @@
     "encounter_non_acute_inpatient": 
     {
       "description": "Dates of Non-Acute Inpatient encounters",
-      "standard_categories": [
-         "encounter"
-      ],
+      "standard_category": "encounter",
       "type":"array",
       "items": 
       {
@@ -167,9 +157,7 @@
     "encounter_outpatient": 
     {
       "description": "Dates of Outpatient Encounters",
-      "standard_categories": [
-         "encounter"
-      ],
+      "standard_category": "encounter",
       "type":"array",
       "items": 
       {
@@ -193,9 +181,7 @@
     "encounter_outpatient_opthamological_services": 
     {
       "description": "Dates of Outpatient Opthamological Encounters",
-      "standard_categories": [
-         "encounter"
-      ],
+      "standard_category": "encounter",
       "type":"array",
       "items": 
       {
@@ -214,10 +200,7 @@
     "medications_indicative_of_diabetes": 
     {
       "description": "Dates of Diabetes-related Medications",
-      "standard_categories": [
-         "medication"
-      ],
-      "category_type": " medication order",
+      "standard_category": "medication",
       "type": "array",
       "items": 
       {
@@ -237,9 +220,7 @@
     "medication_alpha_glucosidas_inhibitors": 
     {
       "description": "Dates of Alpha Glucosidas Inhibitors",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -258,9 +239,7 @@
     "medication_amylin_analogs": 
     {
       "description": "Dates of Amylin Analogs",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -279,9 +258,7 @@
     "medication_antidiabetic_agent": 
     {
       "description": "Dates of Anti-Diabetic Agent",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -300,9 +277,7 @@
     "medication_antidiabetic_combinations": 
     {
       "description": "Dates of Antidiabetic Combinations",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -321,9 +296,7 @@
     "medication_biguanides": 
     {
       "description": "Dates of Biguanides",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -342,9 +315,7 @@
     "medication_insulin": 
     {
       "description": "Dates of Insulin",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -363,9 +334,7 @@
     "medication_meglitinides": 
     {
       "description": "Dates of Meglitinides",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -384,9 +353,7 @@
     "medication_sulfonylureas": 
     {
       "description": "Dates of Sulfonylureas",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -405,9 +372,7 @@
     "medication_thiazolidinediones": 
     {
       "description": "Dates of Thiazolidinediones",
-      "standard_categories": [
-         "medication"
-      ],
+      "standard_category": "medication",
       "type":"array",
       "items": 
       {
@@ -426,9 +391,7 @@
     "polycystic_ovaries": 
     {
       "description": "Dates of Polycystic Ovaries Diagnosis",
-      "standard_categories": [
-         "diagnosis_condition_problem"
-      ],
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": 
       {

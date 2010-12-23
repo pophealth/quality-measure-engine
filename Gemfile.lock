@@ -94,7 +94,7 @@ GEM
       sexp_processor (~> 3.0)
     sexp_processor (3.0.5)
     yamler (0.1.0)
-    yard (0.6.3)
+    yard (0.6.4)
 
 PLATFORMS
   ruby

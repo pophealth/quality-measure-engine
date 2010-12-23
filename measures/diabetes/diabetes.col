@@ -30,9 +30,7 @@
       "measure": {
         "proceedure_eye_exam": {
           "description": "Dates of Eye Exam Procedure Performed",
-          "standard_categories": [
-             "procedure"
-          ],
+          "standard_category": "procedure",
           "type":"array",
           "items": {
             "type": "number",
@@ -63,9 +61,7 @@
         },
         "diabetic_retinopathy": {
           "description": "Dates of Diabetic Retinopahthy Diagnosis",
-          "standard_categories": [
-             "diagnosis_condition_problem"
-          ],
+          "standard_category": "diagnosis_condition_problem",
           "type":"array",
           "items": {
             "type": "number",

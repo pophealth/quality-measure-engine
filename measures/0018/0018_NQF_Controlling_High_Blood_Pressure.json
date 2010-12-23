@@ -16,7 +16,7 @@
             "description": "Date of birth",
             "type": "number",
             "critical": true,
-            "category_type": "patient_characteristic",
+            "standard_category": "characteristic",
             "format": "utc-sec",
             "codes": [
                 {
@@ -32,10 +32,7 @@
     "measure": {
         "diastolic_blood_pressure": {
             "description": "DBP",
-            "standard_categories": [
-               "physical_exam"
-            ],
-            "category_type": "physical_exam_finding",
+            "standard_category": "physical_exam",
             "type": "array",
             "items": {
                 "type": "object",
@@ -61,10 +58,7 @@
         },
         "encounter_outpatient": {
             "description": "encounter outpatient",
-            "standard_categories": [
-               "encounter"
-            ],
-            "category_type": "encounter",
+            "standard_category": "encounter",
             "type": "array",
             "items": {
                 "type": "number",
@@ -139,10 +133,7 @@
         },
         "esrd": {
             "description": "ESRD Diagnosis",
-            "standard_categories": [
-               "diagnosis_condition_problem"
-            ],
-            "category_type": "condition",
+            "standard_category": "diagnosis_condition_problem",
             "type": "array",
             "items": {
                 "type": "number",
@@ -211,10 +202,7 @@
         },
         "hypertension": {
             "description": "Hypertension Diagnosis",
-            "standard_categories": [
-               "diagnosis_condition_problem"
-            ],
-            "category_type": "diagnosis_active",
+            "standard_category": "diagnosis_condition_problem",
             "type": "array",
             "items": {
                 "type": "number",
@@ -326,10 +314,7 @@
         },
         "pregnancy": {
             "description": "Pregnancy Diagnosis",
-            "standard_categories": [
-               "diagnosis_condition_problem"
-            ],
-            "category_type": "diagnosis_active",
+            "standard_category": "diagnosis_condition_problem",
             "type": "array",
             "items": {
                 "type": "number",
@@ -1898,10 +1883,7 @@
         },
         "procedures_indicative_of_esrd": {
             "description": "ESRD Procedure",
-            "standard_categories": [
-               "procedure"
-            ],
-            "category_type": "procedure_performed",
+            "standard_category": "procedure",
             "type": "array",
             "items": {
                 "type": "number",
@@ -1988,10 +1970,7 @@
         },
         "systolic_blood_pressure": {
             "description": "SBP",
-            "standard_categories": [
-               "physical_exam"
-            ],
-            "category_type": "physical_exam_finding",
+            "standard_category": "physical_exam",
             "type": "array",
             "items": {
                 "type": "object",
