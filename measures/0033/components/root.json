@@ -311,10 +311,6 @@
       }]
     }
   },
-  "population": {
-    "category": "Patient Characteristic",
-    "title": "Age between 15 and 23"
-  },
   "denominator": {
     "and": [
       {
