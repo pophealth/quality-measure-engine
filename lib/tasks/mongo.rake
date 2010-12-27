@@ -1,7 +1,7 @@
 require 'mongo'
 require 'json'
 require './lib/quality-measure-engine'
-require './lib/tasks/database-loader'
+require './lib/tasks/database_loader'
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 loader = QME::Database::Loader.new('test')
