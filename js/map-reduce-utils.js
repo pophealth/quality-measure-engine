@@ -61,6 +61,27 @@
     else
       return defaultValue;
   };
+  
+  // Returns the number of actions that occur within the specified time period of
+  // something. The first two arguments are arrays or single-valued time stamps in
+  // seconds-since-the-epoch, timePeriod is in seconds.
+  root.actionFollowingSomething = function(something, action, timePeriod) {
+    if (!_.isArray(something))
+      something = [something];
+    if (!_.isArray(action))
+      action = [action];
+    
+    var result = 0;
+    for (i=0; i<something.length; i++) {
+      timeStamp = something[i];
+      for (j=0; j<action.length;j++) {
+        if (action[j]>=timeStamp && (action[j] <= (timeStamp+timePeriod)))
+          result++;
+      }
+    }
+    
+    return result;
+  }
     
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};

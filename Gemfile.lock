@@ -63,7 +63,7 @@ GEM
     mongo (1.1.5)
       bson (>= 1.1.5)
     nokogiri (1.4.4)
-    rails_best_practices (0.5.6)
+    rails_best_practices (0.6.1)
       activesupport
       colored (~> 1.2)
       erubis (~> 2.6.6)
