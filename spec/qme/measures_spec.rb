@@ -1,4 +1,4 @@
-require './lib/tasks/database-loader'
+require './lib/tasks/database_loader'
 
 describe QME::MapReduce::Executor do
 
