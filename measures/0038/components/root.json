@@ -1,26 +1,27 @@
 {
   "id": "0038",
-  "description": "Childhood Immunization Status",
+  "name": "Childhood Immunization Status",
+  "description": "The percentage of children 2 years of age who had four diphtheria, tetanus and acellular pertussis (DTaP); three polio (IPV); one measles, mumps and rubella (MMR); two H influenza type B (HiB); three hepatitis B (Hep B), one chicken pox (VZV); four pneumococcal conjugate (PCV); two hepatitis A (Hep A); two or three rotavirus (RV); and two influenza (flu) vaccines by their second birthday. The measure calculates a rate for each vaccine and two separate combination rates.",
   "category": "Core",
   "steward": "NCQA",
-  "parameters": 
+  "parameters":
   {
-    "effective_date": 
+    "effective_date":
     {
       "description": "Effective end date for measure",
       "type": "number",
       "format": "utc-sec"
     }
   },
-  "patient": 
+  "patient":
   {
-    "birthdate": 
+    "birthdate":
     {
       "description": "Date of birth",
       "type": "number",
       "standard_category": "characteristic",
       "format": "utc-sec",
-      "codes": 
+      "codes":
       [
         {
           "set": "HL7",
@@ -30,20 +31,20 @@
       ]
     }
   },
-  "measure": 
+  "measure":
   {
-    "allergy_to_bakers_yeast": 
+    "allergy_to_bakers_yeast":
     {
       "description": "Baker's Yeast",
       "standard_concept_id": "N_c505",
       "standard_category": "substance_allergy",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -54,18 +55,18 @@
         }
       ]
     },
-    "dtap_vaccine_administrered": 
+    "dtap_vaccine_administrered":
     {
       "description": "Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
       "standard_concept_id": "N_c406",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -78,18 +79,18 @@
         }
       ]
     },
-    "dtap_vaccine_allergy": 
+    "dtap_vaccine_allergy":
     {
       "description": "Allergy to Diphtheria, Tetanus and Acellular Pertussis (DTaP) Vaccine",
       "standard_concept_id": "N_c406",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -102,18 +103,18 @@
         }
       ]
     },
-    "streptomycin_allergy": 
+    "streptomycin_allergy":
     {
       "description": "Streptomycin Allergy",
       "standard_concept_id": "N_c513",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -124,18 +125,130 @@
         }
       ]
     },
-    "hepatitis_b_diagnosis": 
+    "hepatitis_a_diagnosis":
     {
-      "description": "Hepatitis B Diagnosis",
-      "standard_concept_id": "N_c532",
-      "standard_category": "diagnosis_condition_problem",
+      "description": "Hepatitis A Diagnosis",
+      "standard_concept_id": "N_c531",
+      "standard_categories": "diagnosis_resolved",
+      "category_type": "diagnosis-condition-problem",
+      "type": "array",
+      "items":
+      {
+        "type": "object",
+        "properties":
+        {
+          "start":
+          {
+            "description": "Hepatitis A diagnosis date",
+            "type": "number",
+            "format": "utc-sec"
+          },
+          "end":
+          {
+            "description": "Hepatitis A resolution date",
+            "type": "number",
+            "format": "utc-sec" 
+          }
+        }
+      },
+      "codes":
+      [
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "hepatitis_a_diagnosis",
+          "standard_concept_id": "N_c359",
+          "values": ["070.0", "070.1"]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "standard_concept": "hepatitis_a_diagnosis",
+          "standard_concept_id": "N_c360",
+          "values": ["B15", "B15.0", "B15.9"]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "Jul-09",
+          "standard_concept": "hepatitis_a_diagnosis",
+          "standard_concept_id": "N_c561",
+          "values": ["111879004", "16060001", "186621007", "18917003", "206373002", "25102003", "40468003", "424758008", "43634002", 
+                     "79031007"]
+        }
+      ]
+    },    
+    "hepatitis_b_vaccine_administered":
+    {
+      "description": "Hepatitis B Vaccine Administered",
+      "standard_concept_id": "N_c418",
+      "standard_categories": ["medication_administered"],
+      "category_type": "medication",
       "type": "array",
       "items": 
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "hepatitis_b_vaccine",
+          "standard_concept_id": "N_c418",
+          "values": ["310752", "310753", "310756", "606375", "763313"]
+        }
+      ]
+    },
+    "hepatitis_b_vaccine_allergy":
+    {
+      "description": "Hepatitis B Vaccine Allergy",
+      "standard_concept_id": "N_c418",
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items": 
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "hepatitis_b_vaccine",
+          "standard_concept_id": "N_c418",
+          "values": ["310752", "310753", "310756", "606375", "763313"]
+        }
+      ]
+    },
+    "hepatitis_b_diagnosis":
+    {
+      "description": "Hepatitis B Diagnosis",
+      "standard_concept_id": "N_c532",
+      "standard_categories": ["diagnosis"],
+      "category_type": "diagnosis-condition-problem",
+      "type": "array",
+      "items":
+      {
+        "type": "object",
+        "properties":
+        {
+          "start":
+          {
+            "description": "Hepatitis B diagnosis date",
+            "type": "number",
+            "format": "utc-sec"
+          },
+          "end":
+          {
+            "description": "Hepatitis B resolution date",
+            "type": "number",
+            "format": "utc-sec" 
+          }
+        }
+      },
+      "codes":
       [
         {
           "set": "ICD-10-CM",
@@ -155,29 +268,7 @@
         }
       ]
     },
-    "hepatitis_b_vaccine_allergy": 
-    {
-      "description": "Hepatitis B Vaccine",
-      "standard_concept_id": "N_c418",
-      "standard_category": "medication_allergy",
-      "type": "array",
-      "items": 
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes": 
-      [
-        {
-          "set": "RxNorm",
-          "version": "07/2009",
-          "standard_concept": "hepatitis_b_vaccine",
-          "standard_concept_id": "N_c418",
-          "values": ["310752", "310753", "310756", "606375", "763313"]
-        }
-      ]
-    },
-    "h_influenza_type_b_vaccine_administered": 
+    "h_influenza_type_b_vaccine_administered":
     {
       "description": "H influenza type B (HiB) Administered",
       "standard_concept_id": "N_c409",
@@ -188,7 +279,7 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -199,7 +290,7 @@
         }
       ]
     },
-    "h_influenza_type_b_vaccine_allergy": 
+    "h_influenza_type_b_vaccine_allergy":
     {
       "description": "H influenza type B (HiB) Allergy",
       "standard_concept_id": "N_c409",
@@ -210,7 +301,7 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -221,7 +312,7 @@
         }
       ]
     },
-    "influenza_vaccine_allergy": 
+    "influenza_vaccine_allergy":
     {
       "description": "Influenzam Vaccine",
       "standard_concept_id": "N_c423",
@@ -231,7 +322,7 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -242,7 +333,7 @@
         }
       ]
     },
-    "ipv_vaccine_administered": 
+    "ipv_vaccine_administered":
     {
       "description": "Polio (IPV) Vaccine",
       "standard_concept_id": "N_c407",
@@ -253,7 +344,7 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -264,18 +355,18 @@
         }
       ]
     },
-    "measles_vaccine_administered": 
+    "measles_vaccine_administered":
     {
       "description": "Measles Vaccine",
       "standard_concept_id": "N_c317",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -286,18 +377,18 @@
         }
       ]
     },
-    "mmr_vaccine_administered": 
+    "mmr_vaccine_administered":
     {
       "description": "Measles, Mumps and Rubella Vaccine",
       "standard_concept_id": "N_c408",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -308,18 +399,18 @@
         }
       ]
     },
-    "mumps_vaccine_administered": 
+    "mumps_vaccine_administered":
     {
       "description": "Mumps Vaccine",
       "standard_concept_id": "N_c530",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -330,19 +421,19 @@
         }
       ]
     },
-    "neomycin_allergy": 
+    "neomycin_allergy":
     {
       "description": "Neomycin",
       "standard_concept_id": "N_c510",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -354,18 +445,18 @@
         }
       ]
     },
-    "pneumococcal_vaccination_administered": 
+    "pneumococcal_vaccination_administered":
     {
       "description": "Pneumococcal Vaccination",
       "standard_concept_id": "N_c421",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -378,18 +469,18 @@
         }
       ]
     },
-    "polymyxin_allergy": 
+    "polymyxin_allergy":
     {
       "description": "Polymyxin",
       "standard_concept_id": "N_c511",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -400,18 +491,18 @@
         }
       ]
     },
-    "progressive_neurologic_disorder": 
+    "progressive_neurologic_disorder":
     {
       "description": "Progressive Neurologic Disorder",
       "standard_concept_id": "N_c336",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "SNOMED-CT",
@@ -422,18 +513,18 @@
         }
       ]
     },
-    "rubella_vaccine": 
+    "rubella_vaccine":
     {
       "description": "Rubella Vaccine",
       "standard_concept_id": "N_c346",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -444,18 +535,18 @@
         }
       ]
     },
-    "vzv_vaccine": 
+    "vzv_vaccine":
     {
       "description": "VZV Vaccine",
       "standard_concept_id": "N_c420",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "RxNorm",
@@ -466,18 +557,18 @@
         }
       ]
     },
-    "diagnosis_of_asymptomatic_hiv": 
+    "diagnosis_of_asymptomatic_hiv":
     {
       "description": "Asymptomatic HIV",
       "standard_concept_id": "N_c490",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",
@@ -502,13 +593,13 @@
         }
       ]
     },
-    "diagnosis_of_cancer_of_lymphoreticular_or_histiocytic_tissue": 
+    "diagnosis_of_cancer_of_lymphoreticular_or_histiocytic_tissue":
     {
       "description": "Cancer of Lymphoreticular or Histiocytic Tissue",
       "standard_concept_id": "N_c491",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -579,18 +670,18 @@
         }
       ]
     },
-    "diagnosis_of_encephalopathy": 
+    "diagnosis_of_encephalopathy":
     {
       "description": "Encephalopathy",
       "standard_concept_id": "N_c492",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",
@@ -615,7 +706,7 @@
         }
       ]
     },
-    "outpatient_with_pcp_and_obgyn_encounter": 
+    "outpatient_with_pcp_and_obgyn_encounter":
     {
       "description": "Encounter Outpatient with PCP and OBGNY",
       "standard_concept_id": "N_c442",
@@ -661,55 +752,18 @@
         }
       ]
     },
-    "hepatitis_a_diagnosis": 
-    {
-      "description": "Hepatitis A Diagnosis",
-      "standard_concept_id": "N_c531",
-      "standard_category": "diagnosis_condition_problem",
-      "type": "array",
-      "items": 
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes": 
-      [
-        {
-          "set": "ICD-9-CM",
-          "version": "06/2009",
-          "standard_concept": "hepatitis_a_diagnosis",
-          "standard_concept_id": "N_c359",
-          "values": ["070.0", "070.1"]
-        },
-        {
-          "set": "ICD-10-CM",
-          "version": "06/2009",
-          "standard_concept": "hepatitis_a_diagnosis",
-          "standard_concept_id": "N_c360",
-          "values": ["B15", "B15.0", "B15.9"]
-        },
-        {
-          "set": "SNOMED-CT",
-          "version": "Jul-09",
-          "standard_concept": "hepatitis_a_diagnosis",
-          "standard_concept_id": "N_c561",
-          "values": ["111879004", "16060001", "186621007", "18917003", "206373002", "25102003", "40468003", "424758008", "43634002", 
-                     "79031007"]
-        }
-      ]
-    },
     "immunodeficiency": 
     {
       "description": "Immunodeficiency",
       "standard_concept_id": "N_c493",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",
@@ -760,18 +814,18 @@
         }
       ]
     },
-    "leukemia": 
+    "leukemia":
     {
       "description": "Leukemia",
       "standard_concept_id": "N_c494",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",
@@ -809,13 +863,13 @@
         }
       ]
     },
-    "measles": 
+    "measles":
     {
       "description": "Measles",
       "standard_concept_id": "N_c508",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -845,13 +899,13 @@
         }
       ]
     },
-    "multiple_myeloma": 
+    "multiple_myeloma":
     {
       "description": "Multiple Myeloma",
       "standard_concept_id": "N_c495",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -881,26 +935,26 @@
         }
       ]
     },
-    "mumps": 
+    "mumps":
     {
       "description": "Mumps",
       "standard_concept_id": "N_c272",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
       "codes": []
     },
-    "rubella": 
+    "rubella":
     {
       "description": "Rubella",
       "standard_concept_id": "N_c512",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -913,12 +967,12 @@
       "standard_concept_id": "N_c514",
       "standard_category": "diagnosis_condition_problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",
@@ -940,30 +994,30 @@
       ]
     }
   },
-  "population": 
+  "population":
   {
-     "and": 
-      [
-        {
-          "or": 
-          [
-            {
-              "category": "Patient Characteristic",
-              "title": "Gender Male"
-            },
-            {
-              "category": "Patient Characteristic",
-              "title": "Gender Female"
-            }
-          ]
-        },
-        {
-          "category": "Patient Characteristic",
-          "title": "Age between 1 and 2"
-        }
-      ]
+    "and":
+    [
+      {
+        "or":
+        [
+          {
+            "category": "Patient Characteristic",
+            "title": "Gender Male"
+          },
+          {
+            "category": "Patient Characteristic",
+            "title": "Gender Female"
+          }
+        ]
+      },
+      {
+        "category": "Patient Characteristic",
+        "title": "Age between 1 and 2"
+      }
+    ]
   },
-  "denominator": 
+  "denominator":
   {
     "category": "Encounter",
     "title": "Outpatient with PCP and OBGYN"

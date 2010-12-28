@@ -16,7 +16,7 @@ function () {
   var latest_dtap_vaccine =   patient.birthdate + 2  * year;
 
   var population = function() {
-    return inRange(patient.birthdate, earliest_birthdate, latest_dtap_vaccine);
+    return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
   }
 
   // the denominator logic is the same for all of the 0038 reports and this 

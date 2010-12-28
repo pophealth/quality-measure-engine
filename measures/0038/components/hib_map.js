@@ -12,11 +12,11 @@ function () {
 
   // dtap vaccines are considered when they are occurring >= 42 days and 
   // < 2 years after the patients' birthdate
-  var earliest_dtap_vaccine = patient.birthdate + 42 * day;
-  var latest_dtap_vaccine =   patient.birthdate + 2  * year;
+  var earliest_hib_vaccine = patient.birthdate + 42 * day;
+  var latest_hib_vaccine =   patient.birthdate + 2  * year;
 
   var population = function() {
-    return inRange(patient.birthdate, earliest_birthdate, latest_dtap_vaccine);
+    return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
   }
 
   // the denominator logic is the same for all of the 0038 reports and this 
@@ -28,8 +28,8 @@ function () {
 
   var numerator = function() {
     number_hib_vaccine_administered = inRange(measure.h_influenza_type_b_vaccine_administered, 
-                                              earliest_dtap_vaccine, 
-                                              latest_dtap_vaccine);
+                                              earliest_hib_vaccine, 
+                                              latest_hib_vaccine);
 
     // patient needs 2 different H influenza type B (HiB) vaccines from the time that they 
     // are 42 days old, until the time that they are 2 years old
