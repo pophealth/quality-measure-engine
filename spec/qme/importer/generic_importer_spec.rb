@@ -40,7 +40,8 @@ describe QME::Importer::GenericImporter do
     measure_info['hypertension'].should include(1258156800)
     measure_info['systolic_blood_pressure'].should include('date' => 1258156800, 'value' => '132')
     measure_info['diastolic_blood_pressure'].should include('date' => 1258156800, 'value' => '86')
-    measure_info['pregnancy'].should be_empty
+    # measure_info['pregnancy'].should be_empty
+    measure_info['pregnancy'].should include(1291939200)  
     measure_info['procedures_indicative_of_esrd'].should be_empty
     measure_info['esrd'].should be_empty
     
