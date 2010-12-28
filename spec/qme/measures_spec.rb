@@ -88,7 +88,7 @@ describe QME::MapReduce::Executor do
           (result[:numerator]+result[:antinumerator]).should eql(expected['denominator'])
         end
       end
-      puts " - done"
+      puts ' - done'
     end
   end
   
