@@ -27,6 +27,10 @@ module QME
           extract_date_list_based_on_section(doc, property_description)
         elsif is_value_date_property?(property_description)
           extract_value_date_list_based_on_section(doc, property_description)
+        elsif is_date_range_property?(property_description)
+          extract_date_range_list_based_on_section(doc, property_description)
+        else
+          raise "Unknown property schema for property #{property_description['description']}"
         end
       end
       
@@ -55,9 +59,26 @@ module QME
       #         Hashes will have a "value" and "date" property containing the respective data
       def extract_value_date_list_based_on_section(doc, property_description)
         basic_extractor(doc, property_description) do |entry_element, entry_list, date|
-          if date
+          if date && entry_element.at_xpath('cda:value')
             value = entry_element.at_xpath('cda:value')['value']
             entry_list << {'date' => date, 'value' => value}
+          end
+        end
+      end
+      
+      # Extracts the date ranges of any CDA entries that meet the code set defined for measure property.
+      #
+      # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
+      #        will have the "cda" namespace registered to "urn:hl7-org:v3"
+      # @param [Hash] property_description The description of a measure property pulled from the JSON
+      #        measure definition
+      # @return [Array] Provides an Array of Hashes for entries that have codes inside of the measure code set
+      #         Hashes will have a "start" and "end" property containing the respective data
+      def extract_date_range_list_based_on_section(doc, property_description)
+        basic_extractor(doc, property_description) do |entry_element, entry_list, date|
+          if date && entry_element.at_xpath('cda:effectiveTime/cda:high')
+            end_date = HL7Helper.timestamp_to_integer(entry_element.at_xpath('cda:effectiveTime/cda:high')['value'])
+            entry_list << {'start' => date, 'end' => end_date}
           end
         end
       end
@@ -76,8 +97,19 @@ module QME
       # @return [Boolean] true of false depending on the property
       def is_value_date_property?(property_description)
         property_description['type'] == 'array' && property_description['items']['type'] == 'object' &&
-        property_description['items']['properties']['value']['type'] == 'number' &&
-        property_description['items']['properties']['date']['type'] == 'number'
+        property_description['items']['properties']['value'] &&
+        property_description['items']['properties']['date']
+      end
+      
+      # Determines if the property is a list of date ranges represented by a Hash with start and end
+      # krys
+      # @param [Hash] property_description The description of a measure property pulled from the JSON
+      #        measure definition
+      # @return [Boolean] true of false depending on the property
+      def is_date_range_property?(property_description)
+        property_description['type'] == 'array' && property_description['items']['type'] == 'object' &&
+        property_description['items']['properties']['start'] &&
+        property_description['items']['properties']['end']
       end
       
       private
