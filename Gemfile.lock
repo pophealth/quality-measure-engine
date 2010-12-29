@@ -63,6 +63,7 @@ GEM
     mongo (1.1.5)
       bson (>= 1.1.5)
     nokogiri (1.4.4)
+    rack (1.2.1)
     rails_best_practices (0.6.1)
       activesupport
       colored (~> 1.2)
@@ -93,6 +94,10 @@ GEM
     ruby_parser (2.0.5)
       sexp_processor (~> 3.0)
     sexp_processor (3.0.5)
+    sinatra (1.1.2)
+      rack (~> 1.1)
+      tilt (~> 1.2)
+    tilt (1.2.1)
     yamler (0.1.0)
     yard (0.6.4)
 
@@ -111,4 +116,5 @@ DEPENDENCIES
   nokogiri
   rake
   rspec
+  sinatra
   yard
