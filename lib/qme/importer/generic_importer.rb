@@ -5,6 +5,13 @@ module QME
     # it can then be passed a C32 document and will return a Hash with all of the information needed to calculate the measure.
     class GenericImporter
       
+      # temp class to handle categories that are not yet fully supported
+      class NullSectionImporter
+        def extract(doc, property, description)
+          puts "Warning: skipping measure field #{property} - #{description['description']}"
+        end
+      end
+
       # Creates a generic importer for any quality measure. The following XPath expressions are used to
       # find information in a HITSP C32 document:
       #
@@ -44,6 +51,7 @@ module QME
 
         @condition_importer = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
                                                   "./cda:value")
+        @null_importer = NullSectionImporter.new
       end
       
       # Parses a HITSP C32 document and returns a Hash of information related to the measure
@@ -57,7 +65,7 @@ module QME
         @definition['measure'].each_pair do |property, description|
           raise "No standard_category for #{property}" if !description['standard_category']
           importer = importer_for_category(description['standard_category'])
-          measure_info[property] = importer.extract(doc, description)
+          measure_info[property] = importer.extract(doc, property, description)
         end
         
         measure_info
@@ -68,7 +76,7 @@ module QME
       def importer_for_category(standard_category)
         # Currently unsupported categories:
         # characteristic, substance_allergy, medication_allergy, negation_rationale,
-        # care_goal
+        # care_goal, diagnostic_study, device, communication
         case standard_category
         when 'encounter'; @encounter_importer
         when 'procedure'; @procedure_importer
@@ -76,7 +84,7 @@ module QME
         when 'physical_exam'; @vital_sign_importer
         when 'medication'; @medication_importer
         when 'diagnosis_condition_problem'; @condition_importer
-        else raise "No importer for catgeory #{standard_category}"
+        else @null_importer
         end
       end
     end

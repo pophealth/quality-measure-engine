@@ -20,9 +20,6 @@ def load_measures
 end
 
 def measure_definition(loader, measure_id, sub_id=nil)
-  if sub_id
-    loader.get_db['measures'].find_one(:id => measure_id, :sub_id => sub_id)
-  else
-    loader.get_db['measures'].find_one(:id => measure_id)
-  end
+  map = QME::MapReduce::Executor.new(loader.get_db)
+  map.measure_def(measure_id, sub_id)
 end

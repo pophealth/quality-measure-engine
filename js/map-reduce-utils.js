@@ -6,18 +6,6 @@
 
   var root = this;
 
-  // Returns the a boolean true when any entry within conditions[i].end is 
-  // ever less than the endDate. If no conditions meet this criteria, this
-  // function always returns false
-  root.conditionResolved = function(conditions, startDate, endDate) {
-    for each (var condition in conditions) {
-      if (inRange(condition.end, startDate, endDate)) {
-        return true;
-      }
-    }
-    return false;    
-  }
-
   // returns the number of values which fall between the supplied limits
   // value may be a number or an array of numbers
   root.inRange = function(value, min, max) {
@@ -32,6 +20,19 @@
         count++;
     }
     return count;
+  };
+  
+  // Returns the a boolean true when any entry within conditions[i].end is 
+  // ever less than the endDate. If no conditions meet this criteria, this
+  // function always returns false
+  root.conditionResolved = function(conditions, startDate, endDate) {
+    if (conditions) {
+      return _.any(conditions, function(condition) {
+          return inRange(condition.end, startDate, endDate) > 0;
+      });
+    } else {
+      return false
+    };
   };
   
   // Returns the minimum of readings[i].value where readings[i].date is in
