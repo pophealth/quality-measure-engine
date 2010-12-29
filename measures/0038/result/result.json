@@ -1,0 +1,36 @@
+{
+  "results":[
+    {
+      "id": "0038",
+      "sub_id": "a",
+      "initialPopulation": 16,
+      "numerator": 1,
+      "denominator": 15,
+      "exclusions": 0
+    },
+    {
+      "id": "0038",
+      "sub_id": "b",
+      "initialPopulation": 16,
+      "numerator": 1,
+      "denominator": 15,
+      "exclusions": 0
+    },
+    {
+      "id": "0038",
+      "sub_id": "d",
+      "initialPopulation": 16,
+      "numerator": 1,
+      "denominator": 15,
+      "exclusions": 0
+    }  ,
+      {
+        "id": "0038",
+        "sub_id": "e",
+        "initialPopulation": 16,
+        "numerator": 2,
+        "denominator": 15,
+        "exclusions": 0
+      }
+  ]
+}

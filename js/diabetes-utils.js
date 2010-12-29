@@ -1,6 +1,7 @@
 // Adds diabetes utility functions to the root JS object. These are then
 // available for use by the supporting map-reduce functions for any measure
 // that needs common definitions of diabetes-specific algorithms.
+//
 // lib/qme/mongo_helpers.rb executes this function on a database
 // connection.
 (function() {

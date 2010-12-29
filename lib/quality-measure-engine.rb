@@ -11,6 +11,10 @@ require LIB + '/qme/importer/patient_importer'
 require LIB + '/qme/importer/code_system_helper'
 require LIB + '/qme/importer/hl7_helper'
 require LIB + '/qme/importer/measure_base'
+require LIB + '/qme/importer/diabetes_measure_base'
+
+require LIB + '/qme/importer/section_importer'
+require LIB + '/qme/importer/generic_importer'
 
 require LIB + '/qme/mongo_helpers'
 

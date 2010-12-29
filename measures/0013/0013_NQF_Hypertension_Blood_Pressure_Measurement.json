@@ -29,6 +29,7 @@
   "measure": {
     "encounter_outpatient": {
       "name": "Date of outpatient encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -44,6 +45,7 @@
     },
     "encounter_nursing_facility": {
       "name": "Date of nursing facility encounter",
+      "standard_category": "encounter",
       "type":"array",
       "items": {
         "type": "number",
@@ -59,6 +61,7 @@
     },
     "hypertension": {
       "name": "Hypertension",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": {
         "type": "number",
@@ -84,6 +87,7 @@
     },
     "diastolic_blood_pressure": {
       "name": "Diastolic Blood Pressure",
+      "standard_category": "physical_exam",
       "type":"array",
       "items": {
         "type": "number",
@@ -99,6 +103,7 @@
     },
     "systolic_blood_pressure": {
       "name": "Systolic Blood Pressure",
+      "standard_category": "physical_exam",
       "type":"array",
       "items": {
         "type": "number",

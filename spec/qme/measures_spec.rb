@@ -1,4 +1,4 @@
-require './lib/tasks/database-loader'
+require './lib/tasks/database_loader'
 
 describe QME::MapReduce::Executor do
 
@@ -88,7 +88,7 @@ describe QME::MapReduce::Executor do
           (result[:numerator]+result[:antinumerator]).should eql(expected['denominator'])
         end
       end
-      puts " - done"
+      puts ' - done'
     end
   end
   

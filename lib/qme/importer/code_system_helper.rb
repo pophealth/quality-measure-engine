@@ -29,8 +29,17 @@ module QME
       # @param [Hash] measure_definition the measure definition JSON
       # @return [true, false] whether the code is in the list of desired codes
       def self.is_in_code_list?(code_system_oid, code, property_name, measure_definition)
-        code_system_name = code_system_for(code_system_oid)
         code_lists = measure_definition['measure'][property_name]['codes']
+        is_in_codes?(code_system_oid, code, code_lists)
+      end
+      
+      # Checks if a code is in the list of possible codes
+      # @param [String] code_system_oid the oid of the code system used
+      # @param [String] code to check
+      # @param [Array] code_lists an Array of Hashes that contain the list of codes for a code set
+      # @return [true, false] whether the code is in the list of desired codes
+      def self.is_in_codes?(code_system_oid, code, code_lists)
+        code_system_name = code_system_for(code_system_oid)
         codes_for_system = code_lists.find {|cs| cs['set'] == code_system_name}
         if codes_for_system
           if codes_for_system['values'].include?(code)

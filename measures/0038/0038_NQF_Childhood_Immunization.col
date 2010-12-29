@@ -1,0 +1,139 @@
+{
+  "root": "root.json",
+  "combinations": 
+  [
+    {
+      "metadata": 
+      {
+        "sub_id": "a",
+        "subtitle": "Tetanus and Acellular Pertussis (DTAP) Vaccine",
+        "numerator": 
+        {
+          "and": 
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 4 Counts tetanus and acellular pertussis (DTaP) from 42 days old - 2 years"
+            },
+            {
+              "or": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No DTaP Vaccine Allergy"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Active Encephalopathy"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Active Progressive Neurological Disorder"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "dtap_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "b",
+        "subtitle": "Polio (IPV) vaccine",
+        "numerator": 
+        {
+          "and": 
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 3 Counts Polio (IPV) from 42 days old - 2 years"
+            },
+            {
+              "or": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No IPV Vaccine Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Neomycin Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Streptomycin Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Polymyxin Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "ipv_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "d",
+        "subtitle": "H influenza type B (HiB)",
+        "numerator": 
+        {
+          "and": 
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 2 Counts H influenza type B (HiB) from 42 days old - 2 years"
+            },
+            {
+              "and": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No HiB Vaccine Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "hib_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "e",
+        "subtitle": "Hepatitis B (Hep B)",
+        "numerator": 
+        {
+          "or": 
+		  [
+            {
+              "category": "Medication Administered",
+              "title": ">= 3 Counts Hepatitis B (Hep B) up until 2 years old"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Hepatitis B Resolved"
+            },
+            {
+              "or": 
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No Hepatitis B Vaccine Allergy"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No Baker's Yeast Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "hep_b_map.js"
+    }
+  ]
+}

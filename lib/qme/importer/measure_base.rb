@@ -9,7 +9,8 @@ module QME
       # Anytime that the MeasureBase class is subclassed, it will inform the PatientImporter
       # that a new importer is being created
       def self.inherited(subclass)
-         PatientImporter.instance.add_measure(subclass)
+        # Note that DiabetesMeasureBase is special cased as it is really an abstract class
+        PatientImporter.instance.add_measure(subclass) unless subclass.name.include?('DiabetesMeasureBase')
       end
       
       def self.measure_id

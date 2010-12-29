@@ -6,11 +6,10 @@ function () {
 
   var year = 365*24*60*60;
   var effective_date = <%= effective_date %>;
-  var earliest_birthdate = effective_date - 69*year;
-  var latest_birthdate = effective_date - 40*year;
+  var earliest_birthdate = effective_date - 68*year;
+  var latest_birthdate = effective_date - 41*year;
   var earliest_encounter = effective_date - 2*year;
 
-  
   var population = function() {
     return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
   }
