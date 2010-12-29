@@ -11,7 +11,7 @@
       "hepatitis_b_vaccine_administered": [1252972800, 1253059200, 1253145600],
       
       // Hepatitis B (Hep B) allergy excludes patient from the numerator
-      "hepatitis_b_vaccine_allergy": 1252972800 // Time.gm(2009, 6, 15).to_i
+      "hepatitis_b_vaccine_allergy": 1252972800 // Time.gm(2009, 9, 15).to_i
     }
   }
 }

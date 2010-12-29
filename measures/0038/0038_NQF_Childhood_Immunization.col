@@ -3,20 +3,20 @@
   "combinations": 
   [
     {
-      "metadata": 
+      "metadata":
       {
         "sub_id": "a",
         "subtitle": "Tetanus and Acellular Pertussis (DTAP) Vaccine",
-        "numerator": 
+        "numerator":
         {
-          "and": 
+          "and":
           [
             {
               "category": "Medication Administered",
               "title": ">= 4 Counts tetanus and acellular pertussis (DTaP) from 42 days old - 2 years"
             },
             {
-              "or": 
+              "or":
               [
                 {
                   "category": "Allergy",
@@ -41,7 +41,7 @@
       "metadata": {
         "sub_id": "b",
         "subtitle": "Polio (IPV) vaccine",
-        "numerator": 
+        "numerator":
         {
           "and": 
           [
@@ -79,16 +79,16 @@
       "metadata": {
         "sub_id": "d",
         "subtitle": "H influenza type B (HiB)",
-        "numerator": 
+        "numerator":
         {
-          "and": 
+          "and":
           [
             {
               "category": "Medication Administered",
               "title": ">= 2 Counts H influenza type B (HiB) from 42 days old - 2 years"
             },
             {
-              "and": 
+              "and":
               [
                 {
                   "category": "Allergy",
@@ -105,10 +105,10 @@
       "metadata": {
         "sub_id": "e",
         "subtitle": "Hepatitis B (Hep B)",
-        "numerator": 
+        "numerator":
         {
-          "or": 
-		  [
+          "or":
+          [
             {
               "category": "Medication Administered",
               "title": ">= 3 Counts Hepatitis B (Hep B) up until 2 years old"
@@ -118,7 +118,7 @@
               "title": "Hepatitis B Resolved"
             },
             {
-              "or": 
+              "or":
               [
                 {
                   "category": "Allergy",
@@ -134,6 +134,52 @@
         }
       },
       "map_fn": "hep_b_map.js"
+    },
+    {
+      "metadata": {
+        "sub_id": "f",
+        "subtitle": "Chicken Pox (VZV)",
+        "numerator":
+        {
+          "or":
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 1 Counts Chicken Pox (VZV) up until 2 years old"
+            },
+            {
+              "or":
+              [
+                {
+                  "category": "Diagnosis",
+                  "title": "No Cancer of Lymphoreticular or Histiocytic Tissue"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Asymptomatic HIV"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Multiple Myeloma"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Leukemia”;"
+                },
+                {
+                  "category": "Diagnosis",
+                  "title": "No Immunodeficiency”;"
+                },
+                {
+                  "category": "Allergy",
+                  "title": "No VZV Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "vzv_map.js"
     }
   ]
 }

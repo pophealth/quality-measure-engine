@@ -11,7 +11,7 @@
       "dtap_vaccine_administrered": [1252972800, 1253059200, 1253145600, 1253232000],
       
       // DTaP allergy excludes patient from the numerator
-      "dtap_vaccine_allergy": 1252972800 // Time.gm(2009, 6, 15).to_i
+      "dtap_vaccine_allergy": 1252972800 // Time.gm(2009, 9, 15).to_i
     }
   }
 }

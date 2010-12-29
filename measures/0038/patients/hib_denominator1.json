@@ -11,7 +11,7 @@
       "h_influenza_type_b_vaccine_administered": [1252972800, 1253059200, 1253145600],
       
       // H influenza type B (HiB) allergy excludes patient from the numerator
-      "h_influenza_type_b_vaccine_allergy":      1252972800 // Time.gm(2009, 6, 15).to_i
+      "h_influenza_type_b_vaccine_allergy":      1252972800 // Time.gm(2009, 9, 15).to_i
     }
   }
 }

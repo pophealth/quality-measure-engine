@@ -11,7 +11,7 @@
       "hepatitis_b_vaccine_administered": [1252972800, 1253059200, 1253145600],
       
       // Baker's Yeast allergy excludes patient from the numerator
-      "allergy_to_bakers_yeast": 1252972800 // Time.gm(2009, 6, 15).to_i
+      "allergy_to_bakers_yeast": 1252972800 // Time.gm(2009, 9, 15).to_i
     }
   }
 }
