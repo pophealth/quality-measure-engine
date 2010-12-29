@@ -4,20 +4,25 @@
   "description": "Percentage of patients aged 5 through 40 years with a diagnosis of asthma and who have been seen for at least 2 office visits, who were evaluated during at least one office visit within 12 months for the frequency (numeric) of daytime and nocturnal asthma symptoms.",
   "category": "Asthma",
   "steward": "AMA",
-  "parameters": {
-    "effective_date": {
+  "parameters":
+  {
+    "effective_date":
+    {
       "description": "Effective end date for measure",
       "type": "number",
       "format": "utc-sec"
     }
   },
-  "patient": {
-    "birthdate": {
+  "patient":
+  {
+    "birthdate":
+    {
       "description": "Date of birth",
       "critical": true,
       "type": "number",
       "format": "utc-sec",
-      "codes": [
+      "codes":
+      [
         {
           "set": "HL7",
           "version": "3.0",
@@ -26,24 +31,35 @@
       ]
     }
   },
-  "measure": {
-    "diagnosis_asthma": {
+  "measure":
+  {
+    "diagnosis_asthma":
+    {
       "description": "Dates of Asthma Diagnosis",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": {
+      "items": 
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
-          "values": ["11641008, 12428000, 13151001, 195949008, 195967001, 195977004, 195979001, 196013003, 225057002, 233672007, 233678006, 233679003, 233681001, 233683003, 233685005, 233688007, 266361008, 266364000, 281239006, 30352005, 304527002, 31387002, 370218001, 370219009, 370220003, 370221004, 389145006, 405944004, 407674008, 409663006, 423889005, 424199006, 424643009, 425969006, 426656000, 426979002, 427295004, 427354000, 427603009, 427679007, 442025000, 55570000, 56968009, 57546000, 59327009, 59786004, 63088003, 67415000, 85761009, 91340006, 92807009, 93432008"]
+          "values": ["11641008",  "12428000",  "13151001",  "195949008", "195967001", "195977004", "195979001", "196013003", "225057002",
+                     "233672007", "233678006", "233679003", "233681001", "233683003", "233685005", "233688007", "266361008", "266364000",
+                     "281239006", "30352005",  "304527002", "31387002",  "370218001", "370219009", "370220003", "370221004", "389145006",
+                     "405944004", "407674008", "409663006", "423889005", "424199006", "424643009", "425969006", "426656000", "426979002",
+                     "427295004", "427354000", "427603009", "427679007", "442025000", "55570000",  "56968009",  "57546000",  "59327009",
+                     "59786004",  "63088003",  "67415000",  "85761009",  "91340006",  "92807009",  "93432008"]
         },
         {
           "set": "ICD-9-CM",
           "version": "2010",
-          "values": ["493.00", "493.01", "493.02", "493.10", "493.11", "493.12", "493.20", "493.21", "493.22", "493.81", "493.82", "493.90", "493.91", "493.92"]
+          "values": ["493.00", "493.01", "493.02", "493.10", "493.11", "493.12", "493.20", "493.21", "493.22", "493.81", "493.82",
+                     "493.90", "493.91", "493.92"]
         },
         {
           "set": "ICD-10-CM",
@@ -52,14 +68,18 @@
         }
       ]
     },
-    "symptoms_daytime_asthma": {
+    "symptoms_daytime_asthma":
+    {
       "description": "Dates of Daytime Asthma Symptoms",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -67,14 +87,18 @@
         }
       ]
     },
-    "symptoms_daytime_asthma_quantified": {
+    "symptoms_daytime_asthma_quantified":
+    {
       "description": "Dates of Daytime Asthma Symptoms Quantified",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes": 
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -82,14 +106,18 @@
         }
       ]
     },
-    "symptoms_nighttime_asthma": {
+    "symptoms_nighttime_asthma":
+    {
       "description": "Dates of Nighttime Asthma Symptoms",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": {
+      "items": 
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -97,8 +125,10 @@
         }
       ]
     },
-    "symptoms_nighttime_asthma_quantified": {
+    "symptoms_nighttime_asthma_quantified":
+    {
       "description": "Dates of Nighttime Asthma Symptoms Quantified",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
       "items": {
         "type": "number",
@@ -112,14 +142,18 @@
         }
       ]
     },
-    "asthma_symptom_assessment_tool": {
+    "asthma_symptom_assessment_tool":
+    {
       "description": "Dates of Asthma Symptom Assessment Tool",
+      "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": {
+      "items": 
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes": 
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -127,10 +161,13 @@
         }
       ]
     },
-    "encounter_office_and_outpatient_consult": {
+    "encounter_office_and_outpatient_consult":
+    {
       "description": "Dates of Office Encounter and Outpatient Consult",
+      "standard_category": "encounter",
       "type":"array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
@@ -138,13 +175,16 @@
         {
           "set": "CPT",
           "version": "2010",
-          "values": ["99201", "99202", "99203", "99204", "99205", "99212", "99213", "99214", "99215", "99241", "99242", "99243", "99244", "99245"]
+          "values": ["99201", "99202", "99203", "99204", "99205", "99212", "99213", "99214", "99215", "99241", "99242", 
+                     "99243", "99244", "99245"]
         }
       ]
     }
   },
-  "population": {
-    "and": [
+  "population":
+  {
+    "and":
+    [
       {
         "category": "Patient Characteristic",
         "title": "Age between 5 and 40"
@@ -160,10 +200,13 @@
     ]
   },
   "denominator": {},
-  "numerator": {
-    "or": [
+  "numerator":
+  {
+    "or":
+    [
       {
-        "and": [
+        "and":
+        [
           {
             "category": "Symptom Assessed",
             "title": "Asthma Daytime Symptoms"
@@ -175,7 +218,8 @@
         ]
       },
       {
-        "and": [
+        "and":
+        [
           {
             "category": "Symptom Assessed",
             "title": "Asthma Daytime Symptoms Quantified"
