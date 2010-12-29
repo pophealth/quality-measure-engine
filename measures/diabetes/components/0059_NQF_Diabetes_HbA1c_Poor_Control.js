@@ -25,11 +25,13 @@ function () {
   // the denominator, and the exclusions are shared in the 'diabetes_utils.js' file
   // that is located in the /js directory of the project
   var numerator = function() {
-    latestValue = latestValueInDateRange(measure.hba1c_test, period_start, effective_date,
-      0.0);
-    return latestValue>9.0;
+    latestValue = latestValueInDateRange(measure.hba1c_test, 
+                                         period_start, 
+                                         effective_date,
+                                         0.0);
+    return latestValue > 9.0;
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }

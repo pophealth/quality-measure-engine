@@ -21,7 +21,7 @@
       "type": "number",
       "category_type": "patient_characteristic",
       "format": "utc-sec",
-      "codes": 
+      "codes":
       [
         {
           "set": "HL7",
@@ -40,7 +40,7 @@
       "standard_categories": ["patient_characteristic"],
       "category_type": "individual_characteristic",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -95,19 +95,19 @@
         }
       ]
     },
-    "breast_cancer_screening": 
+    "breast_cancer_screening":
     {
       "description": "breast_cancer_screening",
       "standard_concept_id": "N_c74",
       "standard_categories": ["diagnostic_study_performed"],
       "category_type": "diagnosis-condition-problem",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "HPCT",
@@ -147,12 +147,12 @@
       "standard_categories": ["procedure_performed"],
       "category_type": "procedure",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "CPT",
@@ -185,12 +185,12 @@
       "standard_categories": ["encounter"],
       "category_type": "encounter",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",
@@ -212,7 +212,7 @@
       ]
     }
   },
-  "population": 
+  "population":
   {
     "and":
     [
@@ -235,16 +235,16 @@
       }
     ]
   },
-  "denominator": 
+  "denominator":
   {
-    "and": 
+    "and":
     [
       {
         "category": "Encounter",
         "title": "Outpatient within 2 Years"
       },
       {
-        "or": 
+        "or":
         [
           {
             "category": "Procedure",
@@ -258,9 +258,9 @@
       }
     ]
   },
-  "numerator": 
+  "numerator":
   {
-    "and": 
+    "and":
     [
       {
         "category": "Encounter",

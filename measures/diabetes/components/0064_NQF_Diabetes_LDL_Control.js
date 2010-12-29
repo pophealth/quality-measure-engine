@@ -28,7 +28,7 @@ function () {
     minLDL = minValueInDateRange(measure.ldl_test_results, period_start, effective_date, 200.0)
     return (minLDL < 100.0);
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }

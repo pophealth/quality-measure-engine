@@ -97,8 +97,8 @@
           "version": "07/2009",
           "standard_concept": "dtap_vaccine",
           "standard_concept_id": "N_c406",
-          "values": ["204525", "205257", "205259", "260122", "359454", "562372", "795926", "795930", "795938", "795939", "795942", 
-                     "798309", "798347", "802049", "805375", "805379", "806587", "806593", "807277", "807415", "824542", "829894", 
+          "values": ["204525", "205257", "205259", "260122", "359454", "562372", "795926", "795930", "795938", "795939", "795942",
+                     "798309", "798347", "802049", "805375", "805379", "806587", "806593", "807277", "807415", "824542", "829894",
                      "829971", "829987", "830518", "830549", "830555", "830893", "835879"]
         }
       ]
@@ -122,6 +122,51 @@
           "standard_concept": "streptomycin",
           "standard_concept_id": "N_c513",
           "values": ["C1134151"]
+        }
+      ]
+    },
+    "hepatitis_a_vaccine_administered":
+    {
+      "description": "Hepatitis A Vaccine Administered",
+      "standard_concept_id": "N_c419",
+      "standard_categories": ["medication_administered"],
+      "category_type": "medication",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "hepatitis_a_vaccine",
+          "standard_concept_id": "N_c418",
+          "values": ["798364", "798477", "798481", "803364", "803369"]
+        }
+      ]
+    },
+    "hepatitis_a_vaccine_allergy":
+    {
+      "description": "Hepatitis A Vaccine Allergy",
+      "standard_concept_id": "N_c419",
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "hepatitis_a_vaccine",
+          "standard_concept_id": "N_c418",
+          "values": ["798364", "798477", "798481", "803364", "803369"]
         }
       ]
     },

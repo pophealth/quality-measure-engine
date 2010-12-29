@@ -29,7 +29,7 @@ function () {
       10.0);
     return latestValue<8.0;
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }

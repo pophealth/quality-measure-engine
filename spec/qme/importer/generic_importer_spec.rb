@@ -25,7 +25,7 @@ describe QME::Importer::GenericImporter do
     measure_info = gi.parse(doc)
 
     measure_info['procedures_indicative_of_esrd'].should include(1291939200)
-    measure_info['pregnancy'].should include(1291939200)  
+    measure_info['pregnancy'].should include(1291939200)
     measure_info['esrd'].should include (1291939200)
     measure_info['encounter_outpatient'].should include(1239062400)
     measure_info['hypertension'].should include(1258156800)

@@ -27,7 +27,7 @@ function () {
   var numerator = function() {
     return inRange(measure.ldl_test_dates, period_start, effective_date);
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }
