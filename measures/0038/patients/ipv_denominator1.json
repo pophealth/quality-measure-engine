@@ -10,8 +10,8 @@
       // 3 polio (IPV) vaccines administered: September 15, 16, and 17 in 2009
       "ipv_vaccine_administered": [1252972800, 1253059200, 1253145600],
 
-      // polio (IPV) allergy excludes patient from the numerator
-      "ipv_vaccine_allergy": 1252972800 // Time.gm(2009, 9, 15).to_i
+      // Polio (IPV) allergy excludes patient from the numerator
+      "ipv_vaccine_allergy": 1253232000 // Time.gm(2009, 9, 18).to_i
     }
   }
 }

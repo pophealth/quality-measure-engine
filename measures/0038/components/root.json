@@ -401,6 +401,138 @@
         }
       ]
     },
+    "mumps_vaccine_administered":
+    {
+      "description": "Mumps Vaccine",
+      "standard_concept_id": "N_c530",
+      "standard_category": "medication",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "vzv_vaccine",
+          "standard_concept_id": "N_c530",
+          "values": ["798375", "805077"]
+        }
+      ]
+    },
+    "mumps_vaccine_allergy":
+    {
+      "description": "Mumps",
+      "standard_concept_id": "N_c272",
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "vzv_vaccine",
+          "standard_concept_id": "N_c530",
+          "values": ["798375", "805077"]
+        }
+      ]
+    },
+    "rubella_vaccine_administered":
+    {
+      "description": "Rubella Vaccine",
+      "standard_concept_id": "N_c346",
+      "standard_category": "medication",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "vzv_vaccine",
+          "standard_concept_id": "N_c530",
+          "values": ["762820"]
+        }
+      ]
+    },
+    "rubella_vaccine_allergy":
+    {
+      "description": "Rubella Vaccine Allergy",
+      "standard_concept_id": "N_c346",
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "vzv_vaccine",
+          "standard_concept_id": "N_c530",
+          "values": ["762820"]
+        }
+      ]
+    },
+    "rotavirus_vaccine_administered":
+    {
+      "description": "Rotavirus Vaccine",
+      "standard_concept_id": "N_c314",
+      "standard_category": "medication",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "vzv_vaccine",
+          "standard_concept_id": "N_c314",
+          "values": ["798297", "805576"]
+        }
+      ]
+    },
+    "rotavirus_vaccine_allergy":
+    {
+      "description": "Rotavirus Vaccine Allergy",
+      "standard_concept_id": "N_c314",
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "vzv_vaccine",
+          "standard_concept_id": "N_c314",
+          "values": ["798297", "805576"]
+        }
+      ]
+    },
     "measles_vaccine_administered":
     {
       "description": "Measles Vaccine",
@@ -423,6 +555,65 @@
         }
       ]
     },
+    "measles_vaccine_allergy":
+    {
+      "description": "Measles Vaccine",
+      "standard_concept_id": "N_c317",
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "measles_vaccine",
+          "standard_concept_id": "N_c317",
+          "values": ["346512", "547240", "804183", "805494"]
+        }
+      ]
+    },
+    "measles":
+    {
+      "description": "Measles",
+      "standard_concept_id": "N_c508",
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "measles",
+          "standard_concept_id": "N_c568",
+          "values": ["111873003", "14189004", "186561002", "186562009", "192685000", "195900001", "233625007", "240483006", "240484000",
+                     "28463004", "38921001",  "406592004", "60013002",  "74918002"]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "measles",
+          "standard_concept_id": "N_c569",
+          "values": ["055"]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "measles",
+          "standard_concept_id": "N_c595",
+          "values": ["B05"]
+        }
+      ]
+    },
     "mmr_vaccine_administered":
     {
       "description": "Measles, Mumps and Rubella Vaccine",
@@ -442,28 +633,6 @@
           "standard_concept": "mmr_vaccine",
           "standard_concept_id": "N_c408",
           "values": ["762820", "805077"]
-        }
-      ]
-    },
-    "mumps_vaccine_administered":
-    {
-      "description": "Mumps Vaccine",
-      "standard_concept_id": "N_c530",
-      "standard_category": "medication",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes":
-      [
-        {
-          "set": "RxNorm",
-          "version": "07/2009",
-          "standard_concept": "mumps_vaccine",
-          "standard_concept_id": "N_c530",
-          "values": ["798375", "805077"]
         }
       ]
     },
@@ -580,28 +749,6 @@
           "standard_concept": "progressive_neurologic_disorder",
           "standard_concept_id": "N_c336",
           "values": ["230363006", "292925004", "292927007", "292992006"]
-        }
-      ]
-    },
-    "rubella_vaccine":
-    {
-      "description": "Rubella Vaccine",
-      "standard_concept_id": "N_c346",
-      "standard_category": "medication",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes":
-      [
-        {
-          "set": "RxNorm",
-          "version": "07/2009",
-          "standard_concept": "rubella_vaccine",
-          "standard_concept_id": "N_c346",
-          "values": ["762820"]
         }
       ]
     },
@@ -988,43 +1135,6 @@
         }
       ]
     },
-    "measles":
-    {
-      "description": "Measles",
-      "standard_concept_id": "N_c508",
-      "standard_category": "diagnosis_condition_problem",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes":
-      [
-        {
-          "set": "SNOMED-CT",
-          "version": "07/2009",
-          "standard_concept": "measles",
-          "standard_concept_id": "N_c568",
-          "values": ["111873003", "14189004", "186561002", "186562009", "192685000", "195900001", "233625007", "240483006", "240484000",
-                     "28463004", "38921001",  "406592004", "60013002",  "74918002"]
-        },
-        {
-          "set": "ICD-9-CM",
-          "version": "06/2009",
-          "standard_concept": "measles",
-          "standard_concept_id": "N_c569",
-          "values": ["055"]
-        },
-        {
-          "set": "ICD-10-CM",
-          "version": "2010",
-          "standard_concept": "measles",
-          "standard_concept_id": "N_c595",
-          "values": ["B05"]
-        }
-      ]
-    },
     "multiple_myeloma_diagnosis":
     {
       "description": "Multiple Myeloma",
@@ -1061,32 +1171,6 @@
                      "425657001", "440422002", "441313008", "94704006",  "95209008", "95210003"]
         }
       ]
-    },
-    "mumps":
-    {
-      "description": "Mumps",
-      "standard_concept_id": "N_c272",
-      "standard_category": "diagnosis_condition_problem",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes": []
-    },
-    "rubella":
-    {
-      "description": "Rubella",
-      "standard_concept_id": "N_c512",
-      "standard_category": "diagnosis_condition_problem",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes": []
     }
   },
   "population":

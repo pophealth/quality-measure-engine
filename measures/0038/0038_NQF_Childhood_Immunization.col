@@ -181,7 +181,7 @@
       "map_fn": "vzv_map.js"
     },
     {
-      "metadata": 
+      "metadata":
       {
         "sub_id": "g",
         "subtitle": "Pneumococcal Conjugate (PCV)",
@@ -206,6 +206,33 @@
         }
       },
       "map_fn": "pcv_map.js"
+    },
+    {
+      "metadata":
+      {
+        "sub_id": "i",
+        "subtitle": "Rotavirus (RV)",
+        "numerator":
+        {
+          "or":
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 2 Counts Rotavirus (RV) up until 2 years old"
+            },
+            {
+              "or":
+              [
+                {
+                  "category": "Allergy",
+                  "title": "No Rotavirus (RV) Allergy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "map_fn": "rv_map.js"
     }
   ]
 }
