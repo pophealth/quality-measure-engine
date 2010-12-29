@@ -35,16 +35,15 @@ describe QME::Importer::GenericImporter do
     
     gi = QME::Importer::GenericImporter.new(measure_definition(@loader, '0018'))
     measure_info = gi.parse(doc)
-
+    $stderr.puts "#{measure_info}"
+    measure_info['procedures_indicative_of_esrd'].should include(1291939200)
+    measure_info['pregnancy'].should include(1291939200)  
+    measure_info['esrd'].should include (1291939200)
     measure_info['encounter_outpatient'].should include(1239062400)
     measure_info['hypertension'].should include(1258156800)
     measure_info['systolic_blood_pressure'].should include('date' => 1258156800, 'value' => '132')
     measure_info['diastolic_blood_pressure'].should include('date' => 1258156800, 'value' => '86')
-    # measure_info['pregnancy'].should be_empty
-    measure_info['pregnancy'].should include(1291939200)  
-    measure_info['procedures_indicative_of_esrd'].should be_empty
-    measure_info['esrd'].should be_empty
-    
+     
   end
   
   it "should import the the information relevant to determining diabetic eye exam measure status" do

@@ -251,6 +251,76 @@
 				</section>
 			</component>	
 			<component>
+				<!--Surgeries-->  <!-- ESRD Related Procedures -->
+			<!--Surgeries-->
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.1.12" assigningAuthorityName="HL7 CCD"/>
+					<templateId root="2.16.840.1.113883.3.88.11.83.108" assigningAuthorityName="HITSP/C83"/>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.12" assigningAuthorityName="IHE PCC"/>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.11" assigningAuthorityName="IHE PCC"/>
+					<!--Surgeries section template-->
+					<code code="47519-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="List of surgeries"/>
+					<title>Surgeries/Procedures</title>
+					<text>
+					<table border="1" width="100%">
+						<thead>
+							<tr>
+								<th>Procedure</th>
+								<th>Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<content ID="Proc1">Donor nephrectomy (including cold preservation)</content>
+								</td>
+								<td>2009</td>
+							</tr>
+						</tbody>
+					</table>
+					</text>
+					<entry typeCode="DRIV">
+						<procedure classCode="PROC" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.3.88.11.83.17" assigningAuthorityName="HITSP C83"/>
+							<templateId root="2.16.840.1.113883.10.20.1.29" assigningAuthorityName="CCD"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.19" assigningAuthorityName="IHE PCC"/>
+							<!-- Procedure activity template -->
+							<id root="e401f340-7be2-11db-9fe1-0800200c9a66"/>
+							<code code="36145" codeSystemName="CPT" codeSystem="2.16.840.1.113883.6.12"  displayName="Donor nephrectomy (including cold preservation)">
+								<originalText>Donor nephrectomy (including cold preservation)<reference value="#Nephr1"/>
+								</originalText>
+								<qualifier>
+									<name code="272741003" displayName="Laterality"/>
+									<value code="7771000" displayName="Left"/>
+								</qualifier>
+							</code>
+							<text>IHE Requires reference to go here instead of originalText of code.<reference/>
+							</text>
+							<statusCode code="completed"/>
+							<effectiveTime value="20101210"/>
+							<entryRelationship typeCode="REFR">
+							<act classCode="ACT" moodCode="EVN">
+								<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.4" assigningAuthorityName="IHE PCC"/>
+								<id/>
+								<code nullFlavor="NA"/>
+								<text>
+									<reference value="PtrToSectionText"/>
+								</text>
+								<reference typeCode="REFR">
+									<externalDocument classCode="DOC" moodCode="EVN">
+										<id/>
+										<text>Location of Documentation -  URL or other</text>
+									</externalDocument>
+								</reference>
+							</act>
+						</entryRelationship>
+					</procedure>
+				</entry>
+			</section>
+		</component>
+	
+
+			<component>
 				<!--Problems-->
 				<section>
 					<templateId root="2.16.840.1.113883.3.88.11.83.103" assigningAuthorityName="HITSP/C83"/>
@@ -284,7 +354,7 @@
 							</tbody>
 						</table>
 					</text>
-					<entry typeCode="DRIV">
+					<entry typeCode="DRIV"> <!-- 1. Hypertension -->
 						<act classCode="ACT" moodCode="EVN">
 							<templateId root="2.16.840.1.113883.3.88.11.83.7" assigningAuthorityName="HITSP C83"/>
 							<templateId root="2.16.840.1.113883.10.20.1.27" assigningAuthorityName="CCD"/>
@@ -326,57 +396,92 @@
 							</entryRelationship>
 						</act>
 					</entry>
-				</section>
-					<entry typeCode="DRIV">
+					<entry typeCode="DRIV">  <!-- 2. ESRD -->
 						<act classCode="ACT" moodCode="EVN">
 							<templateId root="2.16.840.1.113883.3.88.11.83.7" assigningAuthorityName="HITSP C83"/>
 							<templateId root="2.16.840.1.113883.10.20.1.27" assigningAuthorityName="CCD"/>
 							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1" assigningAuthorityName="IHE PCC"/>
 							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2" assigningAuthorityName="IHE PCC"/>
 							<!-- Problem act template -->
-							<id root="5a2c903c-bd77-4bd1-ad9d-452383fbfefa"/>
+							<id root="d11275e9-67ae-11db-bd13-0800200c9a66"/>
 							<code nullFlavor="NA"/>
 							<statusCode code="active"/>
 							<effectiveTime>
 								<low nullFlavor="UNK"/>
 							</effectiveTime>
-							<performer typeCode="PRF">
-								<time>
-									<low value="2010"/>  <!--Change this date to make it inactive-->
-								</time>
-								<assignedEntity>
-									<id extension="PseudoMD-1" root="2.16.840.1.113883.3.72.5.2"/>
-									<addr/>
-									<telecom/>
-								</assignedEntity>
-							</performer>
 							<entryRelationship typeCode="SUBJ" inversionInd="false">
-								<observation classCode="OBS" moodCode="EVN" negationInd="true">
+								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.1.28" assigningAuthorityName="CCD"/>
 									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" assigningAuthorityName="IHE PCC"/>
 									<!--Problem observation template -->
-									<id/>
-									<code displayName="Symptom" code="418799008" codeSystemName="SNOMED-CT" codeSystem="2.16.840.1.113883.6.96"/>
+									<id root="9d3d416d-45ab-4da1-912f-4583e0632000"/>
+									<code displayName="Condition" code="64572001" codeSystemName="SNOMED-CT" codeSystem="2.16.840.1.113883.6.96"/>
 									<text>
-										<reference value="#PregInd-1"/>
+										<reference value="#CondID-3"/>
 									</text>
 									<statusCode code="completed"/>
 									<effectiveTime>
-										<low nullFlavor="UNK"/>
-										<high value="20101210"/>  <!--Change this date to make it inactive-->
+										<low value="20101210"/>
+										<high nullFlavor="UNK"/>
 									</effectiveTime>
-									<value xsi:type="CD" displayName="Patient currently pregnant" code="77386006" codeSystemName="SNOMED" codeSystem="2.16.840.1.113883.6.96"/>
-									<performer typeCode="PRF">
-										<assignedEntity>
-											<id extension="PseudoMD-1" root="2.16.840.1.113883.3.72.5.2"/>
-											<addr/>
-											<telecom/>
-										</assignedEntity>
-									</performer>
+									<value xsi:type="CD" displayName="End stage renal failure with renal transplant" code="236436003" codeSystemName="SNOMED" codeSystem="2.16.840.1.113883.6.96"/>
+									<entryRelationship typeCode="REFR">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<!-- Problem status observation template -->
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" displayName="Status"/>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" displayName="Active"/>
+										</observation>
+									</entryRelationship>
 								</observation>
 							</entryRelationship>
 						</act>
 					</entry>
+					<entry typeCode="DRIV">  <!-- 2. ESRD -->
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.3.88.11.83.7" assigningAuthorityName="HITSP C83"/>
+							<templateId root="2.16.840.1.113883.10.20.1.27" assigningAuthorityName="CCD"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1" assigningAuthorityName="IHE PCC"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2" assigningAuthorityName="IHE PCC"/>
+							<!-- Problem act template -->
+							<id root="d11275e9-67ae-11db-bd13-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<statusCode code="active"/>
+							<effectiveTime>
+								<low nullFlavor="UNK"/>
+							</effectiveTime>
+							<entryRelationship typeCode="SUBJ" inversionInd="false">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28" assigningAuthorityName="CCD"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" assigningAuthorityName="IHE PCC"/>
+									<!--Problem observation template -->
+									<id root="9d3d416d-45ab-4da1-912f-4583e0632000"/>
+									<code displayName="Condition" code="64572001" codeSystemName="SNOMED-CT" codeSystem="2.16.840.1.113883.6.96"/>
+									<text>
+										<reference value="#Preg-3"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20101210"/>
+										<high nullFlavor="UNK"/>
+									</effectiveTime>
+									<value xsi:type="CD" displayName="Pregnancy" code="101047019" codeSystemName="SNOMED" codeSystem="2.16.840.1.113883.6.96"/>
+									<entryRelationship typeCode="REFR">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<!-- Problem status observation template -->
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" displayName="Status"/>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+
+				</section>
 
 			</component>       
             <component>
