@@ -101,5 +101,9 @@ describe QME::Importer::GenericImporter do
     measure_info['encounter_pregnancy'].should include(1273190400)
     measure_info['contraceptives'].should include(1248825600)
     measure_info['retinoid'].should include(1248825600)
+    measure_info['chlamydia_screening'].should include(1269302400)
+    measure_info['laboratory_tests_indicative_of_sexually_active_women'].should include(1269302400)
+    measure_info['pregnancy_test'].should include(1269302400)
+    measure_info['procedures_indicative_of_sexually_active_woman'].should include(1269302400)
   end
 end
