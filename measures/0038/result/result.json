@@ -3,41 +3,49 @@
     {
       "id": "0038",
       "sub_id": "a",
-      "initialPopulation": 24,
+      "initialPopulation": 26,
       "numerator": 1,
-      "denominator": 23,
+      "denominator": 25,
       "exclusions": 0
     },
     {
       "id": "0038",
       "sub_id": "b",
-      "initialPopulation": 24,
+      "initialPopulation": 26,
       "numerator": 1,
-      "denominator": 23,
+      "denominator": 25,
       "exclusions": 0
     },
     {
       "id": "0038",
       "sub_id": "d",
-      "initialPopulation": 24,
+      "initialPopulation": 26,
       "numerator": 1,
-      "denominator": 23,
+      "denominator": 25,
       "exclusions": 0
     },
     {
       "id": "0038",
       "sub_id": "e",
-      "initialPopulation": 24,
+      "initialPopulation": 26,
       "numerator": 2,
-      "denominator": 23,
+      "denominator": 25,
       "exclusions": 0
     },
     {
       "id": "0038",
       "sub_id": "f",
-      "initialPopulation": 24,
+      "initialPopulation": 26,
       "numerator": 2,
-      "denominator": 23,
+      "denominator": 25,
+      "exclusions": 0
+    },
+    {
+      "id": "0038",
+      "sub_id": "g",
+      "initialPopulation": 26,
+      "numerator": 1,
+      "denominator": 25,
       "exclusions": 0
     }
   ]

@@ -9,7 +9,7 @@ function () {
   var earliest_birthdate =  effective_date - 2 * year;
   var latest_birthdate =    effective_date - 1 * year;
 
-  // dtap vaccines are considered when they are occurring < 2 years after
+  // hebatitis b vaccines are considered when they are occurring < 2 years after
   // the patients' birthdate
   var latest_hep_b_vaccine = patient.birthdate + 2 * year;
 

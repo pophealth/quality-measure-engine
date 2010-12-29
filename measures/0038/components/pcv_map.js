@@ -4,16 +4,14 @@ function () {
   if (measure==null)
     measure={};
 
-  var day = 24 * 60 * 60;
-  var year = 365 * day;
+  var year = 365 * 24 * 60 * 60;
   var effective_date =  <%= effective_date %>;
   var earliest_birthdate =  effective_date - 2 * year;
   var latest_birthdate =    effective_date - 1 * year;
 
-  // hib vaccines are considered when they are occurring >= 42 days and 
-  // < 2 years after the patients' birthdate
-  var earliest_hib_vaccine = patient.birthdate + 42 * day;
-  var latest_hib_vaccine =   patient.birthdate + 2  * year;
+  // pcv vaccines are considered when they are occurring < 2 years after 
+  // the patients' birthdate
+  var latest_pcv_vaccine = patient.birthdate + 2 * year;
 
   var population = function() {
     return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
@@ -27,15 +25,16 @@ function () {
   }
 
   var numerator = function() {
-    number_hib_vaccine_administered = inRange(measure.h_influenza_type_b_vaccine_administered, 
-                                              earliest_hib_vaccine, 
-                                              latest_hib_vaccine);
+    number_pcv_vaccine_administered = inRange(measure.pcv_vaccine_administered,
+                                              patient.birthdate,
+                                              latest_pcv_vaccine);
 
-    // patient needs 2 different H influenza type B (HiB) vaccines from the time that they 
-    // are 42 days old, until the time that they are 2 years old
-    return (number_hib_vaccine_administered >= 2
-             && 
-            !(inRange(measure.h_influenza_type_b_vaccine_allergy, patient.birthdate, effective_date)));
+    // To meet the criteria for this report, the patient needs to have either:
+    // 4 Pneumococcal Conjugate (PCV) vaccines up until the time that they are 2 years old
+    // AND cannot have Medication allergy to PCV vaccine
+    return ((number_pcv_vaccine_administered >= 4)
+            &&
+            !(inRange(measure.pcv_vaccine_allergy, patient.birthdate, effective_date)));
   }
 
   // no exclusions defined for any reports that are a part of NQF 0038

@@ -446,11 +446,35 @@
         }
       ]
     },
-    "pneumococcal_vaccination_administered":
+    "pcv_vaccine_administered":
     {
       "description": "Pneumococcal Vaccination",
       "standard_concept_id": "N_c421",
       "standard_category": "medication",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "pneumococcal_vaccination",
+          "standard_concept_id": "N_c421",
+          "values": ["854931", "854933", "854935", "854937", "854939", "854941", "854943", "854945", "854947", "854949", "854951",
+                     "854953", "854955", "854957", "854959", "854961", "854963", "854965", "854967", "854969", "854971", "854973",
+                     "854975", "854977"]
+        }
+      ]
+    },
+    "pcv_vaccine_allergy":
+    {
+      "description": "Pneumococcal Vaccination",
+      "standard_concept_id": "N_c421",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items":
       {

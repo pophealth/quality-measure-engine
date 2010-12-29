@@ -5,7 +5,7 @@
   "birthdate": 1245024000,  // Time.gm(2009, 6, 15).to_i
   "measures": {             // bag of measures, one entry per measure
     "0038": {
-      "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 6, 15).to_i
+      "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 9, 15).to_i
 
       // 4 DTaP vaccines administered: September 15, 16, 17, and 18 in 2009
       "dtap_vaccine_administrered": [1252972800, 1253059200, 1253145600, 1253232000],
