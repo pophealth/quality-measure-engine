@@ -4,21 +4,26 @@
   "description": "Patients more than 50 years old who received a flu vaccine (September to February)",
   "category": "Core Alternate",
   "steward": "AMA",
-  "parameters": {
-    "effective_date": {
+  "parameters":
+  {
+    "effective_date":
+    {
       "description": "Effective end date for measure",
       "type": "number",
       "format": "utc-sec"
     }
   },
-  "patient": {
-    "birthdate": {
+  "patient":
+  {
+    "birthdate":
+    {
       "description": "Date of birth",
       "critical": true,
       "standard_category": "characteristic",
       "type":"number",
       "format": "utc-sec",
-      "codes": [
+      "codes":
+      [
         {
           "set": "HL7",
           "version": "3.0",
@@ -27,32 +32,41 @@
       ]
     }
   },
-  "measure": {
-    "encounter_outpatient": {
+  "measure":
+  {
+    "encounter_outpatient":
+    {
       "description": "Date of outpatient encounter",
       "standard_category": "encounter",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
-          "values": ["99201", "99202", "99203", "99204", "99205", "99212", "99213", "99214", "99215", "99241", "99242", "99243", "99244", "99245", "99324", "99325", "99326", "99327", "99328", "99334", "99335", "99336", "99337", "99341", "99342", "99343", "99344", "99345", "99347", "99348", "99349", "99350"]
+          "values": ["99201", "99202", "99203", "99204", "99205", "99212", "99213", "99214", "99215", "99241", "99242", 
+                     "99243", "99244", "99245", "99324", "99325", "99326", "99327", "99328", "99334", "99335", "99336",
+                     "99337", "99341", "99342", "99343", "99344", "99345", "99347", "99348", "99349", "99350"]
         }
       ]
     },
-    "encounter_prev_med_40_or_older": {
+    "encounter_prev_med_40_or_older":
+    {
       "description": "Date of preventative medicine encounter",
       "standard_category": "encounter",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
@@ -60,15 +74,18 @@
         }
       ]
     },
-    "encounter_prev_med_group": {
+    "encounter_prev_med_group":
+    {
       "description": "Date of preventative medicine group counseling",
       "standard_category": "encounter",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
@@ -76,7 +93,8 @@
         }
       ]
     },
-    "encounter_prev_med_ind": {
+    "encounter_prev_med_ind":
+    {
       "description": "Date of preventative medicine individual counseling",
       "standard_category": "encounter",
       "type": "array",
@@ -84,7 +102,8 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
@@ -92,15 +111,18 @@
         }
       ]
     },
-    "encounter_prev_med_other": {
+    "encounter_prev_med_other":
+    {
       "description": "Date of preventative medicine other services",
       "standard_category": "encounter",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
@@ -108,15 +130,18 @@
         }
       ]
     },
-    "encounter_nursing": {
+    "encounter_nursing":
+    {
       "description": "Date of nursing facility encounter",
       "standard_category": "encounter",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
@@ -124,15 +149,18 @@
         }
       ]
     },
-    "encounter_nursing_discharge": {
+    "encounter_nursing_discharge":
+    {
       "description": "Date of nursing discharge",
       "standard_category": "encounter",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "CPT",
           "version": "2010",
@@ -140,15 +168,18 @@
         }
       ]
     },
-    "immunization": {
+    "immunization":
+    {
       "description": "Influenza immunization",
       "standard_category": "medication",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "RxNorm",
           "version": "12/2009",
@@ -156,11 +187,13 @@
         }
       ]
     },
-    "allergy_to_eggs": {
+    "allergy_to_eggs":
+    {
       "description": "Allergy to eggs",
-      "standard_category": "substance_allergy",
+      "standard_category": "medication_allergy",
       "type": "boolean",
-      "codes": [
+      "codes":
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -173,7 +206,8 @@
         }
       ]
     },
-    "immunization_allergy": {
+    "immunization_allergy":
+    {
       "description": "Influenza immunization allergy",
       "standard_category": "medication_allergy",
       "type": "array",
@@ -181,7 +215,8 @@
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "RxNorm",
           "version": "12/2009",
@@ -189,15 +224,18 @@
         }
       ]
     },
-    "immunization_adverse_event": {
+    "immunization_adverse_event":
+    {
       "description": "Influenza immunization adverse event",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": [
+      "codes":
+      [
         {
           "set": "RxNorm",
           "version": "12/2009",
@@ -205,11 +243,13 @@
         }
       ]
     },
-    "immunization_intolerance": {
+    "immunization_intolerance":
+    {
       "description": "Influenza immunization intolerance",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },
@@ -221,11 +261,13 @@
         }
       ]
     },
-    "immunization_containdication": {
+    "immunization_containdication":
+    {
       "description": "Influenza immunization contraindication",
       "standard_category": "diagnosis_condition_problem",
       "type": "boolean",
-      "codes": [
+      "codes":
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -233,11 +275,13 @@
         }
       ]
     },
-    "immunization_declined": {
+    "immunization_declined":
+    {
       "description": "Influenza immunization declined",
       "standard_category": "negation_rationale",
       "type": "boolean",
-      "codes": [
+      "codes":
+      [
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
@@ -245,11 +289,13 @@
         }
       ]
     },
-    "patient_reason": {
+    "patient_reason":
+    {
       "description": "Influenza immunization not done for patient reason",
       "standard_category": "negation_rationale",
       "type": "boolean",
-      "codes": [
+      "codes":
+      [
         {
           "set": "HL7",
           "version": "3.0",
@@ -257,11 +303,13 @@
         }
       ]
     },
-    "medical_reason": {
+    "medical_reason":
+    {
       "description": "Influenza immunization not done for medical reason",
       "standard_category": "negation_rationale",
       "type": "boolean",
-      "codes": [
+      "codes":
+      [
         {
           "set": "HL7",
           "version": "3.0",
@@ -269,28 +317,35 @@
         }
       ]
     },
-    "system_reason": {
+    "system_reason":
+    {
       "description": "Influenza immunization not done for system reason",
       "standard_category": "negation_rationale",
       "type": "boolean",
-      "codes": [
+      "codes":
+      [
         {
           "set": "HL7",
           "version": "3.0",
-          "values": ["19730", "19731", "19733", "19734", "19735", "19736", "19987", "19988", "19989", "19990", "21408", "21493", "21568", "21706", "21707", "21709", "21728", "21729", "21730", "21731", "21732", "21733", "21734", "21735", "21744", "22023", "22024", "22165", "22166", "22167", "22168", "22169", "22857", "22858", "22859", "22865", "22866", "22867", "22907", "22909", "22911", "22912", "22913"]
+          "values": ["19730", "19731", "19733", "19734", "19735", "19736", "19987", "19988", "19989", "19990", "21408",
+                     "21493", "21568", "21706", "21707", "21709", "21728", "21729", "21730", "21731", "21732", "21733",
+                     "21734", "21735", "21744", "22023", "22024", "22165", "22166", "22167", "22168", "22169", "22857",
+                     "22858", "22859", "22865", "22866", "22867", "22907", "22909", "22911", "22912", "22913"]
         }
       ]
     }
   },
-  
-  "population": {
-    "and": [
+  "population":
+  {
+    "and":
+    [
       {
         "category": "Patient Characteristic",
         "title": "Age >= 50"
       },
       {
-        "or": [
+        "or":
+        [
           {
             "category": "Encounter",
             "title": "2 or more outpatient"
@@ -323,16 +378,20 @@
       }
     ]
   },
-  "denominator": {
+  "denominator":
+  {
     "category": "Encounter",
     "title": "Between 58 and 122 days prior to effective date"
   },
-  "numerator": {
+  "numerator":
+  {
     "category": "Medication Administered",
     "title": "Influenza vaccine"
   },
-  "exclusions": {
-    "or": [
+  "exclusions":
+  {
+    "or":
+    [
       {
         "category": "Medication not done",
         "title": "Influenza immunization contraindication"

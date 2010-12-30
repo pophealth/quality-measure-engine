@@ -129,7 +129,7 @@
     {
       "description": "Hepatitis A Vaccine Administered",
       "standard_concept_id": "N_c419",
-      "standard_categories": ["medication_administered"],
+      "standard_category": "medication_administered",
       "category_type": "medication",
       "type": "array",
       "items":
@@ -174,8 +174,7 @@
     {
       "description": "Hepatitis A Diagnosis",
       "standard_concept_id": "N_c531",
-      "standard_categories": "diagnosis_resolved",
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items":
       {
@@ -226,7 +225,7 @@
     {
       "description": "Hepatitis B Vaccine Administered",
       "standard_concept_id": "N_c418",
-      "standard_categories": ["medication_administered"],
+      "standard_category": "medication_administered",
       "category_type": "medication",
       "type": "array",
       "items":
@@ -271,8 +270,7 @@
     {
       "description": "Hepatitis B Diagnosis",
       "standard_concept_id": "N_c532",
-      "standard_categories": ["diagnosis"],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items":
       {
@@ -385,7 +383,7 @@
       "standard_concept_id": "N_c407",
       "standard_category": "medication",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -984,12 +982,12 @@
       "standard_concept_id": "N_c442",
       "standard_category": "encounter",
       "type": "array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "ICD-9-CM",

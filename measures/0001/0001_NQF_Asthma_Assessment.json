@@ -111,7 +111,7 @@
       "description": "Dates of Nighttime Asthma Symptoms",
       "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
@@ -130,12 +130,12 @@
       "description": "Dates of Nighttime Asthma Symptoms Quantified",
       "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"
       },
-      "codes": 
+      "codes":
       [
         {
           "set": "SNOMED-CT",
@@ -149,7 +149,7 @@
       "description": "Dates of Asthma Symptom Assessment Tool",
       "standard_category": "diagnosis_condition_problem",
       "type":"array",
-      "items": 
+      "items":
       {
         "type": "number",
         "format": "utc-sec"

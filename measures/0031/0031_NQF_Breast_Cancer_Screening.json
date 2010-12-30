@@ -100,7 +100,7 @@
       "description": "breast_cancer_screening",
       "standard_concept_id": "N_c74",
       "standard_categories": ["diagnostic_study_performed"],
-      "category_type": "diagnosis-condition-problem",
+      "category_type": "diagnosis_condition_problem",
       "type": "array",
       "items":
       {
@@ -135,7 +135,7 @@
           "version": "07/2009",
           "standard_concept": "bilateral_mastectomy",
           "standard_concept_id": "N_c83",
-          "values": ["12389009", "241055006", "241056007", "241057003", "241058008", "241189009", "241539009", "24623002", "258172002", 
+          "values": ["12389009", "241055006", "241056007", "241057003", "241058008", "241189009", "241539009", "24623002", "258172002",
                      "35482003", "418074003", "418378007", "43204002",  "439324009", "71651007"]
         }
       ]
