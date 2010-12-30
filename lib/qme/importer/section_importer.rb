@@ -18,11 +18,13 @@ module QME
       # calculate a quality measure
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
+      # @param [String] property The name of a measure property pulled from the JSON measure
+      #        measure definition
       # @param [Hash] property_description The description of a measure property pulled from the JSON
       #        measure definition
       # @return [Hash] Keys of the hash will be names of the properties for a given quality measure.
       #         Values will be the values (usually dates) extracted from the C32
-      def extract(doc, property_description)
+      def extract(doc, property, property_description)
         if is_date_list_property?(property_description)
           extract_date_list_based_on_section(doc, property_description)
         elsif is_value_date_property?(property_description)
@@ -30,7 +32,7 @@ module QME
         elsif is_date_range_property?(property_description)
           extract_date_range_list_based_on_section(doc, property_description)
         else
-          raise "Unknown property schema for property #{property_description['description']}"
+          raise "Unknown property schema for property #{property} - #{property_description['description']}"
         end
       end
       

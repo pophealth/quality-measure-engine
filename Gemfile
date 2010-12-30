@@ -11,6 +11,7 @@ group :test do
   gem 'awesome_print', :require => 'ap'
   gem 'cover_me', '>= 1.0.0.rc4'
   gem 'metric_fu'
+  gem 'sinatra'
 end
 
 group :build do
