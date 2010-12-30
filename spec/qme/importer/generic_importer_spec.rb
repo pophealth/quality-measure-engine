@@ -105,5 +105,6 @@ describe QME::Importer::GenericImporter do
     measure_info['laboratory_tests_indicative_of_sexually_active_women'].should include(1269302400)
     measure_info['pregnancy_test'].should include(1269302400)
     measure_info['procedures_indicative_of_sexually_active_woman'].should include(1269302400)
+    measure_info['sexually_active_woman'].should include(1262304000)
   end
 end
