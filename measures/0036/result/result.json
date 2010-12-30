@@ -1,0 +1,29 @@
+{
+  "results":[
+    {
+      "id": "0036",
+      "sub_id": "a",
+      "initialPopulation": 4,
+      "numerator": 1,
+      "denominator": 2,
+      "exclusions": 1
+    },
+    {
+      "id": "0036",
+      "sub_id": "b",
+      "initialPopulation": 4,
+      "numerator": 1,
+      "denominator": 2,
+      "exclusions": 1
+    },
+    {
+      "id": "0036",
+      "sub_id": "c",
+      "initialPopulation": 8,
+      "numerator": 2,
+      "denominator": 4,
+      "exclusions": 2
+    }
+  ]
+}
+
