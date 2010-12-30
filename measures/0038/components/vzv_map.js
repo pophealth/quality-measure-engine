@@ -9,7 +9,7 @@ function () {
   var earliest_birthdate =  effective_date - 2 * year;
   var latest_birthdate =    effective_date - 1 * year;
 
-  // vzv vaccines are considered when they are occurring < 2 years after 
+  // VZV vaccines are considered when they are occurring < 2 years after 
   // the patients' birthdate
   var latest_vzv_vaccine = patient.birthdate + 2 * year;
 
@@ -32,7 +32,6 @@ function () {
     // To meet the criteria for this report, the patient needs to have either:
     // 1 Chicken Pox (VZV) vaccine up until the time that they are 2 years old,
     // OR resolution on VZV diagnosis by the end of the effective date of this measure
-    //
     // AND the patients cannot have either:
     // Lymphoreticular or Histiocytic cancer
     // OR Asymptomatic HIV

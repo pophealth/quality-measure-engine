@@ -32,7 +32,6 @@ function () {
     // To meet the criteria for this report, the patient needs either:
     // 3 different Hepatitis B (Hep B) vaccines until the time that they are 2 years old,
     // OR resolution on a hepatitis B diagnosis by the end of the effective date of this measure
-    //
     // AND the patients cannot have either an allergy to either Baker's yeast, or an allergy 
     // to Hepatitis B vaccine
     return (((number_hep_b_vaccine_administered >= 3)
