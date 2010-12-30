@@ -17,6 +17,7 @@ describe QME::MapReduce::Executor do
     measure_list.should have_key('0001')
     measure_list.should have_key('0013')
     measure_list.should have_key('0032')
+    measure_list.should have_key('0036')
     measure_list.should have_key('0043')
     measure_list.should have_key('0041')
     measure_list.should have_key('0055')
@@ -65,8 +66,7 @@ describe QME::MapReduce::Executor do
         measure_id = measure['id']
         sub_id = measure['sub_id']
         puts "Validating measure #{measure_id}#{sub_id}"
-        result = executor.measure_result(measure_id, sub_id, 
-          'effective_date'=>Time.gm(2010, 9, 19).to_i)
+        result = executor.measure_result(measure_id, sub_id,'effective_date'=>Time.gm(2010, 9, 19).to_i)
         if expected['initialPopulation'] == nil
           # multiple results for multi numerator/denominator measure
           # loop through list of results to find the matching one
