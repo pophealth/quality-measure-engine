@@ -7,9 +7,6 @@
     "0038": {
       "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 9, 15).to_i
 
-      // Rotavirus (RV) vaccine administered September 15th and 16th 2009
-      "rotavirus_vaccine_administered": [1252972800, 1253059200],
-
       // Rotavirus (RV) vaccine allergy detected September 18, 2009
       // thereby excluding patient from numerator
       "rotavirus_vaccine_allergy": 1253232000                // Time.gm(2009, 9, 18).to_i

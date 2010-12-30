@@ -14,34 +14,35 @@
             {
               "category": "Medication Administered",
               "title": ">= 4 Counts Tetanus and Acellular Pertussis (DTaP) Vaccine from 42 days old - 2 years"
-            },
-            {
-              "or":
-              [
-                {
-                  "category": "Diagnosis",
-                  "title": "No Active Encephalopathy"
-                },
-                {
-                  "category": "Diagnosis",
-                  "title": "No Active Progressive Neurological Disorder"
-                },
-                {
-                  "category": "Allergy",
-                  "title": "No Tetanus and Acellular Pertussis (DTaP) Vaccine Allergy"
-                }
-              ]
             }
           ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
+            {
+              "category": "Diagnosis",
+              "title": "Active Encephalopathy"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Active Progressive Neurological Disorder"
+            },
+            {
+              "category": "Allergy",
+              "title": "Tetanus and Acellular Pertussis (DTaP) Vaccine Allergy"
+            }
+          ] 
         }
       },
       "map_fn": "dtap_map.js"
     },
     {
-      "metadata": 
+      "metadata":
       {
         "sub_id": "b",
-        "subtitle": "Polio (IPV) vaccine",
+        "subtitle": "Polio (IPV) Vaccine",
         "numerator":
         {
           "and":
@@ -49,29 +50,30 @@
             {
               "category": "Medication Administered",
               "title": ">= 3 Counts Polio (IPV) Vaccine from 42 days old - 2 years"
-            },
-            {
-              "or":
-              [
-                {
-                  "category": "Allergy",
-                  "title": "No Neomycin Allergy"
-                },
-                {
-                  "category": "Allergy",
-                  "title": "No Streptomycin Allergy"
-                },
-                {
-                  "category": "Allergy",
-                  "title": "No Polymyxin Allergy"
-                },
-                {
-                  "category": "Allergy",
-                  "title": "No Polio (IPV) Vaccine Allergy"
-                }
-              ]
             }
           ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
+            {
+              "category": "Allergy",
+              "title": "Neomycin Allergy"
+            },
+            {
+              "category": "Allergy",
+              "title": "Streptomycin Allergy"
+            },
+            {
+              "category": "Allergy",
+              "title": "Polymyxin Allergy"
+            },
+            {
+              "category": "Allergy",
+              "title": "Polio (IPV) Vaccine Allergy"
+            }
+          ] 
         }
       },
       "map_fn": "ipv_map.js"
@@ -79,8 +81,112 @@
     {
       "metadata": 
       {
+        "sub_id": "c",
+        "subtitle": "Measles, Mumps and Rubella (MMR) Vaccine",
+        "numerator":
+        {
+          "or":
+          [
+            {
+              "category": "Medication Administered",
+              "title": ">= 1 Count Measles, Mumps and Rubella (MMR) Vaccine prior to 2 years old"
+            },
+            {
+              "and":
+              [
+                {
+                  "or":
+                  [
+                    {
+                      "category": "Medication Administered",
+                      "title": ">= 1 Count Mumps Vaccine prior to 2 years old"
+                    },
+                    {
+                      "category": "Diagnosis",
+                      "title": "Mumps Resolved"
+                    },
+                    {
+                      "category": "Allergy",
+                      "title": "Mumps Vaccine Allergy"
+                    }
+                  ]
+                },
+                {
+                  "or":
+                  [
+                    {
+                      "category": "Medication Administered",
+                      "title": ">= 1 Count Measles Vaccine prior to 2 years old"
+                    },
+                    {
+                      "category": "Diagnosis",
+                      "title": "Measles Resolved"
+                    },
+                    {
+                      "category": "Allergy",
+                      "title": "Measles Vaccine Allergy"
+                    }
+                  ]
+                },
+                {
+                  "or":
+                  [
+                    {
+                      "category": "Medication Administered",
+                      "title": ">= 1 Count Rubella Vaccine prior to 2 years old"
+                    },
+                    {
+                      "category": "Diagnosis",
+                      "title": "Rubella Resolved"
+                    },
+                    {
+                      "category": "Allergy",
+                      "title": "Rubella Vaccine Allergy"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
+            {
+              "category": "Diagnosis",
+              "title": "Cancer of Lymphoreticular or Histiocytic Tissue"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Asymptomatic HIV"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Multiple Myeloma"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Leukemia"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Immunodeficiency"
+            },
+            {
+              "category": "Allergy",
+              "title": "Measles, Mumps and Rubella (MMR) Vaccine Allergy"
+            }
+          ]
+        }
+      },
+      "map_fn": "mmr_map.js"
+    },
+    {
+      "metadata":
+      {
         "sub_id": "d",
-        "subtitle": "H influenza type B (HiB)",
+        "subtitle": "H Influenza Type B (HiB) Vaccine",
         "numerator":
         {
           "and":
@@ -88,15 +194,16 @@
             {
               "category": "Medication Administered",
               "title": ">= 2 Counts H influenza type B (HiB) Vaccine from 42 days old - 2 years"
-            },
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
             {
-              "and":
-              [
-                {
-                  "category": "Allergy",
-                  "title": "No H influenza type B (HiB) Vaccine Allergy"
-                }
-              ]
+              "category": "Allergy",
+              "title": "H influenza type B (HiB) Vaccine Allergy"
             }
           ]
         }
@@ -107,7 +214,7 @@
       "metadata": 
       {
         "sub_id": "e",
-        "subtitle": "Hepatitis B (Hep B)",
+        "subtitle": "Hepatitis B (Hep B) Vaccine",
         "numerator":
         {
           "or":
@@ -119,66 +226,68 @@
             {
               "category": "Diagnosis",
               "title": "Hepatitis B Resolved"
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
+            {
+              "category": "Allergy",
+              "title": "Hepatitis B (Hep B) Vaccine Allergy"
             },
             {
-              "or":
-              [
-                {
-                  "category": "Allergy",
-                  "title": "No Hepatitis B (Hep B) Vaccine Allergy"
-                },
-                {
-                  "category": "Allergy",
-                  "title": "No Baker's Yeast Allergy"
-                }
-              ]
+              "category": "Allergy",
+              "title": "Baker's Yeast Allergy"
             }
           ]
         }
       },
       "map_fn": "hep_b_map.js"
     },
-	{
+    {
       "metadata":
       {
         "sub_id": "f",
-        "subtitle": "Chicken Pox (VZV)",
+        "subtitle": "Chicken Pox (VZV) Vaccine",
         "numerator":
         {
-          "or":
+          "and":
           [
             {
               "category": "Medication Administered",
               "title": ">= 1 Counts Chicken Pox (VZV) Vaccine up until 2 years old"
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
+            {
+              "category": "Diagnosis",
+              "title": "Cancer of Lymphoreticular or Histiocytic Tissue"
             },
             {
-              "or":
-              [
-                {
-                  "category": "Diagnosis",
-                  "title": "No Cancer of Lymphoreticular or Histiocytic Tissue"
-                },
-                {
-                  "category": "Diagnosis",
-                  "title": "No Asymptomatic HIV"
-                },
-                {
-                  "category": "Diagnosis",
-                  "title": "No Multiple Myeloma"
-                },
-                {
-                  "category": "Diagnosis",
-                  "title": "No Leukemia"
-                },
-                {
-                  "category": "Diagnosis",
-                  "title": "No Immunodeficiency"
-                },
-                {
-                  "category": "Allergy",
-                  "title": "No Chicken Pox (VZV) Vaccine Allergy"
-                }
-              ]
+              "category": "Diagnosis",
+              "title": "Asymptomatic HIV"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Multiple Myeloma"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Leukemia"
+            },
+            {
+              "category": "Diagnosis",
+              "title": "Immunodeficiency"
+            },
+            {
+              "category": "Allergy",
+              "title": "Chicken Pox (VZV) Vaccine Allergy"
             }
           ]
         }
@@ -189,23 +298,24 @@
       "metadata":
       {
         "sub_id": "g",
-        "subtitle": "Pneumococcal Conjugate (PCV)",
+        "subtitle": "Pneumococcal Conjugate (PCV) Vaccine",
         "numerator":
         {
-          "or":
+          "and":
           [
             {
               "category": "Medication Administered",
               "title": ">= 4 Counts Pneumococcal Conjugate (PCV) Vaccine up until 2 years old"
-            },
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
             {
-              "or":
-              [
-                {
-                  "category": "Allergy",
-                  "title": "No Pneumococcal Conjugate (PCV) Vaccine Allergy"
-                }
-              ]
+              "category": "Allergy",
+              "title": "Pneumococcal Conjugate (PCV) Vaccine Allergy"
             }
           ]
         }
@@ -216,7 +326,7 @@
       "metadata":
       {
         "sub_id": "h",
-        "subtitle": "Hepatitis A (Hep A)",
+        "subtitle": "Hepatitis A (Hep A) Vaccine",
         "numerator":
         {
           "or":
@@ -228,15 +338,16 @@
             {
               "category": "Diagnosis",
               "title": "Hepatitis A Resolved"
-            },
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
             {
-              "or":
-              [
-                {
-                  "category": "Allergy",
-                  "title": "No Hepatitis A (Hep A) Vaccine Allergy"
-                }
-              ]
+              "category": "Allergy",
+              "title": "Hepatitis A (Hep A) Vaccine Allergy"
             }
           ]
         }
@@ -247,7 +358,7 @@
       "metadata":
       {
         "sub_id": "i",
-        "subtitle": "Rotavirus (RV)",
+        "subtitle": "Rotavirus (RV) Vaccine",
         "numerator":
         {
           "or":
@@ -255,15 +366,16 @@
             {
               "category": "Medication Administered",
               "title": ">= 2 Counts Rotavirus (RV) Vaccine up until 2 years old"
-            },
+            }
+          ]
+        },
+        "exclusions":
+        {
+          "or":
+          [
             {
-              "or":
-              [
-                {
-                  "category": "Allergy",
-                  "title": "No Rotavirus (RV) Vaccine Allergy"
-                }
-              ]
+              "category": "Allergy",
+              "title": "Rotavirus (RV) Vaccine Allergy"
             }
           ]
         }

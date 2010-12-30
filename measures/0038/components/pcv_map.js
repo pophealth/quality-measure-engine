@@ -28,18 +28,15 @@ function () {
     number_pcv_vaccine_administered = inRange(measure.pcv_vaccine_administered,
                                               patient.birthdate,
                                               latest_pcv_vaccine);
-
     // To meet the criteria for this report, the patient needs to have either:
     // 4 Pneumococcal Conjugate (PCV) vaccines up until the time that they are 2 years old
     // AND cannot have Medication allergy to PCV vaccine
-    return ((number_pcv_vaccine_administered >= 4)
-            &&
-            !(inRange(measure.pcv_vaccine_allergy, patient.birthdate, effective_date)));
+    return (number_pcv_vaccine_administered >= 4);
   }
 
-  // no exclusions defined for any reports that are a part of NQF 0038
+  // Exclude patients who have either an allergy to PCV vaccine
   var exclusion = function() {
-    return false;
+    return (inRange(measure.pcv_vaccine_allergy, patient.birthdate, effective_date));
   }
 
   map(patient, population, denominator, numerator, exclusion);

@@ -3,66 +3,74 @@
     {
       "id": "0038",
       "sub_id": "a",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 1,
-      "denominator": 30,
-      "exclusions": 0
+      "denominator": 28,
+      "exclusions": 3
     },
     {
       "id": "0038",
       "sub_id": "b",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 1,
-      "denominator": 30,
+      "denominator": 27,
+      "exclusions": 4
+    },
+    {
+      "id": "0038",
+      "sub_id": "c",
+      "initialPopulation": 32,
+      "numerator": 0,
+      "denominator": 31,
       "exclusions": 0
     },
     {
       "id": "0038",
       "sub_id": "d",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 1,
       "denominator": 30,
-      "exclusions": 0
+      "exclusions": 1
     },
     {
       "id": "0038",
       "sub_id": "e",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 2,
-      "denominator": 30,
-      "exclusions": 0
+      "denominator": 29,
+      "exclusions": 2
     },
     {
       "id": "0038",
       "sub_id": "f",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 2,
-      "denominator": 30,
-      "exclusions": 0
+      "denominator": 25,
+      "exclusions": 6
     },
     {
       "id": "0038",
       "sub_id": "g",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 1,
       "denominator": 30,
-      "exclusions": 0
+      "exclusions": 1
     },
     {
       "id": "0038",
       "sub_id": "h",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 2,
       "denominator": 30,
-      "exclusions": 0
+      "exclusions": 1
     },
     {
       "id": "0038",
       "sub_id": "i",
-      "initialPopulation": 31,
+      "initialPopulation": 32,
       "numerator": 1,
       "denominator": 30,
-      "exclusions": 0
+      "exclusions": 1
     }
   ]
 }

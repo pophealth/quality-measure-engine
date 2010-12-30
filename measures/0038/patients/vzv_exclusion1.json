@@ -7,9 +7,6 @@
     "0038": {
       "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 9, 15).to_i
 
-      // Chicken Pox (VZV) vaccine administered: September 15, 2009
-      "number_vzv_vaccine_administered": [1252972800],
-
       // lymphoreticular cancer excludes patient from the numerator
       "diagnosis_of_cancer_of_lymphoreticular_or_histiocytic_tissue": 1245024000 // Time.gm(2009, 6, 15).to_i
     }

@@ -4,16 +4,14 @@ function () {
   if (measure==null)
     measure={};
 
-  var day = 24 * 60 * 60;
-  var year = 365 * day;
+  var year = 365 * 24 * 60 * 60;
   var effective_date =  <%= effective_date %>;
   var earliest_birthdate =  effective_date - 2 * year;
   var latest_birthdate =    effective_date - 1 * year;
 
-  // HiB vaccines are considered when they are occurring >= 42 days and
+  // Measles, Mumps and Rubella (MMR) vaccines are considered when they are occur
   // < 2 years after the patients' birthdate
-  var earliest_hib_vaccine = patient.birthdate + 42 * day;
-  var latest_hib_vaccine =   patient.birthdate + 2  * year;
+  var latest_mmr_vaccine =   patient.birthdate + 2 * year;
 
   var population = function() {
     return inRange(patient.birthdate, earliest_birthdate, latest_birthdate);
@@ -27,17 +25,15 @@ function () {
   }
 
   var numerator = function() {
-    number_hib_vaccine_administered = inRange(measure.h_influenza_type_b_vaccine_administered,
-                                              earliest_hib_vaccine,
-                                              latest_hib_vaccine);
-    // patient needs 2 different H influenza type B (HiB) vaccines from the time that they 
-    // are 42 days old, until the time that they are 2 years old
-    return (number_hib_vaccine_administered >= 2);
+    number_mmr_vaccine_administered = inRange(measure.mmr_vaccine_administered, 
+                                              patient.birthdate,
+                                              latest_mmr_vaccine);
+    return false
   }
 
-  // Exclude patients who have an allergy to HiB Vaccine
+  // no exclusions defined for any reports that are a part of NQF 0038
   var exclusion = function() {
-    return (inRange(measure.h_influenza_type_b_vaccine_allergy, patient.birthdate, effective_date));
+    return false;
   }
 
   map(patient, population, denominator, numerator, exclusion);

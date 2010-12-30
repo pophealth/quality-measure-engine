@@ -28,18 +28,14 @@ function () {
     number_rv_vaccine_administered = inRange(measure.rotavirus_vaccine_administered,
                                              patient.birthdate,
                                              latest_rv_vaccine);
-
     // To meet the criteria for this report, the patient needs to have either:
     // 2 Rotavirus (RV) vaccines up until the time that they are 2 years old
-    // AND cannot have Medication allergy to RV vaccine
-    return ((number_rv_vaccine_administered >= 2)
-            &&
-            !(inRange(measure.rotavirus_vaccine_allergy, patient.birthdate, effective_date)));
+    return (number_rv_vaccine_administered >= 2);
   }
 
-  // no exclusions defined for any reports that are a part of NQF 0038
+  // Exclude patients who have a Medication allergy to RV vaccine
   var exclusion = function() {
-    return false;
+    return (inRange(measure.rotavirus_vaccine_allergy, patient.birthdate, effective_date));
   }
 
   map(patient, population, denominator, numerator, exclusion);

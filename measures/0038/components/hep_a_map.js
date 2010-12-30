@@ -28,21 +28,17 @@ function () {
     number_hep_a_vaccine_administered = inRange(measure.hepatitis_a_vaccine_administered,
                                                 patient.birthdate,
                                                 latest_hep_a_vaccine);
-
     // To meet the criteria for this report, the patient needs either:
     // 2 different Hepatitis A (Hep A) vaccines until the time that they are 2 years old,
-    // OR resolution on a hepatitis A diagnosis by the end of the effective date of this measure
-    // AND the patients cannot have an allergy to hepatitis A vaccine
-    return (((number_hep_a_vaccine_administered >= 2)
+    // OR resolution on a hepatitis A diagnosis by the end of the effective date
+    return ((number_hep_a_vaccine_administered >= 2)
               ||
-             (conditionResolved(measure.hepatitis_a_diagnosis, patient.birthdate, effective_date)))
-            &&
-            !(inRange(measure.hepatitis_a_vaccine_allergy,     patient.birthdate, effective_date)));
+             (conditionResolved(measure.hepatitis_a_diagnosis, patient.birthdate, effective_date)));
   }
 
-  // no exclusions defined for any reports that are a part of NQF 0038
+  // Exclude patients who have an allergy to hepatitis A vaccine
   var exclusion = function() {
-    return false;
+    return (inRange(measure.hepatitis_a_vaccine_allergy, patient.birthdate, effective_date));
   }
 
   map(patient, population, denominator, numerator, exclusion);

@@ -1198,6 +1198,5 @@
   {
     "category": "Encounter",
     "title": "Outpatient with PCP and OBGYN"
-  },
-  "exclusions": {}
+  }
 }
