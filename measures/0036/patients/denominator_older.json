@@ -1,0 +1,11 @@
+{
+  "first": "Sue",
+  "last": "Smith",
+  "birthdate": 622166400,                             // Time.gm(1989, 9, 19).to_i
+  "measures": {                                       // bag of measures, one entry per measure
+    "0036": {
+      "encounter_ed": 1277856000,                     // Time.gm(2010, 6, 30).to_i
+      "asthma": 1277856000
+    }
+  }
+}
