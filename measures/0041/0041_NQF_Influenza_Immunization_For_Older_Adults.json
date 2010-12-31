@@ -211,7 +211,8 @@
       "description": "Influenza immunization allergy",
       "standard_category": "medication_allergy",
       "type": "array",
-      "items": {
+      "items":
+      {
         "type": "number",
         "format": "utc-sec"
       },

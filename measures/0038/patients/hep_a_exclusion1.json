@@ -8,7 +8,7 @@
       "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 9, 15).to_i
 
       // Hepatitis A (Hep A) vaccines allergy detected on September 18th
-      // and excludes patient from numerator
+      // and excludes patient
       "hepatitis_a_vaccine_allergy": 1253232000 //Time.gm(2009, 9, 18).to_i
     }
   }

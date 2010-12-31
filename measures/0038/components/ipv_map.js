@@ -26,12 +26,13 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // patient needs 3 different polio (IPV) vaccines from the time that they are 42 days old,
+  // until the time that they are 2 years old
   var numerator = function() {
     number_ipv_vaccine_administered = inRange(measure.ipv_vaccine_administered,
                                               earliest_ipv_vaccine, 
                                               latest_ipv_vaccine);
-    // patient needs 3 different polio (IPV) vaccines from the time that they are 42 days old,
-    // until the time that they are 2 years old
+
     return (number_ipv_vaccine_administered >= 3);
   }
 

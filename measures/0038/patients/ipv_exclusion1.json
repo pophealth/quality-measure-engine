@@ -7,7 +7,7 @@
     "0038": {
       "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 9, 15).to_i
 
-      // Polio (IPV) allergy excludes patient from the numerator
+      // Polio (IPV) allergy excludes patient
       "ipv_vaccine_allergy": 1253232000 // Time.gm(2009, 9, 18).to_i
     }
   }

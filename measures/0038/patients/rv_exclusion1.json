@@ -8,7 +8,7 @@
       "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 9, 15).to_i
 
       // Rotavirus (RV) vaccine allergy detected September 18, 2009
-      // thereby excluding patient from numerator
+      // thereby excluding patient 
       "rotavirus_vaccine_allergy": 1253232000                // Time.gm(2009, 9, 18).to_i
     }
   }

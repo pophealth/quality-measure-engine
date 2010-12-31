@@ -37,7 +37,7 @@
     {
       "description": "Dates of Asthma Diagnosis",
       "standard_category": "diagnosis_condition_problem",
-      "type":"array",
+      "type": "array",
       "items": 
       {
         "type": "number",
@@ -72,7 +72,7 @@
     {
       "description": "Dates of Daytime Asthma Symptoms",
       "standard_category": "diagnosis_condition_problem",
-      "type":"array",
+      "type": "array",
       "items":
       {
         "type": "number",
@@ -91,7 +91,7 @@
     {
       "description": "Dates of Daytime Asthma Symptoms Quantified",
       "standard_category": "diagnosis_condition_problem",
-      "type":"array",
+      "type": "array",
       "items":
       {
         "type": "number",
@@ -110,7 +110,7 @@
     {
       "description": "Dates of Nighttime Asthma Symptoms",
       "standard_category": "diagnosis_condition_problem",
-      "type":"array",
+      "type": "array",
       "items":
       {
         "type": "number",
@@ -129,7 +129,7 @@
     {
       "description": "Dates of Nighttime Asthma Symptoms Quantified",
       "standard_category": "diagnosis_condition_problem",
-      "type":"array",
+      "type": "array",
       "items":
       {
         "type": "number",
@@ -148,7 +148,7 @@
     {
       "description": "Dates of Asthma Symptom Assessment Tool",
       "standard_category": "diagnosis_condition_problem",
-      "type":"array",
+      "type": "array",
       "items":
       {
         "type": "number",
@@ -167,7 +167,7 @@
     {
       "description": "Dates of Office Encounter and Outpatient Consult",
       "standard_category": "encounter",
-      "type":"array",
+      "type": "array",
       "items":
       {
         "type": "number",

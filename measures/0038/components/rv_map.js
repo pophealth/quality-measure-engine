@@ -24,12 +24,13 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // To meet the criteria for this report, the patient needs to have either:
+  // 2 Rotavirus (RV) vaccines up until the time that they are 2 years old
   var numerator = function() {
     number_rv_vaccine_administered = inRange(measure.rotavirus_vaccine_administered,
                                              patient.birthdate,
                                              latest_rv_vaccine);
-    // To meet the criteria for this report, the patient needs to have either:
-    // 2 Rotavirus (RV) vaccines up until the time that they are 2 years old
+
     return (number_rv_vaccine_administered >= 2);
   }
 

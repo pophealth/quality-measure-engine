@@ -26,12 +26,13 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // patient needs 2 different H influenza type B (HiB) vaccines from the time that they 
+  // are 42 days old, until the time that they are 2 years old
   var numerator = function() {
     number_hib_vaccine_administered = inRange(measure.h_influenza_type_b_vaccine_administered,
                                               earliest_hib_vaccine,
                                               latest_hib_vaccine);
-    // patient needs 2 different H influenza type B (HiB) vaccines from the time that they 
-    // are 42 days old, until the time that they are 2 years old
+
     return (number_hib_vaccine_administered >= 2);
   }
 

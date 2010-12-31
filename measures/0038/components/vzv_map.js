@@ -24,13 +24,14 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // To meet the criteria for this report, the patient needs to have either:
+  // 1 Chicken Pox (VZV) vaccine up until the time that they are 2 years old,
+  // OR resolution on VZV diagnosis by the end of the effective date of this measure
   var numerator = function() {
     number_vzv_vaccine_administered = inRange(measure.vzv_vaccine_administered,
                                               patient.birthdate,
                                               latest_vzv_vaccine);
-    // To meet the criteria for this report, the patient needs to have either:
-    // 1 Chicken Pox (VZV) vaccine up until the time that they are 2 years old,
-    // OR resolution on VZV diagnosis by the end of the effective date of this measure
+
     return ((number_vzv_vaccine_administered >= 1)
              ||
              (conditionResolved(measure.vzv_diagnosis, patient.birthdate, effective_date)));
@@ -44,7 +45,7 @@ function () {
                     effective_date)
              ||
             inRange(measure.diagnosis_of_asymptomatic_hiv,
-                    patient.birthdate, 
+                    patient.birthdate,
                     effective_date)
              ||
             inRange(measure.multiple_myeloma_diagnosis,

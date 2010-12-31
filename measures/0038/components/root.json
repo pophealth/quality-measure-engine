@@ -191,7 +191,7 @@
           {
             "description": "Hepatitis A resolution date",
             "type": "number",
-            "format": "utc-sec" 
+            "format": "utc-sec"
           }
         }
       },
@@ -443,6 +443,32 @@
         }
       ]
     },
+    "mumps":
+    {
+      "description": "Mumps",
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items":
+      {
+        "type": "object",
+        "properties":
+        {
+          "start":
+          {
+            "description": "Mumps diagnosis date",
+            "type": "number",
+            "format": "utc-sec"
+          },
+          "end":
+          {
+            "description": "Mumps resolution date",
+            "type": "number",
+            "format": "utc-sec"
+          }
+        }
+      },
+      "codes": []
+    },
     "rubella_vaccine_administered":
     {
       "description": "Rubella Vaccine",
@@ -486,6 +512,32 @@
           "values": ["762820"]
         }
       ]
+    },
+    "rubella":
+    {
+      "description": "Rubella",
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items":
+      {
+        "type": "object",
+        "properties":
+        {
+          "start":
+          {
+            "description": "Rubella diagnosis date",
+            "type": "number",
+            "format": "utc-sec"
+          },
+          "end":
+          {
+            "description": "Rubella resolution date",
+            "type": "number",
+            "format": "utc-sec"
+          }
+        }
+      },
+      "codes": []
     },
     "rotavirus_vaccine_administered":
     {
@@ -583,8 +635,22 @@
       "type": "array",
       "items":
       {
-        "type": "number",
-        "format": "utc-sec"
+        "type": "object",
+        "properties":
+        {
+          "start":
+          {
+            "description": "Measles diagnosis date",
+            "type": "number",
+            "format": "utc-sec"
+          },
+          "end":
+          {
+            "description": "Measles resolution date",
+            "type": "number",
+            "format": "utc-sec"
+          }
+        }
       },
       "codes":
       [
@@ -617,6 +683,28 @@
       "description": "Measles, Mumps and Rubella Vaccine",
       "standard_concept_id": "N_c408",
       "standard_category": "medication",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes":
+      [
+        {
+          "set": "RxNorm",
+          "version": "07/2009",
+          "standard_concept": "mmr_vaccine",
+          "standard_concept_id": "N_c408",
+          "values": ["762820", "805077"]
+        }
+      ]
+    },
+    "mmr_vaccine_allergy":
+    {
+      "description": "Measles, Mumps and Rubella Vaccine",
+      "standard_concept_id": "N_c408",
+      "standard_category": "medication_allergy",
       "type": "array",
       "items":
       {
@@ -1166,7 +1254,7 @@
           "standard_concept": "multiple_myeloma",
           "standard_concept_id": "N_c570",
           "values": ["109989006", "277579002", "277580004", "285420006", "285421005", "285422003", "313427003",  "413587002", "414553000",
-                     "425657001", "440422002", "441313008", "94704006",  "95209008", "95210003"]
+                     "425657001", "440422002", "441313008", "94704006",  "95209008",  "95210003"]
         }
       ]
     }

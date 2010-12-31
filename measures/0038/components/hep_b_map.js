@@ -24,13 +24,14 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // To meet the criteria for this report, the patient needs either:
+  // 3 different Hepatitis B (Hep B) vaccines until the time that they are 2 years old,
+  // OR resolution on a hepatitis B diagnosis by the end of the effective date
   var numerator = function() {
     number_hep_b_vaccine_administered = inRange(measure.hepatitis_b_vaccine_administered,
                                                 patient.birthdate,
                                                 latest_hep_b_vaccine);
-    // To meet the criteria for this report, the patient needs either:
-    // 3 different Hepatitis B (Hep B) vaccines until the time that they are 2 years old,
-    // OR resolution on a hepatitis B diagnosis by the end of the effective date
+
     return ((number_hep_b_vaccine_administered >= 3)
               ||
              (conditionResolved(measure.hepatitis_b_diagnosis, patient.birthdate, effective_date)));

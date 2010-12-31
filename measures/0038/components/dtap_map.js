@@ -26,12 +26,13 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // patient needs 4 different Tetanus and Acellular Pertussis (DTaP) vaccines
+  // from the time that they are 42 days old, until the time that they are 2 years old
   var numerator = function() {
     number_dtap_vaccine_administered = inRange(measure.dtap_vaccine_administrered,
-                                               earliest_dtap_vaccine, 
+                                               earliest_dtap_vaccine,
                                                latest_dtap_vaccine);
-    // patient needs 4 different Tetanus and Acellular Pertussis (DTaP) vaccines
-    // from the time that they are 42 days old, until the time that they are 2 years old
+
     return (number_dtap_vaccine_administered >= 4);
   }
 

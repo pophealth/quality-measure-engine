@@ -7,7 +7,7 @@
     "0038": {
       "outpatient_with_pcp_and_obgyn_encounter": 1252972800, // Time.gm(2009, 6, 15).to_i
 
-      // Hepatitis B (Hep B) allergy excludes patient from the numerator
+      // Hepatitis B (Hep B) allergy excludes
       "hepatitis_b_vaccine_allergy": 1252972800 // Time.gm(2009, 9, 15).to_i
     }
   }

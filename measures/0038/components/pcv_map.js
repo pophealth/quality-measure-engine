@@ -24,13 +24,14 @@ function () {
     return has_outpatient_encounter_with_pcp_obgyn(measure, patient.birthdate, effective_date);
   }
 
+  // To meet the criteria for this report, the patient needs to have either:
+  // 4 Pneumococcal Conjugate (PCV) vaccines up until the time that they are 2 years old
+  // AND cannot have Medication allergy to PCV vaccine
   var numerator = function() {
     number_pcv_vaccine_administered = inRange(measure.pcv_vaccine_administered,
                                               patient.birthdate,
                                               latest_pcv_vaccine);
-    // To meet the criteria for this report, the patient needs to have either:
-    // 4 Pneumococcal Conjugate (PCV) vaccines up until the time that they are 2 years old
-    // AND cannot have Medication allergy to PCV vaccine
+
     return (number_pcv_vaccine_administered >= 4);
   }
 
