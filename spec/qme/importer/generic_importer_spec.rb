@@ -102,4 +102,22 @@ describe QME::Importer::GenericImporter do
     measure_info['contraceptives'].should include(1248825600)
     measure_info['retinoid'].should include(1248825600)
   end
+  
+  it "should import the the information relevant to breast cancer screening" do
+    doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0031/numerator.xml'))
+    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+
+    gi = QME::Importer::GenericImporter.new(measure_definition(@loader, '0031'))
+    measure_info = gi.parse(doc)
+    measure_info['encounter_outpatient'].should include(1270598400)
+    measure_info['unilateral_mastectomy'].length.should == 2
+    measure_info['unilateral_mastectomy'].should include(1248825600)
+    measure_info['unilateral_mastectomy'].should include(1248825600)
+     measure_info['bilateral_mastectomy'].length.should == 1
+    measure_info['bilateral_mastectomy'].should include(1248825600)
+   # measure_info['breast_cancer_screening'].should include(1248825600)
+  end
+  
+  
+  
 end

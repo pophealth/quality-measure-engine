@@ -1,9 +1,10 @@
 {
   "id": "0031",
-  "description": "Breast Cancer Screening",
-  "category": "Women's Health",
-  "steward": "NCQA",
-  "parameters": {
+    "name": "Breast Cancer Screening",
+    "description": "The percentage of women 40–69 years of age who had a mammogram to screen for breast cancer.",
+    "category": "Cancer",
+    "steward": "NCQA",
+    "parameters": {
     "effective_date": {
       "description": "Effective end date for measure",
       "type": "number",
@@ -31,10 +32,10 @@
     "birthdate": {
       "description": "birthdate",
       "standard_concept_id": "N_c8",
-      "standard_categories": [
+      "qds_data_types": [
         "patient_characteristic"
       ],
-      "category_type": "individual_characteristic",
+      "standard_category": "individual_characteristic",
       "type": "array",
       "items": {
         "type": "number",
@@ -55,10 +56,10 @@
     "bilateral_mastectomy": {
       "description": "bilateral_mastectomy",
       "standard_concept_id": "N_c443",
-      "standard_categories": [
+      "qds_data_types": [
         "procedure_performed"
       ],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type": "array",
       "items": {
         "type": "number",
@@ -126,10 +127,10 @@
     "breast_cancer_screening": {
       "description": "breast_cancer_screening",
       "standard_concept_id": "N_c74",
-      "standard_categories": [
+      "qds_data_types": [
         "diagnostic_study_performed"
       ],
-      "category_type": "diagnosis-condition-problem",
+      "standard_category": "diagnosis-condition-problem",
       "type": "array",
       "items": {
         "type": "number",
@@ -142,10 +143,10 @@
     "unilateral_mastectomy": {
       "description": "unilateral_mastectomy",
       "standard_concept_id": "N_c445",
-      "standard_categories": [
+      "qds_data_types": [
         "procedure_performed"
       ],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type": "array",
       "items": {
         "type": "number",
@@ -210,10 +211,10 @@
     "encounter_outpatient": {
       "description": "encounter_outpatient",
       "standard_concept_id": "N_c552",
-      "standard_categories": [
+      "qds_data_types": [
         "encounter"
       ],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items": {
         "type": "number",
@@ -291,36 +292,53 @@
       ]
             }
     },
-  "population": {
-     "category": "Patient Characteristic",
-      "title": "Women with an Age between 23 and 63"
-
-    },
-  "denominator": {
-    "and": [
-      {
-        "category": "Encounter",
-        "title": "Outpatient within 2 years"
-      },
-      { "not" :[ 
-          { "or" : [
-                 {"category": "Procedure Performed",
-                   "title": "Bilateral Mastectomy"
-                 },
-                {"category" : "Procedure Performed",
-                  "title" : "More than 1 Unilateral Mastectomy"
-                }
+     "population":   {
+            "and":
+            [{
+               "category": "Patient Characteristic",
+               "title": "Gender Female"
+              },
+              {
+                "category": "Patient Characteristic",
+                "title": "Age between 41 and 68"
+              }
+            ]
+          },
+      "denominator":   {
+            "and": 
+            [
+              {
+                "category": "Encounter",
+                "title": "Outpatient within 2 Years"
+              },
+              {
+                "or": 
+                [
+                  {
+                    "category": "Procedure",
+                    "title": "No Bilateral Mastectomy Performed"
+                  },
+                  {
+                    "category": "Procedure",
+                    "title": "No More Than 1 Unilateral Mastectomy Performed"
+                  }
                 ]
-          }
-       ]
-      }
-    ]
-    },
-  "numerator": {
-     "category": "Laboratory test result",
-      "title": "Breast Cancer Screening in last 2 years"
-    },
-  "exclusions": {
+              }
+            ]
+          },
+      "numerator":     {
+              "and": 
+              [
+                {
+                  "category": "Encounter",
+                  "title": "Breast Cancer Screen Performed <= 2 Years"
+                }
+              ]
+            },
+      "exclusions": {
 
+        }
     }
-}
+
+
+  
