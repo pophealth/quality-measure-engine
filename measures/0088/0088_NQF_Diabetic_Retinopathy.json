@@ -1,5 +1,6 @@
 {
    "id": "0088",
+   "name": "Diabetic Retinopathy",
    "description": "Diabetic Retinopathy: Documentation of Presence or Absence of Macular Edema and Level of Severity of Retinopathy",
    "category": "Diabetes",
    "steward": "AMA",
