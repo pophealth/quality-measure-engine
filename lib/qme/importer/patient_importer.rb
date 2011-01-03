@@ -10,9 +10,9 @@ module QME
       include Singleton
       
       def initialize
-        @measures = []
+        @measure_importers = {}
       end
-      
+            
       # Parses a HITSP C32 document and returns a Hash of of the patient.
       #
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
@@ -22,8 +22,8 @@ module QME
         patient = {}
         get_demographics(patient, doc)
         patient['measures'] = {}
-        @measures.each do |measure|
-          measure.extract_measure_properties(patient, doc)
+        @measure_importers.each_pair do |measure_id, importer|
+          patient['measures'][measure_id] = importer.parse(doc)
         end
         
         patient
@@ -31,9 +31,10 @@ module QME
       
       # Adds a measure to run on a C32 that is passed in
       #
-      # @param [MeasureBase] measure an instance of a measure you want to run on any C32 that is passed in to the importer
-      def add_measure(measure)
-        @measures << measure
+      # @param [MeasureBase] measure an Class that can extract information from a C32 that is necessary
+      #        to calculate the measure
+      def add_measure(measure_id, importer)
+        @measure_importers[measure_id] = importer
       end
       
       # Inspects a C32 document and populates the patient Hash with first name, last name

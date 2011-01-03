@@ -1,0 +1,44 @@
+{
+  "root": "root.json",
+  "combinations": 
+  [
+    {
+      "metadata":
+      {
+        "sub_id": "a",
+        "subtitle": "Ages 15 to 23",
+        "population": {
+          "category": "Patient Characteristic",
+          "title": "Age between 15 and 23"
+        }
+      },
+      "map_fn": "0033_NQF_Chlamydia_Screening_All.js"
+    },
+    {
+      "metadata":
+      {
+        "sub_id": "b",
+        "subtitle": "Ages 14 to 19",
+        "population": 
+        {
+          "category": "Patient Characteristic",
+          "title": "Age between 14 and 19"
+        }
+      },
+      "map_fn": "0033_NQF_Chlamydia_Screening_Younger.js"
+    },
+    {
+      "metadata":
+      {
+        "sub_id": "c",
+        "subtitle": "Ages 20 to 23",
+        "population": 
+        {
+          "category": "Patient Characteristic",
+          "title": "Age between 20 and 23"
+        }
+      },
+      "map_fn": "0033_NQF_Chlamydia_Screening_Older.js"
+    }
+  ]
+}

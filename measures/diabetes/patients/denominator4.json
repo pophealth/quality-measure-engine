@@ -43,6 +43,16 @@
           "value": 100
         }
       ]
+    },
+    "0575": {
+      "medication_insulin": 1277856000,                 // Time.gm(2010, 6, 30).to_i
+      "medications_indicative_of_diabetes": 1277856000, // Time.gm(2010, 6, 30).to_i
+      "hba1c_test": [
+        {
+          "date": 1277856000,                           // Time.gm(2010, 6, 30).to_i
+          "value": 8.9
+        }
+      ]
     }
   }
 }

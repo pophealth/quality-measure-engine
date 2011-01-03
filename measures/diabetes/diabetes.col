@@ -1,19 +1,24 @@
 {
   "root": "root.json",
-  "combinations": [
+  "combinations":
+  [
     {
-      "metadata": {
+      "metadata":
+      {
         "id": "0055",
         "name": "Diabetes Eye Exam",
         "description": "The percentage of patients aged 18‐75 years with diabetes (type 1 or type 2) who had a foot exam (visual inspection, sensory exam with monofilament, or pulse exam).",
-        "numerator": {
-          "or": [
+        "numerator":
+        {
+          "or":
+          [
             {
               "category": "Procedure Performed",
               "title": "Eye exam within 2 years"
             },
             {
-              "and": [
+              "and":
+              [
                 {
                   "category": "Procedure Performed",
                   "title": "Eye exam during the year prior to the measurement period"
@@ -27,15 +32,20 @@
           ]
         }
       },
-      "measure": {
-        "proceedure_eye_exam": {
+      "measure":
+      {
+        "proceedure_eye_exam":
+        {
           "description": "Dates of Eye Exam Procedure Performed",
+          "standard_category": "procedure",
           "type":"array",
-          "items": {
+          "items":
+          {
             "type": "number",
             "format": "utc-sec"
           },
-          "codes": [
+          "codes":
+          [
             {
               "set": "CPT",
               "version": "06/2009",
@@ -60,6 +70,7 @@
         },
         "diabetic_retinopathy": {
           "description": "Dates of Diabetic Retinopahthy Diagnosis",
+          "standard_category": "diagnosis_condition_problem",
           "type":"array",
           "items": {
             "type": "number",
@@ -447,6 +458,157 @@
         }
       },
       "map_fn": "0062_NQF_Diabetes_Urine_Screening.js"
+    },
+    {
+      "metadata": {
+        "id": "0064",
+        "sub_id": "a",
+        "name": "Diabetes LDL Management",
+        "subtitle": "LDL Tested",
+        "description": "The percentage of patients 18–75 years of age with diabetes (type 1 or type 2) undergoing LDL management.",
+        "numerator": {
+          "or": [
+            {
+              "category": "Laboratory Test Performed",
+              "title": "LDL Test"
+            }
+          ]
+        }
+      },
+      "measure": {
+        "ldl_test_dates": {
+          "description": "LDL test date",
+          "category_type": "laboratory_test_result",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "utc-sec"
+          },
+          "codes": [
+            {
+              "set": "CPT",
+              "version": "06/2009",
+              "values": ["80061", "83700", "83701", "83704", "83721"]
+            },
+            {
+              "set": "LOINC",
+              "version": "06/2009",
+              "values": ["12773-8", "13457-7", "18261-8", "18262-6", "2089-1", "22748-8", "39469-2", "49132-4", "55440-2"]
+            },
+            {
+              "set": "SNOMED-CT",
+              "version": "07/2009",
+              "values": ["113079009", "166833005", "166840006", "166841005", "167074000", "167075004", "270996006", "314036004", "314039006", "391291008"]
+            }
+          ]
+        }
+      },
+      "map_fn": "0064_NQF_Diabetes_LDL_Management.js"
+    },
+    {
+      "metadata": {
+        "id": "0064",
+        "sub_id": "b",
+        "name": "Diabetes LDL Management",
+        "subtitle": "LDL Under Control",
+        "description": "The percentage of patients 18–75 years of age with diabetes (type 1 or type 2) with LDL under control.",
+        "numerator": {
+          "or": [
+            {
+              "category": "Laboratory Test Performed",
+              "title": "LDL Test Result < 100 mg/dL"
+            }
+          ]
+        }
+      },
+      "measure": {
+        "ldl_test_results": {
+          "description": "LDL Test",
+          "category_type": "laboratory_test_result",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "description": "LDL test result",
+                "type": "number" 
+              },
+              "date": {
+                "description": "LDL test date",
+                "type": "number",
+                "format": "utc-sec" 
+              }
+            }
+          },
+          "codes": [
+            {
+              "set": "CPT",
+              "version": "06/2009",
+              "values": ["80061", "83700", "83701", "83704", "83721"]
+            },
+            {
+              "set": "LOINC",
+              "version": "06/2009",
+              "values": ["12773-8", "13457-7", "18261-8", "18262-6", "2089-1", "22748-8", "39469-2", "49132-4", "55440-2"]
+            },
+            {
+              "set": "SNOMED-CT",
+              "version": "07/2009",
+              "values": ["113079009", "166833005", "166840006", "166841005", "167074000", "167075004", "270996006", "314036004", "314039006", "391291008"]
+            }
+          ]
+        }
+      },
+      "map_fn": "0064_NQF_Diabetes_LDL_Control.js"
+    },
+    {
+      "metadata": {
+        "id": "0575",
+        "name": "Diabetes HbA1c Control < 8%",
+        "description": "The percentage of patients 18–75 years of age with diabetes (type 1 or type 2) who had HbA1c < 8.0%.",
+        "numerator": {
+          "category": "Laboratory Test Result",
+          "title": "Most recent HbA1c < 8.0%"
+        }
+      },
+      "measure": {
+        "hba1c_test": {
+          "descirption": "Results of HbA1c tests",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "description": "HbA1c test result",
+                "type": "number" 
+              },
+              "date": {
+                "description": "HbA1c test date",
+                "type": "number",
+                "format": "utc-sec" 
+              }
+            }
+          },
+          "codes": [
+            {
+              "set": "SNOMED-CT",
+              "version": "07/2009",
+              "values": ["117346004", "165680008", "259689004", "259690008", "313835008", "33601001", "40402000", "408254005", "43396009"]
+            },
+            {
+              "set": "LOINC",
+              "version": "06/2009",
+              "values": ["17856-6", "4548-4", "4549-2"]
+            },
+            {
+              "set": "CPT",
+              "version": "06/2009",
+              "values": ["83036", "83037"]
+            }
+          ]
+        }
+      },
+      "map_fn": "0575_NQF_Diabetes_HbA1c_Good_Control.js"
     }
   ]
 }

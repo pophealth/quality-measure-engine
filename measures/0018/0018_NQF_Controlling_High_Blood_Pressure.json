@@ -16,7 +16,7 @@
             "description": "Date of birth",
             "type": "number",
             "critical": true,
-            "category_type": "patient_characteristic",
+            "standard_category": "characteristic",
             "format": "utc-sec",
             "codes": [
                 {
@@ -32,7 +32,7 @@
     "measure": {
         "diastolic_blood_pressure": {
             "description": "DBP",
-            "category_type": "physical_exam_finding",
+            "standard_category": "physical_exam",
             "type": "array",
             "items": {
                 "type": "object",
@@ -52,25 +52,13 @@
                 {
                     "set": "SNOMED-CT",
                     "version": "Jul-09",
-                    "values": [
-                        "271649006",
-                        "314438006",
-                        "314439003",
-                        "314440001",
-                        "314441002",
-                        "314442009",
-                        "314443004",
-                        "314444005",
-                        "314445006",
-                        "314446007",
-                        "72313002"
-                    ]
+                    "values": ["163031004", "174255007", "23154005", "251073000", "271650006", "314451001", "314452008", "314453003", "314454009", "314455005", "314456006", "314457002", "314458007", "314459004", "314460009", "314461008", "314462001", "314465004", "315613000", "400975005", "407555005", "407557002", "42689008", "53813002"]
                 }
             ]
         },
         "encounter_outpatient": {
             "description": "encounter outpatient",
-            "category_type": "encounter",
+            "standard_category": "encounter",
             "type": "array",
             "items": {
                 "type": "number",
@@ -145,7 +133,7 @@
         },
         "esrd": {
             "description": "ESRD Diagnosis",
-            "category_type": "procedure_performed",
+            "standard_category": "diagnosis_condition_problem",
             "type": "array",
             "items": {
                 "type": "number",
@@ -214,7 +202,7 @@
         },
         "hypertension": {
             "description": "Hypertension Diagnosis",
-            "category_type": "diagnosis_active",
+            "standard_category": "diagnosis_condition_problem",
             "type": "array",
             "items": {
                 "type": "number",
@@ -326,7 +314,7 @@
         },
         "pregnancy": {
             "description": "Pregnancy Diagnosis",
-            "category_type": "diagnosis_active",
+            "standard_category": "diagnosis_condition_problem",
             "type": "array",
             "items": {
                 "type": "number",
@@ -1895,7 +1883,7 @@
         },
         "procedures_indicative_of_esrd": {
             "description": "ESRD Procedure",
-            "category_type": "procedure_performed",
+            "standard_category": "procedure",
             "type": "array",
             "items": {
                 "type": "number",
@@ -1982,7 +1970,7 @@
         },
         "systolic_blood_pressure": {
             "description": "SBP",
-            "category_type": "physical_exam_finding",
+            "standard_category": "physical_exam",
             "type": "array",
             "items": {
                 "type": "object",
@@ -2002,33 +1990,7 @@
                 {
                     "set": "SNOMED-CT",
                     "version": "Jul-09",
-                    "values": [
-                        "12929001",
-                        "163030003",
-                        "251070002",
-                        "251071003",
-                        "271649006",
-                        "314438006",
-                        "314439003",
-                        "314440001",
-                        "314441002",
-                        "314442009",
-                        "314443004",
-                        "314444005",
-                        "314445006",
-                        "314446007",
-                        "314447003",
-                        "314448008",
-                        "314449000",
-                        "314464000",
-                        "315612005",
-                        "399304008",
-                        "400974009",
-                        "407554009",
-                        "407556006",
-                        "72313002",
-                        "81010002"
-                    ]
+                    "values": ["12929001", "163030003", "251070002", "251071003", "271649006", "314438006", "314439003", "314440001", "314441002", "314442009", "314443004", "314444005", "314445006", "314446007", "314447003", "314448008", "314449000", "314464000", "315612005", "399304008", "400974009", "407554009", "407556006", "72313002", "81010002"]
                 }
             ]
         }

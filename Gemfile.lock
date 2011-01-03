@@ -7,8 +7,8 @@ GEM
     arrayfields (4.7.4)
     awesome_print (0.3.1)
     bluecloth (2.0.9)
-    bson (1.1.4)
-    bson_ext (1.1.4)
+    bson (1.1.5)
+    bson_ext (1.1.5)
     chronic (0.2.3)
       hoe (>= 1.2.1)
     churn (0.0.13)
@@ -40,7 +40,7 @@ GEM
     hoe (2.8.0)
       rake (>= 0.8.7)
     i18n (0.5.0)
-    jeweler (1.5.1)
+    jeweler (1.5.2)
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
@@ -60,10 +60,11 @@ GEM
       rcov (>= 0.8.3.3)
       reek (>= 1.2.6)
       roodi (>= 2.1.0)
-    mongo (1.1.4)
-      bson (>= 1.1.1)
+    mongo (1.1.5)
+      bson (>= 1.1.5)
     nokogiri (1.4.4)
-    rails_best_practices (0.5.6)
+    rack (1.2.1)
+    rails_best_practices (0.6.1)
       activesupport
       colored (~> 1.2)
       erubis (~> 2.6.6)
@@ -82,7 +83,7 @@ GEM
       rspec-core (~> 2.3.0)
       rspec-expectations (~> 2.3.0)
       rspec-mocks (~> 2.3.0)
-    rspec-core (2.3.0)
+    rspec-core (2.3.1)
     rspec-expectations (2.3.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.3.0)
@@ -93,8 +94,12 @@ GEM
     ruby_parser (2.0.5)
       sexp_processor (~> 3.0)
     sexp_processor (3.0.5)
+    sinatra (1.1.2)
+      rack (~> 1.1)
+      tilt (~> 1.2)
+    tilt (1.2.1)
     yamler (0.1.0)
-    yard (0.6.3)
+    yard (0.6.4)
 
 PLATFORMS
   ruby
@@ -111,4 +116,5 @@ DEPENDENCIES
   nokogiri
   rake
   rspec
+  sinatra
   yard

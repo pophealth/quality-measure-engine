@@ -26,6 +26,26 @@ The coverage of the test suite is monitored with [cover_me](https://github.com/m
 
     bundle exec rake coverage
 
+Map Reduce Testing
+------------------
+
+This project used the [MapReduce](http://www.mongodb.org/display/DOCS/MapReduce) functionality of MongoDB pretty heavily.
+Debugging JavaScript that is to be run inside of MongoDB can be a bit of a chore, so there is a testing tool that can be run
+in your browser to aid in troubleshooting.
+
+The tool is a very small web application based on the [Sinatra](http://www.sinatrarb.com/) framework. It can be run
+by executing the following command:
+
+    bundle exec ruby map_test/map_test.rb
+
+After running this command, you can open your browser to [http://localhost:4567](http://localhost:4567). This will show you a page
+of measures to choose from. Once you have selected a measure, it will take you to a page where you can choose the map function you
+want to test and the effective date you want to run the function with. Once that is selected, you will arrive at the map test page.
+The map test page provides the ability to load test JSON records from within the project. Once they are loaded, they can be edited
+in the textarea on the page. Finally, if you click the "run" button, it will execute the map function on the record in the text area
+and output the results. Since this is executing in a web browser, you can use the JavaScript debugging utilities provided to set
+breakpoints and inspect variables.
+
 Source Code Analysis
 --------------------
 
