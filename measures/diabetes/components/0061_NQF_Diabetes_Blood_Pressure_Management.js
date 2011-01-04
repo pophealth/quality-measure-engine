@@ -39,17 +39,17 @@ function () {
 
     if (latest_encounter==null)
       return false;
-      
+
     // for measure purposes a BP reading is considered to be during an encounter if its timestamp
     // is between 24 hours before and 24 hours after the timestamp of the encounter
     start_latest_encounter = latest_encounter-day;
     end_latest_encounter = latest_encounter+day;
-    
+
     systolic_min = minValueInDateRange(measure.systolic_blood_pressure, start_latest_encounter, end_latest_encounter, 200);
     diastolic_min = minValueInDateRange(measure.diastolic_blood_pressure, start_latest_encounter, end_latest_encounter, 200);
     return (systolic_min<140 && diastolic_min<90);
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }

@@ -1,19 +1,24 @@
 {
   "root": "root.json",
-  "combinations": [
+  "combinations":
+  [
     {
-      "metadata": {
+      "metadata":
+      {
         "id": "0055",
         "name": "Diabetes Eye Exam",
         "description": "The percentage of patients aged 18‐75 years with diabetes (type 1 or type 2) who had a foot exam (visual inspection, sensory exam with monofilament, or pulse exam).",
-        "numerator": {
-          "or": [
+        "numerator":
+        {
+          "or":
+          [
             {
               "category": "Procedure Performed",
               "title": "Eye exam within 2 years"
             },
             {
-              "and": [
+              "and":
+              [
                 {
                   "category": "Procedure Performed",
                   "title": "Eye exam during the year prior to the measurement period"
@@ -27,16 +32,20 @@
           ]
         }
       },
-      "measure": {
-        "proceedure_eye_exam": {
+      "measure":
+      {
+        "proceedure_eye_exam":
+        {
           "description": "Dates of Eye Exam Procedure Performed",
           "standard_category": "procedure",
           "type":"array",
-          "items": {
+          "items":
+          {
             "type": "number",
             "format": "utc-sec"
           },
-          "codes": [
+          "codes":
+          [
             {
               "set": "CPT",
               "version": "06/2009",

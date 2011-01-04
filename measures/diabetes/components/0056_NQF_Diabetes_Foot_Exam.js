@@ -28,7 +28,7 @@ function () {
   var numerator = function() {
     return inRange(measure.proceedure_foot_exam, earliest_diagnosis, effective_date);
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }

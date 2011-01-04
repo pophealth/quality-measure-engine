@@ -118,8 +118,10 @@
       ]
     }
   },
-  "population": {
-    "and": [
+  "population":
+  {
+    "and":
+    [
       {
         "category": "Patient Characteristic",
         "title": "Age >= 18"
@@ -135,8 +137,10 @@
     ]
   },
   "denominator": {},
-  "numerator": {
-    "and": [
+  "numerator":
+  {
+    "and":
+    [
       {
         "category": "Physical Exam Finding",
         "title": "Systolic blood pressure"

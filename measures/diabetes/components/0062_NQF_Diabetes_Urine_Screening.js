@@ -33,7 +33,7 @@ function () {
     ace_arb = inRange(measure.ace_inhibitors_or_arbs, period_start, effective_date);
     return (nephropathy || nephropathy_proc || urine_microalbumin || nephropathy_screen || ace_arb);
   }
-  
+
   var exclusion = function() {
     return diabetes_exclusions(measure, earliest_diagnosis, effective_date);
   }
