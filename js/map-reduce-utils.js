@@ -9,14 +9,24 @@
   // returns the number of values which fall between the supplied limits
   // value may be a number or an array of numbers
   root.inRange = function(value, min, max) {
+    if (!_.isArray(value))
+      value = [value];
     var count = 0;
-    if (_.isArray(value)) {
-      for (i=0;i<value.length;i++) {
-        if ((value[i]>=min) && (value[i]<=max))
-          count++;
-      }
-    } else {
-      if ((value>=min) && (value<=max))
+    for (i=0;i<value.length;i++) {
+      if ((value[i]>=min) && (value[i]<=max))
+        count++;
+    }
+    return count;
+  };
+  
+  // returns the number of values which as less than the supplied limit
+  // value may be a number or an array of numbers
+  root.lessThan = function(value, max) {
+    if (!_.isArray(value))
+      value = [value];
+    var count = 0;
+    for (i=0;i<value.length;i++) {
+      if (value[i]<=max)
         count++;
     }
     return count;
