@@ -75,7 +75,7 @@ describe QME::Importer::GenericImporter do
     measure_info['procedures_indicative_of_sexually_active_woman'].should include(1269302400)
     measure_info['sexually_active_woman'].should include(1262304000)
   end
-<<<<<<< HEAD
+
   
   it "should import the the information relevant to breast cancer screening" do
     doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0031/numerator.xml'))
@@ -93,8 +93,7 @@ describe QME::Importer::GenericImporter do
   end
   
   
-  
-=======
+
 
   it "should import the the information relevant to determining pneumonia vaccination status" do
     doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0043/numerator.xml'))
@@ -126,5 +125,4 @@ describe QME::Importer::GenericImporter do
     measure_info['proceedure_eye_exam'].should include(1275177600)
   end
 
->>>>>>> 70aba1df21865f7f32eddd4be9f44c83283abaf3
 end
