@@ -1,7 +1,7 @@
 {
   "id": "0033",
   "name": "Chlamydia Screening for Women",
-  "description": "Chlamydia Screening for Women",
+  "description": "The percentage of women 15‐24 years of age who were identified as sexually active and who had at least one test for chlamydia during the measurement year.",
   "category": "Women's Health",
   "steward": "NCQA",
   "parameters": {

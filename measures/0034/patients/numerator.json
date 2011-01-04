@@ -1,0 +1,11 @@
+{ // population match
+  "first": "Fred",
+  "last": "Bloggs",
+  "birthdate": -631152000,                            // Time.gm(1950, 1, 1)
+  "measures": {
+    "0034": {
+      "encounter_outpatient": [1280620800],           // Time.gm(2010, 8, 1)
+      "colonoscopy": [1028160000]                     // Time.gm(2002, 8, 1)
+    }
+  }
+}

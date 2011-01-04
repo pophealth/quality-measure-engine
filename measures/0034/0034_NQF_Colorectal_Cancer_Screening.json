@@ -1,0 +1,655 @@
+{
+  "id": "0034",
+  "name": "Colorectal Cancer Screening",
+  "description": "The percentage of adults 50–75 years of age who had appropriate screening for colorectal cancer.",
+  "category": "Cancer",
+  "steward": "NCQA",
+  "parameters": {
+    "effective_date": {
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient": {
+    "birthdate": {
+      "description": "Date of birth",
+      "type": "number",
+      "category_type": "patient_characteristic",
+      "format": "utc-sec",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": [
+            "00110"
+          ]
+        }
+      ]
+    }
+  },
+  "measure": {
+    "colonoscopy": {
+      "description": "colonoscopy",
+      "standard_concept_id": "N_c481",
+      "qds_data_types": [
+        "procedure_performed"
+      ],
+      "standard_category": "procedure",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "standard_concept": "colonoscopy",
+          "standard_concept_id": "N_c18",
+          "values": [
+            "44388",
+            "44389",
+            "44390",
+            "44391",
+            "44392",
+            "44393",
+            "44394",
+            "44397",
+            "45355",
+            "45378",
+            "45379",
+            "45380",
+            "45381",
+            "45382",
+            "45383",
+            "45384",
+            "45385",
+            "45386",
+            "45387",
+            "45391",
+            "45392"
+          ]
+        },
+        {
+          "set": "HCPCS",
+          "version": "06/2009",
+          "standard_concept": "colonoscopy",
+          "standard_concept_id": "N_c32",
+          "values": [
+            "G0105",
+            "G0121"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "colonoscopy",
+          "standard_concept_id": "N_c33",
+          "values": [
+            "45.22",
+            "45.23",
+            "45.25",
+            "45.42",
+            "45.43"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "colonoscopy",
+          "standard_concept_id": "N_c39",
+          "values": [
+            "174067002",
+            "456004"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "standard_concept": "colonoscopy",
+          "standard_concept_id": "N_c44",
+          "values": [
+            "Z12.11"
+          ]
+        }
+      ]
+    },
+    "colorectal_cancer": {
+      "description": "colorectal_cancer",
+      "standard_concept_id": "N_c482",
+      "qds_data_types": [
+        "diagnosis_active",
+        "diagnosis_inactive",
+        "diagnosis_resolved"
+      ],
+      "standard_category": "diagnosis-condition-problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "colorectal_cancer",
+          "standard_concept_id": "N_c20",
+          "values": [
+            "109838007",
+            "126838000",
+            "187757001",
+            "187758006",
+            "269533000",
+            "269544008",
+            "285312008",
+            "285611007",
+            "301756000",
+            "312111009",
+            "312112002",
+            "312114001",
+            "312115000",
+            "314965007",
+            "315058005",
+            "363406005",
+            "363407001",
+            "363408006",
+            "363409003",
+            "363410008",
+            "363412000",
+            "363413005",
+            "363414004",
+            "363510005",
+            "425178004",
+            "428283002",
+            "429047008",
+            "429699009",
+            "93683002",
+            "93761005",
+            "93771007",
+            "93826009",
+            "94006002",
+            "94072004",
+            "94105000",
+            "94179005",
+            "94260004",
+            "94271003",
+            "94328005",
+            "94509004",
+            "94538001",
+            "94604000",
+            "94643001"
+          ]
+        },
+        {
+          "set": "HCPCS",
+          "version": "06/2009",
+          "standard_concept": "colorectal_cancer",
+          "standard_concept_id": "N_c34",
+          "values": [
+            "G0213",
+            "G0214",
+            "G0215",
+            "G0231"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "06/2009",
+          "standard_concept": "colorectal_cancer",
+          "standard_concept_id": "N_c43",
+          "values": [
+            "C18",
+            "C18.0",
+            "C18.1",
+            "C18.2",
+            "C18.3",
+            "C18.4",
+            "C18.5",
+            "C18.6",
+            "C18.7",
+            "C18.8",
+            "C18.9",
+            "C19",
+            "C20",
+            "C21",
+            "C21.0",
+            "C21.1",
+            "C21.2",
+            "C21.8",
+            "D12",
+            "D12.0",
+            "D12.1",
+            "D12.2",
+            "D12.3",
+            "D12.4",
+            "D12.5",
+            "D12.6",
+            "D12.7",
+            "D12.8",
+            "D12.9",
+            "D50",
+            "D50.0",
+            "K50.1",
+            "K50.111",
+            "K50.112",
+            "K50.8",
+            "K50.80",
+            "K50.81",
+            "K50.811",
+            "K50.812",
+            "K50.813",
+            "K50.814",
+            "K50.818",
+            "K50.819",
+            "K51",
+            "K51.5",
+            "K51.8",
+            "K51.9",
+            "K52",
+            "K52.1",
+            "K52.2",
+            "K52.8",
+            "K55",
+            "K55.0",
+            "K55.1",
+            "K55.8",
+            "K57.30",
+            "K57.33",
+            "K59",
+            "K59.01",
+            "K59.02",
+            "K59.09",
+            "K62.0",
+            "K62.1",
+            "K62.5",
+            "R19.5",
+            "Z12.11",
+            "Z12.12",
+            "Z12.13",
+            "Z15",
+            "Z83.71",
+            "Z85.03",
+            "Z85.04",
+            "Z86.010"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "colorectal_cancer",
+          "standard_concept_id": "N_c520",
+          "values": [
+            "153",
+            "153.0",
+            "153.1",
+            "153.2",
+            "153.3",
+            "153.4",
+            "153.5",
+            "153.6",
+            "153.7",
+            "153.8",
+            "153.9",
+            "154.0",
+            "154.1",
+            "197.5",
+            "V10.05"
+          ]
+        }
+      ]
+    },
+    "encounter_outpatient": {
+      "description": "encounter_outpatient",
+      "standard_concept_id": "N_c552",
+      "qds_data_types": [
+        "encounter"
+      ],
+      "standard_category": "encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "encounter_outpatient",
+          "standard_concept_id": "N_c159",
+          "values": [
+            "V70.0",
+            "V70.3",
+            "V70.5",
+            "V70.6",
+            "V70.8",
+            "V70.9"
+          ]
+        },
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "standard_concept": "encounter_outpatient",
+          "standard_concept_id": "N_c27",
+          "values": [
+            "99201",
+            "99202",
+            "99203",
+            "99204",
+            "99205",
+            "99211",
+            "99212",
+            "99213",
+            "99214",
+            "99215",
+            "99217",
+            "99218",
+            "99219",
+            "99220",
+            "99241",
+            "99242",
+            "99243",
+            "99244",
+            "99245",
+            "99341",
+            "99342",
+            "99343",
+            "99344",
+            "99345",
+            "99347",
+            "99348",
+            "99349",
+            "99350",
+            "99384",
+            "99385",
+            "99386",
+            "99387",
+            "99394",
+            "99395",
+            "99396",
+            "99397",
+            "99401",
+            "99402",
+            "99403",
+            "99404",
+            "99411",
+            "99412",
+            "99420",
+            "99429",
+            "99455",
+            "99456"
+          ]
+        }
+      ]
+    },
+    "flexible_sigmoidoscopy": {
+      "description": "flexible_sigmoidoscopy",
+      "standard_concept_id": "N_c483",
+      "qds_data_types": [
+        "procedure_performed"
+      ],
+      "standard_category": "procedure",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "standard_concept": "flexible_sigmoidoscopy",
+          "standard_concept_id": "N_c29",
+          "values": [
+            "45330",
+            "45331",
+            "45332",
+            "45333",
+            "45334",
+            "45335",
+            "45337",
+            "45338",
+            "45339",
+            "45340",
+            "45341",
+            "45342",
+            "45345"
+          ]
+        },
+        {
+          "set": "HCPCS",
+          "version": "06/2009",
+          "standard_concept": "flexible_sigmoidoscopy",
+          "standard_concept_id": "N_c30",
+          "values": [
+            "G0104"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "flexible_sigmoidoscopy",
+          "standard_concept_id": "N_c31",
+          "values": [
+            "45.24"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "flexible_sigmoidoscopy",
+          "standard_concept_id": "N_c38",
+          "values": [
+            "112870002",
+            "174222002",
+            "21423008",
+            "235153008",
+            "265409002",
+            "32414000",
+            "396225009",
+            "396226005",
+            "425634007",
+            "44441009"
+          ]
+        }
+      ]
+    },
+    "fobt": {
+      "description": "fobt",
+      "standard_concept_id": "N_c484",
+      "qds_data_types": [
+        "laboratory_test_performed"
+      ],
+      "standard_category": "laboratory_test",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "standard_concept": "fobt",
+          "standard_concept_id": "N_c13",
+          "values": [
+            "82270",
+            "82274"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "fobt",
+          "standard_concept_id": "N_c14",
+          "values": [
+            "252156002",
+            "441579003",
+            "441626002",
+            "442067009",
+            "442516004",
+            "442554004",
+            "442563002",
+            "442722005",
+            "61788003"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "fobt",
+          "standard_concept_id": "N_c15",
+          "values": [
+            "V76.51"
+          ]
+        },
+        {
+          "set": "LOINC",
+          "version": "06/2009",
+          "standard_concept": "fobt",
+          "standard_concept_id": "N_c16",
+          "values": [
+            "12503-9",
+            "12504-7",
+            "14563-1",
+            "14564-9",
+            "14565-6",
+            "2335-8",
+            "27396-1",
+            "27401-9",
+            "27925-7",
+            "27926-5",
+            "29771-3"
+          ]
+        },
+        {
+          "set": "HCPCS",
+          "version": "06/2009",
+          "standard_concept": "fobt",
+          "standard_concept_id": "N_c17",
+          "values": [
+            "G0328",
+            "G0394"
+          ]
+        }
+      ]
+    },
+    "total_colectomy": {
+      "description": "total_colectomy",
+      "standard_concept_id": "N_c485",
+      "qds_data_types": [
+        "procedure_performed"
+      ],
+      "standard_category": "procedure",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "total_colectomy",
+          "standard_concept_id": "N_c21",
+          "values": [
+            "174067002",
+            "235331003",
+            "23968004",
+            "26390003",
+            "265393006",
+            "307666008",
+            "307667004",
+            "307669001",
+            "427816007",
+            "456004",
+            "80294005"
+          ]
+        },
+        {
+          "set": "CPT",
+          "version": "06/2009",
+          "standard_concept": "total_colectomy",
+          "standard_concept_id": "N_c36",
+          "values": [
+            "44150",
+            "44151",
+            "44152",
+            "44153",
+            "44155",
+            "44156",
+            "44157",
+            "44158",
+            "44210",
+            "44211",
+            "44212"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "06/2009",
+          "standard_concept": "total_colectomy",
+          "standard_concept_id": "N_c37",
+          "values": [
+            "45.8",
+            "45.81",
+            "45.82",
+            "45.83"
+          ]
+        }
+      ]
+    }
+  },
+  "population": {
+    "and": [
+      {
+        "category": "Patient characteristic",
+        "title": "Birth date 50 to 74 years, inclusive"
+      }
+    ]
+  },
+  "denominator": {
+    "or": [
+      {
+        "category": "Encounter",
+        "title": "Outpatient encounter 0 to 2 years, inclusive, before measurement end date not performed"
+      },
+      {
+        "category": "Procedure performed",
+        "title": "Total colectomy performed"
+      }
+    ]
+  },
+  "numerator": {
+    "or": [
+      {
+        "category": "Procedure performed",
+        "title": "Colonoscopy performed 0 to 10 years, inclusive, before measurement end date"
+      },
+      {
+        "category": "Procedure performed",
+        "title": "Flexible sigmoidoscopy performed 0 to 5 years, inclusive, before measurement end date"
+      },
+      {
+        "category": "Laboratory test performed",
+        "title": "Fecal occult blood testing (FOBT)"
+      }
+    ]
+  },
+  "exclusions": {
+    "or": [
+      {
+        "category": "Diagnosis active",
+        "title": "Colorectal cancer"
+      },
+      {
+        "category": "Diagnosis inactive",
+        "title": "Colorectal cancer"
+      },
+      {
+        "category": "Diagnosis resolved",
+        "title": "Colorectal cancer"
+      }
+    ]
+  }
+}

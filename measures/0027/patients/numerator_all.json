@@ -1,0 +1,12 @@
+{ // 20 year old - population match
+  "first": "Ferdinand",                                  // personal data
+  "last": "Bloggs",
+  "birthdate": 631152000,                                // Time.gm(1990, 1, 1)
+  "measures": {
+    "0027": {
+      "encounter_outpatient": [1249084800],              // Time.gm(2009, 8, 1)
+      "tobacco_user": [1280620800],
+      "tobacco_use_cessation_counseling": [1280620800]
+    }
+  }
+}
