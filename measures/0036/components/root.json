@@ -1,7 +1,7 @@
 {
   "id": "0036",
   "name": "Use of Appropriate Medications for Asthma",
-  "description": "Use of Appropriate Medications for Asthma",
+  "description": "The percentage of patients 5‐50 years of age during the measurement year who were identified as having persistent asthma and were appropriately prescribed medication during the measurement year.",
   "category": "Asthma",
   "steward": "NCQA",
   "parameters": {
