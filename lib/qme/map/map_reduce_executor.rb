@@ -29,13 +29,21 @@ module QME
       # @param [Hash] parameter_values a hash of the measure parameter values. Keys may be either a String or Symbol
       # @return [Hash] a hash of the measure result with Symbol keys: population, denominator, numerator, antinumerator and exclusions whose values are the count of patient records that meet the criteria for each component of the measure. Also included are keys: population_members, denominator_members, numerator_members, antinumerator_members and exclusions_members whose values are arrays of the patient record identifiers that meet the criteria for each component of the measure.
       def measure_result(measure_id, sub_id, parameter_values)
-        measure = Builder.new(measure_def(measure_id, sub_id), parameter_values)
+        
+        cache = @db.collection("query_cache")
+        cache_q = {:measure_id=>measure_id, :sub_id=>sub_id,:effective_date=>parameter_values[:effective_date]}
+        result = cache.find_one(cache_q)
+        unless result
+          measure = Builder.new(measure_def(measure_id, sub_id), parameter_values)
 
-        records = @db.collection('records')
-        results = records.map_reduce(measure.map_function, measure.reduce_function)
-        result = results.find_one # only one key is used by map fn
+          records = @db.collection('records')
+          results = records.map_reduce(measure.map_function, measure.reduce_function)
+          result = results.find_one # only one key is used by map fn
+          cache_q["value"] = result["value"]
+          cache << cache_q
+        end  
+        
         value = result['value']
-
         summary = {}
         %w(population denominator numerator antinumerator exclusions).each do |field|
           summary[field.intern] = value[field].length
