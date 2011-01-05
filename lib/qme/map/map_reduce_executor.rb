@@ -39,6 +39,7 @@ module QME
           records = @db.collection('records')
           results = records.map_reduce(measure.map_function, measure.reduce_function)
           result = results.find_one # only one key is used by map fn
+          value = results['value']
           summary = {}
            %w(population denominator numerator antinumerator exclusions).each do |field|
               summary[field.intern] = value[field].length
