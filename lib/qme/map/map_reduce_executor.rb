@@ -39,17 +39,18 @@ module QME
           records = @db.collection('records')
           results = records.map_reduce(measure.map_function, measure.reduce_function)
           result = results.find_one # only one key is used by map fn
-          cache_q["value"] = result["value"]
-          cache << cache_q
+          summary = {}
+           %w(population denominator numerator antinumerator exclusions).each do |field|
+              summary[field.intern] = value[field].length
+              summary[(field+'_members').intern] = value[field]
+            end
+           results['value']["summary"] = summary 
+           cache_q["value"] = result["value"]
+           cache << cache_q
         end  
         
-        value = result['value']
-        summary = {}
-        %w(population denominator numerator antinumerator exclusions).each do |field|
-          summary[field.intern] = value[field].length
-          summary[(field+'_members').intern] = value[field]
-        end
-        summary
+        result['value']['summary']
+
       end
       
       # Return a list of the measures in the database
