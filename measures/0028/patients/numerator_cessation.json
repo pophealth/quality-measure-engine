@@ -1,11 +1,12 @@
 { // 40 year old - population match, 0028a numerator and 0028b numerator
-  "first": "Bert",                                    // personal data
+  "first": "Simon",                                   // personal data
   "last": "Bloggs",
+  "gender": "M",
   "birthdate": 25142400,                              // Time.gm(1970, 10, 19)
   "measures": {                                       // bag of measures, one entry per measure
     "0028": {
-      "individual_counseling_encounter": 1271721600,   // Time.gm(2010, 4, 20)
-      "tobacco_user": 1269043200,                      // Time.gm(2010, 3, 20)
+      "individual_counseling_encounter": 1271721600,  // Time.gm(2010, 4, 20)
+      "tobacco_user": 1269043200,                     // Time.gm(2010, 3, 20)
       "cessation_counseling": 1269043200              // Time.gm(2010, 3, 20)
     }
   }
