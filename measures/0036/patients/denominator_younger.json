@@ -6,7 +6,7 @@
   "measures": {                                       // bag of measures, one entry per measure
     "0036": {
        "encounter_acute_inpt": 1277856000,            // Time.gm(2010, 6, 30).to_i
-	      "asthma": 1277856000
+        "asthma": 1277856000
     }
   }
 }
