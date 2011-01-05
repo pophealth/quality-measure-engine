@@ -1,6 +1,7 @@
 {
   "first": "David",                       // personal data
   "last": "Evans",
+  "gender": "M",
   "birthdate": -467337600,                // Time.gm(1955, 3, 12).to_i
   "measures": {                           // bag of measures, one entry per measure
     "0055": {
