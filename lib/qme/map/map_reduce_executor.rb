@@ -45,8 +45,8 @@ module QME
               summary[field.intern] = value[field].length
               summary[(field+'_members').intern] = value[field]
             end
-           value["summary"] = summary 
-           cache_q["value"] =value
+           result['value']["summary"] = summary 
+           cache_q["value"] =result['value']
            cache << cache_q
         end  
         
