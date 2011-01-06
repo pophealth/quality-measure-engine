@@ -1,7 +1,7 @@
 {
    "id": "0088",
    "name": "Diabetic Retinopathy",
-   "description": "Diabetic Retinopathy: Documentation of Presence or Absence of Macular Edema and Level of Severity of Retinopathy",
+   "description": "Percentage of patients aged 18 years and older with a diagnosis of diabetic retinopathy who had a dilated macular or fundus exam performed which included documentation of the level of severity of retinopathy and the presence or absence of macular edema during one or more office visits within 12 months.",
    "category": "Diabetes",
    "steward": "AMA",
    "parameters": {

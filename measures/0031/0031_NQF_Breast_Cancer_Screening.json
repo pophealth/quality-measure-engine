@@ -15,7 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "type": "number",
-      "category_type": "patient_characteristic",
+      "standard_category": "patient_characteristic",
       "format": "utc-sec",
       "codes": [
         {
@@ -26,39 +26,14 @@
           ]
                                         }
       ]
-            }
-    },
-  "measure": {
-    "birthdate": {
-      "description": "birthdate",
-      "standard_concept_id": "N_c8",
-      "qds_data_types": [
-        "patient_characteristic"
-      ],
-      "standard_category": "individual_characteristic",
-      "type": "array",
-      "items": {
-        "type": "number",
-        "format": "utc-sec"
-                        },
-      "codes": [
-        {
-          "set": "HL7",
-          "version": "3.0",
-          "standard_concept": "birthdate",
-          "standard_concept_id": "N_c8",
-          "values": [
-            "00110"
-          ]
-                                        }
-      ]
-            },
-    "bilateral_mastectomy": {
+    }
+  },
+  "measure":
+  {
+    "bilateral_mastectomy":
+    {
       "description": "bilateral_mastectomy",
       "standard_concept_id": "N_c443",
-      "qds_data_types": [
-        "procedure_performed"
-      ],
       "standard_category": "procedure",
       "type": "array",
       "items": {
@@ -127,10 +102,7 @@
     "breast_cancer_screening": {
       "description": "breast_cancer_screening",
       "standard_concept_id": "N_c74",
-      "qds_data_types": [
-        "diagnostic_study_performed"
-      ],
-      "standard_category": "diagnosis-condition-problem",
+      "standard_category": "diagnostic_study",
       "type": "array",
       "items": {
         "type": "number",
@@ -143,9 +115,6 @@
     "unilateral_mastectomy": {
       "description": "unilateral_mastectomy",
       "standard_concept_id": "N_c445",
-      "qds_data_types": [
-        "procedure_performed"
-      ],
       "standard_category": "procedure",
       "type": "array",
       "items": {
@@ -211,9 +180,6 @@
     "encounter_outpatient": {
       "description": "encounter_outpatient",
       "standard_concept_id": "N_c552",
-      "qds_data_types": [
-        "encounter"
-      ],
       "standard_category": "encounter",
       "type": "array",
       "items": {

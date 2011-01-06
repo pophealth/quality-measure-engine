@@ -1,28 +1,29 @@
 { // not in numerator because date of BP measures is not on day of latest encounter
-  "first": "Axel",                                    // personal data
+  "first": "Axel",                                      // personal data
   "last": "Bloggs",
-  "birthdate": -290390400,                            // Time.gm(1960, 10, 19).to_i
-  "measures": {                                       // bag of measures, one entry per measure
+  "gender": "M",
+  "birthdate": -290390400,                              // Time.gm(1960, 10, 19).to_i
+  "measures": {                                         // bag of measures, one entry per measure
     "0018": {
-      "encounter_outpatient": [1266537600, 1277856000],           // Time.gm(2010, 6, 30).to_i
-      "hypertension": 1266537600,                   // Time.gm(2010, 2, 19).to_i
+      "encounter_outpatient": [1266537600, 1277856000], // Time.gm(2010, 6, 30).to_i
+      "hypertension": 1266537600,                       // Time.gm(2010, 2, 19).to_i
       "systolic_blood_pressure": [
         {
-          "date": 1266537600,   		// Time.gm(2010, 2, 19).to_i
+          "date": 1266537600,                           // Time.gm(2010, 2, 19).to_i
           "value": 180
         },
         {
-          "date": 1277683200,   		// Time.gm(2010, 6, 28).to_i
+          "date": 1277683200,                           // Time.gm(2010, 6, 28).to_i
           "value": 138
         }
       ],
       "diastolic_blood_pressure": [
         {
-          "date": 1266537600,   		// Time.gm(2010, 2, 19).to_i
+          "date": 1266537600,                          // Time.gm(2010, 2, 19).to_i
           "value": 100
         },
         {
-          "date": 1277683200,   		// Time.gm(2010, 6, 28).to_i
+          "date": 1277683200,                          // Time.gm(2010, 6, 28).to_i
           "value": 85
         }
       ]

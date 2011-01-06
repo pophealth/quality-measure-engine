@@ -147,7 +147,7 @@
     "asthma_symptom_assessment_tool":
     {
       "description": "Dates of Asthma Symptom Assessment Tool",
-      "standard_category": "diagnosis_condition_problem",
+      "standard_category": "procedure",
       "type": "array",
       "items":
       {
