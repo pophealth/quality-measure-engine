@@ -2,7 +2,7 @@
   "id": "0038",
   "name": "Childhood Immunization Status",
   "description": "The percentage of children 2 years of age who had four diphtheria, tetanus and acellular pertussis (DTaP); three polio (IPV); one measles, mumps and rubella (MMR); two H influenza type B (HiB); three hepatitis B (Hep B), one chicken pox (VZV); four pneumococcal conjugate (PCV); two hepatitis A (Hep A); two or three rotavirus (RV); and two influenza (flu) vaccines by their second birthday. The measure calculates a rate for each vaccine and two separate combination rates.",
-  "category": "Core",
+  "category": "Core Alternate",
   "steward": "NCQA",
   "parameters":
   {
