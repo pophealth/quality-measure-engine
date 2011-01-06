@@ -1,6 +1,7 @@
 {
-  "first": "Bert",
-  "last": "Bloggs",
+  "first": "Elizabeth",
+  "last": "Burke",
+  "gender": "F",
   "birthdate": -921542400, // Time.gm(1940, 10, 19)
   "measures": {
     "0041": {

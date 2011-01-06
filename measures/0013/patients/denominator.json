@@ -1,8 +1,9 @@
 { 
-  "first": "Bert",                                    	// personal data
+  "first": "Bert",                                      // personal data
   "last": "Bloggs",
-  "birthdate": -921542400,                            	// Time.gm(1940, 10, 19).to_i
-  "measures": {                                       	// bag of measures, one entry per measure
+  "gender": "M",
+  "birthdate": -921542400,                              // Time.gm(1940, 10, 19).to_i
+  "measures": {                                         // bag of measures, one entry per measure
     "0013": {
       "hypertension": 1277856000,                       // Time.gm(2010, 9, 19)
       "encounter_outpatient": [1277856000, 1277856000]  // Time.gm(2010, 6, 30).to_i

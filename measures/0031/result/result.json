@@ -1,6 +1,7 @@
 {
-  "initialPopulation": 1,
-  "numerator": 0,
-  "denominator": 0,
+  "initialPopulation": 7,
+  "numerator": 2,
+  "denominator": 4,
   "exclusions": 0
 }
+

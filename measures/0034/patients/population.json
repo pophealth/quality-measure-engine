@@ -1,7 +1,8 @@
 { // population match
-  "first": "Fred",                                    // personal data
+  "first": "Robert",       // personal data
   "last": "Bloggs",
-  "birthdate": -631152000,                              // Time.gm(1950, 1, 1)
+  "gender": "M",
+  "birthdate": -631152000, // Time.gm(1950, 1, 1)
   "measures": {
     "0034": {
     }
