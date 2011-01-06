@@ -266,7 +266,12 @@
     {
       "description": "Influenza immunization contraindication",
       "standard_category": "diagnosis_condition_problem",
-      "type": "boolean",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes":
       [
         {
@@ -280,7 +285,12 @@
     {
       "description": "Influenza immunization declined",
       "standard_category": "negation_rationale",
-      "type": "boolean",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes":
       [
         {
@@ -294,7 +304,12 @@
     {
       "description": "Influenza immunization not done for patient reason",
       "standard_category": "negation_rationale",
-      "type": "boolean",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes":
       [
         {
@@ -308,7 +323,12 @@
     {
       "description": "Influenza immunization not done for medical reason",
       "standard_category": "negation_rationale",
-      "type": "boolean",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes":
       [
         {
@@ -322,7 +342,12 @@
     {
       "description": "Influenza immunization not done for system reason",
       "standard_category": "negation_rationale",
-      "type": "boolean",
+      "type": "array",
+      "items":
+      {
+        "type": "number",
+        "format": "utc-sec"
+      },
       "codes":
       [
         {
