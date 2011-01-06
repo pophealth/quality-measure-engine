@@ -39,6 +39,7 @@ module QME
           records = @db.collection('records')
           results = records.map_reduce(measure.map_function, measure.reduce_function)
           result = results.find_one # only one key is used by map fn
+          result['value']['cache_name'] = cache_name(measure_id,sub_id,parameter_values[:effective_date])
           cache_q["value"] =result['value']
           cache << cache_q
           
@@ -79,13 +80,19 @@ module QME
       
       
       private 
+      
+      
+      def cache_name(measure_id, sub_id, effective_date)
+        "cached_measure_patients_#{measure_id}_#{sub_id}_#{effective_date}"
+      end
+      
        #  Private method to cache the patient record for a particular measure and effective time.  This also caches if they are part of the denominator, numeratore ..... which will be used for sorting.
         # @param [String] measure_id value of the measure's id field
         # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
         # @param [Integer] effective_date the effective date used by the map reduce function to calculate popultion, denominator ....... 
-      def cache_measure_patients(measure_id, sub_id, effective_date, results)
-        col_name = "cached_measure_patients_#{measure_id}_#{sub_id}_#{effective_date}"
-        cached_patients =  @db.collection(col_name)
+      def cache_measure_patients(measure_id, sub_id, effective_date, results,drop=true)
+        @db.collection(cache_name((measure_id, sub_id, effective_date)).drop if drop
+        cached_patients =  @db.collection(cache_name((measure_id, sub_id, effective_date))
         population = results['population']
         if population
         records =   @db.collection("records").find('_id' => {'$in' => results['population']})
