@@ -1,0 +1,787 @@
+{
+  "id": "0385",
+  "name": "Oncology Colon Cancer: Chemotherapy for Stage III Colon Cancer Patients",
+  "description": "Percentage of patients aged 18 years and older with Stage IIIA through IIIC colon cancer who are referred for adjuvant chemotherapy, prescribed adjuvant chemotherapy, or have previously received adjuvant chemotherapy within the 12-month reporting period.",
+  "category": "Cancer",
+  "steward": "AMA",
+  "parameters": {
+    "effective_date": {
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient": {
+    "birthdate": {
+      "description": "Date of birth",
+      "type": "number",
+      "standard_category": "characteristic",
+      "format": "utc-sec",
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": [
+            "00110"
+          ]
+        }
+      ]
+    }
+  },
+  "measure": {
+    "chemotherapy_for_colon_cancer": {
+      "description": "Chemotherapy For Colon Cancer",
+      "standard_concept_id": "A_c293",
+      "qds_data_types": [
+        "medication_order",
+        "medication_administered",
+        "medication_intolerance",
+        "medication_adverse_event",
+        "medication_allergy"
+      ],
+      "standard_category": "medication",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "standard_concept": "chemotherapy_for_colon_cancer",
+          "standard_concept_id": "A_c293",
+          "values": [
+            "105583",
+            "105584",
+            "105691",
+            "197352",
+            "197709",
+            "197860",
+            "197861",
+            "197862",
+            "197863",
+            "199224",
+            "199316",
+            "200327",
+            "200328",
+            "237788",
+            "239177",
+            "244197",
+            "250288",
+            "284191",
+            "310261",
+            "310378",
+            "310379",
+            "310380",
+            "311282",
+            "388641"
+          ]
+        }
+      ]
+    },
+    "allergy_chemotherapy_for_colon_cancer": {
+      "description": "Chemotherapy For Colon Cancer",
+      "standard_concept_id": "A_c293",
+      "qds_data_types": [
+        "medication_intolerance",
+        "medication_adverse_event",
+        "medication_allergy"
+      ],
+      "standard_category": "medication_allergy",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "RxNorm",
+          "version": "12/2009",
+          "standard_concept": "chemotherapy_for_colon_cancer",
+          "standard_concept_id": "A_c293",
+          "values": [
+            "105583",
+            "105584",
+            "105691",
+            "197352",
+            "197709",
+            "197860",
+            "197861",
+            "197862",
+            "197863",
+            "199224",
+            "199316",
+            "200327",
+            "200328",
+            "237788",
+            "239177",
+            "244197",
+            "250288",
+            "284191",
+            "310261",
+            "310378",
+            "310379",
+            "310380",
+            "311282",
+            "388641"
+          ]
+        }
+      ]
+    },
+    "colon_cancer_stage_iii": {
+      "description": "Colon Cancer Stage III",
+      "standard_concept_id": "A_c292",
+      "qds_data_types": [
+        "procedure_result"
+      ],
+      "standard_category": "procedure",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "7/2009",
+          "standard_concept": "colon_cancer_stage_iii",
+          "standard_concept_id": "A_c292",
+          "values": [
+            "261654001",
+            "261656004",
+            "261657008",
+            "261658003",
+            "369921003",
+            "370046006"
+          ]
+        }
+      ]
+    },
+    "ecog_performance_status_poor": {
+      "description": "ECOG Performance Status Poor",
+      "standard_concept_id": "A_c508",
+      "qds_data_types": [
+        "patient_characteristic"
+      ],
+      "standard_category": "characteristic",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "ecog_performance_status-poor",
+          "standard_concept_id": "A_c508",
+          "values": [
+            "422894000",
+            "423053003",
+            "423237006"
+          ]
+        }
+      ]
+    },
+    "encounter_office_visit": {
+      "description": "Encounter Office Visit",
+      "standard_concept_id": "A_c114",
+      "qds_data_types": [
+        "encounter"
+      ],
+      "standard_category": "encounter",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "CPT",
+          "version": "2010",
+          "standard_concept": "encounter_office_visit",
+          "standard_concept_id": "A_c114",
+          "values": [
+            "99201",
+            "99202",
+            "99203",
+            "99204",
+            "99205",
+            "99212",
+            "99213",
+            "99214",
+            "99215"
+          ]
+        }
+      ]
+    },
+    "medical_reason": {
+      "description": "Medical Reason",
+      "standard_concept_id": "A_c313",
+      "qds_data_types": [
+        "medication_not_done"
+      ],
+      "standard_category": "negation_rationale",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "standard_concept": "medical_reason",
+          "standard_concept_id": "A_c313",
+          "values": [
+            "21703",
+            "21704",
+            "21738",
+            "21745",
+            "21747",
+            "21815",
+            "21990",
+            "22259",
+            "22261",
+            "22855"
+          ]
+        }
+      ]
+    },
+    "patient_reason": {
+      "description": "Patient Reason",
+      "standard_concept_id": "A_c311",
+      "qds_data_types": [
+        "medication_not_done"
+      ],
+      "standard_category": "negation_rationale",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "standard_concept": "patient_reason",
+          "standard_concept_id": "A_c311",
+          "values": [
+            "14880",
+            "15985",
+            "19729",
+            "21708",
+            "21710",
+            "21741",
+            "21743",
+            "21746",
+            "22260",
+            "22851"
+          ]
+        }
+      ]
+    },
+    "system_reason": {
+      "description": "System Reason",
+      "standard_concept_id": "A_c310",
+      "qds_data_types": [
+        "medication_not_done"
+      ],
+      "standard_category": "negation_rationale",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "standard_concept": "system_reason",
+          "standard_concept_id": "A_c310",
+          "values": [
+            "19730",
+            "19731",
+            "19733",
+            "19734",
+            "19735",
+            "19736",
+            "19987",
+            "19988",
+            "19989",
+            "19990",
+            "21408",
+            "21493",
+            "21568",
+            "21706",
+            "21707",
+            "21709",
+            "21728",
+            "21729",
+            "21730",
+            "21731",
+            "21732",
+            "21733",
+            "21734",
+            "21735",
+            "21744",
+            "22023",
+            "22024",
+            "22165",
+            "22166",
+            "22167",
+            "22168",
+            "22169",
+            "22857",
+            "22858",
+            "22859",
+            "22865",
+            "22866",
+            "22867",
+            "22907",
+            "22909",
+            "22911",
+            "22912",
+            "22913"
+          ]
+        }
+      ]
+    },
+    "acute_renal_insufficiency": {
+      "description": "acute_renal_insufficiency",
+      "standard_concept_id": "A_c498",
+      "qds_data_types": [
+        "diagnosis_active"
+      ],
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "ICD-9-CM",
+          "version": "2010",
+          "standard_concept": "acute_renal_insufficiency",
+          "standard_concept_id": "A_c495",
+          "values": [
+            "593.9"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "acute_renal_insufficiency",
+          "standard_concept_id": "A_c496",
+          "values": [
+            "N18.9",
+            "N28.9"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "acute_renal_insufficiency",
+          "standard_concept_id": "A_c497",
+          "values": [
+            "14669001",
+            "236428007",
+            "269257004",
+            "301814009",
+            "307309005",
+            "422593004",
+            "430535006",
+            "55655006"
+          ]
+        }
+      ]
+    },
+    "colon_cancer": {
+      "description": "Colon Cancer",
+      "standard_concept_id": "A_c391",
+      "qds_data_types": [
+        "diagnosis_active"
+      ],
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/09",
+          "standard_concept": "colon_cancer",
+          "standard_concept_id": "A_c316",
+          "values": [
+            "109838007",
+            "126838000",
+            "187757001",
+            "187758006",
+            "269533000",
+            "269544008",
+            "285312008",
+            "285611007",
+            "301756000",
+            "312111009",
+            "312112002",
+            "312113007",
+            "312114001",
+            "312115000",
+            "314965007",
+            "315058005",
+            "363406005",
+            "363407001",
+            "363408006",
+            "363409003",
+            "363410008",
+            "363412000",
+            "363413005",
+            "363414004",
+            "363510005",
+            "425178004",
+            "93683002",
+            "93761005",
+            "93771007",
+            "93826009",
+            "93980002",
+            "94006002",
+            "94072004",
+            "94105000",
+            "94179005",
+            "94260004",
+            "94271003",
+            "94328005",
+            "94509004",
+            "94538001",
+            "94604000",
+            "94643001"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "2009",
+          "standard_concept": "colon_cancer",
+          "standard_concept_id": "A_c344",
+          "values": [
+            "153.0",
+            "153.1",
+            "153.2",
+            "153.3",
+            "153.4",
+            "153.5",
+            "153.6",
+            "153.7",
+            "153.8",
+            "153.9"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "colon_cancer",
+          "standard_concept_id": "A_c345",
+          "values": [
+            "C18.0",
+            "C18.1",
+            "C18.2",
+            "C18.3",
+            "C18.4",
+            "C18.5",
+            "C18.6",
+            "C18.7",
+            "C18.9",
+            "C19"
+          ]
+        }
+      ]
+    },
+    "colon_cancer_history": {
+      "description": "Colon Cancer History",
+      "standard_concept_id": "A_c392",
+      "qds_data_types": [
+        "diagnosis_inactive"
+      ],
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "SNOMED-CT",
+          "version": "07/09",
+          "standard_concept": "colon_cancer_history",
+          "standard_concept_id": "A_c415",
+          "values": [
+            "429699009"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "2009",
+          "standard_concept": "colon_cancer_history",
+          "standard_concept_id": "A_c93",
+          "values": [
+            "V10.05"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "colon_cancer_history",
+          "standard_concept_id": "A_c94",
+          "values": [
+            "Z85.03"
+          ]
+        }
+      ]
+    },
+    "leukopenia": {
+      "description": "Leukopenia",
+      "standard_concept_id": "A_c506",
+      "qds_data_types": [
+        "diagnosis_active"
+      ],
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "ICD-9-CM",
+          "version": "2010",
+          "standard_concept": "leukopenia",
+          "standard_concept_id": "A_c503",
+          "values": [
+            "288.50",
+            "288.59"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "leukopenia",
+          "standard_concept_id": "A_c504",
+          "values": [
+            "D70.0",
+            "D72.818",
+            "D72.819"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "leukopenia",
+          "standard_concept_id": "A_c505",
+          "values": [
+            "123777002",
+            "127034005",
+            "183005",
+            "234418001",
+            "417672002",
+            "426800001",
+            "427245000",
+            "5876000",
+            "84828003"
+          ]
+        }
+      ]
+    },
+    "metastatic_sites_common_to_colon_cancer": {
+      "description": "Metastatic Sites Common To Colon Cancer",
+      "standard_concept_id": "A_c490",
+      "qds_data_types": [
+        "diagnosis_active"
+      ],
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "ICD-9-CM",
+          "version": "2010",
+          "standard_concept": "metastatic_sites_common_to_colon_cancer",
+          "standard_concept_id": "A_c487",
+          "values": [
+            "197.7"
+          ]
+        },
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "metastatic_sites_common_to_colon_cancer",
+          "standard_concept_id": "A_c488",
+          "values": [
+            "C78.7"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "metastatic_sites_common_to_colon_cancer",
+          "standard_concept_id": "A_c489",
+          "values": [
+            "94222008"
+          ]
+        }
+      ]
+    },
+    "neutropenia": {
+      "description": "Neutropenia",
+      "standard_concept_id": "A_c502",
+      "qds_data_types": [
+        "diagnosis_active"
+      ],
+      "standard_category": "diagnosis_condition_problem",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "utc-sec"
+      },
+      "codes": [
+        {
+          "set": "ICD-10-CM",
+          "version": "2010",
+          "standard_concept": "acute_renal_insufficiency",
+          "standard_concept_id": "A_c496",
+          "values": [
+            "N18.9",
+            "N28.9"
+          ]
+        },
+        {
+          "set": "SNOMED-CT",
+          "version": "07/2009",
+          "standard_concept": "acute_renal_insufficiency",
+          "standard_concept_id": "A_c497",
+          "values": [
+            "14669001",
+            "236428007",
+            "269257004",
+            "301814009",
+            "307309005",
+            "422593004",
+            "430535006",
+            "55655006"
+          ]
+        },
+        {
+          "set": "ICD-9-CM",
+          "version": "2010",
+          "standard_concept": "neutropenia",
+          "standard_concept_id": "A_c499",
+          "values": [
+            "288.00",
+            "288.02",
+            "288.03",
+            "288.04",
+            "288.09",
+            "289.53"
+          ]
+        }
+      ]
+    }
+  },
+  "population": {
+    "and": [
+      {
+        "category": "Patient characteristic",
+        "title": "Age >= 18 years"
+      },
+      {
+        "or": [
+          {
+            "category": "Diagnosis active",
+            "title": "Active colon cancer"
+          },
+          {
+            "category": "Diagnosis inactive",
+            "title": "Inactive colon cancer history"
+          }
+        ]
+      },
+      {
+        "category": "Encounter",
+        "title": ">= 2 counts of office visit encounter"
+      }
+    ]
+  },
+  "denominator": {
+    "and": [
+      {
+        "category": "Procedure result",
+        "title": "Colon cancer stage III result"
+      }
+    ]
+  },
+  "numerator": {
+    "or": [
+      {
+        "category": "Medication order",
+        "title": "Chemotherapy for colon cancer ordered"
+      },
+      {
+        "category": "Medication administered",
+        "title": "Chemotherapy for colon cancer administered"
+      }
+    ]
+  },
+  "exclusions": {
+    "or": [
+      {
+        "category": "Diagnosis active",
+        "title": "Metastatic sites common to colon cancer"
+      },
+      {
+        "category": "Diagnosis active",
+        "title": "Acute renal insufficiency"
+      },
+      {
+        "category": "Diagnosis active",
+        "title": "Neutropenia"
+      },
+      {
+        "category": "Diagnosis active",
+        "title": "Leukopenia"
+      },
+      {
+        "category": "Patient characteristic",
+        "title": "ECOG performance status poor"
+      },
+      {
+        "category": "Medication intolerance",
+        "title": "Chemotherapy for colon cancer intolerance"
+      },
+      {
+        "category": "Medication adverse event",
+        "title": "Chemotherapy for colon cancer adverse event"
+      },
+      {
+        "category": "Medication allergy",
+        "title": "Chemotherapy for colon cancer allergy"
+      },
+      {
+        "category": "Medication not done",
+        "title": "Medical reason"
+      },
+      {
+        "category": "Medication not done",
+        "title": "Patient reason"
+      },
+      {
+        "category": "Medication not done",
+        "title": "System reason"
+      }
+    ]
+  }
+}

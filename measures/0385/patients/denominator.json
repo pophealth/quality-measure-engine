@@ -1,0 +1,12 @@
+{
+  "first": "Felicity",                                    // personal data
+  "last": "Bloggs",
+  "birthdate": -631152000,                            // Time.gm(1950, 1, 1).to_i
+  "measures": {
+    "0385": {
+      "encounter_office_visit": [1267401600, 1277942400], // Time.gm(2010, 3, 1), Time.gm(2010, 7, 1)
+      "colon_cancer": [1275350400],                   // Time.gm(2010, 6, 1)
+      "colon_cancer_stage_iii": [1275350400]
+    }
+  }
+}

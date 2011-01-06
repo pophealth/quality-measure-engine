@@ -15,7 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "type": "number",
-      "category_type": "patient_characteristic",
+      "standard_category": "patient_characteristic",
       "format": "utc-sec",
       "codes": [
         {
@@ -123,7 +123,7 @@
         "diagnosis_inactive",
         "diagnosis_resolved"
       ],
-      "standard_category": "diagnosis-condition-problem",
+      "standard_category": "diagnosis_condition_problem",
       "type": "array",
       "items": {
         "type": "number",

@@ -19,6 +19,14 @@
     return count;
   };
   
+  // returns the largest member of value that is within the supplied range
+  root.maxInRange = function(value, min, max) {
+    if (value==null)
+      return null;
+    allInRange = _.select(value, function(v) {return v>=min && v<=max;});
+    return _.max(allInRange);
+  }
+  
   // returns the number of values which as less than the supplied limit
   // value may be a number or an array of numbers
   root.lessThan = function(value, max) {
