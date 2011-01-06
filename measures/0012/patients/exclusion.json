@@ -1,0 +1,13 @@
+{
+  "first": "Fred",
+  "last": "Bloggs",
+  "measures": {
+    "0012": {
+      "delivery_live_births_diagnosis": [1275350400], // Time.gm(2010, 6, 1)
+      "delivery_live_births_procedure": [1275350400],
+      "estimated_date_of_conception": [1251763200],   // Time.gm(2009, 9, 1)
+      "prenatal_visit": [1257033600],                  // Time.gm(2009, 11, 1)
+      "hiv": [1251763200]
+    }
+  }
+}
