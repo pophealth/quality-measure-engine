@@ -15,7 +15,7 @@
     "birthdate": {
       "description": "Date of birth",
       "type": "number",
-      "category_type": "patient_characteristic",
+      "standard_category": "characteristic",
       "format": "utc-sec",
       "codes": [
         {

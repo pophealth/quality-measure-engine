@@ -19,7 +19,7 @@
     {
       "description": "Date of birth",
       "type": "number",
-      "category_type": "patient_characteristic",
+      "standard_category": "patient_characteristic",
       "format": "utc-sec",
       "codes":
       [
@@ -33,35 +33,11 @@
   },
   "measure":
   {
-    "birthdate":
-    {
-      "description": "birthdate",
-      "standard_concept_id": "N_c8",
-      "standard_categories": ["patient_characteristic"],
-      "category_type": "individual_characteristic",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes":
-      [
-        {
-          "set": "HL7",
-          "version": "3.0",
-          "standard_concept": "birthdate",
-          "standard_concept_id": "N_c8",
-          "values": ["00110"]
-        }
-      ]
-    },
     "bilateral_mastectomy":
     {
       "description": "bilateral_mastectomy",
       "standard_concept_id": "N_c443",
-      "standard_categories": ["procedure_performed"],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type": "array",
       "items":
       {
@@ -99,8 +75,7 @@
     {
       "description": "breast_cancer_screening",
       "standard_concept_id": "N_c74",
-      "standard_categories": ["diagnostic_study_performed"],
-      "category_type": "diagnosis_condition_problem",
+      "standard_category": "diagnostic_study",
       "type": "array",
       "items":
       {
@@ -144,8 +119,7 @@
     {
       "description": "unilateral_mastectomy",
       "standard_concept_id": "N_c445",
-      "standard_categories": ["procedure_performed"],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type": "array",
       "items":
       {
@@ -182,8 +156,7 @@
     {
       "description": "encounter_outpatient",
       "standard_concept_id": "N_c552",
-      "standard_categories": ["encounter"],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
       "items":
       {
