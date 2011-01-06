@@ -39,17 +39,21 @@ module QME
           records = @db.collection('records')
           results = records.map_reduce(measure.map_function, measure.reduce_function)
           result = results.find_one # only one key is used by map fn
-          cache_q["value"] = result["value"]
+          result['value']['cache_name'] = cache_name(measure_id,sub_id,parameter_values[:effective_date])
+          cache_q["value"] =result['value']
           cache << cache_q
+          
+          cache_measure_patients(measure_id,sub_id,parameter_values[:effective_date],result['value'])
         end  
         
-        value = result['value']
-        summary = {}
-        %w(population denominator numerator antinumerator exclusions).each do |field|
-          summary[field.intern] = value[field].length
-          summary[(field+'_members').intern] = value[field]
-        end
-        summary
+          value = result['value']
+          summary = {}
+           %w(population denominator numerator antinumerator exclusions).each do |field|
+              summary[field.intern] = value[field].length
+              summary[(field+'_members').intern] = value[field]
+            end
+           summary
+
       end
       
       # Return a list of the measures in the database
@@ -72,6 +76,47 @@ module QME
         end
         result
       end
+      
+      
+      
+      private 
+      
+      
+      def cache_name(measure_id, sub_id, effective_date)
+        "cached_measure_patients_#{measure_id}_#{sub_id}_#{effective_date}"
+      end
+      
+       #  Private method to cache the patient record for a particular measure and effective time.  This also caches if they are part of the denominator, numeratore ..... which will be used for sorting.
+        # @param [String] measure_id value of the measure's id field
+        # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
+        # @param [Integer] effective_date the effective date used by the map reduce function to calculate popultion, denominator ....... 
+      def cache_measure_patients(measure_id, sub_id, effective_date, results,drop=true)
+        col_name =cache_name(measure_id, sub_id, effective_date)
+        @db.collection(col_name).drop if drop
+        cached_patients =  @db.collection(col_name)
+        population = results['population']
+        if population
+        records =   @db.collection("records").find('_id' => {'$in' => results['population']})
+        records.each do |record|
+          record_id = record["_id"]
+          new_record = {:first=>record["first"],
+                     :last=>record["last"],
+                     :birthdate=>record["birthdate"],
+                     :measure_id => measure_id,
+                     :sub_id=>sub_id,
+                     :effective_date => effective_date,
+                     :measure_data => record[measure_id],
+                     :numerator=>!results["numerator"].index(record_id).nil?,
+                     :denominator=>!results["denominator"].index(record_id).nil?,
+                     :exclusion=>!results["exclusions"].index(record_id).nil?,
+                     :antinumerator=>!results["antinumerator"].index(record_id).nil?}
+                     
+            cached_patients << new_record         
+          
+        end
+      end
+      end
+      
     end
   end
 end
