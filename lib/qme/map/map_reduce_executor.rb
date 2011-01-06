@@ -84,7 +84,8 @@ module QME
         # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
         # @param [Integer] effective_date the effective date used by the map reduce function to calculate popultion, denominator ....... 
       def cache_measure_patients(measure_id, sub_id, effective_date, results)
-        cached_patients =  @db.collection("cached_measure_patients")
+        col_name = "cached_measure_patients_#{measure_id}_#{sub_id}_#{effective_date}"
+        cached_patients =  @db.collection(col_name)
         population = results['population']
         if population
         records =   @db.collection("records").find('_id' => {'$in' => results['population']})
