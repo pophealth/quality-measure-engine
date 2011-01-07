@@ -9,14 +9,32 @@
   // returns the number of values which fall between the supplied limits
   // value may be a number or an array of numbers
   root.inRange = function(value, min, max) {
+    if (!_.isArray(value))
+      value = [value];
     var count = 0;
-    if (_.isArray(value)) {
-      for (i=0;i<value.length;i++) {
-        if ((value[i]>=min) && (value[i]<=max))
-          count++;
-      }
-    } else {
-      if ((value>=min) && (value<=max))
+    for (i=0;i<value.length;i++) {
+      if ((value[i]>=min) && (value[i]<=max))
+        count++;
+    }
+    return count;
+  };
+  
+  // returns the largest member of value that is within the supplied range
+  root.maxInRange = function(value, min, max) {
+    if (value==null)
+      return null;
+    allInRange = _.select(value, function(v) {return v>=min && v<=max;});
+    return _.max(allInRange);
+  }
+  
+  // returns the number of values which are less than the supplied limit
+  // value may be a number or an array of numbers
+  root.lessThan = function(value, max) {
+    if (!_.isArray(value))
+      value = [value];
+    var count = 0;
+    for (i=0;i<value.length;i++) {
+      if (value[i]<=max)
         count++;
     }
     return count;
@@ -54,7 +72,7 @@
     else
       return defaultValue;
   };
-    
+  
   // Returns the most recent readings[i].value where readings[i].date is in
   // the supplied startDate and endDate. If no reading meet this criteria,
   // returns defaultValue.
@@ -94,6 +112,11 @@
     }
     
     return result;
+  }
+    
+  // Returns all members of the values array that fall between min and max inclusive
+  root.selectWithinRange = function(values, min, max) {
+    return _.select(values, function(value) { return value<=max && value>=min; });
   }
     
   root.map = function(record, population, denominator, numerator, exclusion) {

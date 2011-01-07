@@ -1,6 +1,7 @@
 {
    "id": "0024",
-   "description": "Weight Assessment and Counseling for Children and Adolescents",
+   "name": "Weight Assessment and Counseling for Children and Adolescents",
+   "description": "The percentage of patients 2‐17 years of age who had an outpatient visit with a PCP or OB/GYN and who had evidence of BMI percentile documentation, counseling for nutrition and counseling for physical activity during the measurement year.",
    "category": "Core Alternate",
    "steward": "NCQA",
    "parameters": {

@@ -1,272 +1,307 @@
 {
   "id": "0031",
-  "name": "Breast Cancer Screening",
-  "description": "The percentage of women 40–69 years of age who had a mammogram to screen for breast cancer.",
-  "category": "Cancer",
-  "steward": "NCQA",
-  "parameters":
-  {
-    "effective_date":
-    {
+    "name": "Breast Cancer Screening",
+    "description": "The percentage of women 40–69 years of age who had a mammogram to screen for breast cancer.",
+    "category": "Cancer",
+    "steward": "NCQA",
+    "parameters": {
+    "effective_date": {
       "description": "Effective end date for measure",
       "type": "number",
       "format": "utc-sec"
-    }
-  },
-  "patient":
-  {
-    "birthdate":
-    {
+            }
+    },
+  "patient": {
+    "birthdate": {
       "description": "Date of birth",
       "type": "number",
-      "category_type": "patient_characteristic",
+      "standard_category": "patient_characteristic",
       "format": "utc-sec",
-      "codes":
-      [
+      "codes": [
         {
           "set": "HL7",
           "version": "3.0",
-          "values": ["00110"]
-        }
+          "values": [
+            "00110"
+          ]
+                                        }
       ]
     }
   },
   "measure":
   {
-    "birthdate":
-    {
-      "description": "birthdate",
-      "standard_concept_id": "N_c8",
-      "standard_categories": ["patient_characteristic"],
-      "category_type": "individual_characteristic",
-      "type": "array",
-      "items":
-      {
-        "type": "number",
-        "format": "utc-sec"
-      },
-      "codes":
-      [
-        {
-          "set": "HL7",
-          "version": "3.0",
-          "standard_concept": "birthdate",
-          "standard_concept_id": "N_c8",
-          "values": ["00110"]
-        }
-      ]
-    },
     "bilateral_mastectomy":
     {
       "description": "bilateral_mastectomy",
       "standard_concept_id": "N_c443",
-      "standard_categories": ["procedure_performed"],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type": "array",
-      "items":
-      {
+      "items": {
         "type": "number",
         "format": "utc-sec"
-      },
-      "codes": 
-      [
+                        },
+      "codes": [
         {
           "set": "CPT",
           "version": "06/2009",
           "standard_concept": "bilateral_mastectomy",
           "standard_concept_id": "N_c46",
-          "values": ["19180", "19200", "19220", "19240", "19303", "19304", "19305", "19306", "19307"]
-        },
+          "values": [
+            "19180",
+            "19200",
+            "19220",
+            "19240",
+            "19303",
+            "19304",
+            "19305",
+            "19306",
+            "19307"
+          ]
+                                        },
         {
           "set": "ICD-9-CM",
           "version": "06/2009",
           "standard_concept": "bilateral_mastectomy",
           "standard_concept_id": "N_c77",
-          "values": ["85.42", "85.44", "85.46", "85.48"]
-        },
+          "values": [
+            "85.42",
+            "85.44",
+            "85.46",
+            "85.48"
+          ]
+                                        },
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
           "standard_concept": "bilateral_mastectomy",
           "standard_concept_id": "N_c83",
-          "values": ["14693006",  "14714006",  "17086001",  "172046003", "172049005", "22418005", "237370008", "27865001", "287654001",
-                     "359734005", "359740003", "367502008", "384723003", "395165008", "52314009", "59860000",  "60633004", "66398006",
-                     "76468001"]
-        }
+          "values": [
+            "14693006",
+            "14714006",
+            "17086001",
+            "172046003",
+            "172049005",
+            "22418005",
+            "237370008",
+            "27865001",
+            "287654001",
+            "359734005",
+            "359740003",
+            "367502008",
+            "384723003",
+            "395165008",
+            "52314009",
+            "59860000",
+            "60633004",
+            "66398006",
+            "76468001"
+          ]
+                                        }
       ]
-    },
-    "breast_cancer_screening":
-    {
+            },
+    "breast_cancer_screening": {
       "description": "breast_cancer_screening",
       "standard_concept_id": "N_c74",
-      "standard_categories": ["diagnostic_study_performed"],
-      "category_type": "diagnosis_condition_problem",
+      "standard_category": "diagnostic_study",
       "type": "array",
-      "items":
-      {
+      "items": {
         "type": "number",
         "format": "utc-sec"
-      },
-      "codes":
-      [
-        {
-          "set": "HPCT",
-          "version": "06/2009",
-          "standard_concept": "breast cancer screening",
-          "standard_concept_id": "N_c73",
-          "values": ["G0202", "G0204", "G0206"]
-        },
-        {
-          "set": "CPT",
-          "version": "06/2009",
-          "standard_concept": "breast cancer screening",
-          "standard_concept_id": "N_c72",
-          "values": ["76090", "76091", "76092", "77055", "77056", "77057"]
-        },
-        {
-          "set": "ICD-10-CM",
-          "version": "06/2009",
-          "standard_concept": "breast cancer screening",
-          "standard_concept_id": "N_c81",
-          "values": ["Z12.31"]
-        },
-        {
-          "set": "SNOMED-CT",
-          "version": "07/2009",
-          "standard_concept": "bilateral_mastectomy",
-          "standard_concept_id": "N_c83",
-          "values": ["12389009", "241055006", "241056007", "241057003", "241058008", "241189009", "241539009", "24623002", "258172002",
-                     "35482003", "418074003", "418378007", "43204002",  "439324009", "71651007"]
-        }
+                        },
+      "codes": [
+
       ]
-    },
-    "unilateral_mastectomy":
-    {
+            },
+    "unilateral_mastectomy": {
       "description": "unilateral_mastectomy",
       "standard_concept_id": "N_c445",
-      "standard_categories": ["procedure_performed"],
-      "category_type": "procedure",
+      "standard_category": "procedure",
       "type": "array",
-      "items":
-      {
+      "items": {
         "type": "number",
         "format": "utc-sec"
-      },
-      "codes":
-      [
+                        },
+      "codes": [
         {
           "set": "CPT",
           "version": "06/2009",
           "standard_concept": "unilateral_mastectomy",
           "standard_concept_id": "N_c79",
-          "values": ["19180", "19200", "19220", "19240", "19303", "19304", "19305", "19306", "19307"]
-        },
+          "values": [
+            "19180",
+            "19200",
+            "19220",
+            "19240",
+            "19303",
+            "19304",
+            "19305",
+            "19306",
+            "19307"
+          ]
+                                        },
         {
           "set": "ICD-9-CM",
           "version": "06/2009",
           "standard_concept": "unilateral_mastectomy",
           "standard_concept_id": "N_c80",
-          "values": ["85.41", "85.43", "85.45", "85.47"]
-        },
+          "values": [
+            "85.41",
+            "85.43",
+            "85.45",
+            "85.47"
+          ]
+                                        },
         {
           "set": "SNOMED-CT",
           "version": "07/2009",
           "standard_concept": "unilateral_mastectomy",
           "standard_concept_id": "N_c85",
-          "values": ["172043006", "172044000", "237367009", "237368004", "274957008", "287653007", "318190001", "359728003", "359731002",
-                     "395702000", "406505007", "41104003",  "428564008", "428571003", "429400009", "70183006"]
-        }
+          "values": [
+            "172043006",
+            "172044000",
+            "237367009",
+            "237368004",
+            "274957008",
+            "287653007",
+            "318190001",
+            "359728003",
+            "359731002",
+            "395702000",
+            "406505007",
+            "41104003",
+            "428564008",
+            "428571003",
+            "429400009",
+            "70183006"
+          ]
+                                        }
       ]
-    },
-    "encounter_outpatient":
-    {
+            },
+    "encounter_outpatient": {
       "description": "encounter_outpatient",
       "standard_concept_id": "N_c552",
-      "standard_categories": ["encounter"],
-      "category_type": "encounter",
+      "standard_category": "encounter",
       "type": "array",
-      "items":
-      {
+      "items": {
         "type": "number",
         "format": "utc-sec"
-      },
-      "codes":
-      [
+                        },
+      "codes": [
         {
           "set": "ICD-9-CM",
           "version": "06/2009",
           "standard_concept": "encounter_outpatient",
           "standard_concept_id": "N_c159",
-          "values": ["V70.0", "V70.3", "V70.5", "V70.6", "V70.8", "V70.9"]
-        },
+          "values": [
+            "V70.0",
+            "V70.3",
+            "V70.5",
+            "V70.6",
+            "V70.8",
+            "V70.9"
+          ]
+                                        },
         {
           "set": "CPT",
           "version": "06/2009",
           "standard_concept": "encounter_outpatient",
           "standard_concept_id": "N_c27",
-          "values": ["99201", "99202", "99203", "99204", "99205", "99211", "99212", "99213", "99214", "99215", "99217", "99218", "99219",
-                     "99220", "99241", "99242", "99243", "99244", "99245", "99341", "99342", "99343", "99344", "99345", "99347", "99348",
-                     "99349", "99350", "99384", "99385", "99386", "99387", "99394", "99395", "99396", "99397", "99401", "99402", "99403",
-                     "99404", "99411", "99412", "99420", "99429", "99455", "99456"]
-        }
+          "values": [
+            "99201",
+            "99202",
+            "99203",
+            "99204",
+            "99205",
+            "99211",
+            "99212",
+            "99213",
+            "99214",
+            "99215",
+            "99217",
+            "99218",
+            "99219",
+            "99220",
+            "99241",
+            "99242",
+            "99243",
+            "99244",
+            "99245",
+            "99341",
+            "99342",
+            "99343",
+            "99344",
+            "99345",
+            "99347",
+            "99348",
+            "99349",
+            "99350",
+            "99384",
+            "99385",
+            "99386",
+            "99387",
+            "99394",
+            "99395",
+            "99396",
+            "99397",
+            "99401",
+            "99402",
+            "99403",
+            "99404",
+            "99411",
+            "99412",
+            "99420",
+            "99429",
+            "99455",
+            "99456"
+          ]
+                                        }
       ]
+            }
+    },
+     "population":   {
+            "and":
+            [{
+               "category": "Patient Characteristic",
+               "title": "Gender Female"
+              },
+              {
+                "category": "Patient Characteristic",
+                "title": "Age between 41 and 68"
+              }
+            ]
+          },
+      "denominator":   {
+            "and": 
+            [
+              {
+                "category": "Encounter",
+                "title": "Outpatient within 2 Years"
+              },
+              {
+                "or": 
+                [
+                  {
+                    "category": "Procedure",
+                    "title": "No Bilateral Mastectomy Performed"
+                  },
+                  {
+                    "category": "Procedure",
+                    "title": "No More Than 1 Unilateral Mastectomy Performed"
+                  }
+                ]
+              }
+            ]
+          },
+      "numerator":     {
+              "and": 
+              [
+                {
+                  "category": "Encounter",
+                  "title": "Breast Cancer Screen Performed <= 2 Years"
+                }
+              ]
+            },
+      "exclusions": {
+
+        }
     }
-  },
-  "population":
-  {
-    "and":
-    [
-      {
-        "or":
-        [
-          {
-            "category": "Patient Characteristic",
-            "title": "Gender Male"
-          },
-          {
-            "category": "Patient Characteristic",
-            "title": "Gender Female"
-          }
-        ]
-      },
-      {
-        "category": "Patient Characteristic",
-        "title": "Age between 41 and 68"
-      }
-    ]
-  },
-  "denominator":
-  {
-    "and":
-    [
-      {
-        "category": "Encounter",
-        "title": "Outpatient within 2 Years"
-      },
-      {
-        "or":
-        [
-          {
-            "category": "Procedure",
-            "title": "No Bilateral Mastectomy Performed"
-          },
-          {
-            "category": "Procedure",
-            "title": "No More Than 1 Unilateral Mastectomy Performed"
-          }
-        ]
-      }
-    ]
-  },
-  "numerator":
-  {
-    "and":
-    [
-      {
-        "category": "Encounter",
-        "title": "Breast Cancer Screen Performed <= 2 Years"
-      }
-    ]
-  },
-  "exclusions": {}
-}

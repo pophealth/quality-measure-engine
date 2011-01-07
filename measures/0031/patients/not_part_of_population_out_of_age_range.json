@@ -1,0 +1,10 @@
+{
+  "first": "Lavern",                                    // personal data
+  "last": "Defazio3",
+  "birthdate": 340761600,                            // Time.gm(1980, 10, 19).to_i
+  "measures": {                                       // bag of measures, one entry per measure
+    "0031": {
+      "encounter_outpatient": 1277856000 
+    }
+  }
+}

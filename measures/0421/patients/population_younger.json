@@ -1,8 +1,8 @@
 { // 40 year old - younger population match but not denominator
-  "first": "Bert",                                    // personal data
+  "first": "John",       // personal data
   "last": "Bloggs",
-  "birthdate": 25142400,                              // Time.gm(1970, 10, 19).to_i
-  "measures": {                                       // bag of measures, one entry per measure
+  "birthdate": 25142400, // Time.gm(1970, 10, 19).to_i
+  "measures": {          // bag of measures, one entry per measure
     "0421": {
     }
   }
