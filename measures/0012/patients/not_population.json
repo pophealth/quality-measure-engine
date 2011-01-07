@@ -1,6 +1,7 @@
 {
-  "first": "Bert",
+  "first": "Bernice",
   "last": "Bloggs",
+  "gender": "F",
   "measures": {
     "0012": {
     }
