@@ -34,7 +34,7 @@
       },
       "measure":
       {
-        "proceedure_eye_exam":
+        "procedure_eye_exam":
         {
           "description": "Dates of Eye Exam Procedure Performed",
           "standard_category": "procedure",
@@ -108,7 +108,7 @@
         }
       },
       "measure": {
-        "proceedure_foot_exam": {
+        "procedure_foot_exam": {
           "description": "Dates of Foot Exam Procedure Performed",
           "type":"array",
           "items": {

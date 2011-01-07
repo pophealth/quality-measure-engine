@@ -27,8 +27,8 @@ function () {
   // the denominator, and the exclusions are shared in the 'diabetes_utils.js' file
   // that is located in the /js directory of the project
   var numerator = function() {
-    return (inRange(measure.proceedure_eye_exam, earliest_diagnosis, effective_date)
-            || (inRange(measure.proceedure_eye_exam, year_prior_to_measurement_period, effective_date) 
+    return (inRange(measure.procedure_eye_exam, earliest_diagnosis, effective_date)
+            || (inRange(measure.procedure_eye_exam, year_prior_to_measurement_period, effective_date) 
                 && 
                 !inRange(measure.diabetic_retinopathy, year_prior_to_measurement_period, effective_date))
             );
