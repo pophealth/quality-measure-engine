@@ -110,6 +110,7 @@
       "measure": {
         "procedure_foot_exam": {
           "description": "Dates of Foot Exam Procedure Performed",
+          "standard_category": "physical_exam",
           "type":"array",
           "items": {
             "type": "number",
@@ -139,6 +140,7 @@
       "measure": {
         "hba1c_test": {
           "descirption": "Results of HbA1c tests",
+          "standard_category": "laboratory_test",
           "type": "array",
           "items": {
             "type": "object",
@@ -196,7 +198,7 @@
       "measure": {
         "diastolic_blood_pressure": {
           "description": "DBP",
-          "category_type": "physical_exam_finding",
+          "standard_category": "physical_exam",
           "type": "array",
           "items": {
             "type": "object",
@@ -234,7 +236,7 @@
         },
         "systolic_blood_pressure": {
           "description": "SBP",
-          "category_type": "physical_exam_finding",
+          "standard_category": "physical_exam",
           "type": "array",
           "items": {
             "type": "object",
@@ -328,7 +330,7 @@
       "measure": {
         "nephropathy_diagnosis": {
           "description": "Nephropathy diagnosis",
-          "category_type": "diagnosis_active",
+          "standard_category": "diagnosis_condition_problem",
           "type": "array",
           "items": {
             "type": "number",
@@ -354,7 +356,7 @@
         },
         "nephropathy_related_procedure": {
           "description": "Nephropathy-related procedure",
-          "category_type": "procedure_performed",
+          "standard_category": "procedure",
           "type": "array",
           "items": {
             "type": "number",
@@ -390,7 +392,7 @@
         },
         "urine_microalbumin": {
           "description": "Urine microalbumin test",
-          "category_type": "laboratory_test_performed",
+          "standard_category": "laboratory_test",
           "type": "array",
           "items": {
             "type": "number",
@@ -416,7 +418,7 @@
         },
         "nephropathy_screening": {
           "description": "Nephropathy screening",
-          "category_type": "laboratory_test_performed",
+          "standard_category": "laboratory_test",
           "type": "array",
           "items": {
             "type": "number",
@@ -442,7 +444,7 @@
         },
         "ace_inhibitors_or_arbs": {
           "description": "ACE Inhibitors/ARBs",
-          "category_type": "medication",
+          "standard_category": "medication",
           "type": "array",
           "items": {
             "type": "number",
@@ -478,7 +480,7 @@
       "measure": {
         "ldl_test_dates": {
           "description": "LDL test date",
-          "category_type": "laboratory_test_result",
+          "standard_category": "laboratory_test",
           "type": "array",
           "items": {
             "type": "number",
@@ -524,7 +526,7 @@
       "measure": {
         "ldl_test_results": {
           "description": "LDL Test",
-          "category_type": "laboratory_test_result",
+          "standard_category": "laboratory_test",
           "type": "array",
           "items": {
             "type": "object",
@@ -574,6 +576,7 @@
       "measure": {
         "hba1c_test": {
           "descirption": "Results of HbA1c tests",
+          "standard_category": "laboratory_test",
           "type": "array",
           "items": {
             "type": "object",
