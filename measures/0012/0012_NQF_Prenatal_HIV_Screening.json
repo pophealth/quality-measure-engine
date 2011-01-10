@@ -2,7 +2,7 @@
   "id": "0012",
   "name": "Prenatal Care:  Screening for Human Immunodeficiency Virus (HIV)",
   "description": "Percentage of patients, regardless of age, who gave birth during a 12‐month period who were screened for HIV infection during the first or second prenatal visit.",
-  "category": "Women's health",
+  "category": "Women's Health",
   "steward": "AMA",
   "parameters": {
     "effective_date": {

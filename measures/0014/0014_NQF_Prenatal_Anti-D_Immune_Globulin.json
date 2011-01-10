@@ -2,7 +2,7 @@
   "id": "0014",
   "name": "Prenatal Care: Anti-D Immune Globulin",
   "description": "Percentage of D (Rh) negative, unsensitized patients, regardless of age, who gave birth during a 12‐month period who received anti‐D immune globulin at 26‐30 weeks gestation.",
-  "category": "Women's health",
+  "category": "Women's Health",
   "steward": "AMA",
   "parameters": {
     "effective_date": {
