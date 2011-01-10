@@ -34,9 +34,10 @@ function () {
     estimated_conception = _.max(measure.estimated_date_of_conception);
     estimated_conception_within_ten_months = actionFollowingSomething(estimated_conception, measure.delivery_live_births_procedure, 304*day);
     
-    antid_admin = actionFollowingSomething(estimated_conception, measure.anti_d_immune_globulin, 30*7*day);
+    antid_admin_within_30_weeks = actionFollowingSomething(estimated_conception, measure.anti_d_immune_globulin, 30*7*day);
+    antid_admin_within_26_weeks = actionFollowingSomething(estimated_conception, measure.anti_d_immune_globulin, 26*7*day);
     
-    return estimated_conception_within_ten_months && antid_admin;
+    return estimated_conception_within_ten_months && antid_admin_within_30_weeks && !antid_admin_within_26_weeks;
   }
 
   var exclusion = function() {

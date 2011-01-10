@@ -29,7 +29,7 @@
     }
     },
   "measure": {
-    "anti-d_immune_globulin": {
+    "anti_d_immune_globulin": {
       "description": "anti-d_immune_globulin",
       "standard_concept_id": "A_c161",
       "qds_data_types": [
@@ -60,7 +60,7 @@
         }
       ]
     },
-    "anti-d_immune_globulin_declined": {
+    "anti_d_immune_globulin_declined": {
       "description": "anti-d_immune_globulin_declined",
       "standard_concept_id": "A_c479",
       "qds_data_types": [
