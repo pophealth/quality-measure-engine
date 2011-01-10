@@ -16,7 +16,7 @@
           "value": false
         }
       ],
-      "anti_d_immune_globulin": [1268092800] // 27 weeks after conception
+      "anti_d_immune_globulin": [1266883200] // 25 weeks after conception - out of bounds 26-30 weeks required
     }
   }
 }
