@@ -5,6 +5,7 @@ describe QME::MapReduce::Executor do
   before do
     @loader = QME::Database::Loader.new('test')
     @measures = Dir.glob('measures/*')
+    @fixture_dir = File.join('fixtures', 'measures')
   end
   
   it 'should produce a list of available measures' do
@@ -51,14 +52,19 @@ describe QME::MapReduce::Executor do
       measures = @loader.save_measure(dir, 'measures')
       
       # load db with sample patient records
-      patient_files = Dir.glob(File.join(dir, 'patients', '*.json'))
+      measure_fixtures_dir = File.join(@fixture_dir, File.basename(dir))
+      if !Dir.exists? measure_fixtures_dir
+        puts "Skipping #{dir} - #{measure_fixtures_dir} not found"
+        next
+      end
+      patient_files = Dir.glob(File.join(measure_fixtures_dir, 'patients', '*.json'))
       patient_files.each do |patient_file|
         patient = JSON.parse(File.read(patient_file))
         @loader.save('records', patient)
       end
         
       # load expected results
-      result_file = File.join(dir, 'result', 'result.json')
+      result_file = File.join(measure_fixtures_dir, 'result.json')
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results

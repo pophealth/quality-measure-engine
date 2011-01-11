@@ -4,6 +4,7 @@ require './lib/quality-measure-engine'
 require './lib/tasks/database_loader'
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
+fixtures_dir = ENV['FIXTURE_DIR'] || File.join('fixtures', 'measures')
 loader = QME::Database::Loader.new('test')
 
 namespace :mongo do
@@ -27,7 +28,7 @@ namespace :mongo do
   
   desc 'Remove all patient records and reload'
   task :reload_records => :drop_records do
-    load_files(loader, File.join(measures_dir,'*','patients','*.json'), 'records')
+    load_files(loader, File.join(fixtures_dir,'*','patients','*.json'), 'records')
   end
 
   desc 'Clear database and road each measure and its sample patient files'
