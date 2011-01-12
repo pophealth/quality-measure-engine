@@ -49,7 +49,7 @@ def validate_measures(measure_dirs, loader)
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results
-      executor = QME::MapReduce::Executor.new(@loader.get_db)
+      executor = QME::MapReduce::Executor.new(loader.get_db)
       measures.each do |measure|
         measure_id = measure['id']
         sub_id = measure['sub_id']
