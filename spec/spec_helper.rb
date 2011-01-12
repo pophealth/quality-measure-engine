@@ -38,7 +38,7 @@ def validate_measures(measure_dirs, loader)
       measures = loader.save_measure(dir, 'measures')
       
       # load db with sample patient records
-      patient_files = Dir.glob(File.join("fixtures",File.dirname(dir), 'patients', '*.json'))
+      patient_files = Dir.glob(File.join("./fixtures",File.dirname(dir), 'patients', '*.json'))
       patient_files.each do |patient_file|
         patient = JSON.parse(File.read(patient_file))
         loader.save('records', patient)
