@@ -1,7 +1,8 @@
+path = File.dirname(__FILE__)
 require 'mongo'
 require 'json'
-require './lib/quality-measure-engine'
-require './lib/tasks/database_loader'
+require File.join(path,'../quality-measure-engine')
+require File.join(path,'database_loader')
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 loader = QME::Database::Loader.new('test')

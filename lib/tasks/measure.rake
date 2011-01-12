@@ -1,6 +1,7 @@
+path = File.dirname(__FILE__)
 require 'json'
-require './lib/quality-measure-engine'
-require './lib/tasks/measure_loader'
+require File.join(path,'../quality-measure-engine')
+require File.join(path,'measure_loader')
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 
