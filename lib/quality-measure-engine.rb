@@ -18,3 +18,10 @@ require LIB + '/qme/mongo_helpers'
 
 require 'json'
 require 'mongo'
+
+
+module QME
+  def self.load_tasks
+    puts "loading"
+  end
+end
