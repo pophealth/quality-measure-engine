@@ -1,3 +1,4 @@
+require 'rspec/core/rake_task'
 Dir[File.join(File.dirname(__FILE__),'tasks/*.rake')].sort.each do |ext|
   load ext
 end
