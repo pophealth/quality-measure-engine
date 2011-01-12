@@ -38,14 +38,14 @@ def validate_measures(measure_dirs, loader)
       measures = loader.save_measure(dir, 'measures')
       
       # load db with sample patient records
-      patient_files = Dir.glob(File.join("./fixtures",File.dirname(dir), 'patients', '*.json'))
+      patient_files = Dir.glob(File.join("./fixtures",dir, 'patients', '*.json'))
       patient_files.each do |patient_file|
         patient = JSON.parse(File.read(patient_file))
         loader.save('records', patient)
       end
         
       # load expected results
-      result_file = File.join(dir, 'result', 'result.json')
+      result_file = File.join("./fixtures",dir, 'result', 'result.json')
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results
