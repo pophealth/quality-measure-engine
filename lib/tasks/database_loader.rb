@@ -1,4 +1,4 @@
-require './lib/tasks/measure_loader'
+require File.join(File.dirname(__FILE__),'measure_loader')
 
 module QME
   module Database

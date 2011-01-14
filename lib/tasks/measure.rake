@@ -1,6 +1,11 @@
+path = File.dirname(__FILE__)
+path = path.index('lib') == 0 ? "./#{path}" : path
+puts path
 require 'json'
-require './lib/quality-measure-engine'
-require './lib/tasks/measure_loader'
+
+require File.join(path,'measure_loader')
+require File.join(path,'../quality-measure-engine')
+
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 
