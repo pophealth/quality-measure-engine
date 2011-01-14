@@ -3,7 +3,6 @@ path = path.index('lib') == 0 ? "./#{path}" : path
 puts path
 require 'json'
 
-require File.join(path,'measure_loader')
 require File.join(path,'../quality-measure-engine')
 
 

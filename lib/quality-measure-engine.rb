@@ -19,9 +19,6 @@ require LIB + '/qme/mongo_helpers'
 require 'json'
 require 'mongo'
 
+require LIB + '/qme/measure/measure_loader'
+require LIB + '/qme/measure/database_loader'
 
-module QME
-  def self.load_tasks
-    puts "loading"
-  end
-end

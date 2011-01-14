@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),'../../lib/tasks/database_loader')
+
 
 describe QME::MapReduce::Executor do
 
