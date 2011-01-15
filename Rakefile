@@ -26,6 +26,11 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "rspec", "~> 2.0.0"
   gem.add_development_dependency "awesome_print", "~> 0.2.1"
   gem.add_development_dependency "jeweler", "~> 1.4.0"
+  
+  gem.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') + Dir.glob('measures/**/*.js*') +
+              Dir.glob('js/**/*.js*') + ["Gemfile", "Gemfile.lock", "README.md", "Rakefile", "VERSION"]
+  
+  gem.test_files = []
 end
 
 YARD::Rake::YardocTask.new

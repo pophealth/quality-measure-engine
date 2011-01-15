@@ -8,7 +8,7 @@ module QME
       # temp class to handle categories that are not yet fully supported
       class NullSectionImporter
         def extract(doc, property, description)
-          puts "Warning: Unsupported standard_category for #{property} - #{description['description']}"
+          puts "Warning: Unsupported standard_category (#{description['standard_category']}) for property (#{property})"
         end
       end
 

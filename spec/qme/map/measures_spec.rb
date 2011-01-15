@@ -1,5 +1,3 @@
-
-
 describe QME::MapReduce::Executor do
 
   before do

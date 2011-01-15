@@ -1,6 +1,7 @@
 {
-  "first": "Fred",                                    // personal data
+  "first": "Brad",                                    // personal data
   "last": "Bloggs",
+  "gender": "M",
   "birthdate": -631152000,                            // Time.gm(1950, 1, 1).to_i
   "measures": {
     "0385": {

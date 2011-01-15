@@ -129,8 +129,7 @@
     {
       "description": "Hepatitis A Vaccine Administered",
       "standard_concept_id": "N_c419",
-      "standard_category": "medication_administered",
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items":
       {
@@ -225,8 +224,7 @@
     {
       "description": "Hepatitis B Vaccine Administered",
       "standard_concept_id": "N_c418",
-      "standard_category": "medication_administered",
-      "category_type": "medication",
+      "standard_category": "medication",
       "type": "array",
       "items":
       {

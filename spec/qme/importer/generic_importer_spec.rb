@@ -122,7 +122,7 @@ describe QME::Importer::GenericImporter do
     measure_info['diagnosis_gestational_diabetes'].should include(1275177600)
     measure_info['diagnosis_steroid_induced_diabetes'].should include(1275177600)
     measure_info['polycystic_ovaries'].should include(1275177600)
-    measure_info['proceedure_eye_exam'].should include(1275177600)
+    measure_info['procedure_eye_exam'].should include(1275177600)
   end
 
 end

@@ -98,18 +98,19 @@ module QME
         if population
         records =   @db.collection("records").find('_id' => {'$in' => results['population']})
         records.each do |record|
-          record_id = record["_id"]
-          new_record = {:first=>record["first"],
-                     :last=>record["last"],
-                     :birthdate=>record["birthdate"],
+          record_id = record['_id']
+          new_record = {:first=>record['first'],
+                     :last=>record['last'],
+                     :birthdate=>record['birthdate'],
+                     :gender=>record['gender'],
                      :measure_id => measure_id,
                      :sub_id=>sub_id,
                      :effective_date => effective_date,
                      :measure_data => record[measure_id],
-                     :numerator=>!results["numerator"].index(record_id).nil?,
-                     :denominator=>!results["denominator"].index(record_id).nil?,
-                     :exclusion=>!results["exclusions"].index(record_id).nil?,
-                     :antinumerator=>!results["antinumerator"].index(record_id).nil?}
+                     :numerator=>!results['numerator'].index(record_id).nil?,
+                     :denominator=>!results['denominator'].index(record_id).nil?,
+                     :exclusion=>!results['exclusions'].index(record_id).nil?,
+                     :antinumerator=>!results['antinumerator'].index(record_id).nil?}
                      
             cached_patients << new_record         
           
