@@ -1,8 +1,7 @@
 path = File.dirname(__FILE__)
 path = path.index('lib') == 0 ? "./#{path}" : path
-puts path
 require 'json'
-
+require 'zlib'
 require File.join(path,'../quality-measure-engine')
 
 
@@ -27,5 +26,32 @@ namespace :measures do
       end
     end
   end
+  
+  
+  desc "bundle measures into a compressed file for deployment"
+  task :bundle do
+    path = measures_dir
+      gem 'rubyzip'
+      require 'zip/zip'
+      require 'zip/zipfilesystem'
 
+      path.sub!(%r[/$],'')
+      archive = File.join(path,File.basename(path))+'.zip'
+      FileUtils.rm archive, :force=>true
+
+      Zip::ZipFile.open(archive, 'w') do |zipfile|
+        Dir["#{path}/**/**"].reject{|f|f==archive}.each do |file|
+          zipfile.add(file.sub(path+'/',''),file)
+        end
+      end
+  end
+  
+  
+  desc "bundle measures into a compressed file for deployment"
+  task :unbundle do
+    path = measures_dir
+    path.sub!(%r[/$],'')
+    archive = File.join(path,File.basename(path))+'.zip'
+    puts QME::Measure::Loader.load_from_zip(archive)
+  end
 end

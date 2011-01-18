@@ -95,6 +95,7 @@ GEM
       sexp_processor (~> 3.0)
     ruby_parser (2.0.5)
       sexp_processor (~> 3.0)
+    rubyzip (0.9.4)
     sexp_processor (3.0.5)
     sinatra (1.1.2)
       rack (~> 1.1)
@@ -118,5 +119,6 @@ DEPENDENCIES
   nokogiri
   rake
   rspec
+  rubyzip
   sinatra
   yard

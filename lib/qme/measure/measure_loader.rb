@@ -1,4 +1,7 @@
+gem 'rubyzip'
 require 'json'
+require 'zip/zip'
+require 'zip/zipfilesystem'
 
 module QME
   module Measure
@@ -84,6 +87,27 @@ module QME
         JSON.parse(File.read(file_path))
       end
       
+      
+      def self.load_from_zip(archive, &block)
+            unzip_path = "./tmp/#{Time.new.to_i}/" 
+            FileUtils.mkdir_p(unzip_pa)
+            all_measures = []
+            Zip::ZipFile.foreach(archive) do |zipfile|
+              fname = unzip_path+ zipfile.name
+              FileUtils.rm fname, :force=>true
+              zipfile.extract(fname)
+            end
+            Dir.glob(File.join(unzip_path, '*')).each do |measure_dir|
+              measures = load_measure(measure_dir)  
+              all_measures.concat measures
+              if block_given?
+                measures.for_each do |measure|
+                 yield measure
+                end
+              end
+            end
+           all_measures
+      end
     end
   end
 end
