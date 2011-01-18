@@ -8,3 +8,7 @@ RSpec::Core::RakeTask.new do |t|
   t.pattern = "#{File.join(File.dirname(__FILE__),'../spec/**/*measures_spec.rb')}"
   t.spec_files = FileList.new("spec/**/*_spec.rb")
 end
+
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = ["-c", "-f progress", "-r #{File.join(File.dirname(__FILE__),'../spec/spec_helper.rb')}"]
+end
