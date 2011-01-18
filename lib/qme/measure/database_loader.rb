@@ -77,12 +77,13 @@ module QME
       end
       
       
-      def remove_bundle(bundle_id, bundle_collection, measure_collection)
-        bundle = get_db[bundle_collection].find(bundle_id)
+      def remove_bundle(bundle_id, bundle_collection = 'bundles', measure_collection = 'measures')
+        bundle = get_db[bundle_collection].find_one(bundle_id)
         bundle['measures'].each do |measure|
-          get_db[measure_collection].remove(measure)
+          mes = get_db[measure_collection].find_one(measure)
+          get_db[measure_collection].remove(mes)
         end
-        get_db[bundle_collection].remove(bundle_id)
+        get_db[bundle_collection].remove(bundle)
       end
     end
   end

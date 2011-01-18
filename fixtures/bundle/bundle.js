@@ -1,1 +1,1 @@
-{name: "test_bundle"}
+{"name": "test_bundle"}
