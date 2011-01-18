@@ -2,6 +2,7 @@ describe QME::MapReduce::Executor do
 
   before do
     @loader = QME::Database::Loader.new('test')
+    QME::MongoHelpers.initialize_additional_frameworks(@loader.get_db,'./js')
     @measures = Dir.glob('measures/*')
   end
   
