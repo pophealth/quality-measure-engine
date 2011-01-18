@@ -9,12 +9,6 @@ require PROJECT_ROOT + 'lib/quality-measure-engine'
 Bundler.require(:test)
 
 
-def reset_database
-  
-end
-     
-end
-
 def load_bundle
   loader = QME::Database::Loader.new('test')
   measures = Dir.glob('measures/*')

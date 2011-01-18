@@ -23,7 +23,7 @@ module QME
       Dir.glob(File.join(directory, '*.js')).each do |js_file|
              raw_js = File.read(js_file)
              db.eval(raw_js)
-           end
+      end
     end
     
     # See documentation for initialize_javascript_frameworks
@@ -34,8 +34,8 @@ module QME
       db[collection].find.each do |bundle|
              (bundle['extensions'] || []).each do |ext|
                db.eval(ext)
-             end
-           end
-    end
+              end
+         end
+      end
   end
 end
