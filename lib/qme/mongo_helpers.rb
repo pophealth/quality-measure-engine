@@ -7,11 +7,22 @@ module QME
     # functions
     #
     # @param [Mongo::DB] db The database to evaluate the JavaScript on
-    def self.initialize_javascript_frameworks(db)
+    def self.initialize_javascript_frameworks(db,bundle_collection = 'bundles')
       Dir.glob(File.join(File.dirname(__FILE__), '..', '..', 'js', '*.js')).each do |js_file|
         raw_js = File.read(js_file)
         db.eval(raw_js)
       end
+      
+      # Dir.glob(File.join(File.dirname(__FILE__), '..', '..', 'js', '*.js')).each do |js_file|
+      #        raw_js = File.read(js_file)
+      #        db.eval(raw_js)
+      #      end
+      
+      # db[bundle_collection].find.each do |bundle|
+      #        (bundle['extensions'] || []).each do |ext|
+      #          db.eval(ext)
+      #        end
+      #      end
     end
   end
 end

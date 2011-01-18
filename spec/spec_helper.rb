@@ -8,6 +8,16 @@ require PROJECT_ROOT + 'lib/quality-measure-engine'
 
 Bundler.require(:test)
 
+def load_bundle
+  loader = QME::Database::Loader.new('test')
+  measures = Dir.glob('measures/*')
+  loader.drop_collection('bundles')
+  loader.drop_collection('measures')
+  loader.save_bundle('./','bundles')
+  loader
+  
+end
+
 def load_measures
   loader = QME::Database::Loader.new('test')
   measures = Dir.glob('measures/*')
@@ -30,6 +40,7 @@ def validate_measures(measure_dirs, loader)
    measure_dirs.each do |dir|
       puts "Parsing #{dir}"
 
+      loader.drop_collection('bundles')
       loader.drop_collection('measures')
       loader.drop_collection('records')
       loader.drop_collection('query_cache')

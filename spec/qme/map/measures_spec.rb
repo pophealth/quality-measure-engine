@@ -38,7 +38,6 @@ describe QME::MapReduce::Executor do
   
   it 'should produce the expected results for each measure' do
     validate_measures(@measures,@loader)
-  
   end
   
 end
