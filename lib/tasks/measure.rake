@@ -61,17 +61,7 @@ namespace :measures do
          if File.exists?(bf)
            zipfile.add(bf.sub(bundle_dir,''),bf)
          end
-    
-    
        end
   end
-  
-  
-  desc "bundle measures into a compressed file for deployment"
-  task :unbundle do
-    path = measures_dir
-    path.sub!(%r[/$],'')
-    archive = File.join(path,File.basename(path))+'.zip'
-    puts QME::Measure::Loader.load_from_zip(archive)
-  end
+
 end

@@ -125,7 +125,7 @@ module QME
       end
       
       
-      def self.load_from_zip(archive, &block)
+      def self.load_from_zip(archive)
             unzip_path = "./tmp/#{Time.new.to_i}/" 
             FileUtils.mkdir_p(unzip_path)
             all_measures = []
@@ -134,16 +134,7 @@ module QME
               FileUtils.rm fname, :force=>true
               zipfile.extract(fname)
             end
-            Dir.glob(File.join(unzip_path, '*')).each do |measure_dir|
-              measures = load_measure(measure_dir)  
-              all_measures.concat measures
-              if block_given?
-                measures.for_each do |measure|
-                 yield measure
-                end
-              end
-            end
-           all_measures
+           load_bundle(unzip_path)
       end
     end
   end
