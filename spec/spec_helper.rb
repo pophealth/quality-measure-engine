@@ -9,14 +9,13 @@ require PROJECT_ROOT + 'lib/quality-measure-engine'
 Bundler.require(:test)
 
 
-def load_bundle
+def load_bundle(bundle_dir = '.')
   loader = QME::Database::Loader.new('test')
   measures = Dir.glob('measures/*')
   loader.drop_collection('bundles')
   loader.drop_collection('measures')
-  loader.save_bundle('./','bundles')
+  loader.save_bundle(bundle_dir,'bundles')
   loader
-  
 end
 
 def load_measures
