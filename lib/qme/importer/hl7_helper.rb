@@ -8,9 +8,14 @@ module QME
       # @param [String] timestamp the HL7 timestamp. Expects YYYYMMDD format
       # @return [Integer] Date in seconds since the epoch
       def self.timestamp_to_integer(timestamp)
-        Time.gm(timestamp[0..3].to_i,
-                timestamp[4..5].to_i,
-                timestamp[6..7].to_i).to_i
+        if timestamp
+          Time.gm(timestamp[0..3].to_i,
+                  timestamp[4..5].to_i,
+                  timestamp[6..7].to_i).to_i
+        else
+          nil
+        end
+
       end
     end
   end
