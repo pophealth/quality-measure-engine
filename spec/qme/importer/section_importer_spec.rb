@@ -28,6 +28,13 @@ describe QME::Importer::SectionImporter do
     entry.is_date_range?.should be_true
   end
   
+  it "should be able to extract a translation" do
+    entries = @si.create_entries(@doc)
+    entry = entries[1]
+    entry.time.should == 1026777600
+    entry.codes['SNOMED-CT'].should include('12345')
+  end
+  
   it "should raise an error when it can't determine the property schema" do
     property_description = {
       "type" => "cheese",

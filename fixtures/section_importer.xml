@@ -8,7 +8,9 @@
     </entry>
     <entry>
         <effectiveTime value="20020716"/>
-        <code code="314443004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED" displayName="Systolic BP"/>
+        <code code="314443004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED" displayName="Systolic BP">
+            <translation code="12345" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED"/>
+        </code>
     </entry>
     <entry>
         <effectiveTime value="20020716"/>
