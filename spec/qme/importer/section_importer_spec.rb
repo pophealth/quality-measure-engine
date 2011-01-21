@@ -34,12 +34,4 @@ describe QME::Importer::SectionImporter do
     entry.time.should == 1026777600
     entry.codes['SNOMED-CT'].should include('12345')
   end
-  
-  it "should raise an error when it can't determine the property schema" do
-    property_description = {
-      "type" => "cheese",
-      "description"  => "A cheesey example"
-    }
-    expect {@si.extract(@doc, property_description)}.to raise_error
-  end
 end

@@ -18,7 +18,7 @@ module QME
         elsif is_value_date_property?
           extract_value_date_list(entry_list)
         elsif is_date_range_property?
-          extract_date_range_list(doc, property_description)
+          extract_date_range_list(entry_list)
         else
           raise "Unknown property schema for property #{@property_description['description']}"
         end
@@ -53,7 +53,7 @@ module QME
       # @param [Array] entry_list an Array of Entry objects
       # @return [Array] Provides an Array of Hashes for entries that have codes inside of the measure code set
       #         Hashes will have a "start" and "end" property containing the respective data
-      def extract_date_range_list
+      def extract_date_range_list(entry_list)
         basic_extractor(entry_list) do |entry, matching_values|
           if entry.is_date_range?
             matching_values << {'start' => entry.start_time, 'end' => entry.end_time}
