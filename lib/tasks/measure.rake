@@ -2,11 +2,16 @@ path = File.dirname(__FILE__)
 path = path.index('lib') == 0 ? "./#{path}" : path
 require 'json'
 require 'zlib'
+gem 'rubyzip'
+require 'zip/zip'
+require 'zip/zipfilesystem'
+
+
 require File.join(path,'../quality-measure-engine')
 
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
-
+bundle_dir = ENV['BUNDLE_DIR'] || './'
 namespace :measures do
   
   desc 'Build all measures to tmp directory'
@@ -30,28 +35,33 @@ namespace :measures do
   
   desc "bundle measures into a compressed file for deployment"
   task :bundle do
-    path = measures_dir
-      gem 'rubyzip'
-      require 'zip/zip'
-      require 'zip/zipfilesystem'
-
-      path.sub!(%r[/$],'')
-      archive = File.join(path,File.basename(path))+'.zip'
+    
+      md = File.join(bundle_dir,measures_dir)
+      js = File.join(bundle_dir,'js')
+      bf = File.join(bundle_dir,'bundle.js')
+      
+      tmp = './tmp'
+      bundle_tmp = File.join(tmp,'bundle')
+      
+      md.sub!(%r[/$],'')
+      FileUtils.rm bundle_tmp, :force=>true
+      FileUtils.mkdir_p(bundle_tmp)
+      archive = File.join(tmp,'bundle.zip')
       FileUtils.rm archive, :force=>true
+     
+       Zip::ZipFile.open(archive, 'w') do |zipfile|
+          Dir["#{md}/**/**"].reject{|f|f==archive}.each do |file|
+           zipfile.add(file.sub(bundle_dir,''),file)
+          end
+                
+          Dir["#{js}/**/**"].reject{|f|f==archive}.each do |file|
+             zipfile.add(file.sub(bundle_dir,''),file)
+          end
+           
+         if File.exists?(bf)
+           zipfile.add(bf.sub(bundle_dir,''),bf)
+         end
+       end
+  end
 
-      Zip::ZipFile.open(archive, 'w') do |zipfile|
-        Dir["#{path}/**/**"].reject{|f|f==archive}.each do |file|
-          zipfile.add(file.sub(path+'/',''),file)
-        end
-      end
-  end
-  
-  
-  desc "bundle measures into a compressed file for deployment"
-  task :unbundle do
-    path = measures_dir
-    path.sub!(%r[/$],'')
-    archive = File.join(path,File.basename(path))+'.zip'
-    puts QME::Measure::Loader.load_from_zip(archive)
-  end
 end

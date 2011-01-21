@@ -88,25 +88,53 @@ module QME
       end
       
       
-      def self.load_from_zip(archive, &block)
+      #Load a bundle from a directory
+      #@param [String] bundel_path path to directory containing the bundle information
+      
+      def self.load_bundle(bundle_path)
+        bundle = {};
+        bundle_file = File.join(bundle_path,'bundle.js')
+        
+        bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
+        bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
+        bundle[:measures] = []
+        Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
+          load_measure(measure_dir).each do |measure|
+            bundle[:measures] << measure
+          end
+        end
+        bundle
+      end
+      
+      
+      # Load all of the extenson functions that will be available to map reduce functions from the bundle dir
+      # This will load from bundle_path/js and from ext directories in the individule measures directories 
+      # like bundle_path/measures/0001/ext/ 
+      #@param [String] bundle_path the path to the bundle directory
+      def self.load_bundle_extensions(bundle_path)
+        extensions = []
+        Dir.glob(File.join(bundle_path, 'js', '*.js')).each do |js_file|
+          raw_js = File.read(js_file)
+           extensions << raw_js
+        end
+        Dir.glob(File.join(bundle_path, 'measures', '*','ext', '*.js')).each do |js_file|
+          raw_js = File.read(js_file)
+          extensions << raw_js
+        end
+        extensions
+      end
+      
+      
+      def self.load_from_zip(archive)
             unzip_path = "./tmp/#{Time.new.to_i}/" 
-            FileUtils.mkdir_p(unzip_pa)
+            FileUtils.mkdir_p(unzip_path)
             all_measures = []
             Zip::ZipFile.foreach(archive) do |zipfile|
               fname = unzip_path+ zipfile.name
               FileUtils.rm fname, :force=>true
               zipfile.extract(fname)
             end
-            Dir.glob(File.join(unzip_path, '*')).each do |measure_dir|
-              measures = load_measure(measure_dir)  
-              all_measures.concat measures
-              if block_given?
-                measures.for_each do |measure|
-                 yield measure
-                end
-              end
-            end
-           all_measures
+           load_bundle(unzip_path)
       end
     end
   end

@@ -52,6 +52,39 @@ module QME
       def drop_collection(collection_name)
         get_db.drop_collection(collection_name)
       end
+      
+      
+      # Save a bundle to the db,  this will save the bundle meta data, javascript extension functions and measures to 
+      # the db in their respective loacations
+      # @param [String] bundle_dir the bundle directory
+      # @param [String] bundle_collection the collection to save the bundle meta_data and extension functions to
+      # @param [String] measure_collection the collection to save the measures to, defaults to measures
+      def save_bundle(bundle_dir,bundle_collection, measure_collection = 'measures')
+        bundle = QME::Measure::Loader.load_bundle(bundle_dir)
+        bundle[:bundle_data][:measures] = []
+        b_id = save(bundle_collection,bundle[:bundle_data])
+        measures = bundle[:measures]
+        measures.each do |measure|
+           measure[:bundle] = b_id
+           m_id = save(measure_collection,measure)
+           bundle[:bundle_data][:measures] << m_id
+        end
+        save(bundle_collection,bundle[:bundle_data])
+        bundle[:bundle_data][:extensions].each do |ext|
+          get_db.eval(ext)
+        end
+        bundle
+      end
+      
+      
+      def remove_bundle(bundle_id, bundle_collection = 'bundles', measure_collection = 'measures')
+        bundle = get_db[bundle_collection].find_one(bundle_id)
+        bundle['measures'].each do |measure|
+          mes = get_db[measure_collection].find_one(measure)
+          get_db[measure_collection].remove(mes)
+        end
+        get_db[bundle_collection].remove(bundle)
+      end
     end
   end
 end
