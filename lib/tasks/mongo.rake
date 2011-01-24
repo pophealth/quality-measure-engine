@@ -8,7 +8,8 @@ require File.join(path,'../quality-measure-engine')
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 bundle_dir = ENV['BUNDLE_DIR'] || '.'
 fixtures_dir = ENV['FIXTURE_DIR'] || File.join('fixtures', 'measures')
-loader = QME::Database::Loader.new('test')
+db_name = ENV['DB_NAME'] || 'test'
+loader = QME::Database::Loader.new(db_name)
 
 namespace :mongo do
 
@@ -17,7 +18,7 @@ namespace :mongo do
     loader.drop_collection('records')
   end
 
-  desc 'Remove all patient records and reload'
+  desc 'Remove the measures and bundles collection'
   task :drop_bundle  do
     loader.drop_collection('bundles')
     loader.drop_collection('measures')
