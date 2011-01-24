@@ -7,7 +7,7 @@ This project currently uses Ruby 1.9.2 and is built using [Bundler](http://gembu
 
     gem install bundler
 
-Then run bundler to grab all of the necessay gems:
+Then run bundler to grab all of the necessary gems:
 
     bundle install
 
