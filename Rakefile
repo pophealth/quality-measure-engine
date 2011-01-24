@@ -3,6 +3,8 @@ require 'jeweler'
 require 'yard'
 require 'metric_fu'
 
+ENV['MEASURE_DIR'] = File.join('fixtures', 'measure_defs')
+
 Dir['lib/tasks/*.rake'].sort.each do |ext|
   load ext
 end
@@ -27,7 +29,7 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "awesome_print", "~> 0.2.1"
   gem.add_development_dependency "jeweler", "~> 1.4.0"
   
-  gem.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') + Dir.glob('measures/**/*.js*') +
+  gem.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') + Dir.glob(File.join(ENV['MEASURE_DIR'], '**', '*.js*')) +
               Dir.glob('js/**/*.js*') + ["Gemfile", "Gemfile.lock", "README.md", "Rakefile", "VERSION"]
   
   gem.test_files = []

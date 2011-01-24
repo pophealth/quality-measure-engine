@@ -20,7 +20,8 @@ end
 
 def load_measures
   loader = QME::Database::Loader.new('test')
-  measures = Dir.glob('measures/*')
+  measure_dir = ENV['MEASURE_DIR'] || 'measures'
+  measures = Dir.glob(File.join(measure_dir,'*'))
   loader.drop_collection('measures')
   measures.each do |dir|
     loader.save_measure(dir, 'measures')
@@ -49,14 +50,14 @@ def validate_measures(measure_dirs, loader)
       measures = loader.save_measure(dir, 'measures')
       
       # load db with sample patient records
-      patient_files = Dir.glob(File.join("./fixtures",dir, 'patients', '*.json'))
+      patient_files = Dir.glob(File.join('fixtures', 'measures', File.basename(dir), 'patients', '*.json'))
       patient_files.each do |patient_file|
         patient = JSON.parse(File.read(patient_file))
         loader.save('records', patient)
       end
         
       # load expected results
-      result_file = File.join("./fixtures",dir, 'result', 'result.json')
+      result_file = File.join('fixtures', 'measures', File.basename(dir), 'result', 'result.json')
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results

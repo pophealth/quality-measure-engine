@@ -1,7 +1,12 @@
 describe QME::MapReduce::Builder do
   
   before do
-    raw_measure_json = File.read('measures/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json')
+    if (ENV['MEASURE_DIR'])
+      @measures = ENV['MEASURE_DIR']
+    else
+      @measures = 'measures'
+    end
+    raw_measure_json = File.read(File.join(@measures, '0043', '0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json'))
     @measure_json = JSON.parse(raw_measure_json)
   end
 
