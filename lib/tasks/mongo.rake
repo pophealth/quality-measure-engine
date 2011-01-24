@@ -4,7 +4,6 @@ require 'mongo'
 require 'json'
 require File.join(path,'../quality-measure-engine')
 
-
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 bundle_dir = ENV['BUNDLE_DIR'] || '.'
 fixtures_dir = ENV['FIXTURE_DIR'] || File.join('fixtures', 'measures')
