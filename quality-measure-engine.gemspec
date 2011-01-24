@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marc Hadley", "Andy Gregorowicz"]
-  s.date = %q{2011-01-21}
+  s.date = %q{2011-01-24}
   s.description = %q{A library for extracting quality measure information from HITSP C32's and ASTM CCR's}
   s.email = %q{talk@projectpophealth.org}
   s.extra_rdoc_files = [
@@ -21,6 +21,18 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
+    "fixtures/measure_defs/0001/0001_NQF_Asthma_Assessment.js",
+    "fixtures/measure_defs/0001/0001_NQF_Asthma_Assessment.json",
+    "fixtures/measure_defs/0032/0032_NQF_Cervical_Cancer_Screening.js",
+    "fixtures/measure_defs/0032/0032_NQF_Cervical_Cancer_Screening.json",
+    "fixtures/measure_defs/0033/components/0033_NQF_Chlamydia_Screening_All.js",
+    "fixtures/measure_defs/0033/components/0033_NQF_Chlamydia_Screening_Older.js",
+    "fixtures/measure_defs/0033/components/0033_NQF_Chlamydia_Screening_Younger.js",
+    "fixtures/measure_defs/0033/components/root.json",
+    "fixtures/measure_defs/0041/0041_NQF_Influenza_Immunization_For_Older_Adults.js",
+    "fixtures/measure_defs/0041/0041_NQF_Influenza_Immunization_For_Older_Adults.json",
+    "fixtures/measure_defs/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.js",
+    "fixtures/measure_defs/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json",
     "js/map-reduce-utils.js",
     "js/underscore-min.js",
     "lib/qme/importer/code_system_helper.rb",
@@ -38,19 +50,7 @@ Gem::Specification.new do |s|
     "lib/qme_test.rb",
     "lib/quality-measure-engine.rb",
     "lib/tasks/measure.rake",
-    "lib/tasks/mongo.rake",
-    "measures/0001/0001_NQF_Asthma_Assessment.js",
-    "measures/0001/0001_NQF_Asthma_Assessment.json",
-    "measures/0032/0032_NQF_Cervical_Cancer_Screening.js",
-    "measures/0032/0032_NQF_Cervical_Cancer_Screening.json",
-    "measures/0033/components/0033_NQF_Chlamydia_Screening_All.js",
-    "measures/0033/components/0033_NQF_Chlamydia_Screening_Older.js",
-    "measures/0033/components/0033_NQF_Chlamydia_Screening_Younger.js",
-    "measures/0033/components/root.json",
-    "measures/0041/0041_NQF_Influenza_Immunization_For_Older_Adults.js",
-    "measures/0041/0041_NQF_Influenza_Immunization_For_Older_Adults.json",
-    "measures/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.js",
-    "measures/0043/0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json"
+    "lib/tasks/mongo.rake"
   ]
   s.homepage = %q{http://github.com/pophealth/quality-measure-engine}
   s.require_paths = ["lib"]
