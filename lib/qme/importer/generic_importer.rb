@@ -56,7 +56,7 @@ module QME
         when 'care_goal'; [:care_goals]
         else
           puts "Warning: Unsupported standard_category (#{standard_category})"
-          nil
+          []
         end
       end
     end
