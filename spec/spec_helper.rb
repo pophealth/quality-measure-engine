@@ -1,4 +1,8 @@
-require 'cover_me'
+begin
+  require 'cover_me'
+rescue LoadError
+  puts 'cover_me unavailable, running without code coverage measurement'
+end
 require 'bundler/setup'
 
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
