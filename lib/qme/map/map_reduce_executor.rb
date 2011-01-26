@@ -56,28 +56,6 @@ module QME
 
       end
       
-      # Return a list of the measures in the database
-      # @return [Hash] a hash with measure identifiers as the keys where each entry is a Hash containing the measure id, name and steward with a variants field that is an array of hashes containing a sub_id and subtitle for each variant.
-      def all_measures
-        result = {}
-        measures = @db.collection('measures')
-        measures.find().each do |measure|
-          entry = result[measure['id']]
-          if entry==nil
-            entry = {:variants=>[]}
-            %w(id name steward description category).each do |field|
-              entry[field.intern] = measure[field]
-            end
-            result[entry[:id]] = entry
-          end
-          if measure['sub_id']
-            entry[:variants] << {:sub_id=>measure['sub_id'], :subtitle=>measure['subtitle']}
-          end
-        end
-        result
-      end
-      
-      
       
       private 
       

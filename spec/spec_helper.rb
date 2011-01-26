@@ -1,4 +1,8 @@
-require 'cover_me'
+begin
+  require 'cover_me'
+rescue LoadError
+  puts 'cover_me unavailable, running without code coverage measurement'
+end
 require 'bundler/setup'
 
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
@@ -39,6 +43,14 @@ end
 def validate_measures(measure_dirs, loader)
   
    measure_dirs.each do |dir|
+      # check for sample data
+      fixture_dir = File.join('fixtures', 'measures', File.basename(dir))
+      patient_files = Dir.glob(File.join(fixture_dir, 'patients', '*.json'))
+      if patient_files.length==0
+        puts "Skipping #{dir}, no sample data in #{fixture_dir}"
+        next
+      end
+
       puts "Parsing #{dir}"
 
       loader.drop_collection('bundles')
@@ -50,14 +62,13 @@ def validate_measures(measure_dirs, loader)
       measures = loader.save_measure(dir, 'measures')
       
       # load db with sample patient records
-      patient_files = Dir.glob(File.join('fixtures', 'measures', File.basename(dir), 'patients', '*.json'))
       patient_files.each do |patient_file|
         patient = JSON.parse(File.read(patient_file))
         loader.save('records', patient)
       end
         
       # load expected results
-      result_file = File.join('fixtures', 'measures', File.basename(dir), 'result', 'result.json')
+      result_file = File.join('fixtures', 'measures', File.basename(dir), 'result.json')
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results
