@@ -64,7 +64,7 @@ def validate_measures(measure_dirs, loader)
       end
         
       # load expected results
-      result_file = File.join('fixtures', 'measures', File.basename(dir), 'result', 'result.json')
+      result_file = File.join('fixtures', 'measures', File.basename(dir), 'result.json')
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results
