@@ -60,7 +60,7 @@ module QME
         get_demographics(patient_record, doc)
         patient_record['measures'] = {}
         @measure_importers.each_pair do |measure_id, importer|
-          patient_record['measures'][measure_id] = importer.parse(doc, c32_patient)
+          patient_record['measures'][measure_id] = importer.parse(c32_patient)
         end
         
         patient_record

@@ -14,11 +14,9 @@ module QME
       
       # Parses a HITSP C32 document and returns a Hash of information related to the measure
       #
-      # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
-      #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @param [Hash] patient_hash representation of a patient
       # @return [Hash] measure information
-      def parse(doc, patient_hash)
+      def parse(patient_hash)
         measure_info = {}
         
         @definition['measure'].each_pair do |property, description|
