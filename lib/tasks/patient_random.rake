@@ -10,7 +10,7 @@ loader = QME::Database::Loader.new(db_name)
 
 namespace :patient do
 
-  desc 'Generate n (default 10) random patient records and load them into the database'
+  desc 'Generate n (default 10) random patient records and save them in the database'
   task :random, :n do |t, args|
     n = args.n.to_i>0 ? args.n.to_i : 10
     
@@ -22,11 +22,11 @@ namespace :patient do
     n.times do
       template = templates[rand(templates.length)]
       generator = QME::Randomizer::Patient.new(template)
-      puts(generator.get())
+      save(loader, 'records', generator.get())
     end
   end
     
-  def save(collection_name, record)
+  def save(loader, collection_name, record)
     json = JSON.parse(record)
     loader.save(collection_name, json)
   end
