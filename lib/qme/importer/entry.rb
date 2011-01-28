@@ -15,6 +15,7 @@ module QME
         entry = Entry.new
         entry.add_code(event['code'], event['code_set'])
         entry.time = event['time']
+        entry.set_value(event['value'], event['unit'])
         entry
       end
       
