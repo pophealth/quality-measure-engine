@@ -32,7 +32,8 @@ module QME
             end
           end
           if ! entry_list.empty?
-            measure_info[property] = matcher.match(entry_list)
+            matched_list = matcher.match(entry_list)
+            measure_info[property]=matched_list if matched_list.length>0
           end
         end
         
