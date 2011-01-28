@@ -5,6 +5,8 @@ module QME
     # it can then be passed a C32 document and will return a Hash with all of the information needed to calculate the measure.
     class GenericImporter
 
+      @@warnings = {}
+
       # Creates a generic importer for any quality measure.
       #
       # @param [Hash] definition A measure definition described in JSON
@@ -45,7 +47,10 @@ module QME
         when 'medication'; :medications
         when 'diagnosis_condition_problem'; :conditions
         else
-          puts "Warning: Unsupported standard_category (#{standard_category})"
+          if !@@warnings[standard_category]
+            puts "Warning: Unsupported standard_category (#{standard_category})"
+            @@warnings[standard_category]=true
+          end
           nil
         end
       end
