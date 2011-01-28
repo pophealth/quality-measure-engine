@@ -12,23 +12,25 @@ namespace :patient do
 
   desc 'Generate n (default 10) random patient records and save them in the database'
   task :random, :n do |t, args|
-    n = args.n.to_i>0 ? args.n.to_i : 10
+    n = args.n.to_i>0 ? args.n.to_i : 1
     
     templates = []
     Dir.glob(File.join(patient_template_dir, '*.json.erb')).each do |file|
       templates << File.read(file)
     end
     
+    map = QME::MapReduce::Executor.new(loader.get_db)
+    map.all_measures.each do |measure_id, measure_def|
+      QME::Importer::PatientImporter.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))
+    end
+
     n.times do
       template = templates[rand(templates.length)]
       generator = QME::Randomizer::Patient.new(template)
-      save(loader, 'records', generator.get())
+      json = JSON.parse(generator.get())
+      patient_record = QME::Importer::PatientImporter.instance.parse_hash(json)
+      loader.save('records', patient_record)
     end
   end
     
-  def save(loader, collection_name, record)
-    json = JSON.parse(record)
-    loader.save(collection_name, json)
-  end
-  
 end

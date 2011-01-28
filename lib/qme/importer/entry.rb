@@ -11,6 +11,13 @@ module QME
         @value = {}
       end
       
+      def Entry.from_event_hash(event)
+        entry = Entry.new
+        entry.add_code(event['code'], event['code_set'])
+        entry.time = event['time']
+        entry
+      end
+      
       # Add a code into the Entry
       # @param [String] code the code to add
       # @param [String] code_system the code system that the code belongs to
