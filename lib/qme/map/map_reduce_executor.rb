@@ -56,6 +56,17 @@ module QME
 
       end
       
+      # Return a list of the measures in the database
+      # @return [Hash] an hash of measure definitions
+      def all_measures
+        result = {}
+        measures = @db.collection('measures')
+        measures.find().each do |measure|
+          result[measure['id']] ||= measure
+        end
+        result
+      end
+      
       
       private 
       

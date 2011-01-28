@@ -53,17 +53,49 @@ module QME
       #
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
-      # @return [Hash] a represnetation of the patient that can be inserted into MongoDB
+      # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_c32(doc)
         patient_record = {}
         c32_patient = create_c32_hash(doc)
         get_demographics(patient_record, doc)
+        process_events(patient_record, c32_patient)
+      end
+      
+      # Parses a patient hash containing demongraphic and event information
+      #
+      # @param [Hash] patient_hash patient data
+      # @return [Hash] a representation of the patient that can be inserted into MongoDB
+      def parse_hash(patient_hash)
+        patient_record = {}
+        patient_record['first'] = patient_hash['first']
+        patient_record['last'] = patient_hash['last']
+        patient_record['gender'] = patient_hash['gender']
+        patient_record['birthdate'] = patient_hash['birthdate']
+        event_hash = {}
+        patient_hash['events'].each do |key, value|
+          event_hash[key.intern] = parse_events(value)
+        end
+        process_events(patient_record, event_hash)
+      end
+      
+      def process_events(patient_record, event_hash)
         patient_record['measures'] = {}
         @measure_importers.each_pair do |measure_id, importer|
-          patient_record['measures'][measure_id] = importer.parse(c32_patient)
+          patient_record['measures'][measure_id] = importer.parse(event_hash)
         end
         
         patient_record
+      end
+      
+      # Parses a list of event hashes into an array of Entry objects
+      #
+      # @param [Array] event_list list of event hashes
+      # @return [Array] array of Entry objects
+      def parse_events(event_list)
+        event_list.collect do |event|
+          nil if event.class==String.class # skip
+          QME::Importer::Entry.from_event_hash(event)
+        end.compact
       end
       
       # Adds a measure to run on a C32 that is passed in

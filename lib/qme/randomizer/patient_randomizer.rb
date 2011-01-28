@@ -1,5 +1,4 @@
 require 'erb'
-require 'ostruct'
 
 module QME
   module Randomizer

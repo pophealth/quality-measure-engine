@@ -26,7 +26,10 @@ module QME
           matcher = PropertyMatcher.new(description)
           entry_list = patient_hash[symbol_for_category(description['standard_category'])]
           if entry_list
-            measure_info[property] = matcher.match(entry_list)
+            matched_list = matcher.match(entry_list)
+            if matched_list && matched_list.length>0
+              measure_info[property] = matched_list
+            end
           end
         end
         
