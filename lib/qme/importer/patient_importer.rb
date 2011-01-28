@@ -33,6 +33,12 @@ module QME
       # Condition entries
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation
       #
+      # Social History entries (non-C32 section, specified in the HL7 CCD)
+      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']
+      #
+      # Care Goal entries(non-C32 section, specified in the HL7 CCD)
+      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']
+      #
       # Codes for conditions are determined by examining the value child element as opposed to the code child element
       def initialize
         @measure_importers = {}
@@ -43,10 +49,15 @@ module QME
         @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
         @section_importers[:vital_signs] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']")
         @section_importers[:medications] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
-                                                   "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
+                                                               "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
 
         @section_importers[:conditions] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
-                                                  "./cda:value")
+                                                              "./cda:value")
+                                                              
+        @section_importers[:social_history] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']")
+        @section_importers[:care_goals] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']")
+        @section_importers[:medical_equipment] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
+                                                                     "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
       end
             
       # Parses a HITSP C32 document and returns a Hash of of the patient.

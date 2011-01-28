@@ -24,12 +24,15 @@ module QME
         @definition['measure'].each_pair do |property, description|
           raise "No standard_category for #{property}" if !description['standard_category']
           matcher = PropertyMatcher.new(description)
-          entry_list = patient_hash[symbol_for_category(description['standard_category'])]
-          if entry_list
-            matched_list = matcher.match(entry_list)
-            if matched_list && matched_list.length>0
-              measure_info[property] = matched_list
+          entry_list = symbols_for_category(description['standard_category']).flat_map do |section|
+            if patient_hash[section]
+              patient_hash[section]
+            else
+              []
             end
+          end
+          if ! entry_list.empty?
+            measure_info[property] = matcher.match(entry_list)
           end
         end
         
@@ -38,23 +41,26 @@ module QME
       
       private
       
-      def symbol_for_category(standard_category)
+      def symbols_for_category(standard_category)
         # Currently unsupported categories:
         # characteristic, substance_allergy, medication_allergy, negation_rationale,
-        # care_goal, diagnostic_study, device, communication
+        # diagnostic_study
         case standard_category
-        when 'encounter'; :encounters
-        when 'procedure'; :procedures
-        when 'laboratory_test'; :results
-        when 'physical_exam'; :vital_signs
-        when 'medication'; :medications
-        when 'diagnosis_condition_problem'; :conditions
+        when 'encounter'; [:encounters]
+        when 'procedure'; [:procedures]
+        when 'communication'; [:procedures]
+        when 'laboratory_test'; [:results, :vital_signs]
+        when 'physical_exam'; [:vital_signs]
+        when 'medication'; [:medications]
+        when 'diagnosis_condition_problem'; [:conditions, :social_history]
+        when 'device'; [:conditions, :procedures, :care_goals, :medical_equipment]
+        when 'care_goal'; [:care_goals]
         else
           if !@@warnings[standard_category]
             puts "Warning: Unsupported standard_category (#{standard_category})"
             @@warnings[standard_category]=true
           end
-          nil
+          []
         end
       end
     end
