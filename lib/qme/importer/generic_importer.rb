@@ -55,6 +55,7 @@ module QME
         when 'diagnosis_condition_problem'; [:conditions, :social_history]
         when 'device'; [:conditions]
         when 'care_goal'; [:care_goals]
+        when 'device'; [:conditions, :procedures, :care_goals, :medical_equipment]
         else
           puts "Warning: Unsupported standard_category (#{standard_category})"
           []
