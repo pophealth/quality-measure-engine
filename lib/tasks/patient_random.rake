@@ -19,6 +19,11 @@ namespace :patient do
       templates << File.read(file)
     end
     
+    if templates.length<1
+      puts "No patient templates in #{patient_template_dir}"
+      return
+    end
+    
     map = QME::MapReduce::Executor.new(loader.get_db)
     processed_measures = {}
     map.all_measures.each_value do |measure_def|

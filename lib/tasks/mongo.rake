@@ -9,6 +9,7 @@ bundle_dir = ENV['BUNDLE_DIR'] || '.'
 fixtures_dir = ENV['FIXTURE_DIR'] || File.join('fixtures', 'measures')
 db_name = ENV['DB_NAME'] || 'test'
 loader = QME::Database::Loader.new(db_name)
+QME::MongoHelpers.initialize_additional_frameworks(loader.get_db,'./js')
 
 namespace :mongo do
 
