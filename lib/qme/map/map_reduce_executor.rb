@@ -46,13 +46,13 @@ module QME
           cache_measure_patients(measure_id,sub_id,parameter_values[:effective_date],result['value'])
         end  
         
-          value = result['value']
-          summary = {}
-           %w(population denominator numerator antinumerator exclusions).each do |field|
-              summary[field.intern] = value[field].length
-              summary[(field+'_members').intern] = value[field]
-            end
-           summary
+        value = result['value']
+        summary = {}
+        %w(population denominator numerator antinumerator exclusions).each do |field|
+          summary[field.intern] = value[field].length
+          summary[(field+'_members').intern] = value[field]
+        end
+        summary
 
       end
       
@@ -62,7 +62,10 @@ module QME
         result = {}
         measures = @db.collection('measures')
         measures.find().each do |measure|
-          result[measure['id']] ||= measure
+          id = measure['id']
+          sub_id = measure['sub_id']
+          measure_id = "#{id}#{sub_id}.json"
+          result[measure_id] ||= measure
         end
         result
       end

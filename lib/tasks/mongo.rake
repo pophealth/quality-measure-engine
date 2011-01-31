@@ -12,19 +12,23 @@ loader = QME::Database::Loader.new(db_name)
 
 namespace :mongo do
 
+  desc 'Removed cached measure results'
+  task :drop_cache do
+    loader.drop_collection('query_cache')
+  end
+  
   desc 'Remove the patient records collection'
-  task :drop_records do
+  task :drop_records => :drop_cache do
     loader.drop_collection('records')
   end
 
   desc 'Remove the measures and bundles collection'
-  task :drop_bundle  do
+  task :drop_bundle => :drop_measures  do
     loader.drop_collection('bundles')
-    loader.drop_collection('measures')
   end
   
   desc 'Remove the measures collection'
-  task :drop_measures do
+  task :drop_measures => :drop_cache do
     loader.drop_collection('measures')
   end
   
@@ -47,6 +51,18 @@ namespace :mongo do
   
   desc 'Clear database and road each measure and its sample patient files'
   task :reload => [:reload_records, :reload_measures]
+  
+  desc 'Seed the query cache by calculating the results for all measures'
+  task :seed_cache, [:year, :month, :day] do |t, args|
+    year = args.year.to_i>0 ? args.year.to_i : 2010
+    month = args.month.to_i>0 ? args.month.to_i : 9
+    day = args.day.to_i>0 ? args.day.to_i : 19
+    map = QME::MapReduce::Executor.new(loader.get_db)
+    map.all_measures.each_value do |measure_def|
+      result = map.measure_result(measure_def['id'], measure_def['sub_id'], :effective_date=>Time.gm(year, month, day).to_i)
+      puts "#{measure_def['id']}#{measure_def['sub_id']}: p#{result[:population]}, d#{result[:denominator]}, n#{result[:numerator]}, e#{result[:exclusions]}"
+    end
+  end
   
   def load_files(loader, file_pattern, collection_name)
     Dir.glob(file_pattern).each do |file|
