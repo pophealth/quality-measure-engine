@@ -11,7 +11,7 @@ loader = QME::Database::Loader.new(db_name)
 namespace :patient do
 
   desc 'Generate n (default 10) random patient records and save them in the database'
-  task :random, [:n] => ['mongo:drop_records'] do |t, args|
+  task :random, [:n] => ['mongo:drop_records', 'mongo:reload_measures'] do |t, args|
     n = args.n.to_i>0 ? args.n.to_i : 1
     
     templates = []
