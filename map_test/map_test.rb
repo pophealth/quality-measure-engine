@@ -1,20 +1,21 @@
 require 'sinatra/base'
 require 'erb'
 require 'ostruct'
-
-if ARGV[0]
-  if File.exists? ARGV[0]
-    if ARGV[0][-1] == '/'
-      MEASURE_DIR = ARGV[0].chop
-    else
-      MEASURE_DIR = ARGV[0]
-    end
-  else
-    raise "Could not find the measure directory #{ARGV[0]}"
-  end
-else
-  raise "Please specify the directory where the measures are located"
-end
+MEASURE_DIR = ENV['MEASURE_DIR'] || 'measures'
+puts MEASURE_DIR
+# if ARGV[0]
+#   if File.exists? ARGV[0]
+#     if ARGV[0][-1] == '/'
+#       MEASURE_DIR = ARGV[0].chop
+#     else
+#       MEASURE_DIR = ARGV[0]
+#     end
+#   else
+#     raise "Could not find the measure directory #{ARGV[0]}"
+#   end
+# else
+#   raise "Please specify the directory where the measures are located"
+# end
 
 
 
