@@ -71,6 +71,28 @@ def validate_measures(measure_dirs, loader)
       result_file = File.join('fixtures', 'measures', File.basename(dir), 'result.json')
       expected = JSON.parse(File.read(result_file))
       
+      # define custom matchers
+      RSpec::Matchers.define :match_population do |population|
+        match do |value|
+          value == population
+        end
+      end
+      RSpec::Matchers.define :match_denominator do |denominator|
+        match do |value|
+          value == denominator
+        end
+      end
+      RSpec::Matchers.define :match_numerator do |numerator|
+        match do |value|
+          value == numerator
+        end
+      end
+      RSpec::Matchers.define :match_exclusions do |exclusions|
+        match do |value|
+          value == exclusions
+        end
+      end
+      
       # evaulate measure using Map/Reduce and validate results
       executor = QME::MapReduce::Executor.new(loader.get_db)
       measures.each do |measure|
@@ -83,19 +105,19 @@ def validate_measures(measure_dirs, loader)
           # loop through list of results to find the matching one
           expected['results'].each do |expect|
             if expect['id'].eql?(measure_id) && (sub_id==nil || expect['sub_id'].eql?(sub_id))
-              result[:population].should eql(expect['initialPopulation'])
-              result[:numerator].should eql(expect['numerator'])
-              result[:denominator].should eql(expect['denominator'])
-              result[:exclusions].should eql(expect['exclusions'])
+              result[:population].should match_population(expect['initialPopulation'])
+              result[:numerator].should match_numerator(expect['numerator'])
+              result[:denominator].should match_denominator(expect['denominator'])
+              result[:exclusions].should match_exclusions(expect['exclusions'])
               (result[:numerator]+result[:antinumerator]).should eql(expect['denominator'])
               break
             end
           end
         else
-          result[:population].should eql(expected['initialPopulation'])
-          result[:numerator].should eql(expected['numerator'])
-          result[:denominator].should eql(expected['denominator'])
-          result[:exclusions].should eql(expected['exclusions'])
+          result[:population].should match_population(expected['initialPopulation'])
+          result[:numerator].should match_numerator(expected['numerator'])
+          result[:denominator].should match_denominator(expected['denominator'])
+          result[:exclusions].should match_exclusions(expected['exclusions'])
           (result[:numerator]+result[:antinumerator]).should eql(expected['denominator'])
         end
       end
