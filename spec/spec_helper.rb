@@ -71,28 +71,6 @@ def validate_measures(measure_dirs, loader)
       result_file = File.join('fixtures', 'measures', File.basename(dir), 'result.json')
       expected = JSON.parse(File.read(result_file))
       
-      # define custom matchers
-      RSpec::Matchers.define :match_population do |population|
-        match do |value|
-          value == population
-        end
-      end
-      RSpec::Matchers.define :match_denominator do |denominator|
-        match do |value|
-          value == denominator
-        end
-      end
-      RSpec::Matchers.define :match_numerator do |numerator|
-        match do |value|
-          value == numerator
-        end
-      end
-      RSpec::Matchers.define :match_exclusions do |exclusions|
-        match do |value|
-          value == exclusions
-        end
-      end
-      
       # evaulate measure using Map/Reduce and validate results
       executor = QME::MapReduce::Executor.new(loader.get_db)
       measures.each do |measure|
