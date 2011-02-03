@@ -114,6 +114,26 @@
     return result;
   }
     
+  // Returns the number of actions that occur after
+  // something. The first two arguments are arrays or single-valued time stamps in
+  // seconds-since-the-epoch.
+  root.actionAfterSomething = function(something, action) {
+    if (!_.isArray(something))
+      something = [something];
+    if (!_.isArray(action))
+      action = [action];
+   
+    var result = 0;
+    for (i=0; i<something.length; i++) {
+      timeStamp = something[i];
+      for (j=0; j<action.length;j++) {
+        if (action[j]>=timeStamp )
+          result++;
+      }
+    }
+    return result;
+  }
+  
   // Returns all members of the values array that fall between min and max inclusive
   root.selectWithinRange = function(values, min, max) {
     return _.select(values, function(value) { return value<=max && value>=min; });
