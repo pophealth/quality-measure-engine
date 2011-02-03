@@ -18,10 +18,6 @@ function () {
     two_office_encounters_and_outpatient_consults = inRange(measure.encounter_office_and_outpatient_consult, 
                                                             earliest_diagnosis,
                                                             effective_date);
-print("Encounters: "+String(two_office_encounters_and_outpatient_consults));
-print("Birthdate: "+String(patient.birthdate));
-print("Age: "+String(inRange(patient.birthdate, earliest_birthdate, latest_birthdate)));
-print("Diagnosis: "+String(inRange(measure.diagnosis_asthma, earliest_diagnosis, effective_date)));
     return (inRange(patient.birthdate, earliest_birthdate, latest_birthdate) 
             && inRange(measure.diagnosis_asthma, earliest_diagnosis, effective_date)
             && two_office_encounters_and_outpatient_consults >= 2);

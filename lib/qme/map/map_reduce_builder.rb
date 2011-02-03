@@ -24,6 +24,8 @@ module QME
         
         def init_js_frameworks
           result = ''
+          result << 'if (typeof(_)=="undefined") {'
+          result << "\n"
           Dir.glob(File.join(File.dirname(__FILE__), '../../../js/*.js')).each do |js_file|
             result << File.read(js_file)
             result << "\n"
@@ -32,6 +34,7 @@ module QME
             result << File.read(js_file)
             result << "\n"
           end
+          result << "}\n"
           result
         end
       end
