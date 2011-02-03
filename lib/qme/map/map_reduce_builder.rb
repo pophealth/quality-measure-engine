@@ -21,6 +21,19 @@ module QME
         def get_binding
           binding
         end
+        
+        def init_js_frameworks
+          result = ''
+          Dir.glob(File.join(File.dirname(__FILE__), '../../../js/*.js')).each do |js_file|
+            result << File.read(js_file)
+            result << "\n"
+          end
+          Dir.glob(File.join('./js/*.js')).each do |js_file|
+            result << File.read(js_file)
+            result << "\n"
+          end
+          result
+        end
       end
 
       # Create a new Builder

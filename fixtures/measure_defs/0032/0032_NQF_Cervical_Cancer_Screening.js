@@ -4,6 +4,8 @@ function () {
   if (measure==null)
     measure={};
 
+  <%= init_js_frameworks %>
+
   var year = 365*24*60*60;
   var effective_date = <%= effective_date %>;
   var earliest_birthdate = effective_date - 64*year;

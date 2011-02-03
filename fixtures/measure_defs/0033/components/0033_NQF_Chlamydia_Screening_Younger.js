@@ -4,6 +4,8 @@ function () {
   if (measure==null)
     measure={};
 
+  <%= init_js_frameworks %>
+
   
   var day = 24*60*60;
   var year = 365*day;
