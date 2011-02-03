@@ -35,6 +35,13 @@ namespace :measures do
   end
   
   
+  
+  desc "run the map_test tool"
+  task :map_tool do
+    require File.join(path,"../../map_test/map_test.rb")
+  end
+  
+  
   desc "bundle measures into a compressed file for deployment"
   task :bundle do
     

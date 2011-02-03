@@ -8,6 +8,28 @@ describe QME::MapReduce::Executor do
     else
       @measures = Dir.glob(File.join('measures', '*'))
     end
+
+    # define custom matchers
+    RSpec::Matchers.define :match_population do |population|
+      match do |value|
+        value == population
+      end
+    end
+    RSpec::Matchers.define :match_denominator do |denominator|
+      match do |value|
+        value == denominator
+      end
+    end
+    RSpec::Matchers.define :match_numerator do |numerator|
+      match do |value|
+        value == numerator
+      end
+    end
+    RSpec::Matchers.define :match_exclusions do |exclusions|
+      match do |value|
+        value == exclusions
+      end
+    end
   end
   
   it 'should produce the expected results for each measure' do
