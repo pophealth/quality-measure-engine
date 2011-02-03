@@ -23,7 +23,7 @@
   root.maxInRange = function(value, min, max) {
     if (value==null)
       return null;
-    allInRange = _.select(value, function(v) {return v>=min && v<=max;});
+    var allInRange = _.select(value, function(v) {return v>=min && v<=max;});
     return _.max(allInRange);
   }
   
@@ -58,15 +58,15 @@
   // returns defaultValue.
   root.minValueInDateRange = function(readings, startDate, endDate, defaultValue) {
     var readingInDateRange = function(reading) {
-      result = inRange(reading.date, startDate, endDate);
+      var result = inRange(reading.date, startDate, endDate);
       return result;
     };
     
     if (!readings || readings.length<1)
       return defaultValue;
   
-    allInDateRange = _.select(readings, readingInDateRange);
-    min = _.min(allInDateRange, function(reading) {return reading.value;});
+    var allInDateRange = _.select(readings, readingInDateRange);
+    var min = _.min(allInDateRange, function(reading) {return reading.value;});
     if (min)
       return min.value;
     else
@@ -78,15 +78,15 @@
   // returns defaultValue.
   root.latestValueInDateRange = function(readings, startDate, endDate, defaultValue) {
     var readingInDateRange = function(reading) {
-      result = inRange(reading.date, startDate, endDate);
+      var result = inRange(reading.date, startDate, endDate);
       return result;
     };
     
     if (!readings || readings.length<1)
       return defaultValue;
   
-    allInDateRange = _.select(readings, readingInDateRange);
-    latest = _.max(allInDateRange, function(reading) {return reading.date;});
+    var allInDateRange = _.select(readings, readingInDateRange);
+    var latest = _.max(allInDateRange, function(reading) {return reading.date;});
     if (latest)
       return latest.value;
     else
@@ -104,7 +104,7 @@
     
     var result = 0;
     for (i=0; i<something.length; i++) {
-      timeStamp = something[i];
+      var timeStamp = something[i];
       for (j=0; j<action.length;j++) {
         if (action[j]>=timeStamp && (action[j] <= (timeStamp+timePeriod)))
           result++;
@@ -125,7 +125,7 @@
    
     var result = 0;
     for (i=0; i<something.length; i++) {
-      timeStamp = something[i];
+      var timeStamp = something[i];
       for (j=0; j<action.length;j++) {
         if (action[j]>=timeStamp )
           result++;
@@ -141,7 +141,7 @@
     
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
-    patient = record._id;
+    var patient = record._id;
     if (population()) {
       value.population.push(patient);
       if (denominator()) {
