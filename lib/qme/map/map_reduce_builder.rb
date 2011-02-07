@@ -23,6 +23,10 @@ module QME
           binding
         end
         
+        # Inserts any library code into the measure JS. JS library code is loaded from
+        # three locations: the js directory of the quality-measure-engine project, the
+        # js sub-directory of the current directory (e.g. measures/js), and the bundles
+        # collection of the current database (used by the Rails Web application).
         def init_js_frameworks
           result = ''
           result << 'if (typeof(map)=="undefined") {'
