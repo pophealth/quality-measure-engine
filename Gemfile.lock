@@ -1,3 +1,11 @@
+PATH
+  remote: .
+  specs:
+    quality-measure-engine (0.1.2)
+      mongo (~> 1.2)
+      nokogiri (~> 1.4.4)
+      rubyzip (~> 0.9.4)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -5,10 +13,8 @@ GEM
     abstract (1.0.0)
     activesupport (3.0.4)
     arrayfields (4.7.4)
-    awesome_print (0.3.2)
-    bson (1.2.0)
+    awesome_print (0.2.1)
     bson (1.2.0-java)
-    bson_ext (1.2.0)
     chronic (0.2.3)
       hoe (>= 1.2.1)
     churn (0.0.13)
@@ -19,11 +25,6 @@ GEM
       ruby_parser (~> 2.0.4)
       sexp_processor (~> 3.0.3)
     colored (1.2)
-    configatron (2.6.4)
-      yamler (>= 0.1.0)
-    cover_me (1.0.0.rc5)
-      configatron
-      hashie
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -34,17 +35,11 @@ GEM
     flog (2.5.0)
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
-    git (1.2.5)
     haml (3.0.25)
-    hashie (1.0.0)
     hirb (0.3.6)
     hoe (2.9.1)
       rake (>= 0.8.7)
     i18n (0.5.0)
-    jeweler (1.5.2)
-      bundler (~> 1.0.0)
-      git (>= 1.2.5)
-      rake
     json_pure (1.5.1)
     jsonschema (2.0.0)
     kramdown (0.13.1)
@@ -64,8 +59,7 @@ GEM
       roodi (>= 2.1.0)
     mongo (1.2.0)
       bson (>= 1.2.0)
-    nokogiri (1.4.4)
-    nokogiri (1.4.4-java)
+    nokogiri (1.4.4.2-java)
       weakling (>= 0.0.3)
     rack (1.2.1)
     rails_best_practices (0.6.6)
@@ -77,7 +71,6 @@ GEM
       ruby-progressbar (~> 0.0.9)
       ruby_parser (~> 2.0.4)
     rake (0.8.7)
-    rcov (0.9.9)
     rcov (0.9.9-java)
     reek (1.2.8)
       ruby2ruby (~> 1.2)
@@ -106,25 +99,20 @@ GEM
       tilt (~> 1.2)
     tilt (1.2.2)
     weakling (0.0.4-java)
-    yamler (0.1.0)
     yard (0.6.4)
 
 PLATFORMS
   java
-  ruby
 
 DEPENDENCIES
-  awesome_print
+  awesome_print (~> 0.2.1)
   bson_ext
   cover_me (>= 1.0.0.rc5)
-  jeweler
-  jsonschema
+  jsonschema (~> 2.0.0)
   kramdown
   metric_fu
-  mongo
-  nokogiri
+  quality-measure-engine!
   rake
-  rspec
-  rubyzip
+  rspec (~> 2.5.0)
   sinatra
   yard
