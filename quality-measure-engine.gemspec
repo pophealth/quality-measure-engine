@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "awesome_print", "~> 0.2.1"
   
   s.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') +
-            Dir.glob('js/**/*.js*') + ["Gemfile", "Gemfile.lock", "README.md", "Rakefile", "VERSION"]
+            Dir.glob('js/**/*.js*') + ["Gemfile", "README.md", "Rakefile", "VERSION"]
 end
 
