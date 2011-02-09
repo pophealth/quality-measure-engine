@@ -24,13 +24,13 @@ module QME
         @definition['measure'].each_pair do |property, description|
           raise "No standard_category for #{property}" if !description['standard_category']
           matcher = PropertyMatcher.new(description)
-          entry_list = symbols_for_category(description['standard_category']).flat_map do |section|
+          entry_list = symbols_for_category(description['standard_category']).map do |section|
             if patient_hash[section]
               patient_hash[section]
             else
               []
             end
-          end
+          end.flatten
           if ! entry_list.empty?
             matched_list = matcher.match(entry_list)
             measure_info[property]=matched_list if matched_list.length>0
