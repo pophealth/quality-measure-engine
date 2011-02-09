@@ -3,11 +3,11 @@ GEM
   specs:
     Saikuro (1.1.0)
     abstract (1.0.0)
-    activesupport (3.0.3)
+    activesupport (3.0.4)
     arrayfields (4.7.4)
     awesome_print (0.3.2)
-    bluecloth (2.0.10)
     bson (1.2.0)
+    bson (1.2.0-java)
     bson_ext (1.2.0)
     chronic (0.2.3)
       hoe (>= 1.2.1)
@@ -47,6 +47,7 @@ GEM
       rake
     json_pure (1.5.1)
     jsonschema (2.0.0)
+    kramdown (0.13.1)
     main (4.4.0)
       arrayfields (>= 4.7.4)
       fattr (>= 2.1.0)
@@ -64,6 +65,8 @@ GEM
     mongo (1.2.0)
       bson (>= 1.2.0)
     nokogiri (1.4.4)
+    nokogiri (1.4.4-java)
+      weakling (>= 0.0.3)
     rack (1.2.1)
     rails_best_practices (0.6.6)
       activesupport
@@ -75,6 +78,7 @@ GEM
       ruby_parser (~> 2.0.4)
     rake (0.8.7)
     rcov (0.9.9)
+    rcov (0.9.9-java)
     reek (1.2.8)
       ruby2ruby (~> 1.2)
       ruby_parser (~> 2.0)
@@ -101,19 +105,21 @@ GEM
       rack (~> 1.1)
       tilt (~> 1.2)
     tilt (1.2.2)
+    weakling (0.0.4-java)
     yamler (0.1.0)
     yard (0.6.4)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
   awesome_print
-  bluecloth
   bson_ext
-  cover_me (>= 1.0.0.rc4)
+  cover_me (>= 1.0.0.rc5)
   jeweler
   jsonschema
+  kramdown
   metric_fu
   mongo
   nokogiri
