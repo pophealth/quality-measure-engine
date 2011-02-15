@@ -34,12 +34,14 @@ module QME
         cache_q = {:measure_id=>measure_id, :sub_id=>sub_id,:effective_date=>parameter_values[:effective_date]}
         result = cache.find_one(cache_q)
         unless result
-          measure = Builder.new(@db, measure_def(measure_id, sub_id), parameter_values)
+          mdef = measure_def(measure_id, sub_id)
+          measure = Builder.new(@db, mdef, parameter_values)
 
           records = @db.collection('records')
           results = records.map_reduce(measure.map_function, measure.reduce_function)
           result = results.find_one # only one key is used by map fn
           result['value']['cache_name'] = cache_name(measure_id,sub_id,parameter_values[:effective_date])
+          result['value']['subtitle'] = mdef['subtitle'] if mdef['subtitle'] 
           cache_q["value"] =result['value']
           cache << cache_q
           
