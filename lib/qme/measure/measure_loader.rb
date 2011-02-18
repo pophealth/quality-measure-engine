@@ -65,9 +65,10 @@ module QME
         measures
       end
       
-      # For ease of development, measure definition JSON files and JavaScript 
-      # map functions are stored separately in the file system, this function 
-      # combines the two and returns the result
+      # For ease of development and change mananegment, measure definition JSON
+      # files, property lists and JavaScript map functions are stored separately
+      # in the file system, this function combines the three components and 
+      # returns the result.
       # @param [String] measure_file path to the measure file
       # @param [String] map_fn_file path to the map function file
       # @return [Hash] a JSON hash of the measure with embedded map function.
@@ -75,6 +76,11 @@ module QME
         map_fn = File.read(map_fn_file)
         measure = JSON.parse(File.read(measure_file))
         measure['map_fn'] = map_fn
+        if measure['properties']
+          measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
+          measure_props = JSON.parse(File.read(measure_props_file))
+          measure['measure'] = measure_props['measure']
+        end
         measure
       end
       

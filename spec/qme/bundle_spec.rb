@@ -16,12 +16,6 @@ describe QME::MapReduce::Executor do
   end
   
   
-  it 'should be able to load a bundle' do
-    
-    
-  end
-  
-  
   it 'should be able to remove a bundle' do 
     bundle = @loader.save_bundle(bundle_dir, 'bundles')
     bundle_measures_count = bundle[:measures].length
@@ -34,11 +28,5 @@ describe QME::MapReduce::Executor do
     
     
   end
-  
-  it 'should be able to create a bundle' do
-    
-    
-  end
-  
   
  end
