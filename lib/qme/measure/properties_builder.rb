@@ -1,5 +1,3 @@
-require 'ap'
-
 module QME
   module Measure
   
