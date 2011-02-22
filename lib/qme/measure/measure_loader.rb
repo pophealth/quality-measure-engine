@@ -2,6 +2,7 @@ gem 'rubyzip'
 require 'json'
 require 'zip/zip'
 require 'zip/zipfilesystem'
+require File.join(File.dirname(__FILE__),'properties_builder')
 
 module QME
   module Measure
@@ -79,7 +80,13 @@ module QME
         if measure['properties']
           measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
           measure_props = JSON.parse(File.read(measure_props_file))
-          measure['measure'] = measure_props['measure']
+          if measure_props['measure']
+            # copy measure properties over
+            measure['measure'] = measure_props['measure']
+          else
+            # convert JSONified XLS to properties format and add to measure
+            measure['measure'] = QME::Measure::PropertiesBuilder.get_properties(measure_props, measure_props_file)
+          end
         end
         measure
       end

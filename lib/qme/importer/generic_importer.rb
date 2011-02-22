@@ -44,8 +44,7 @@ module QME
       
       def symbols_for_category(standard_category)
         # Currently unsupported categories:
-        # characteristic, substance_allergy, medication_allergy, negation_rationale,
-        # diagnostic_study
+        # substance_allergy, medication_allergy, negation_rationale,
         case standard_category
         when 'encounter'; [:encounters]
         when 'procedure'; [:procedures]
