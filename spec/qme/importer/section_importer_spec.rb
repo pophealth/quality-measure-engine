@@ -5,84 +5,33 @@ describe QME::Importer::SectionImporter do
     @doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
   end
   
-  it "should be able to extract a date list property" do
-    property_description = {
-      "type" => "array",
-      "items" =>  {
-        "type" => "number"
-      },
-      "codes" =>  [
-        {
-          "set" => "SNOMED-CT",
-          "values" => ["314443004"]
-        }
-      ]
-    }
-    
-    result = @si.extract_date_list_based_on_section(@doc, property_description)
-    result.should include(1026777600)
-    result.length.should == 2
+  it "should be able to extract an entry with a date" do
+    entries = @si.create_entries(@doc)
+    entry = entries[1]
+    entry.time.should == 1026777600
+    entry.codes['SNOMED-CT'].should include('314443004')
   end
   
-  it "should be able to extract a date/value list property" do
-    property_description = {
-      "type" => "array",
-      "items" => {
-        "type" => "object",
-        "properties" => {
-          "value" => {
-            "type" => "number"
-          },
-          "date" =>  {
-            "type" => "number"
-          }
-        }
-      },
-      "codes" =>  [
-        {
-          "set" => "SNOMED-CT",
-          "values" => ["314443004"]
-        }
-      ]
-    }
-    
-    result = @si.extract_value_date_list_based_on_section(@doc, property_description)
-    result.should include({'date' => 1026777600, 'value' => 'eleventeen'})
-    result.length.should == 1
+  it "should be able to extract an entry with a date/value list" do
+    entries = @si.create_entries(@doc)
+    entry = entries[2]
+    entry.time.should == 1026777600
+    entry.codes['SNOMED-CT'].should include('314443004')
+    entry.value[:scalar].should == 'eleventeen'
   end
   
-  it "should be able to extract a date range property" do
-    property_description = {
-      "type" => "array",
-      "items" => {
-        "type" => "object",
-        "properties" => {
-          "start" => {
-            "type" => "number"
-          },
-          "end" =>  {
-            "type" => "number"
-          }
-        }
-      },
-      "codes" =>  [
-        {
-          "set" => "SNOMED-CT",
-          "values" => ["194774006"]
-        }
-      ]
-    }
-    
-    result = @si.extract_date_range_list_based_on_section(@doc, property_description)
-    result.should include({'start' => 1026777600, 'end' => 1189814400})
-    result.length.should == 1
+  it "should be able to extract an entry with a date range" do
+    entries = @si.create_entries(@doc)
+    entry = entries[0]
+    entry.start_time.should == 1026777600
+    entry.end_time.should == 1189814400
+    entry.is_date_range?.should be_true
   end
   
-  it "should raise an error when it can't determine the property schema" do
-    property_description = {
-      "type" => "cheese",
-      "description"  => "A cheesey example"
-    }
-    expect {@si.extract(@doc, property_description)}.to raise_error
+  it "should be able to extract a translation" do
+    entries = @si.create_entries(@doc)
+    entry = entries[1]
+    entry.time.should == 1026777600
+    entry.codes['SNOMED-CT'].should include('12345')
   end
 end

@@ -1,9 +1,19 @@
+path = File.dirname(__FILE__)
+path = path.index('lib') == 0 ? "./#{path}" : path
 require 'json'
-require './lib/quality-measure-engine'
-require './lib/tasks/measure_loader'
+require 'zlib'
+gem 'rubyzip'
+require 'zip/zip'
+require 'zip/zipfilesystem'
+
+
+require File.join(path,'../quality-measure-engine')
+
 
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
+puts "Loading measures from #{measures_dir}"
 
+bundle_dir = ENV['BUNDLE_DIR'] || './'
 namespace :measures do
   
   desc 'Build all measures to tmp directory'
@@ -22,6 +32,45 @@ namespace :measures do
         file.close
       end
     end
+  end
+  
+  
+  
+  desc "run the map_test tool"
+  task :map_tool do
+    require File.join(path,"../../map_test/map_test.rb")
+  end
+  
+  
+  desc "bundle measures into a compressed file for deployment"
+  task :bundle do
+    
+      md = File.join(bundle_dir,measures_dir)
+      js = File.join(bundle_dir,'js')
+      bf = File.join(bundle_dir,'bundle.js')
+      
+      tmp = './tmp'
+      bundle_tmp = File.join(tmp,'bundle')
+      
+      md.sub!(%r[/$],'')
+      FileUtils.rm bundle_tmp, :force=>true
+      FileUtils.mkdir_p(bundle_tmp)
+      archive = File.join(tmp,'bundle.zip')
+      FileUtils.rm archive, :force=>true
+     
+       Zip::ZipFile.open(archive, 'w') do |zipfile|
+          Dir["#{md}/**/**"].reject{|f|f==archive}.each do |file|
+           zipfile.add(file.sub(bundle_dir,''),file)
+          end
+                
+          Dir["#{js}/**/**"].reject{|f|f==archive}.each do |file|
+             zipfile.add(file.sub(bundle_dir,''),file)
+          end
+           
+         if File.exists?(bf)
+           zipfile.add(bf.sub(bundle_dir,''),bf)
+         end
+       end
   end
 
 end

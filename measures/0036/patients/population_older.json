@@ -1,9 +1,0 @@
-{
-  "first": "Margaret",
-  "last": "Baker",
-  "birthdate": 622166400,                             // Time.gm(1989, 9, 19).to_i
-  "measures": {                                       // bag of measures, one entry per measure
-    "0036": {
-    }
-  }
-}

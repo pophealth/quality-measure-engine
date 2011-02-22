@@ -12,8 +12,9 @@ module QME
       class Context < OpenStruct
         # Create a new context
         # @param [Hash] vars a hash of parameter names (String) and values (Object). Each entry is added as an accessor of the new Context
-        def initialize(vars)
+        def initialize(db, vars)
           super(vars)
+          @db = db
         end
       
         # Get a binding that contains all the instance variables
@@ -21,14 +22,42 @@ module QME
         def get_binding
           binding
         end
+        
+        # Inserts any library code into the measure JS. JS library code is loaded from
+        # three locations: the js directory of the quality-measure-engine project, the
+        # js sub-directory of the current directory (e.g. measures/js), and the bundles
+        # collection of the current database (used by the Rails Web application).
+        def init_js_frameworks
+          result = ''
+          result << 'if (typeof(map)=="undefined") {'
+          result << "\n"
+          Dir.glob(File.join(File.dirname(__FILE__), '../../../js/*.js')).each do |js_file|
+            result << File.read(js_file)
+            result << "\n"
+          end
+          Dir.glob(File.join('./js/*.js')).each do |js_file|
+            result << File.read(js_file)
+            result << "\n"
+          end
+          @db['bundles'].find.each do |bundle|
+            (bundle['extensions'] || []).each do |ext|
+              result << ext
+              result << "\n"
+            end
+          end
+          result << "}\n"
+          result
+        end
       end
 
       # Create a new Builder
       # @param [Hash] measure_def a JSON hash of the measure, field values may contain Erb directives to inject the values of supplied parameters into the map function
       # @param [Hash] params a hash of parameter names (String or Symbol) and their values
-      def initialize(measure_def, params)
+      def initialize(db, measure_def, params)
         @id = measure_def['id']
         @params = {}
+        @db = db
+        
         # normalize parameters hash to accept either symbol or string keys
         params.each do |name, value|
           @params[name.to_s] = value
@@ -45,7 +74,7 @@ module QME
         # always true for actual measures, not always true for unit tests
         if (@measure_def['map_fn'])
           template = ERB.new(@measure_def['map_fn'])
-          context = Context.new(@params)
+          context = Context.new(@db, @params)
           @measure_def['map_fn'] = template.result(context.get_binding)
         end
       end
