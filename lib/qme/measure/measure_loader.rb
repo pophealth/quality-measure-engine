@@ -85,7 +85,7 @@ module QME
             measure['measure'] = measure_props['measure']
           else
             # convert JSONified XLS to properties format and add to measure
-            measure['measure'] = QME::Measure::PropertiesBuilder.get_properties(measure_props, measure_props_file)
+            measure['measure'] = QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
           end
         end
         measure
