@@ -158,7 +158,7 @@ module QME
             old.merge(new)
           end
         end
-        
+        property_json
       end
       
     end
