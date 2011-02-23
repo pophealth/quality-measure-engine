@@ -56,6 +56,7 @@ module QME
         when 'diagnosis_condition_problem'; [:conditions, :social_history]
         when 'symptom'; [:conditions, :social_history]
         when 'characteristic'; [:conditions, :social_history]
+        when 'individual_characteristic'; [:conditions, :social_history]
         when 'device'; [:conditions, :procedures, :care_goals, :medical_equipment]
         when 'care_goal'; [:care_goals]
         when 'diagnostic_study'; [:procedures]
