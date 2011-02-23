@@ -150,10 +150,13 @@ module QME
       # "#{property_file}.patch" and return the result
       def self.patch_properties(property_json, property_file)
         patch_file = "#{property_file}.patch"
-        patch_json = JSON.parse(File.read(patch_file))
         
-        property_json.merge(patch_json) do |key, old, new|
-          old.merge(new)
+        if File.exists? patch_file
+          patch_json = JSON.parse(File.read(patch_file))
+        
+          property_json.merge(patch_json) do |key, old, new|
+            old.merge(new)
+          end
         end
         
       end
