@@ -154,7 +154,7 @@ module QME
         if File.exists? patch_file
           patch_json = JSON.parse(File.read(patch_file))
         
-          property_json.merge(patch_json) do |key, old, new|
+          property_json = property_json.merge(patch_json) do |key, old, new|
             old.merge(new)
           end
         end
