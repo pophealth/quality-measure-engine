@@ -105,18 +105,23 @@ module QME
       #@param [String] bundel_path path to directory containing the bundle information
       
       def self.load_bundle(bundle_path)
-        bundle = {};
-        bundle_file = File.join(bundle_path,'bundle.js')
-        
-        bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
-        bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
-        bundle[:measures] = []
-        Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
-          load_measure(measure_dir).each do |measure|
-            bundle[:measures] << measure
+        begin
+          bundle = {};
+          bundle_file = File.join(bundle_path,'bundle.js')
+          
+          bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
+          bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
+          bundle[:measures] = []
+          Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
+            load_measure(measure_dir).each do |measure|
+              bundle[:measures] << measure
+            end
           end
+          bundle
+        rescue Exception => e
+          print e.backtrace.join("\n")
+          throw e
         end
-        bundle
       end
       
       
