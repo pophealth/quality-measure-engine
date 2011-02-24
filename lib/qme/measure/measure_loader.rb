@@ -45,16 +45,17 @@ module QME
         collection_def['combinations'].each do |combination|
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure_file(measure_file, map_file)
-          if measure['properties'] && !measure['measure']
-            # load the measure properties if they weren't already added
-            measure['measure'] = get_measure_properties(measure)
-          end
           
           # add inline metadata to top level of definition
           combination['metadata'] ||= {}
           combination['metadata'].each do |key, value|
             measure[key] = value
           end
+          if measure['properties'] && !measure['measure']
+            # load the measure properties if they weren't already added
+            measure['measure'] = get_measure_properties(measure)
+          end
+
           # add inline measure-specific properties to definition
           combination['measure'] ||= {}
           measure['measure'] ||= {}
