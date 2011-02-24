@@ -93,6 +93,9 @@ module QME
       
       # Extract the code values from their string form into an array of strings, one per code
       def self.extract_code_values(string_list, set)
+        if !string_list
+          []
+        end
         string_list.split(',').collect do |entry|
           if set=='CPT' && entry.include?('-')
             # special handling for ranges in CPT code sets, e.g. 10010-10015
