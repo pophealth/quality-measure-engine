@@ -45,6 +45,11 @@ module QME
         collection_def['combinations'].each do |combination|
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure_file(measure_file, map_file)
+          if measure['properties'] && !measure['measure']
+            # load the measure properties if they weren't already added
+            measure['measure'] = get_measure_properties(measure)
+          end
+          
           # add inline metadata to top level of definition
           combination['metadata'] ||= {}
           combination['metadata'].each do |key, value|
@@ -78,17 +83,23 @@ module QME
         measure = JSON.parse(File.read(measure_file))
         measure['map_fn'] = map_fn
         if measure['properties']
-          measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
-          measure_props = JSON.parse(File.read(measure_props_file))
-          if measure_props['measure']
-            # copy measure properties over
-            measure['measure'] = measure_props['measure']
-          else
-            # convert JSONified XLS to properties format and add to measure
-            measure['measure'] = QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
-          end
+          measure['measure'] = get_measure_properties(measure)
         end
         measure
+      end
+      
+      # Load the measure properties from an external file, converting from JSONified XLS if
+      # necessary
+      def self.get_measure_properties(measure)
+        measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
+        measure_props = JSON.parse(File.read(measure_props_file))
+        if measure_props['measure']
+          # copy measure properties over
+          measure_props['measure']
+        else
+          # convert JSONified XLS to properties format and add to measure
+          QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
+        end
       end
       
       # Load a JSON file from the specified directory
