@@ -141,7 +141,7 @@ module QME
         exclude_child_ids = []
         
         # add grouped members
-        groups = xls_json.values.select { |value| value[STANDARD_TAXONOMY]==GROUPING }
+        groups = xls_json.values.select { |value| value[STANDARD_TAXONOMY].upcase==GROUPING }
         groups.each do |group|
           group_child_ids = group[STANDARD_CODE_LIST].split(',').collect { |id| id.strip }
           children = xls_json.values.select do |child| 
