@@ -62,6 +62,22 @@ module QME
               }
             }
           }
+        elsif property['range']
+          {
+            'type' => 'object',
+            'properties' => {
+              'start' => {
+                'description' => property['range']['start_description'],
+                'type' => 'number',
+                'format' => 'utc-sec'
+              },
+              'end' => {
+                'description' => property['range']['end_description'],
+                'type' => 'number',
+                'format' => 'utc-sec'
+              }
+            }
+          }
         else
           {
             'type' => 'number',
