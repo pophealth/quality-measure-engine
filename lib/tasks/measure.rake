@@ -75,6 +75,8 @@ namespace :measures do
   
   desc "convert NQF Excel spreadsheets to JSON"
   task :convert do
+    require LIB + '/qme/measure/properties_builder'
+    require LIB + '/qme/measure/properties_converter'
     dest_dir = File.join('.', 'tmp')    
     Dir.mkdir(dest_dir) if !Dir.exist?(dest_dir)
     Dir.glob(File.join(xls_dir, '*.xlsx')).each do |measure|
