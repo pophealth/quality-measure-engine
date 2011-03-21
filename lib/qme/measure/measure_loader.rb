@@ -2,6 +2,7 @@ gem 'rubyzip'
 require 'json'
 require 'zip/zip'
 require 'zip/zipfilesystem'
+require File.join(File.dirname(__FILE__),'properties_builder')
 
 module QME
   module Measure
@@ -44,11 +45,17 @@ module QME
         collection_def['combinations'].each do |combination|
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure_file(measure_file, map_file)
+          
           # add inline metadata to top level of definition
           combination['metadata'] ||= {}
           combination['metadata'].each do |key, value|
             measure[key] = value
           end
+          if measure['properties'] && !measure['measure']
+            # load the measure properties if they weren't already added
+            measure['measure'] = get_measure_properties(measure)
+          end
+
           # add inline measure-specific properties to definition
           combination['measure'] ||= {}
           measure['measure'] ||= {}
@@ -65,9 +72,10 @@ module QME
         measures
       end
       
-      # For ease of development, measure definition JSON files and JavaScript 
-      # map functions are stored separately in the file system, this function 
-      # combines the two and returns the result
+      # For ease of development and change mananegment, measure definition JSON
+      # files, property lists and JavaScript map functions are stored separately
+      # in the file system, this function combines the three components and 
+      # returns the result.
       # @param [String] measure_file path to the measure file
       # @param [String] map_fn_file path to the map function file
       # @return [Hash] a JSON hash of the measure with embedded map function.
@@ -75,7 +83,24 @@ module QME
         map_fn = File.read(map_fn_file)
         measure = JSON.parse(File.read(measure_file))
         measure['map_fn'] = map_fn
+        if measure['properties']
+          measure['measure'] = get_measure_properties(measure)
+        end
         measure
+      end
+      
+      # Load the measure properties from an external file, converting from JSONified XLS if
+      # necessary
+      def self.get_measure_properties(measure)
+        measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
+        measure_props = JSON.parse(File.read(measure_props_file))
+        if measure_props['measure']
+          # copy measure properties over
+          measure_props['measure']
+        else
+          # convert JSONified XLS to properties format and add to measure
+          QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
+        end
       end
       
       # Load a JSON file from the specified directory
@@ -92,18 +117,23 @@ module QME
       #@param [String] bundel_path path to directory containing the bundle information
       
       def self.load_bundle(bundle_path)
-        bundle = {};
-        bundle_file = File.join(bundle_path,'bundle.js')
-        
-        bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
-        bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
-        bundle[:measures] = []
-        Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
-          load_measure(measure_dir).each do |measure|
-            bundle[:measures] << measure
+        begin
+          bundle = {};
+          bundle_file = File.join(bundle_path,'bundle.js')
+          
+          bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
+          bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
+          bundle[:measures] = []
+          Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
+            load_measure(measure_dir).each do |measure|
+              bundle[:measures] << measure
+            end
           end
+          bundle
+        rescue Exception => e
+          print e.backtrace.join("\n")
+          throw e
         end
-        bundle
       end
       
       

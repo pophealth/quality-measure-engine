@@ -48,8 +48,8 @@ module QME
       # @return [true, false] whether the code is in the list of desired codes
       def is_in_code_set?(code_set)
         @codes.keys.each do |code_system|
-          codes_in_system = code_set.find {|set| set['set'] == code_system}
-          if codes_in_system
+          all_codes_in_system = code_set.find_all {|set| set['set'] == code_system}
+          all_codes_in_system.each do |codes_in_system|
             matching_codes = codes_in_system['values'] & @codes[code_system]
             if matching_codes.length > 0
               return true

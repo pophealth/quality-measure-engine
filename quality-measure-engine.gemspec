@@ -16,7 +16,11 @@ Gem::Specification.new do |s|
   s.add_development_dependency "jsonschema", "~> 2.0.0"
   s.add_development_dependency "rspec", "~> 2.5.0"
   s.add_development_dependency "awesome_print", "~> 0.2.1"
-  
+  s.add_development_dependency "roo", "~> 1.9.3"
+  s.add_development_dependency "builder", "~> 3.0.0"
+  s.add_development_dependency "spreadsheet", "~> 0.6.5.2"
+  s.add_development_dependency "google-spreadsheet-ruby", "~> 0.1.2"
+
   s.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') +
             Dir.glob('js/**/*.js*') + ["Gemfile", "README.md", "Rakefile", "VERSION"]
 end

@@ -26,4 +26,3 @@ require 'nokogiri'
 
 require LIB + '/qme/measure/measure_loader'
 require LIB + '/qme/measure/database_loader'
-

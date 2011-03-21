@@ -1,0 +1,34 @@
+{
+  "N_1810": {  
+    "value": {
+      "type": "number",
+      "description": "diastolic blood pressure",
+      "date_description": "Date of diastolic blood pressure" 
+    }
+  },
+  "N_365": {
+    "value": {
+      "type": "number",
+      "description": "diastolic blood pressure",
+      "date_description": "Date of diastolic blood pressure" 
+    }
+  },
+  "N_1257": {
+    "value": {
+      "type": "number",
+      "description": "systolic blood pressure",
+      "date_description": "Date of systolic blood pressure" 
+    }
+  },
+  "N_1811": {  
+    "value": {
+      "type": "number",
+      "description": "systolic blood pressure",
+      "date_description": "systolic blood pressure" 
+    }      
+  },
+  "N_1472": { 
+    "group_type": "abstract"
+  }
+}
+

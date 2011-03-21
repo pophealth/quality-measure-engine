@@ -3,6 +3,7 @@ require 'yard'
 require 'metric_fu'
 
 ENV['MEASURE_DIR'] = ENV['MEASURE_DIR'] || File.join('fixtures', 'measure_defs')
+ENV['MEASURE_PROPS'] = ENV['MEASURE_PROPS'] || File.join('fixtures', 'measure_props')
 
 Dir['lib/tasks/*.rake'].sort.each do |ext|
   load ext

@@ -1,11 +1,7 @@
 describe QME::Importer::Entry do
   before do
-    if (ENV['MEASURE_DIR'])
-      @measures = ENV['MEASURE_DIR']
-    else
-      @measures = 'measures'
-    end
-    raw_measure_json = File.read(File.join(@measures, '0043', '0043_NQF_Pneumonia_Vaccination_Status_For_Older_Adults.json'))
+    @measures = File.join('fixtures', 'entry', 'sample.json')
+    raw_measure_json = File.read(@measures)
     @measure_json = JSON.parse(raw_measure_json)
   end
   
