@@ -63,8 +63,10 @@
     };
     
     var allInDateRange = _.select(readings, readingInDateRange);
+    if (allInDateRange.length==0)
+      return defaultValue;
     var min = _.min(allInDateRange, function(reading) {return reading.value;});
-    return min.value || defaultValue;
+    return min.value;
   };
   
   // Returns the most recent readings[i].value where readings[i].date is in
@@ -78,8 +80,10 @@
     };
     
     var allInDateRange = _.select(readings, readingInDateRange);
+    if (allInDateRange.length==0)
+      return defaultValue;
     var latest = _.max(allInDateRange, function(reading) {return reading.date;});
-    return latest.value || defaultValue;
+    return latest.value;
   };
   
   // Returns the number of actions that occur within the specified time period of
