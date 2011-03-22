@@ -107,13 +107,6 @@
     return result;
   }
     
-  // Returns the number of actions that occur after
-  // something. The first two arguments are arrays or single-valued time stamps in
-  // seconds-since-the-epoch.
-  root.actionAfterSomething = function(something, action) {
-    return actionFollowingSomething(something, action);
-  }
-  
   // Returns all members of the values array that fall between min and max inclusive
   root.selectWithinRange = function(values, min, max) {
     values = normalize(values);
