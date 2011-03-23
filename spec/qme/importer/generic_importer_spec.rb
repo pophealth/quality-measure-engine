@@ -3,6 +3,7 @@ describe QME::Importer::GenericImporter do
   it "should properly handle devices" do
     measure_def = {'measure' => {"cardiac_pacer" => {
       "standard_category" => "device",
+      "qds_data_type" => "device_applied",
       "type" => "array",
       "items" => {
         "type" => "number",

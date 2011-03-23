@@ -33,13 +33,16 @@ module QME
       # Condition entries
       #    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation
       #
+      # Codes for conditions are determined by examining the value child element as opposed to the code child element
+      #
       # Social History entries (non-C32 section, specified in the HL7 CCD)
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']
       #
       # Care Goal entries(non-C32 section, specified in the HL7 CCD)
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']
       #
-      # Codes for conditions are determined by examining the value child element as opposed to the code child element
+      # Allergy entries
+      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']
       def initialize
         @measure_importers = {}
         
@@ -58,6 +61,8 @@ module QME
         @section_importers[:care_goals] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']")
         @section_importers[:medical_equipment] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
                                                                      "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
+        @section_importers[:allergies] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
+                                                             "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
       end
             
       # Parses a HITSP C32 document and returns a Hash of of the patient.

@@ -5,13 +5,12 @@ module QME
     # it can then be passed a C32 document and will return a Hash with all of the information needed to calculate the measure.
     class GenericImporter
 
-      @@warnings = {}
-
       # Creates a generic importer for any quality measure.
       #
       # @param [Hash] definition A measure definition described in JSON
       def initialize(definition)
         @definition = definition
+        @warnings = []
       end
       
       # Parses a HITSP C32 document and returns a Hash of information related to the measure
@@ -24,7 +23,7 @@ module QME
         @definition['measure'].each_pair do |property, description|
           raise "No standard_category for #{property}" if !description['standard_category']
           matcher = PropertyMatcher.new(description)
-          entry_list = symbols_for_category(description['standard_category']).map do |section|
+          entry_list = symbols_for_property(description['standard_category'], description['qds_data_type']).map do |section|
             if patient_hash[section]
               patient_hash[section]
             else
@@ -42,28 +41,57 @@ module QME
       
       private
       
-      def symbols_for_category(standard_category)
-        # Currently unsupported categories:
-        # substance_allergy, medication_allergy, negation_rationale,
+      def symbols_for_property(standard_category, qds_data_type)
+        # Currently unsupported categories: negation_rationale, risk_category_assessment
         case standard_category
-        when 'encounter'; [:encounters]
-        when 'procedure'; [:procedures]
-        when 'risk_category_assessment'; [:procedures]
-        when 'communication'; [:procedures]
-        when 'laboratory_test'; [:results, :vital_signs]
-        when 'physical_exam'; [:vital_signs]
-        when 'medication'; [:medications]
-        when 'diagnosis_condition_problem'; [:conditions, :social_history]
-        when 'symptom'; [:conditions, :social_history]
-        when 'characteristic'; [:conditions, :social_history]
-        when 'individual_characteristic'; [:conditions, :social_history]
-        when 'device'; [:conditions, :procedures, :care_goals, :medical_equipment]
-        when 'care_goal'; [:care_goals]
-        when 'diagnostic_study'; [:procedures]
+        when 'encounter'
+          [:encounters]
+        when 'procedure'
+          case qds_data_type
+          when 'procedure_performed'
+            [:procedures]
+          when 'procedure_adverse_event', 'procedure_intolerance'
+            [:allergies]
+          when 'procedure_result'
+            [:procedures, :results, :vital_signs]
+          end
+        when 'risk_category_assessment'
+          [:procedures]
+        when 'communication'
+          [:procedures]
+        when 'laboratory_test'
+          [:results, :vital_signs]
+        when 'physical_exam'
+          [:vital_signs]
+        when 'medication'
+          case qds_data_type
+          when 'medication_dispensed', 'medication_order', 'medication_active', 'medication_administered'
+            [:medications]
+          when 'medication_allergy', 'medication_intolerance', 'medication_adverse_event'
+            [:allergies]
+          end
+        when 'diagnosis_condition_problem'
+          [:conditions, :social_history]
+        when 'symptom'
+          [:conditions, :social_history]
+        when 'individual_characteristic'
+          [:conditions, :social_history]
+        when 'device'
+          case qds_data_type
+          when 'device_applied'
+            [:conditions, :procedures, :care_goals, :medical_equipment]
+          when 'device_allergy'
+            [:allergies]
+          end
+        when 'care_goal'
+          [:care_goals]
+        when 'diagnostic_study'
+          [:procedures]
+        when 'substance'
+          [:allergies]
         else
-          if !@@warnings[standard_category]
+          unless @warnings.include?(standard_category)
             puts "Warning: Unsupported standard_category (#{standard_category})"
-            @@warnings[standard_category]=true
           end
           []
         end

@@ -63,6 +63,7 @@
     {
       "description": "Pneumococcal vaccination",
       "standard_category": "medication",
+      "qds_data_type": "medication_administered",
       "type": "array",
       "items":
       {
