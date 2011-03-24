@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Result</title>
+    </head>
+    <body>
+        <h1>Result for measure: <%= @result['id']%></h1>
+        <table border="1" cellspacing="5" cellpadding="5">
+            <tr><th>Population</th><th>Count</th></tr>
+            <tr><td>Initial Population</td><td><%= @result['initialPopulation'] %></td></tr>
+            <tr><td>Numerator</td><td><%= @result['numerator'] %></td></tr>
+            <tr><td>Denominator</td><td><%= @result['denominator'] %></td></tr>
+            <tr><td>Exclusions</td><td><%= @result['exclusions'] %></td></tr>
+        </table>
+    </body>
+</html>
