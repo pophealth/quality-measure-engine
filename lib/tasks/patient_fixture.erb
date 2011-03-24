@@ -33,7 +33,16 @@
                     <%     elsif list_value.kind_of? Hash %>
                     <table border="1" cellspacing="5" cellpadding="5">
                         <%   list_value.each_pair do |key, value| %>
-                        <tr><td><%= key %></td><td><%= epoch_pp value %></td></tr>
+                        <tr>
+                          <td><%= key %></td>
+                          <td>
+                          <% if key=='value' %>
+                            <%= value %>
+                          <% else %>
+                            <%= epoch_pp value %>
+                          <% end %>
+                          </td>
+                        </tr>
                         <%   end %>
                     </table>
                     <%     end
