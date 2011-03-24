@@ -2,12 +2,11 @@ module QME
   module Importer
     # Object that represents a CDA Entry (or act, observation, etc.)
     class Entry
-      attr_accessor :start_time, :end_time, :time
-      attr_reader :status, :codes, :value
+      attr_accessor :start_time, :end_time, :time, :status
+      attr_reader :codes, :value
       
       def initialize
         @codes = {}
-        @status = {}
         @value = {}
       end
       
@@ -25,14 +24,6 @@ module QME
       def add_code(code, code_system)
         @codes[code_system] ||= []
         @codes[code_system] << code
-      end
-      
-      # Set a status for the Entry
-      # @param [String] status_code the code to set
-      # @param [String] code_system the code system that the status_code belongs to
-      def set_status(status_code, code_system)
-        @status[:code] = status_code
-        @status[:code_system] = code_system
       end
       
       # Sets the value for the entry
