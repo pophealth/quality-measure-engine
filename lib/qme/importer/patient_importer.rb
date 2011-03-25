@@ -110,8 +110,8 @@ module QME
       # @return [Array] array of Entry objects
       def parse_events(event_list)
         event_list.collect do |event|
-          if event.class!=Hash.class
-            # skip non-Hash elements in the event list, patient randomization templates
+          if event.class==String.class
+            # skip String elements in the event list, patient randomization templates
             # introduce String elements to simplify tailing-comma handling when generating
             # JSON using ERb
             nil
