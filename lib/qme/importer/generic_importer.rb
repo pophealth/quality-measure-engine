@@ -116,6 +116,7 @@ module QME
         else
           unless @warnings.include?(standard_category)
             puts "Warning: Unsupported standard_category (#{standard_category})"
+            @warnings << standard_category
           end
           Proc.new {[]} # A proc that returns an empty array
         end
