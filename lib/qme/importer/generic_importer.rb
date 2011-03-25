@@ -4,7 +4,13 @@ module QME
     # several SectionImporter for the various sections of the C32. When initialized with a JSON measure definition
     # it can then be passed a C32 document and will return a Hash with all of the information needed to calculate the measure.
     class GenericImporter
-
+      
+      class << self
+        attr_accessor :warnings
+      end
+      
+      @warnings = []
+      
       # Creates a generic importer for any quality measure.
       #
       # @param [Hash] definition A measure definition described in JSON
@@ -114,9 +120,9 @@ module QME
         when 'substance'
           create_section_filter(:allergies)
         else
-          unless @warnings.include?(standard_category)
+          unless self.class.warnings.include?(standard_category)
             puts "Warning: Unsupported standard_category (#{standard_category})"
-            @warnings << standard_category
+            self.class.warnings << standard_category
           end
           Proc.new {[]} # A proc that returns an empty array
         end
