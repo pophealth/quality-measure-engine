@@ -1,6 +1,6 @@
 describe QME::Importer::SectionImporter do
   before do
-    @si = QME::Importer::SectionImporter.new('/cda:simple/cda:entry')
+    @si = QME::Importer::SectionImporter.new('/cda:simple/cda:entry', "./cda:code", "./cda:status")
     @doc = Nokogiri::XML(File.new('fixtures/section_importer.xml'))
     @doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
   end
@@ -18,6 +18,7 @@ describe QME::Importer::SectionImporter do
     entry.time.should == 1026777600
     entry.codes['SNOMED-CT'].should include('314443004')
     entry.value[:scalar].should == 'eleventeen'
+    entry.status.should == :active
   end
   
   it "should be able to extract an entry with a date range" do

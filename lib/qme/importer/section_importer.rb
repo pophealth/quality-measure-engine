@@ -8,9 +8,13 @@ module QME
       # @param [String] entry_xpath An XPath expression that can be used to find the desired entries
       # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
       #        Defaults to "./cda:code"
-      def initialize(entry_xpath, code_xpath="./cda:code")
+      # @param [String] status_xpath XPath expression to find the status element as a child of the desired CDA
+      #        entry. Defaults to nil. If not provided, a status will not be checked for since it is not applicable
+      #        to all enrty types
+      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil)
         @entry_xpath = entry_xpath
         @code_xpath = code_xpath
+        @status_xpath = status_xpath
       end
       
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
@@ -27,6 +31,9 @@ module QME
           extract_codes(entry_element, entry)
           extract_dates(entry_element, entry)
           extract_value(entry_element, entry)
+          if @status_xpath
+            extract_status(entry_element, entry)
+          end
           if entry.usable?
             entry_list << entry
           end
@@ -36,6 +43,20 @@ module QME
       end
       
       private
+      
+      def extract_status(parent_element, entry)
+        status_element = parent_element.at_xpath(@status_xpath)
+        if status_element
+          case status_element['code']
+          when '55561003'
+            entry.status = :active
+          when '73425007'
+            entry.status = :inactive
+          when '413322009'
+            entry.status = :resolved
+          end
+        end
+      end
       
       def extract_codes(parent_element, entry)
         code_elements = parent_element.xpath(@code_xpath)

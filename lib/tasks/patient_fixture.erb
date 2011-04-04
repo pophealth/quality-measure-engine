@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= @patient['first'] %> <%= @patient['last'] %></title>
+    </head>
+    <body>
+        <h1><%= @patient['first'] %> <%= @patient['last'] %></h1>
+        <h2><%= @filename %></h2>
+        
+        <h2>Patient Information</h2>
+        <table>
+            <tr><td>First Name</td><td><%= @patient['first']%></td></tr>
+            <tr><td>Last Name</td><td><%= @patient['last']%></td></tr>
+            <tr><td>Gender</td><td><%= @patient['gender']%></td></tr>
+            <tr><td>Birthdate</td><td><%= epoch_pp @patient['birthdate']%></td></tr>
+        </table>
+        
+        <h2>Measures</h2>
+        <% @patient['measures'].each_pair do |measure_id, properties| %>
+        <h3><%= measure_id%></h3>
+        <table border="1" cellspacing="5" cellpadding="5">
+            <tr><th>Property</th><th>Value</th></tr>
+            <% properties.each_pair do |property_name, property_value| %>
+            <tr>
+                <td><%= property_name %></td>
+                <td>
+                    <% if property_value.kind_of? Fixnum %>
+                        <%= epoch_pp property_value %>
+                    <% elsif property_value.kind_of? Array 
+                         property_value.each do |list_value|
+                           if list_value.kind_of? Fixnum %>
+                            <p><%= epoch_pp list_value %></p>
+                    <%     elsif list_value.kind_of? Hash %>
+                    <table border="1" cellspacing="5" cellpadding="5">
+                        <%   list_value.each_pair do |key, value| %>
+                        <tr>
+                          <td><%= key %></td>
+                          <td>
+                          <% if key=='value' %>
+                            <%= value %>
+                          <% else %>
+                            <%= epoch_pp value %>
+                          <% end %>
+                          </td>
+                        </tr>
+                        <%   end %>
+                    </table>
+                    <%     end
+                         end
+                       end %>
+                </td>
+            </tr>
+            <% end %>
+        </table>
+        <% end %>
+    </body>
+</html>
