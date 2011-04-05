@@ -43,11 +43,14 @@ module QME
         measure_file = File.join(component_dir, collection_def['root'])
         measures = []
         collection_def['combinations'].each do |combination|
+          combination['metadata'] ||= {}
+          if !combination['map_fn']
+            raise "Missing map function in #{collection_file} (sub_id #{combination['metadata']['sub_id']})"
+          end
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure_file(measure_file, map_file)
           
           # add inline metadata to top level of definition
-          combination['metadata'] ||= {}
           combination['metadata'].each do |key, value|
             measure[key] = value
           end
