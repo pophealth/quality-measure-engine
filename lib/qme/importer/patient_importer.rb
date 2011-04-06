@@ -18,8 +18,8 @@ module QME
       # Procedure entries
       #    //cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']
       #
-      # Result entries
-      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
+      # Result entries - There seems to be some confusion around the correct templateId, so the code checks for both
+      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
       #
       # Vital sign entries
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']
@@ -49,7 +49,7 @@ module QME
         @section_importers = {}
         @section_importers[:encounters] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
         @section_importers[:procedures] = SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']")
-        @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
+        @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
         @section_importers[:vital_signs] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']")
         @section_importers[:medications] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
                                                                "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
