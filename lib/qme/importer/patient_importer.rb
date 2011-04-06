@@ -43,6 +43,12 @@ module QME
       #
       # Allergy entries
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']
+      #
+      # Immunization entries
+      #    //cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']
+      #
+      # Codes for immunizations are found in the substanceAdministration with the following relative XPath
+      #    ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
       def initialize
         @measure_importers = {}
         
@@ -64,6 +70,8 @@ module QME
                                                                      "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
         @section_importers[:allergies] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
                                                              "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
+        @section_importers[:immunizations] = SectionImporter.new("//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
+                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
       end
             
       # Parses a HITSP C32 document and returns a Hash of of the patient.

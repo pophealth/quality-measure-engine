@@ -89,7 +89,7 @@ module QME
         when 'medication'
           case qds_data_type
           when 'medication_dispensed', 'medication_order', 'medication_active', 'medication_administered'
-            create_section_filter(:medications)
+            create_section_filter(:medications, :immunizations)
           when 'medication_allergy', 'medication_intolerance', 'medication_adverse_event'
             create_section_filter(:allergies)
           end
