@@ -114,35 +114,26 @@
   }
     
   root.map = function(record, population, denominator, numerator, exclusion) {
-    var value = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
+    var value = {population: false, denominator: false, numerator: false, 
+                 exclusions: false, antinumerator: false, patient_id: record._id,
+                 first: record.first, last: record.last, gender: record.gender,
+                 birthdate: record.birthdate};
     var patient = record._id;
     if (population()) {
-      value.population.push(patient);
+      value.population = true;
       if (denominator()) {
-        value.denominator.push(patient);
+        value.denominator = true;
         if (numerator()) {
-          value.numerator.push(patient);
+          value.numerator = true;
         } else if (exclusion()) {
-          value.exclusions.push(patient);
-          value.denominator.pop();
+          value.exclusions = true;
+          value.denominator = false;
         } else {
-          value.antinumerator.push(patient);
+          value.antinumerator = true;
         }
       }
     }
-    emit(null, value);
-  };
-
-  root.reduce = function (key, values) {
-    var total = {population: [], denominator: [], numerator: [], exclusions: [], antinumerator: []};
-    for (var i = 0; i < values.length; i++) {
-      total.population = total.population.concat(values[i].population);
-      total.denominator = total.denominator.concat(values[i].denominator);
-      total.numerator = total.numerator.concat(values[i].numerator);
-      total.exclusions = total.exclusions.concat(values[i].exclusions);
-      total.antinumerator = total.antinumerator.concat(values[i].antinumerator);
-    }
-    return total;
+    emit(ObjectId(), value);
   };
 
 })();

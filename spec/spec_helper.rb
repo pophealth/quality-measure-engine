@@ -57,6 +57,7 @@ def validate_measures(measure_dirs, loader)
       loader.drop_collection('measures')
       loader.drop_collection('records')
       loader.drop_collection('query_cache')
+      loader.drop_collection('patient_cache')
       
       # load db with measure
       measures = loader.save_measure(dir, 'measures')
