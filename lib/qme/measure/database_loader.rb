@@ -21,7 +21,6 @@ module QME
       def get_db
         if @db==nil
           @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
-          QME::MongoHelpers.initialize_javascript_frameworks(@db)
         end
         @db
       end
