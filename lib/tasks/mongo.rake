@@ -15,6 +15,7 @@ namespace :mongo do
   desc 'Removed cached measure results'
   task :drop_cache do
     loader.drop_collection('query_cache')
+    loader.drop_collection('patient_cache')
   end
   
   desc 'Remove the patient records collection'
@@ -54,10 +55,15 @@ namespace :mongo do
   
   desc 'Seed the query cache by calculating the results for all measures'
   task :seed_cache, [:year, :month, :day] do |t, args|
+    db = loader.get_db
+    patient_cache = db['patient_cache']
+    patient_cache.create_index([['value.measure_id', Mongo::ASCENDING],
+                                ['value.sub_id', Mongo::ASCENDING],
+                                ['value.effective_date', Mongo::ASCENDING]])
     year = args.year.to_i>0 ? args.year.to_i : 2010
     month = args.month.to_i>0 ? args.month.to_i : 9
     day = args.day.to_i>0 ? args.day.to_i : 19
-    map = QME::MapReduce::Executor.new(loader.get_db)
+    map = QME::MapReduce::Executor.new(db)
     map.all_measures.each_value do |measure_def|
       result = map.measure_result(measure_def['id'], measure_def['sub_id'], "effective_date"=>Time.gm(year, month, day).to_i)
       puts "#{measure_def['id']}#{measure_def['sub_id']}: p#{result[:population]}, d#{result[:denominator]}, n#{result[:numerator]}, e#{result[:exclusions]}"
