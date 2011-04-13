@@ -84,20 +84,20 @@ def validate_measures(measure_dirs, loader)
           # loop through list of results to find the matching one
           expected['results'].each do |expect|
             if expect['id'].eql?(measure_id) && (sub_id==nil || expect['sub_id'].eql?(sub_id))
-              result[:population].should match_population(expect['initialPopulation'])
-              result[:numerator].should match_numerator(expect['numerator'])
-              result[:denominator].should match_denominator(expect['denominator'])
-              result[:exclusions].should match_exclusions(expect['exclusions'])
-              (result[:numerator]+result[:antinumerator]).should eql(expect['denominator'])
+              result['population'].should match_population(expect['initialPopulation'])
+              result['numerator'].should match_numerator(expect['numerator'])
+              result['denominator'].should match_denominator(expect['denominator'])
+              result['exclusions'].should match_exclusions(expect['exclusions'])
+              (result['numerator']+result['antinumerator']).should eql(expect['denominator'])
               break
             end
           end
         else
-          result[:population].should match_population(expected['initialPopulation'])
-          result[:numerator].should match_numerator(expected['numerator'])
-          result[:denominator].should match_denominator(expected['denominator'])
-          result[:exclusions].should match_exclusions(expected['exclusions'])
-          (result[:numerator]+result[:antinumerator]).should eql(expected['denominator'])
+          result['population'].should match_population(expected['initialPopulation'])
+          result['numerator'].should match_numerator(expected['numerator'])
+          result['denominator'].should match_denominator(expected['denominator'])
+          result['exclusions'].should match_exclusions(expected['exclusions'])
+          (result['numerator']+result['antinumerator']).should eql(expected['denominator'])
         end
       end
       puts ' - done'

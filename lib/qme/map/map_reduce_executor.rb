@@ -76,7 +76,7 @@ module QME
         
         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
-            result[measure_group.to_sym] = cursor.count
+            result[measure_group] = cursor.count
           end
         end
         
