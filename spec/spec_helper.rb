@@ -9,9 +9,7 @@ PROJECT_ROOT = File.dirname(__FILE__) + '/../'
 
 require PROJECT_ROOT + 'lib/quality-measure-engine'
 
-
 Bundler.require(:test)
-
 
 def load_bundle(bundle_dir = '.')
   loader = QME::Database::Loader.new('test')
@@ -39,9 +37,7 @@ def measure_definition(loader, measure_id, sub_id=nil)
   map.measure_def(measure_id, sub_id)
 end
 
-
 def validate_measures(measure_dirs, loader)
-  
    measure_dirs.each do |dir|
       # check for sample data
       fixture_dir = File.join('fixtures', 'measures', File.basename(dir))
@@ -52,25 +48,24 @@ def validate_measures(measure_dirs, loader)
       end
 
       puts "Parsing #{dir}"
-
       loader.drop_collection('bundles')
       loader.drop_collection('measures')
       loader.drop_collection('records')
       loader.drop_collection('query_cache')
-      
+
       # load db with measure
       measures = loader.save_measure(dir, 'measures')
-      
+
       # load db with sample patient records
       patient_files.each do |patient_file|
         patient = JSON.parse(File.read(patient_file))
         loader.save('records', patient)
       end
-        
+
       # load expected results
       result_file = File.join('fixtures', 'measures', File.basename(dir), 'result.json')
       expected = JSON.parse(File.read(result_file))
-      
+
       # evaulate measure using Map/Reduce and validate results
       executor = QME::MapReduce::Executor.new(loader.get_db)
       measures.each do |measure|

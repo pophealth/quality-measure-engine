@@ -4,13 +4,13 @@ module QME
     # several SectionImporter for the various sections of the C32. When initialized with a JSON measure definition
     # it can then be passed a C32 document and will return a Hash with all of the information needed to calculate the measure.
     class GenericImporter
-      
+
       class << self
         attr_accessor :warnings
       end
-      
+
       @warnings = []
-      
+
       # Creates a generic importer for any quality measure.
       #
       # @param [Hash] definition A measure definition described in JSON
@@ -18,14 +18,13 @@ module QME
         @definition = definition
         @warnings = []
       end
-      
+
       # Parses a HITSP C32 document and returns a Hash of information related to the measure
       #
       # @param [Hash] patient_hash representation of a patient
       # @return [Hash] measure information
       def parse(patient_hash)
         measure_info = {}
-        
         @definition['measure'].each_pair do |property, description|
           raise "No standard_category for #{property}" if !description['standard_category']
           matcher = PropertyMatcher.new(description)
@@ -36,12 +35,11 @@ module QME
             measure_info[property] = matched_list if matched_list.length > 0
           end
         end
-        
         measure_info
       end
-      
+
       private
-      
+
       def create_section_filter(*sections)
         Proc.new do |patient_hash|
           sections.map do |section|
@@ -53,7 +51,7 @@ module QME
           end.flatten
         end
       end
-      
+
       def create_section_and_status_filter(status, *sections)
         section_filter = create_section_filter(*sections)
         Proc.new do |patient_hash|
@@ -63,7 +61,7 @@ module QME
           end
         end
       end
-      
+
       def filter_for_property(standard_category, qds_data_type)
         # Currently unsupported categories: negation_rationale, risk_category_assessment
         case standard_category

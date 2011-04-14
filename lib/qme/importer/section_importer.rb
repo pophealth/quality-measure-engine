@@ -16,7 +16,7 @@ module QME
         @code_xpath = code_xpath
         @status_xpath = status_xpath
       end
-      
+
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
       # objects based on what it finds
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
@@ -38,12 +38,11 @@ module QME
             entry_list << entry
           end
         end
-        
         entry_list
       end
-      
+
       private
-      
+
       def extract_status(parent_element, entry)
         status_element = parent_element.at_xpath(@status_xpath)
         if status_element
@@ -57,25 +56,24 @@ module QME
           end
         end
       end
-      
+
       def extract_codes(parent_element, entry)
         code_elements = parent_element.xpath(@code_xpath)
         code_elements.each do |code_element|
           add_code_if_present(code_element, entry)
-          
           translations = code_element.xpath('cda:translation')
           translations.each do |translation|
             add_code_if_present(translation, entry)
           end
         end
       end
-      
+
       def add_code_if_present(code_element, entry)
         if code_element['codeSystem'] && code_element['code']
           entry.add_code(code_element['code'], CodeSystemHelper.code_system_for(code_element['codeSystem']))
         end
       end
-      
+
       def extract_dates(parent_element, entry)
         if parent_element.at_xpath('cda:effectiveTime')
           entry.time = HL7Helper.timestamp_to_integer(parent_element.at_xpath('cda:effectiveTime')['value'])
@@ -86,8 +84,11 @@ module QME
         if parent_element.at_xpath('cda:effectiveTime/cda:high')
           entry.end_time = HL7Helper.timestamp_to_integer(parent_element.at_xpath('cda:effectiveTime/cda:high')['value'])
         end
+        if parent_element.at_xpath('cda:effectiveTime/cda:center')
+          entry.time = HL7Helper.timestamp_to_integer(parent_element.at_xpath('cda:effectiveTime/cda:center')['value'])
+        end
       end
-      
+
       def extract_value(parent_element, entry)
         value_element = parent_element.at_xpath('cda:value')
         if value_element
