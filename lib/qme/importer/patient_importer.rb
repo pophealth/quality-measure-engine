@@ -19,8 +19,8 @@ module QME
       # Procedure entries
       #    //cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']
       #
-      # Result entries
-      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
+      # Result entries - There seems to be some confusion around the correct templateId, so the code checks for both
+      #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
       #
       # Vital sign entries
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']
@@ -44,12 +44,18 @@ module QME
       #
       # Allergy entries
       #    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']
+      #
+      # Immunization entries
+      #    //cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']
+      #
+      # Codes for immunizations are found in the substanceAdministration with the following relative XPath
+      #    ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
       def initialize
         @measure_importers = {}
         @section_importers = {}
         @section_importers[:encounters] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
         @section_importers[:procedures] = SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']")
-        @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
+        @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
         @section_importers[:vital_signs] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']")
         @section_importers[:medications] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
                                                                "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
@@ -62,6 +68,8 @@ module QME
                                                                      "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
         @section_importers[:allergies] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
                                                              "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
+        @section_importers[:immunizations] = SectionImporter.new("//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
+                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
       end
 
       # Parses a HITSP C32 document and returns a Hash of of the patient.

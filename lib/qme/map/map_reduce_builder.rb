@@ -89,8 +89,19 @@ module QME
       # wrapper for the reduce utility function specified in
       # map-reduce-utils.js
       # @return [String] the reduce function
-      def reduce_function
-        'function (key, values) { return reduce(key, values);};'
+      def finalize_function
+        reduce = 
+        "function (key, value) { 
+          var patient = value;
+          patient.measure_id = \"#{@measure_def['id']}\";\n"
+        if @measure_def['sub_id']
+          reduce += "  patient.sub_id = \"#{@measure_def['sub_id']}\";\n"
+        end
+          
+        reduce += "patient.effective_date = #{@params['effective_date']};
+                   return patient;}"
+        
+        reduce
       end
 
 

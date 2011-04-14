@@ -21,7 +21,6 @@ module QME
       def get_db
         if @db==nil
           @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
-          QME::MongoHelpers.initialize_javascript_frameworks(@db)
         end
         @db
       end
@@ -43,8 +42,7 @@ module QME
       # @param [String] collection_name name of the database collection
       # @param [Hash] json the JSON hash to save in the database 
       def save(collection_name, json)
-        collection = get_db.create_collection(collection_name)
-        collection.save(json)
+        get_db[collection_name].save(json)
       end
       
       # Drop a database collection
