@@ -19,8 +19,6 @@ require LIB + '/qme/importer/hl7_helper'
 require LIB + '/qme/importer/section_importer'
 require LIB + '/qme/importer/generic_importer'
 
-require LIB + '/qme/mongo_helpers'
-
 require 'json'
 require 'mongo'
 require 'nokogiri'
