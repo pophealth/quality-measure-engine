@@ -70,6 +70,21 @@ namespace :mongo do
     end
   end
   
+  desc 'Dump measures and bundles collections'
+  task :dump_bundle => [:reload_bundle] do
+    dest_dir = File.join('.', 'tmp')
+    Dir.mkdir(dest_dir) if !Dir.exist?(dest_dir)
+    puts "Dumping bundle to #{dest_dir}"
+    system("mongodump --db #{db_name} --collection bundles --out - > #{dest_dir}/bundles.bson")
+    system("mongodump --db #{db_name} --collection measures --out - > #{dest_dir}/measures.bson")
+    read_me = <<EOF
+Load the included files into Mongo as follows:
+mongorestore --db pophealth-production --drop measures.bson
+mongorestore --db pophealth-production --drop bundles.bson
+EOF
+    File.open(File.join(dest_dir, 'README.txt'), 'w') {|f| f.write(read_me) }
+  end
+  
   def load_files(loader, file_pattern, collection_name)
     Dir.glob(file_pattern).each do |file|
       json = JSON.parse(File.read(file))
