@@ -5,24 +5,11 @@ module QME
   
     # Utility class for working with JSON files and the database
     class Loader
-      # Create a new Loader. Database host and port may be set using the 
-      # environment variables TEST_DB_HOST and TEST_DB_PORT which default
-      # to localhost and 27017 respectively.
+      include DatabaseAccess
+      # Create a new Loader.
       # @param [String] db_name the name of the database to use
-      def initialize(db_name)
-        @db_name = db_name
-        @db_host = ENV['TEST_DB_HOST'] || 'localhost'
-        @db_port = ENV['TEST_DB_PORT'] ? ENV['TEST_DB_PORT'].to_i : 27017
-      end
-      
-      # Lazily creates a connection to the database and initializes the
-      # JavaScript environment
-      # @return [Mongo::Connection]
-      def get_db
-        if @db==nil
-          @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
-        end
-        @db
+      def initialize(db_name = nil)
+        determine_connection_information(db_name)
       end
       
       # Load a measure from the filesystem and save it in the database.

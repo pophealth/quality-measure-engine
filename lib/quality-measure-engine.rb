@@ -1,5 +1,7 @@
 Bundler.require(:default)
 
+require_relative 'qme/database_access'
+
 require_relative 'qme/map/map_reduce_builder'
 require_relative 'qme/map/map_reduce_executor'
 require_relative 'qme/map/background_worker'

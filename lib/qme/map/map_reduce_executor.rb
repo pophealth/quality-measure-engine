@@ -4,18 +4,14 @@ module QME
     # Computes the value of quality measures based on the current set of patient
     # records in the database
     class Executor
-    
-      # Create a new Executor for the supplied database connection
-      def initialize(db)
-        @db = db
-      end
+      include DatabaseAccess
 
       # Retrieve a measure definition from the database
       # @param [String] measure_id value of the measure's id field
       # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
       # @return [Hash] a JSON hash of the encoded measure
       def measure_def(measure_id, sub_id=nil)
-        measures = @db.collection('measures')
+        measures = get_db.collection('measures')
         if sub_id
           measures.find_one({'id'=>measure_id, 'sub_id'=>sub_id})
         else
@@ -43,7 +39,7 @@ module QME
       # @return [Hash] an hash of measure definitions
       def all_measures
         result = {}
-        measures = @db.collection('measures')
+        measures = get_db.collection('measures')
         measures.find().each do |measure|
           id = measure['id']
           sub_id = measure['sub_id']
@@ -61,14 +57,14 @@ module QME
       end
 
       def cached_result(measure_id, sub_id, parameter_values)
-        cache = @db.collection("query_cache")
+        cache = get_db.collection("query_cache")
         query = {:measure_id => measure_id, :sub_id => sub_id, 
                  :effective_date => parameter_values['effective_date']}
         cache.find_one(query)
       end
 
       def cache_measure_result(measure_id, sub_id, parameter_values)
-        patient_cache = @db.collection('patient_cache')
+        patient_cache = get_db.collection('patient_cache')
         query = {'value.measure_id' => measure_id, 'value.sub_id' => sub_id, 
                  'value.effective_date' => parameter_values['effective_date']}
         result = {:measure_id => measure_id, :sub_id => sub_id, 
@@ -91,12 +87,12 @@ module QME
       # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
       # @param [Hash] parameter_values a hash of the measure parameter values. Keys may be either a String or Symbol
       def cache_measure_patients(measure_id, sub_id, parameter_values)
-        patient_cache = @db.collection('patient_cache')
+        patient_cache = get_db.collection('patient_cache')
         patient_cache.remove(:measure_id => measure_id, :sub_id => sub_id, 
                              :effective_date => parameter_values['effective_date'])
         
-        measure = Builder.new(@db, measure_def(measure_id, sub_id), parameter_values)
-        records = @db.collection('records')
+        measure = Builder.new(get_db, measure_def(measure_id, sub_id), parameter_values)
+        records = get_db.collection('records')
         records.map_reduce(measure.map_function, "function(key, values){return values;}", :out => {:reduce => 'patient_cache'}, :finalize => measure.finalize_function)
       end
     end

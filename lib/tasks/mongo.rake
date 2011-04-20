@@ -9,7 +9,7 @@ measures_dir = ENV['MEASURE_DIR'] || 'measures'
 bundle_dir = ENV['BUNDLE_DIR'] || '.'
 fixtures_dir = ENV['FIXTURE_DIR'] || File.join('fixtures', 'measures')
 db_name = ENV['DB_NAME'] || 'test'
-loader = QME::Database::Loader.new(db_name)
+loader = QME::Database::Loader.new()
 
 namespace :mongo do
 
@@ -66,7 +66,7 @@ namespace :mongo do
     day = args.day.to_i>0 ? args.day.to_i : 19
     map = QME::MapReduce::Executor.new(db)
     map.all_measures.each_value do |measure_def|
-      Resque.enqueue(QME::MapReduce::BackgroundWorker, measure_def['id'], measure_def['sub_id'], Time.gm(year, month, day).to_i)
+      Resque.enqueue(QME::MapReduce::BackgroundWorker, measure_def['id'], measure_def['sub_id'], Time.gm(year, month, day).to_i, db_name)
     end
   end
   
