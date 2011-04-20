@@ -1,10 +1,12 @@
 Bundler.require(:default)
 
+require 'resque/job_with_status'
+
 require_relative 'qme/database_access'
 
 require_relative 'qme/map/map_reduce_builder'
 require_relative 'qme/map/map_reduce_executor'
-require_relative 'qme/map/background_worker'
+require_relative 'qme/map/measure_calculation_job'
 
 require_relative 'qme/randomizer/patient_randomizer'
 

@@ -5,6 +5,13 @@ module QME
     # records in the database
     class Executor
       include DatabaseAccess
+      
+      def initialize(measure_id, sub_id, parameter_values)
+        @measure_id = measure_id
+        @sub_id = sub_id
+        @parameter_values = parameter_values
+        determine_connection_information
+      end
 
       # Retrieve a measure definition from the database
       # @param [String] measure_id value of the measure's id field
@@ -17,22 +24,6 @@ module QME
         else
           measures.find_one({'id'=>measure_id})
         end
-      end
-
-      # Compute the specified measure
-      # @param [String] measure_id value of the measure's id field
-      # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
-      # @param [Hash] parameter_values a hash of the measure parameter values. Keys may be either a String or Symbol
-      # @return [Hash] a hash of the measure result with Symbol keys: population, denominator, numerator, antinumerator and exclusions whose 
-      #                values are the count of patient records that meet the criteria for each component of the measure.
-      def measure_result(measure_id, sub_id, parameter_values)
-        result = cached_result(measure_id, sub_id, parameter_values)
-        
-        unless result
-          result = generate_cache(measure_id, sub_id, parameter_values)
-        end
-        
-        result
       end
       
       # Return a list of the measures in the database
@@ -49,26 +40,16 @@ module QME
         result
       end
 
-      private
-
-      def generate_cache(measure_id, sub_id, parameter_values)
-        cache_measure_patients(measure_id, sub_id, parameter_values)
-        cache_measure_result(measure_id, sub_id, parameter_values)
-      end
-
-      def cached_result(measure_id, sub_id, parameter_values)
-        cache = get_db.collection("query_cache")
-        query = {:measure_id => measure_id, :sub_id => sub_id, 
-                 :effective_date => parameter_values['effective_date']}
-        cache.find_one(query)
-      end
-
-      def cache_measure_result(measure_id, sub_id, parameter_values)
+      # Examines the patient_cache collection and generates a total of all groups
+      # for the measure. The totals are placed in a document in the query_cache
+      # collection.
+      # @return [Hash] measure groups (like numerator) as keys, counts as values
+      def count_records_in_measure_groups
         patient_cache = get_db.collection('patient_cache')
-        query = {'value.measure_id' => measure_id, 'value.sub_id' => sub_id, 
-                 'value.effective_date' => parameter_values['effective_date']}
-        result = {:measure_id => measure_id, :sub_id => sub_id, 
-                  :effective_date => parameter_values['effective_date']}
+        query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
+                 'value.effective_date' => @parameter_values['effective_date']}
+        result = {:measure_id => @measure_id, :sub_id => @sub_id, 
+                  :effective_date => @parameter_values['effective_date']}
         
         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
@@ -76,24 +57,20 @@ module QME
           end
         end
         
-        @db.collection("query_cache").save(result)
+        get_db.collection("query_cache").save(result)
         
         result
       end
 
-      # Private method to cache the patient record for a particular measure and effective time.
-      # This also caches whether they are part of the denominator, numerator, etc. which will be used for sorting.
-      # @param [String] measure_id value of the measure's id field
-      # @param [String] sub_id value of the measure's sub_id field, may be nil for measures with only a single numerator and denominator
-      # @param [Hash] parameter_values a hash of the measure parameter values. Keys may be either a String or Symbol
-      def cache_measure_patients(measure_id, sub_id, parameter_values)
-        patient_cache = get_db.collection('patient_cache')
-        patient_cache.remove(:measure_id => measure_id, :sub_id => sub_id, 
-                             :effective_date => parameter_values['effective_date'])
-        
-        measure = Builder.new(get_db, measure_def(measure_id, sub_id), parameter_values)
+      # This method runs the MapReduce job for the measure which will create documents
+      # in the patient_cache collection. These documents will state the measure groups
+      # that the record belongs to, such as numerator, etc.
+      def map_records_into_measure_groups
+        measure = Builder.new(get_db, measure_def(@measure_id, @sub_id), @parameter_values)
         records = get_db.collection('records')
-        records.map_reduce(measure.map_function, "function(key, values){return values;}", :out => {:reduce => 'patient_cache'}, :finalize => measure.finalize_function)
+        records.map_reduce(measure.map_function, "function(key, values){return values;}",
+                           :out => {:reduce => 'patient_cache'}, 
+                           :finalize => measure.finalize_function)
       end
     end
   end

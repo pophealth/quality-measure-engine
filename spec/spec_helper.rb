@@ -11,10 +11,10 @@ require PROJECT_ROOT + 'lib/quality-measure-engine'
 
 
 Bundler.require(:test)
-
+ENV['DB_NAME'] = 'test'
 
 def load_bundle(bundle_dir = '.')
-  loader = QME::Database::Loader.new('test')
+  loader = QME::Database::Loader.new
   measures = Dir.glob('measures/*')
   loader.drop_collection('bundles')
   loader.drop_collection('measures')
@@ -23,7 +23,7 @@ def load_bundle(bundle_dir = '.')
 end
 
 def load_measures
-  loader = QME::Database::Loader.new('test')
+  loader = QME::Database::Loader.new
   measure_dir = ENV['MEASURE_DIR'] || 'measures'
   measures = Dir.glob(File.join(measure_dir,'*'))
   loader.drop_collection('measures')
@@ -35,7 +35,7 @@ def load_measures
 end
 
 def measure_definition(loader, measure_id, sub_id=nil)
-  map = QME::MapReduce::Executor.new(loader.get_db)
+  map = QME::MapReduce::Executor.new
   map.measure_def(measure_id, sub_id)
 end
 
@@ -73,13 +73,13 @@ def validate_measures(measure_dirs, loader)
       expected = JSON.parse(File.read(result_file))
       
       # evaulate measure using Map/Reduce and validate results
-      executor = QME::MapReduce::Executor.new()
-      executor.inject_db(loader.get_db)
       measures.each do |measure|
         measure_id = measure['id']
         sub_id = measure['sub_id']
         puts "Validating measure #{measure_id}#{sub_id}"
-        result = executor.measure_result(measure_id, sub_id,'effective_date'=>Time.gm(2010, 9, 19).to_i)
+        executor = QME::MapReduce::Executor.new(measure_id, sub_id,'effective_date'=>Time.gm(2010, 9, 19).to_i)
+        executor.map_records_into_measure_groups
+        result = executor.count_records_in_measure_groups
         if expected['initialPopulation'] == nil
           # multiple results for multi numerator/denominator measure
           # loop through list of results to find the matching one
