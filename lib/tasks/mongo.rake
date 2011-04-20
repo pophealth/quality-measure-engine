@@ -66,7 +66,7 @@ namespace :mongo do
     map = QME::MapReduce::Executor.new(db)
     map.all_measures.each_value do |measure_def|
       result = map.measure_result(measure_def['id'], measure_def['sub_id'], "effective_date"=>Time.gm(year, month, day).to_i)
-      puts "#{measure_def['id']}#{measure_def['sub_id']}: p#{result[:population]}, d#{result[:denominator]}, n#{result[:numerator]}, e#{result[:exclusions]}"
+      puts "#{measure_def['id']}#{measure_def['sub_id']}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, e#{result['exclusions']}"
     end
   end
   
