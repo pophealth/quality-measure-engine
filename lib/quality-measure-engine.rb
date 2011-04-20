@@ -8,6 +8,8 @@ require_relative 'qme/map/map_reduce_builder'
 require_relative 'qme/map/map_reduce_executor'
 require_relative 'qme/map/measure_calculation_job'
 
+require_relative 'qme/quality_report'
+
 require_relative 'qme/randomizer/patient_randomizer'
 
 require 'singleton'
