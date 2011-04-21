@@ -95,15 +95,24 @@ module QME
       # Load the measure properties from an external file, converting from JSONified XLS if
       # necessary
       def self.get_measure_properties(measure)
-        measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
-        measure_props = JSON.parse(File.read(measure_props_file))
-        if measure_props['measure']
-          # copy measure properties over
-          measure_props['measure']
-        else
-          # convert JSONified XLS to properties format and add to measure
-          QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
+        merged_props = {}
+        # normalize field value to be an array of file names
+        if !(measure['properties'].respond_to?(:each))
+          measure['properties'] = [measure['properties']]
         end
+        measure['properties'].each do |file|
+          measure_props_file = File.join(ENV['MEASURE_PROPS'], file)
+          measure_props = JSON.parse(File.read(measure_props_file))
+          if measure_props['measure']
+            # copy measure properties over
+            merged_props.merge!(measure_props['measure'])
+          else
+            # convert JSONified XLS to properties format and add to measure
+            converted_props = QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
+            merged_props.merge!(converted_props)
+          end
+        end
+        merged_props
       end
       
       # Load a JSON file from the specified directory
