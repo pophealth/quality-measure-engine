@@ -24,9 +24,8 @@ namespace :patient do
       return
     end
     
-    map = QME::MapReduce::Executor.new(loader.get_db)
     processed_measures = {}
-    map.all_measures.each_value do |measure_def|
+    QME::QualityMeasure.all.each_value do |measure_def|
       measure_id = measure_def['id']
       if !processed_measures[measure_id]
         QME::Importer::PatientImporter.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))

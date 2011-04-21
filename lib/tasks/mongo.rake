@@ -64,9 +64,8 @@ namespace :mongo do
     year = args.year.to_i>0 ? args.year.to_i : 2010
     month = args.month.to_i>0 ? args.month.to_i : 9
     day = args.day.to_i>0 ? args.day.to_i : 19
-    map = QME::MapReduce::Executor.new(db)
-    map.all_measures.each_value do |measure_def|
-      Resque.enqueue(QME::MapReduce::BackgroundWorker, measure_def['id'], measure_def['sub_id'], Time.gm(year, month, day).to_i, db_name)
+    QME::QualityMeasure.all.each_value do |measure_def|
+      QME::MapReduce::MeasureCalculationJob.create(:measure_id => measure_def['id'], :sub_id => measure_def['sub_id'], :effective_date => Time.gm(year, month, day).to_i)
     end
   end
   

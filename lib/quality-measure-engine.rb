@@ -3,6 +3,7 @@ Bundler.require(:default)
 require 'resque/job_with_status'
 
 require_relative 'qme/database_access'
+require_relative 'qme/quality_measure'
 
 require_relative 'qme/map/map_reduce_builder'
 require_relative 'qme/map/map_reduce_executor'
