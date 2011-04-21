@@ -25,4 +25,11 @@ describe QME::QualityReport do
     
     result['numerator'].should == 1
   end
+  
+  it "should be able to clear all of the quality reports" do
+    QME::QualityReport.destroy_all
+    
+    qr = QME::QualityReport.new('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
+    qr.calculated?.should be_false
+  end
 end

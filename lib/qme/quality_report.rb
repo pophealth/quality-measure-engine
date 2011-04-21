@@ -6,6 +6,13 @@ module QME
     extend DatabaseAccess
     determine_connection_information
 
+    # Gets rid of all calculated QualityReports by dropping the patient_cache
+    # and query_cache collections
+    def self.destroy_all
+      get_db.collection("query_cache").drop
+      get_db.collection("patient_cache").drop
+    end
+
     # Creates a new QualityReport
     # @param [String] measure_id value of the measure's id field
     # @param [String] sub_id value of the measure's sub_id field, may be nil 
