@@ -6,7 +6,7 @@ module QME
     # and TEST_DB_PORT which default to localhost and 27017 respectively.
     # @param [String] db_name the name of the database to use
     def determine_connection_information(db_name = nil)
-      @db_name = ENV['DB_NAME'] || db_name
+      @db_name = ENV['DB_NAME'] || db_name || 'test'
       @db_host = ENV['TEST_DB_HOST'] || 'localhost'
       @db_port = ENV['TEST_DB_PORT'] ? ENV['TEST_DB_PORT'].to_i : 27017
     end
