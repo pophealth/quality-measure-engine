@@ -34,12 +34,6 @@ def load_measures
   loader
 end
 
-def measure_definition(loader, measure_id, sub_id=nil)
-  map = QME::MapReduce::Executor.new
-  map.measure_def(measure_id, sub_id)
-end
-
-
 def validate_measures(measure_dirs, loader)
   
    measure_dirs.each do |dir|
