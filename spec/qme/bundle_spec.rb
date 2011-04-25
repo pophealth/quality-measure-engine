@@ -1,5 +1,10 @@
 describe QME::MapReduce::Executor do
- bundle_dir = File.join(File.dirname(__FILE__),'../../fixtures/bundle')
+
+  before :all do
+    @bundle_dir = File.join(File.dirname(__FILE__),'../../fixtures/bundle')
+    @measure_dir = 'measures'
+  end
+
   before do
     @loader = QME::Database::Loader.new('test')
     @loader.get_db.drop_collection('measures')
@@ -7,7 +12,7 @@ describe QME::MapReduce::Executor do
   end
   
   it 'Should be able to load a bundle' do
-    bundle = @loader.save_bundle(bundle_dir, 'bundles')
+    bundle = @loader.save_bundle(@bundle_dir, @measure_dir)
     bundle[:measures].length.should == 1
     bundle[:bundle_data][:extensions].length.should == 1
     bundle[:bundle_data]['name'].should == "test_bundle"
@@ -17,7 +22,7 @@ describe QME::MapReduce::Executor do
   
   
   it 'should be able to remove a bundle' do 
-    bundle = @loader.save_bundle(bundle_dir, 'bundles')
+    bundle = @loader.save_bundle(@bundle_dir, @measure_dir)
     bundle_measures_count = bundle[:measures].length
     @loader.get_db['bundles'].count.should == 1
     measures = @loader.get_db['measures'].count

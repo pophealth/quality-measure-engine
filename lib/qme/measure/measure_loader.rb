@@ -126,9 +126,9 @@ module QME
       
       
       #Load a bundle from a directory
-      #@param [String] bundel_path path to directory containing the bundle information
+      #@param [String] bundle_path path to directory containing the bundle information
       
-      def self.load_bundle(bundle_path)
+      def self.load_bundle(bundle_path, measure_dir)
         begin
           bundle = {};
           bundle_file = File.join(bundle_path,'bundle.js')
@@ -136,7 +136,7 @@ module QME
           bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
           bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
           bundle[:measures] = []
-          Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
+          Dir.glob(File.join(bundle_path, measure_dir, '*')).each do |measure_dir|
             load_measure(measure_dir).each do |measure|
               bundle[:measures] << measure
             end
@@ -168,15 +168,15 @@ module QME
       
       
       def self.load_from_zip(archive)
-            unzip_path = "./tmp/#{Time.new.to_i}/" 
-            FileUtils.mkdir_p(unzip_path)
-            all_measures = []
-            Zip::ZipFile.foreach(archive) do |zipfile|
-              fname = unzip_path+ zipfile.name
-              FileUtils.rm fname, :force=>true
-              zipfile.extract(fname)
-            end
-           load_bundle(unzip_path)
+        unzip_path = "./tmp/#{Time.new.to_i}/" 
+        FileUtils.mkdir_p(unzip_path)
+        all_measures = []
+        Zip::ZipFile.foreach(archive) do |zipfile|
+          fname = unzip_path+ zipfile.name
+          FileUtils.rm fname, :force=>true
+          zipfile.extract(fname)
+        end
+        load_bundle(unzip_path)
       end
     end
   end

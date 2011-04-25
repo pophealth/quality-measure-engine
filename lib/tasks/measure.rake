@@ -41,37 +41,37 @@ namespace :measures do
   end
   
   
-  desc "bundle measures into a compressed file for deployment"
-  task :bundle do
-  
-    puts "Loading measures from #{measures_dir}"
-    md = File.join(bundle_dir,measures_dir)
-    js = File.join(bundle_dir,'js')
-    bf = File.join(bundle_dir,'bundle.js')
-    
-    tmp = './tmp'
-    bundle_tmp = File.join(tmp,'bundle')
-    
-    md.sub!(%r[/$],'')
-    FileUtils.rm bundle_tmp, :force=>true
-    FileUtils.mkdir_p(bundle_tmp)
-    archive = File.join(tmp,'bundle.zip')
-    FileUtils.rm archive, :force=>true
-    
-    Zip::ZipFile.open(archive, 'w') do |zipfile|
-      Dir["#{md}/**/**"].reject{|f|f==archive}.each do |file|
-        zipfile.add(file.sub(bundle_dir,''),file)
-      end
-          
-      Dir["#{js}/**/**"].reject{|f|f==archive}.each do |file|
-        zipfile.add(file.sub(bundle_dir,''),file)
-      end
-      
-      if File.exists?(bf)
-        zipfile.add(bf.sub(bundle_dir,''),bf)
-      end
-    end
-  end
+#   desc "bundle measures into a compressed file for deployment"
+#   task :bundle do
+#   
+#     puts "Loading measures from #{measures_dir}"
+#     md = File.join(bundle_dir,measures_dir)
+#     js = File.join(bundle_dir,'js')
+#     bf = File.join(bundle_dir,'bundle.js')
+#     
+#     tmp = './tmp'
+#     bundle_tmp = File.join(tmp,'bundle')
+#     
+#     md.sub!(%r[/$],'')
+#     FileUtils.rm bundle_tmp, :force=>true
+#     FileUtils.mkdir_p(bundle_tmp)
+#     archive = File.join(tmp,'bundle.zip')
+#     FileUtils.rm archive, :force=>true
+#     
+#     Zip::ZipFile.open(archive, 'w') do |zipfile|
+#       Dir["#{md}/**/**"].reject{|f|f==archive}.each do |file|
+#         zipfile.add(file.sub(bundle_dir,''),file)
+#       end
+#           
+#       Dir["#{js}/**/**"].reject{|f|f==archive}.each do |file|
+#         zipfile.add(file.sub(bundle_dir,''),file)
+#       end
+#       
+#       if File.exists?(bf)
+#         zipfile.add(bf.sub(bundle_dir,''),bf)
+#       end
+#     end
+#   end
   
   desc "convert NQF Excel spreadsheets to JSON"
   task :convert do

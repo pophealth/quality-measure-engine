@@ -25,20 +25,9 @@ namespace :mongo do
   end
 
   desc 'Remove the measures and bundles collection'
-  task :drop_bundle => :drop_measures  do
+  task :drop_bundle do
     loader.drop_collection('bundles')
-  end
-  
-  desc 'Remove the measures collection'
-  task :drop_measures => :drop_cache do
     loader.drop_collection('measures')
-  end
-  
-  desc 'Remove all measures and reload'
-  task :reload_measures => :drop_measures do
-    Dir.glob(File.join(measures_dir, '*')).each do |measure_dir|
-      loader.save_measure(measure_dir, 'measures')
-    end
   end
   
   desc 'Remove all patient records and reload'
@@ -48,11 +37,11 @@ namespace :mongo do
 
   desc 'Remove all patient records and reload'
   task :reload_bundle => [:drop_bundle] do
-   loader.save_bundle(bundle_dir,'bundles')
+   loader.save_bundle(bundle_dir, measures_dir)
   end
   
   desc 'Clear database and road each measure and its sample patient files'
-  task :reload => [:reload_records, :reload_measures]
+  task :reload => [:reload_records, :reload_bundle]
   
   desc 'Seed the query cache by calculating the results for all measures'
   task :seed_cache, [:year, :month, :day] do |t, args|

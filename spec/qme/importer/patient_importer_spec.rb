@@ -1,7 +1,7 @@
 describe QME::Importer::PatientImporter do
 
   before do
-    @loader = load_measures
+    @loader = reload_bundle
   end
 
   it "should import demographic information" do
