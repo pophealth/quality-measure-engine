@@ -36,15 +36,13 @@ def validate_measures(measure_dirs, loader)
 
     puts "Parsing #{dir}"
 
-#     loader.drop_collection('bundles')
-#     loader.drop_collection('measures')
     loader.drop_collection('records')
     loader.drop_collection('query_cache')
     loader.drop_collection('patient_cache')
     
-    # load db with measure
+    # load measure from file system
+    # this is innefficient, could just load it from DB as its already stored there
     measures = QME::Measure::Loader.load_measure(dir)
-#     measures = loader.save_measure(dir, 'measures')
     
     # load db with sample patient records
     patient_files.each do |patient_file|
