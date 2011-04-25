@@ -155,6 +155,10 @@ module QME
       #@param [String] bundle_path the path to the bundle directory
       def self.load_bundle_extensions(bundle_path)
         extensions = []
+        Dir.glob(File.join(File.dirname(__FILE__), '../../..', 'js', '*.js')).each do |js_file|
+          raw_js = File.read(js_file)
+           extensions << raw_js
+        end
         Dir.glob(File.join(bundle_path, 'js', '*.js')).each do |js_file|
           raw_js = File.read(js_file)
            extensions << raw_js

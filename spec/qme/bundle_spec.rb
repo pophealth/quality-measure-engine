@@ -14,7 +14,7 @@ describe QME::MapReduce::Executor do
   it 'Should be able to load a bundle' do
     bundle = @loader.save_bundle(@bundle_dir, @measure_dir)
     bundle[:measures].length.should == 1
-    bundle[:bundle_data][:extensions].length.should == 1
+    bundle[:bundle_data][:extensions].length.should == 3
     bundle[:bundle_data]['name'].should == "test_bundle"
     @loader.get_db['bundles'].count.should == 1
     @loader.get_db['bundles'].find_one['name'].should == 'test_bundle'
