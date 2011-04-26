@@ -10,6 +10,7 @@ require File.join(path,'../quality-measure-engine')
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 bundle_dir = ENV['BUNDLE_DIR'] || './'
 xls_dir = ENV['XLS_DIR'] || 'xls'
+db_name = ENV['DB_NAME'] || 'test'
 
 namespace :measures do
   
@@ -32,46 +33,46 @@ namespace :measures do
     end
   end
   
-  
-  
   desc "run the map_test tool"
   task :map_tool do
     puts "Loading measures from #{measures_dir}"
     require File.join(path,"../../map_test/map_test.rb")
   end
   
-  
-#   desc "bundle measures into a compressed file for deployment"
-#   task :bundle do
-#   
-#     puts "Loading measures from #{measures_dir}"
-#     md = File.join(bundle_dir,measures_dir)
-#     js = File.join(bundle_dir,'js')
-#     bf = File.join(bundle_dir,'bundle.js')
-#     
-#     tmp = './tmp'
-#     bundle_tmp = File.join(tmp,'bundle')
-#     
-#     md.sub!(%r[/$],'')
-#     FileUtils.rm bundle_tmp, :force=>true
-#     FileUtils.mkdir_p(bundle_tmp)
-#     archive = File.join(tmp,'bundle.zip')
-#     FileUtils.rm archive, :force=>true
-#     
-#     Zip::ZipFile.open(archive, 'w') do |zipfile|
-#       Dir["#{md}/**/**"].reject{|f|f==archive}.each do |file|
-#         zipfile.add(file.sub(bundle_dir,''),file)
-#       end
-#           
-#       Dir["#{js}/**/**"].reject{|f|f==archive}.each do |file|
-#         zipfile.add(file.sub(bundle_dir,''),file)
-#       end
-#       
-#       if File.exists?(bf)
-#         zipfile.add(bf.sub(bundle_dir,''),bf)
-#       end
-#     end
-#   end
+  desc 'Take a snapshot of the current measures and bundles collections and store as a ZIP file'
+  task :snapshot do
+    tmp = File.join('.', 'tmp')
+    dest_dir = File.join(tmp, 'bundle')
+    FileUtils.rm_r dest_dir, :force=>true
+    FileUtils.mkdir_p(dest_dir)
+    system("mongodump --db #{db_name} --collection bundles --out - > #{dest_dir}/bundles.bson")
+    system("mongodump --db #{db_name} --collection measures --out - > #{dest_dir}/measures.bson")
+    read_me = <<EOF
+Load the included files into Mongo as follows:
+
+mongorestore --db dbname --drop measures.bson
+mongorestore --db dbname --drop bundles.bson
+
+Where dbname is the name of the database you want to load the measures into. For a
+production system this will typically be pophealth-production. For a development
+system it will typically be pophealth-development.
+
+Note that the existing contents of the destination database's measures and bundles
+collections will be lost.
+EOF
+    File.open(File.join(dest_dir, 'README.txt'), 'w') {|f| f.write(read_me) }
+    
+    archive = File.join(tmp, 'bundle.zip')
+    puts "Snapshot saved to #{archive}"
+    FileUtils.rm archive, :force=>true
+    
+    Zip::ZipFile.open(archive, 'w') do |zipfile|
+      Dir["#{dest_dir}/*"].each do |file|
+        zipfile.add(File.basename(file),file)
+      end
+    end    
+    FileUtils.rm_r dest_dir, :force=>true
+  end
   
   desc "convert NQF Excel spreadsheets to JSON"
   task :convert do

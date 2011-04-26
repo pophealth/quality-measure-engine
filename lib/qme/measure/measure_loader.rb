@@ -170,18 +170,6 @@ module QME
         extensions
       end
       
-      
-      def self.load_from_zip(archive)
-        unzip_path = "./tmp/#{Time.new.to_i}/" 
-        FileUtils.mkdir_p(unzip_path)
-        all_measures = []
-        Zip::ZipFile.foreach(archive) do |zipfile|
-          fname = unzip_path+ zipfile.name
-          FileUtils.rm fname, :force=>true
-          zipfile.extract(fname)
-        end
-        load_bundle(unzip_path)
-      end
     end
   end
 end
