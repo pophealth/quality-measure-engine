@@ -33,8 +33,7 @@ module QME
           result << "\n"
           @db['bundles'].find.each do |bundle|
             (bundle['extensions'] || []).each do |ext|
-              result << ext
-              result << "\n"
+              result << "#{ext}();\n"
             end
           end
           result << "}\n"

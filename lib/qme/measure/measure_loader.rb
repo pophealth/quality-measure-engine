@@ -126,15 +126,15 @@ module QME
       
       
       #Load a bundle from a directory
-      #@param [String] bundle_path path to directory containing the bundle information
-      
+      # @param [String] bundle_path path to directory containing the bundle information
       def self.load_bundle(bundle_path, measure_dir)
         begin
           bundle = {};
           bundle_file = File.join(bundle_path,'bundle.js')
           
           bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
-          bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
+          bundle[:extensions] = load_bundle_extensions(bundle_path)
+          bundle[:bundle_data][:extensions] = bundle[:extensions].keys
           bundle[:measures] = []
           Dir.glob(File.join(bundle_path, measure_dir, '*')).each do |measure_dir|
             load_measure(measure_dir).each do |measure|
@@ -152,21 +152,18 @@ module QME
       # Load all of the extenson functions that will be available to map reduce functions from the bundle dir
       # This will load from bundle_path/js and from ext directories in the individule measures directories 
       # like bundle_path/measures/0001/ext/ 
-      #@param [String] bundle_path the path to the bundle directory
+      # @param [String] bundle_path the path to the bundle directory
+      # @return [Hash] name, function
       def self.load_bundle_extensions(bundle_path)
-        extensions = []
-        Dir.glob(File.join(File.dirname(__FILE__), '../../..', 'js', '*.js')).each do |js_file|
+        extensions = {}
+        process_extension = lambda do |js_file|
+          fn_name = File.basename(js_file, ".js")
           raw_js = File.read(js_file)
-           extensions << raw_js
+          extensions[fn_name] = raw_js
         end
-        Dir.glob(File.join(bundle_path, 'js', '*.js')).each do |js_file|
-          raw_js = File.read(js_file)
-           extensions << raw_js
-        end
-        Dir.glob(File.join(bundle_path, 'measures', '*','ext', '*.js')).each do |js_file|
-          raw_js = File.read(js_file)
-          extensions << raw_js
-        end
+        Dir.glob(File.join(File.dirname(__FILE__), '../../..', 'js', '*.js')).each &process_extension
+        Dir.glob(File.join(bundle_path, 'js', '*.js')).each &process_extension
+        Dir.glob(File.join(bundle_path, 'measures', '*','ext', '*.js')).each &process_extension
         extensions
       end
       

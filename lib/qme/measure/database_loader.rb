@@ -38,9 +38,17 @@ module QME
         get_db.drop_collection(collection_name)
       end
       
+      def save_system_js_fn(name, fn)
+        get_db['system.js'].save(
+          {
+            "_id" => name,
+            "value" => BSON::Code.new(fn)
+          }
+        )
+      end
       
       # Save a bundle to the db,  this will save the bundle meta data, javascript extension functions and measures to 
-      # the db in their respective loacations
+      # the db in their respective locations
       # @param [String] bundle_dir the bundle directory
       # @param [String] bundle_collection the collection to save the bundle meta_data and extension functions to
       # @param [String] measure_collection the collection to save the measures to, defaults to measures
@@ -55,8 +63,8 @@ module QME
            bundle[:bundle_data][:measures] << m_id
         end
         save(bundle_collection,bundle[:bundle_data])
-        bundle[:bundle_data][:extensions].each do |ext|
-          get_db.eval(ext)
+        bundle[:extensions].each do |name, fn|
+          save_system_js_fn(name, fn)
         end
         bundle
       end

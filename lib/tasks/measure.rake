@@ -39,26 +39,28 @@ namespace :measures do
     require File.join(path,"../../map_test/map_test.rb")
   end
   
-  desc 'Take a snapshot of the current measures and bundles collections and store as a ZIP file'
+  desc 'Take a snapshot of the current measures, system.js and bundles collections and store as a ZIP file'
   task :snapshot do
     tmp = File.join('.', 'tmp')
     dest_dir = File.join(tmp, 'bundle')
     FileUtils.rm_r dest_dir, :force=>true
     FileUtils.mkdir_p(dest_dir)
     system("mongodump --db #{db_name} --collection bundles --out - > #{dest_dir}/bundles.bson")
+    system("mongodump --db #{db_name} --collection system.js --out - > #{dest_dir}/system.js.bson")
     system("mongodump --db #{db_name} --collection measures --out - > #{dest_dir}/measures.bson")
     read_me = <<EOF
 Load the included files into Mongo as follows:
 
 mongorestore --db dbname --drop measures.bson
 mongorestore --db dbname --drop bundles.bson
+mongorestore --db dbname --drop system.js.bson
 
 Where dbname is the name of the database you want to load the measures into. For a
 production system this will typically be pophealth-production. For a development
 system it will typically be pophealth-development.
 
-Note that the existing contents of the destination database's measures and bundles
-collections will be lost.
+Note that the existing contents of the destination database's measures, system.js and
+bundles collections will be lost.
 EOF
     File.open(File.join(dest_dir, 'README.txt'), 'w') {|f| f.write(read_me) }
     
