@@ -44,8 +44,8 @@ module QME
       # @param [String] bundle_dir the bundle directory
       # @param [String] bundle_collection the collection to save the bundle meta_data and extension functions to
       # @param [String] measure_collection the collection to save the measures to, defaults to measures
-      def save_bundle(bundle_dir,bundle_collection, measure_collection = 'measures')
-        bundle = QME::Measure::Loader.load_bundle(bundle_dir)
+      def save_bundle(bundle_dir, measure_dir, bundle_collection='bundles', measure_collection = 'measures')
+        bundle = QME::Measure::Loader.load_bundle(bundle_dir, measure_dir)
         bundle[:bundle_data][:measures] = []
         b_id = save(bundle_collection,bundle[:bundle_data])
         measures = bundle[:measures]

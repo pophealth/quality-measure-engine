@@ -25,20 +25,9 @@ namespace :mongo do
   end
 
   desc 'Remove the measures and bundles collection'
-  task :drop_bundle => :drop_measures  do
+  task :drop_bundle do
     loader.drop_collection('bundles')
-  end
-  
-  desc 'Remove the measures collection'
-  task :drop_measures => :drop_cache do
     loader.drop_collection('measures')
-  end
-  
-  desc 'Remove all measures and reload'
-  task :reload_measures => :drop_measures do
-    Dir.glob(File.join(measures_dir, '*')).each do |measure_dir|
-      loader.save_measure(measure_dir, 'measures')
-    end
   end
   
   desc 'Remove all patient records and reload'
@@ -48,11 +37,11 @@ namespace :mongo do
 
   desc 'Remove all patient records and reload'
   task :reload_bundle => [:drop_bundle] do
-   loader.save_bundle(bundle_dir,'bundles')
+   loader.save_bundle(bundle_dir, measures_dir)
   end
   
   desc 'Clear database and road each measure and its sample patient files'
-  task :reload => [:reload_records, :reload_measures]
+  task :reload => [:reload_records, :reload_bundle]
   
   desc 'Seed the query cache by calculating the results for all measures'
   task :seed_cache, [:year, :month, :day] do |t, args|
@@ -67,21 +56,6 @@ namespace :mongo do
     QME::QualityMeasure.all.each_value do |measure_def|
       QME::MapReduce::MeasureCalculationJob.create(:measure_id => measure_def['id'], :sub_id => measure_def['sub_id'], :effective_date => Time.gm(year, month, day).to_i)
     end
-  end
-  
-  desc 'Dump measures and bundles collections'
-  task :dump_bundle => [:reload_bundle] do
-    dest_dir = File.join('.', 'tmp')
-    Dir.mkdir(dest_dir) if !Dir.exist?(dest_dir)
-    puts "Dumping bundle to #{dest_dir}"
-    system("mongodump --db #{db_name} --collection bundles --out - > #{dest_dir}/bundles.bson")
-    system("mongodump --db #{db_name} --collection measures --out - > #{dest_dir}/measures.bson")
-    read_me = <<EOF
-Load the included files into Mongo as follows:
-mongorestore --db pophealth-production --drop measures.bson
-mongorestore --db pophealth-production --drop bundles.bson
-EOF
-    File.open(File.join(dest_dir, 'README.txt'), 'w') {|f| f.write(read_me) }
   end
   
   def load_files(loader, file_pattern, collection_name)

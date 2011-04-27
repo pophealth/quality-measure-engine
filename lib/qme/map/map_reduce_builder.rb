@@ -31,14 +31,6 @@ module QME
           result = ''
           result << 'if (typeof(map)=="undefined") {'
           result << "\n"
-          Dir.glob(File.join(File.dirname(__FILE__), '../../../js/*.js')).each do |js_file|
-            result << File.read(js_file)
-            result << "\n"
-          end
-          Dir.glob(File.join('./js/*.js')).each do |js_file|
-            result << File.read(js_file)
-            result << "\n"
-          end
           @db['bundles'].find.each do |bundle|
             (bundle['extensions'] || []).each do |ext|
               result << ext
