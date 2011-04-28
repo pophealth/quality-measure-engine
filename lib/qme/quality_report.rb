@@ -9,6 +9,7 @@ module QME
     # Gets rid of all calculated QualityReports by dropping the patient_cache
     # and query_cache collections
     def self.destroy_all
+      determine_connection_information
       get_db.collection("query_cache").drop
       get_db.collection("patient_cache").drop
     end
