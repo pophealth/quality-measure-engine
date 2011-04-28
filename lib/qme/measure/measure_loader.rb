@@ -131,8 +131,10 @@ module QME
         begin
           bundle = {};
           bundle_file = File.join(bundle_path,'bundle.js')
+          license_file = File.join(bundle_path, 'license.html')
           
           bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
+          bundle[:bundle_data][:license] = File.exists?(license_file) ? File.read(license_file) : ""
           bundle[:extensions] = load_bundle_extensions(bundle_path)
           bundle[:bundle_data][:extensions] = bundle[:extensions].keys
           bundle[:measures] = []
