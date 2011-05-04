@@ -130,7 +130,7 @@ module QME
       def self.load_bundle(bundle_path, measure_dir)
         begin
           bundle = {};
-          bundle_file = File.join(bundle_path,'bundle.js')
+          bundle_file = File.join(bundle_path,'bundle.json')
           license_file = File.join(bundle_path, 'license.html')
           
           bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
