@@ -4,11 +4,11 @@ describe QME::Importer::HL7Helper do
     ts = QME::Importer::HL7Helper.timestamp_to_integer('20100821')
     ts.should == Time.gm(2010, 8, 21).to_i
   end
-  
+
   it "should return nil when passed nil" do
     QME::Importer::HL7Helper.timestamp_to_integer(nil).should be_nil
   end
-  
+
   it "should handle just month and year" do
     ts = QME::Importer::HL7Helper.timestamp_to_integer('201008')
     ts.should == Time.gm(2010, 8).to_i

@@ -1,28 +1,32 @@
 Bundler.require(:default)
 
-LIB = File.dirname(__FILE__)
+require 'resque/job_with_status'
 
-require LIB + '/qme/map/map_reduce_builder'
-require LIB + '/qme/map/map_reduce_executor'
+require_relative 'qme/database_access'
+require_relative 'qme/quality_measure'
 
-require LIB + '/qme/randomizer/patient_randomizer'
+require_relative 'qme/map/map_reduce_builder'
+require_relative 'qme/map/map_reduce_executor'
+require_relative 'qme/map/measure_calculation_job'
+
+require_relative 'qme/quality_report'
+
+require_relative 'qme/randomizer/patient_randomizer'
 
 require 'singleton'
 
-require LIB + '/qme/importer/entry'
-require LIB + '/qme/importer/property_matcher'
-require LIB + '/qme/importer/patient_importer'
-require LIB + '/qme/importer/code_system_helper'
-require LIB + '/qme/importer/hl7_helper'
+require_relative 'qme/importer/entry'
+require_relative 'qme/importer/property_matcher'
+require_relative 'qme/importer/patient_importer'
+require_relative 'qme/importer/code_system_helper'
+require_relative 'qme/importer/hl7_helper'
 
-require LIB + '/qme/importer/section_importer'
-require LIB + '/qme/importer/generic_importer'
-
-require LIB + '/qme/mongo_helpers'
+require_relative 'qme/importer/section_importer'
+require_relative 'qme/importer/generic_importer'
 
 require 'json'
 require 'mongo'
 require 'nokogiri'
 
-require LIB + '/qme/measure/measure_loader'
-require LIB + '/qme/measure/database_loader'
+require_relative 'qme/measure/measure_loader'
+require_relative 'qme/measure/database_loader'

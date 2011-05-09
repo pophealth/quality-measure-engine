@@ -71,8 +71,12 @@ namespace :fixtures do
     end
     
     Dir.glob(File.join(fixtures_dir,'*','result.json')) do |file|
-      @result = JSON.parse(File.read(file))
-      
+      result_json = JSON.parse(File.read(file))
+      if result_json["results"]
+        @results = result_json["results"]
+      else
+        @results = [result_json]
+      end
       html = result_erb.result(binding)
       
       result_path = Pathname.new(file)

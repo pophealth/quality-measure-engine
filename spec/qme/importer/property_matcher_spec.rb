@@ -105,7 +105,6 @@ describe QME::Importer::PropertyMatcher do
     end
   end
 
-  
   it "should be able to extract a date range property" do
     property_description = {
       "type" => "array",

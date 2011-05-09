@@ -43,11 +43,14 @@ module QME
         measure_file = File.join(component_dir, collection_def['root'])
         measures = []
         collection_def['combinations'].each do |combination|
+          combination['metadata'] ||= {}
+          if !combination['map_fn']
+            raise "Missing map function in #{collection_file} (sub_id #{combination['metadata']['sub_id']})"
+          end
           map_file = File.join(component_dir, combination['map_fn'])
           measure = load_measure_file(measure_file, map_file)
           
           # add inline metadata to top level of definition
-          combination['metadata'] ||= {}
           combination['metadata'].each do |key, value|
             measure[key] = value
           end
@@ -92,15 +95,24 @@ module QME
       # Load the measure properties from an external file, converting from JSONified XLS if
       # necessary
       def self.get_measure_properties(measure)
-        measure_props_file = File.join(ENV['MEASURE_PROPS'], measure['properties'])
-        measure_props = JSON.parse(File.read(measure_props_file))
-        if measure_props['measure']
-          # copy measure properties over
-          measure_props['measure']
-        else
-          # convert JSONified XLS to properties format and add to measure
-          QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
+        merged_props = {}
+        # normalize field value to be an array of file names
+        if !(measure['properties'].respond_to?(:each))
+          measure['properties'] = [measure['properties']]
         end
+        measure['properties'].each do |file|
+          measure_props_file = File.join(ENV['MEASURE_PROPS'], file)
+          measure_props = JSON.parse(File.read(measure_props_file))
+          if measure_props['measure']
+            # copy measure properties over
+            merged_props.merge!(measure_props['measure'])
+          else
+            # convert JSONified XLS to properties format and add to measure
+            converted_props = QME::Measure::PropertiesBuilder.build_properties(measure_props, measure_props_file)['measure']
+            merged_props.merge!(converted_props)
+          end
+        end
+        merged_props
       end
       
       # Load a JSON file from the specified directory
@@ -114,17 +126,19 @@ module QME
       
       
       #Load a bundle from a directory
-      #@param [String] bundel_path path to directory containing the bundle information
-      
-      def self.load_bundle(bundle_path)
+      # @param [String] bundle_path path to directory containing the bundle information
+      def self.load_bundle(bundle_path, measure_dir)
         begin
           bundle = {};
-          bundle_file = File.join(bundle_path,'bundle.js')
+          bundle_file = File.join(bundle_path,'bundle.json')
+          license_file = File.join(bundle_path, 'license.html')
           
           bundle[:bundle_data] =  File.exists?(bundle_file) ? JSON.parse(File.read(bundle_file)) : JSON.parse("{}")
-          bundle[:bundle_data][:extensions] = load_bundle_extensions(bundle_path)
+          bundle[:bundle_data][:license] = File.exists?(license_file) ? File.read(license_file) : ""
+          bundle[:extensions] = load_bundle_extensions(bundle_path)
+          bundle[:bundle_data][:extensions] = bundle[:extensions].keys
           bundle[:measures] = []
-          Dir.glob(File.join(bundle_path, 'measures', '*')).each do |measure_dir|
+          Dir.glob(File.join(bundle_path, measure_dir, '*')).each do |measure_dir|
             load_measure(measure_dir).each do |measure|
               bundle[:measures] << measure
             end
@@ -140,32 +154,21 @@ module QME
       # Load all of the extenson functions that will be available to map reduce functions from the bundle dir
       # This will load from bundle_path/js and from ext directories in the individule measures directories 
       # like bundle_path/measures/0001/ext/ 
-      #@param [String] bundle_path the path to the bundle directory
+      # @param [String] bundle_path the path to the bundle directory
+      # @return [Hash] name, function
       def self.load_bundle_extensions(bundle_path)
-        extensions = []
-        Dir.glob(File.join(bundle_path, 'js', '*.js')).each do |js_file|
+        extensions = {}
+        process_extension = lambda do |js_file|
+          fn_name = File.basename(js_file, ".js")
           raw_js = File.read(js_file)
-           extensions << raw_js
+          extensions[fn_name] = raw_js
         end
-        Dir.glob(File.join(bundle_path, 'measures', '*','ext', '*.js')).each do |js_file|
-          raw_js = File.read(js_file)
-          extensions << raw_js
-        end
+        Dir.glob(File.join(File.dirname(__FILE__), '../../..', 'js', '*.js')).each &process_extension
+        Dir.glob(File.join(bundle_path, 'js', '*.js')).each &process_extension
+        Dir.glob(File.join(bundle_path, 'measures', '*','ext', '*.js')).each &process_extension
         extensions
       end
       
-      
-      def self.load_from_zip(archive)
-            unzip_path = "./tmp/#{Time.new.to_i}/" 
-            FileUtils.mkdir_p(unzip_path)
-            all_measures = []
-            Zip::ZipFile.foreach(archive) do |zipfile|
-              fname = unzip_path+ zipfile.name
-              FileUtils.rm fname, :force=>true
-              zipfile.extract(fname)
-            end
-           load_bundle(unzip_path)
-      end
     end
   end
 end

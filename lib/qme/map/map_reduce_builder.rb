@@ -31,18 +31,9 @@ module QME
           result = ''
           result << 'if (typeof(map)=="undefined") {'
           result << "\n"
-          Dir.glob(File.join(File.dirname(__FILE__), '../../../js/*.js')).each do |js_file|
-            result << File.read(js_file)
-            result << "\n"
-          end
-          Dir.glob(File.join('./js/*.js')).each do |js_file|
-            result << File.read(js_file)
-            result << "\n"
-          end
           @db['bundles'].find.each do |bundle|
             (bundle['extensions'] || []).each do |ext|
-              result << ext
-              result << "\n"
+              result << "#{ext}();\n"
             end
           end
           result << "}\n"
@@ -89,8 +80,19 @@ module QME
       # wrapper for the reduce utility function specified in
       # map-reduce-utils.js
       # @return [String] the reduce function
-      def reduce_function
-        'function (key, values) { return reduce(key, values);};'
+      def finalize_function
+        reduce = 
+        "function (key, value) { 
+          var patient = value;
+          patient.measure_id = \"#{@measure_def['id']}\";\n"
+        if @measure_def['sub_id']
+          reduce += "  patient.sub_id = \"#{@measure_def['sub_id']}\";\n"
+        end
+          
+        reduce += "patient.effective_date = #{@params['effective_date']};
+                   return patient;}"
+        
+        reduce
       end
 
 
