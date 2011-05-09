@@ -78,10 +78,13 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_c32(doc)
-        patient_record = {}
         c32_patient = create_c32_hash(doc)
-        get_demographics(patient_record, doc)
-        process_events(patient_record, c32_patient)
+        get_demographics(c32_patient, doc)
+        process_events(c32_patient)
+
+        c32_patient.reject do |key, value|
+          key.respond_to?(:empty?) && key.empty?
+        end
       end
 
       # Parses a patient hash containing demongraphic and event information
@@ -101,10 +104,10 @@ module QME
         process_events(patient_record, event_hash)
       end
 
-      def process_events(patient_record, event_hash)
+      def process_events(patient_record)
         patient_record['measures'] = {}
         @measure_importers.each_pair do |measure_id, importer|
-          patient_record['measures'][measure_id] = importer.parse(event_hash)
+          patient_record['measures'][measure_id] = importer.parse(patient_record)
         end
         patient_record
       end
