@@ -116,7 +116,13 @@ module QME
         end
         
         entries.each_pair do |key, value|
-          patient_record[key] = value.map {|e| e.to_hash}
+          patient_record[key] = value.map do |e|
+            if e.usable?
+              e.to_hash
+            else
+              nil
+            end
+          end.compact
         end
         
         patient_record
