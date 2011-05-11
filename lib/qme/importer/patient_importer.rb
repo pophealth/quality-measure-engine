@@ -78,13 +78,10 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_c32(doc)
-        c32_patient = create_c32_hash(doc)
+        c32_patient = {}
+        entries = create_c32_hash(doc)
         get_demographics(c32_patient, doc)
-        process_events(c32_patient)
-
-        c32_patient.reject do |key, value|
-          key.respond_to?(:empty?) && key.empty?
-        end
+        process_events(c32_patient, entries)
       end
 
       # Parses a patient hash containing demongraphic and event information
@@ -104,11 +101,24 @@ module QME
         process_events(patient_record, event_hash)
       end
 
-      def process_events(patient_record)
+      # Adds the entries and denormalized measure information to the patient_record.
+      # Each Entry will be converted to a Hash and stored in an Array under the appropriate
+      # section key, such as medications. Measure information is listed under the measures
+      # key which has a Hash value. The Hash has the measure id as a key, and the denormalized
+      # measure information as a value
+      #
+      # @param patient_record - Hash with basic patient demographic information
+      # @entries - Hash of entries with section names a keys and an Array of Entry values
+      def process_events(patient_record, entries)
         patient_record['measures'] = {}
         @measure_importers.each_pair do |measure_id, importer|
-          patient_record['measures'][measure_id] = importer.parse(patient_record)
+          patient_record['measures'][measure_id] = importer.parse(entries)
         end
+        
+        entries.each_pair do |key, value|
+          patient_record[key] = value.map {|e| e.to_hash}
+        end
+        
         patient_record
       end
 

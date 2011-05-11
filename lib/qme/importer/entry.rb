@@ -10,11 +10,15 @@ module QME
         @value = {}
       end
 
-      def Entry.from_event_hash(event)
+      def self.from_event_hash(event)
         entry = Entry.new
-        entry.add_code(event['code'], event['code_set'])
+        if event['code']
+          entry.add_code(event['code'], event['code_set'])
+        end
         entry.time = event['time']
-        entry.set_value(event['value'], event['unit'])
+        if event['value']
+          entry.set_value(event['value'], event['unit'])
+        end
         entry
       end
 
@@ -73,6 +77,29 @@ module QME
       # @return [true, false]
       def usable?
         (! @codes.empty?) && ((! @start_time.nil?) || (! @end_time.nil?) || (! @time.nil?))
+      end
+      
+      # Creates a Hash for this Entry
+      # @return [Hash] a Hash representing the Entry
+      def to_hash
+        entry_hash = {}
+        entry_hash['codes'] = @codes
+        unless @value.empty?
+          entry_hash['value'] = @value
+        end
+        
+        if is_date_range?
+          entry_hash['start_time'] = @start_time
+          entry_hash['end_time'] = @end_time
+        else
+          entry_hash['time'] = as_point_in_time
+        end
+        
+        if @status
+          entry_hash['status'] = @status
+        end
+        
+        entry_hash
       end
     end
   end
