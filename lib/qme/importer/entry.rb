@@ -2,7 +2,7 @@ module QME
   module Importer
     # Object that represents a CDA Entry (or act, observation, etc.)
     class Entry
-      attr_accessor :start_time, :end_time, :time, :status
+      attr_accessor :start_time, :end_time, :time, :status, :description
       attr_reader :codes, :value
 
       def initialize
@@ -19,6 +19,10 @@ module QME
         if event['value']
           entry.set_value(event['value'], event['unit'])
         end
+        if event['description']
+          entry.description = event['description']
+        end
+        
         entry
       end
 
@@ -97,6 +101,10 @@ module QME
         
         if @status
           entry_hash['status'] = @status
+        end
+        
+        if @description
+          entry_hash['description'] = @description
         end
         
         entry_hash
