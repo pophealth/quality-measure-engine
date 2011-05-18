@@ -38,4 +38,14 @@ describe QME::Importer::Entry do
     entry.add_code("1245", "Junk")
     entry.is_in_code_set?(@measure_json['measure']['vaccination']['codes']).should be_false
   end
+  
+  it "should be able to convert itself to a Hash" do
+    entry = QME::Importer::Entry.new
+    entry.add_code("44556699", "RxNorm")
+    entry.time = 1270598400
+    
+    h = entry.to_hash
+    h['time'].should == 1270598400
+    h['codes']['RxNorm'].should include('44556699')
+  end
 end
