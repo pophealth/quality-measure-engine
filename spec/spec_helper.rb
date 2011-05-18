@@ -43,9 +43,13 @@ def validate_measures(measure_dirs, loader)
     # this is innefficient, could just load it from DB as its already stored there
     measures = QME::Measure::Loader.load_measure(dir)
     
+    # patients can include an optional test_id population identifier, extract this if present
+    test_id = nil
+    
     # load db with sample patient records
     patient_files.each do |patient_file|
       patient = JSON.parse(File.read(patient_file))
+      test_id ||= patient['test_id']
       loader.save('records', patient)
     end
       
@@ -58,7 +62,9 @@ def validate_measures(measure_dirs, loader)
       measure_id = measure['id']
       sub_id = measure['sub_id']
       puts "Validating measure #{measure_id}#{sub_id}"
-      executor = QME::MapReduce::Executor.new(measure_id, sub_id,'effective_date'=>Time.gm(2010, 9, 19).to_i)
+      executor = QME::MapReduce::Executor.new(measure_id, sub_id,
+        'effective_date'=>Time.gm(2010, 9, 19).to_i,
+        'test_id'=>test_id)
       executor.map_records_into_measure_groups
       result = executor.count_records_in_measure_groups
       if expected['initialPopulation'] == nil

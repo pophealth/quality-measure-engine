@@ -6,6 +6,10 @@ module QME
     class Executor
       include DatabaseAccess
       
+      # Create a new Executor for a specific measure, effective date and patient population.
+      # @param [String] measure_id the measure identifier
+      # @param [String] sub_id the measure sub-identifier or null if the measure is single numerator
+      # @param [Hash] parameter_values a hash that may contain the following keys: 'effective_date' the measurement period end date, 'test_id' an identifier for a specific set of patients
       def initialize(measure_id, sub_id, parameter_values)
         @measure_id = measure_id
         @sub_id = sub_id
@@ -20,9 +24,11 @@ module QME
       def count_records_in_measure_groups
         patient_cache = get_db.collection('patient_cache')
         query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
-                 'value.effective_date' => @parameter_values['effective_date']}
+                 'value.effective_date' => @parameter_values['effective_date'],
+                 'value.test_id' => @parameter_values['test_id']}
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
-                  :effective_date => @parameter_values['effective_date']}
+                  :effective_date => @parameter_values['effective_date'],
+                  :test_id => @parameter_values['test_id']}
         
         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
@@ -44,7 +50,8 @@ module QME
         records = get_db.collection('records')
         records.map_reduce(measure.map_function, "function(key, values){return values;}",
                            :out => {:reduce => 'patient_cache'}, 
-                           :finalize => measure.finalize_function)
+                           :finalize => measure.finalize_function,
+                           :query => {:test_id => @parameter_values['test_id']})
       end
     end
   end
