@@ -19,7 +19,7 @@ module QME
         if qr.calculated?
           completed("#{options['measure_id']}#{options['sub_id']} has already been calculated")
         else
-          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'])
+          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => options['test_id'])
           tick('Starting MapReduce')
           map.map_records_into_measure_groups
           tick('MapReduce complete')

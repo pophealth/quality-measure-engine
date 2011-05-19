@@ -12,7 +12,7 @@ namespace :patient do
 
   desc 'Generate n (default 10) random patient records and save them in the database'
   task :random, [:n] => ['mongo:drop_records'] do |t, args|
-    n = args.n.to_i>0 ? args.n.to_i : 1
+    n = args.n.to_i>0 ? args.n.to_i : 10
     
     templates = []
     Dir.glob(File.join(patient_template_dir, '*.json.erb')).each do |file|
