@@ -84,7 +84,8 @@ module QME
         reduce = 
         "function (key, value) { 
           var patient = value;
-          patient.measure_id = \"#{@measure_def['id']}\";\n"
+          patient.measure_id = \"#{@measure_def['id']}\";\n
+          patient.test_id = new ObjectId(\"#{@params['test_id']}\");\n"
         if @measure_def['sub_id']
           reduce += "  patient.sub_id = \"#{@measure_def['sub_id']}\";\n"
         end

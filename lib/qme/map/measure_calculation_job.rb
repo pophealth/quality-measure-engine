@@ -15,11 +15,12 @@ module QME
     # the report.
     class MeasureCalculationJob < Resque::JobWithStatus
       def perform
-        qr = QualityReport.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => options['test_id'])
+        test_id = options['test_id'] ? BSON::ObjectId(options['test_id']) : nil
+        qr = QualityReport.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id)
         if qr.calculated?
           completed("#{options['measure_id']}#{options['sub_id']} has already been calculated")
         else
-          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => options['test_id'])
+          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id)
           tick('Starting MapReduce')
           map.map_records_into_measure_groups
           tick('MapReduce complete')
