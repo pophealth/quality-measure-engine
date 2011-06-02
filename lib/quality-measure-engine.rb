@@ -1,4 +1,4 @@
-Bundler.require(:default)
+require "bundler/setup"
 
 require 'resque/job_with_status'
 
