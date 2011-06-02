@@ -3,6 +3,7 @@
   "last": "Evans",
   "gender": "F",
   "birthdate": 182908800,                                                 // Time.gm(1975, 10, 19).to_i
+  "test_id": 1,
   "measures": {                                                           // bag of measures, one entry per measure
     "test1": {
       "eyes": "blue"
