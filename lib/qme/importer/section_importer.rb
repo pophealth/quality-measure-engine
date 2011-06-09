@@ -3,7 +3,7 @@ module QME
     # Class that can be used to create an importer for a section of a HITSP C32 document. It usually
     # operates by selecting all CDA entries in a section and then creates entries for them.
     class SectionImporter
-
+          attr_accessor :check_for_usable
       # Creates a new SectionImporter
       # @param [String] entry_xpath An XPath expression that can be used to find the desired entries
       # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
@@ -11,11 +11,14 @@ module QME
       # @param [String] status_xpath XPath expression to find the status element as a child of the desired CDA
       #        entry. Defaults to nil. If not provided, a status will not be checked for since it is not applicable
       #        to all enrty types
-      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil)
+      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value]")
         @entry_xpath = entry_xpath
         @code_xpath = code_xpath
         @status_xpath = status_xpath
+        @description_xpath = description_xpath
+        @check_for_usable = true               # Pilot tools will set this to false
       end
+
 
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
       # objects based on what it finds
@@ -26,15 +29,20 @@ module QME
       def create_entries(doc)
         entry_list = []
         entry_elements = doc.xpath(@entry_xpath)
+        STDERR.puts entry_elements.size
         entry_elements.each do |entry_element|
           entry = Entry.new
-          extract_codes(entry_element, entry)
+         extract_codes(entry_element, entry)
           extract_dates(entry_element, entry)
           extract_value(entry_element, entry)
           if @status_xpath
             extract_status(entry_element, entry)
           end
-          if entry.usable?
+          if @description_xpath
+            extract_description(entry_element, entry)
+          end
+          STDERR.puts "check_for_usable = #{@check_for_usable}    entry.usable? = #{entry.usable?}"
+          if !@check_for_usable or entry.usable?   # if we want all entries, or we want only usable entries, and the entry is usable
             entry_list << entry
           end
         end
@@ -51,12 +59,40 @@ module QME
             entry.status = :active
           when '73425007'
             entry.status = :inactive
-          when '413322009'
+          when '413322009'      
             entry.status = :resolved
           end
         end
       end
 
+      def extract_description(parent_element, entry)
+#        STDERR.puts "***extract_description #{parent_element} \n\t*entry #{entry}  \n\t*description_xpath = #{@description_xpath}"
+        code_elements = parent_element.xpath(@description_xpath)
+#        STDERR.puts "Found #{code_elements.size} elements"
+        code_elements.each do |code_element|
+#                STDERR.puts "\tcode_element = #{code_element}"
+                  tag = code_element['value']
+                  value = "NOT FOUND - #{tag}"
+                  # This seems a bit aggressive, but it works.   The ID can be cound in all sorts of tags.
+                 path = "//*[@ID='#{tag}']"
+               # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
+               # sometimes it is #<Reference>.  We look for both.
+                  if code_element.document.xpath(path)[0]
+                        value = code_element.document.xpath(path)[0].content
+                  else 
+                      if tag[0] == '#'
+                        tag = tag[1,tag.length]
+                        # This seems a bit aggressive, but it works.   The ID can be cound in all sorts of tags.
+                        path = "//*[@ID='#{tag}']"
+                        if code_element.document.xpath(path)[0]
+                                value = code_element.document.xpath(path)[0].content
+                        end
+                      end       
+                   end
+                  STDERR.puts "Reference = #{code_element['value']}  tag = #{tag} has value #{value}"
+                  entry.description = value
+        end
+      end
       def extract_codes(parent_element, entry)
         code_elements = parent_element.xpath(@code_xpath)
         code_elements.each do |code_element|
@@ -101,4 +137,74 @@ module QME
       end
     end
   end
+end
+
+if __FILE__ == $0
+ 
+ require 'nokogiri'
+ require_relative 'entry'
+ require_relative 'code_system_helper'
+ require_relative 'hl7_helper'
+
+# vitals    si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']","./cda:code",nil,
+#                 "./cda:code/cda:originalText/cda:reference[@value]")
+
+# meds   si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
+#                                                               "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",nil,
+#                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]")
+
+#results        si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']",
+# "./cda:code",nil,
+# "./cda:code/cda:originalText/cda:reference[@value]")
+
+# conditions si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
+#                                       "./cda:value",
+#                                       "./cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.1 13883.10.20.1.50']/cda:value",
+#                                       "./cda:text/cda:reference[@value]")
+
+#allergies
+#                     si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
+#                                                             "./cda:participant/cda:participantRole/cda:playingEntity/cda:code",
+#                                                             nil,
+ #                                                            "./cda:value/cda:originalText/cda:reference[@value]")
+
+# encounters
+#        si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter",
+ #                                               "./cda:code",nil,
+#                                               "./cda:code/cda:originalText/cda:reference[@value]")
+
+# social history
+#        si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']",
+#                                                "./cda:code",nil,
+ #                                               "./cda:code/cda:originalText/cda:reference[@value]")
+
+# procedures
+        si = QME::Importer::SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']",
+                                                  nil,nil,
+                                                "./cda:code/cda:originalText/cda:reference[@value]")
+
+# immunizations
+#        si = QME::Importer::SectionImporter.new("//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
+#                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",nil,
+#                                               "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]"     )
+
+# care_goals
+#        si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']",
+#                                                "./cda:code",nil,
+#                                              "./cda:code/cda:originalText/cda:reference[@value]")
+
+# medical_equipment
+#        si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
+#                                                "./cda:participant/cda:participantRole/cda:playingDevice/cda:code",nil,
+#                                                "./cda:code/cda:originalText/cda:reference[@value]")
+
+
+#    si.check_for_usable = false
+    doc = Nokogiri::XML(File.new('/home/saul/src/pilot-toolkit/play.XML'))
+    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+
+    entries = si.create_entries(doc)
+    STDERR.puts entries.size
+
+
 end

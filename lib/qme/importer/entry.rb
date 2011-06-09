@@ -5,7 +5,7 @@ module QME
       attr_accessor :start_time, :end_time, :time, :status, :description
       attr_reader :codes, :value
 
-      def initialize
+      def initialize 
         @codes = {}
         @value = {}
       end
