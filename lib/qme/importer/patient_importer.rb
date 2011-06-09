@@ -50,7 +50,7 @@ module QME
       #
       # Codes for immunizations are found in the substanceAdministration with the following relative XPath
       #    ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
-      def initialize
+      def initialize (check_usable = true)
         @measure_importers = {}
         @section_importers = {}
         @section_importers[:encounters] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
@@ -75,6 +75,27 @@ module QME
                                                                  "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
                                                                  nil,
                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
+       @section_importers[:encounters].check_usable = false
+       @section_importers[:procedures].check_usable = false
+
+       @section_importers[:results].check_usable = false
+
+       @section_importers[:vital_signs].check_usable = false
+
+       @section_importers[:medications].check_usable = false
+
+       @section_importers[:conditions].check_usable = false
+
+       @section_importers[:social_history].check_usable = false
+
+       @section_importers[:care_goals].check_usable = false
+
+       @section_importers[:medical_equipment].check_usable = false
+
+       @section_importers[:allergies].check_usable = false
+
+       @section_importers[:immunizations].check_usable = false
+
       end
 
       # Parses a HITSP C32 document and returns a Hash of of the patient.

@@ -21,7 +21,7 @@ module QME
 
 
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
-      # objects based on what it finds
+      # objects based on what it finds                          
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       #        measure definition
@@ -29,19 +29,17 @@ module QME
       def create_entries(doc)
         entry_list = []
         entry_elements = doc.xpath(@entry_xpath)
-        STDERR.puts entry_elements.size
         entry_elements.each do |entry_element|
           entry = Entry.new
-         extract_codes(entry_element, entry)
+          extract_codes(entry_element, entry)
           extract_dates(entry_element, entry)
-          extract_value(entry_element, entry)
+         extract_value(entry_element, entry)
           if @status_xpath
             extract_status(entry_element, entry)
           end
           if @description_xpath
             extract_description(entry_element, entry)
           end
-          STDERR.puts "check_for_usable = #{@check_for_usable}    entry.usable? = #{entry.usable?}"
           if !@check_for_usable or entry.usable?   # if we want all entries, or we want only usable entries, and the entry is usable
             entry_list << entry
           end
@@ -66,7 +64,7 @@ module QME
       end
 
       def extract_description(parent_element, entry)
-#        STDERR.puts "***extract_description #{parent_element} \n\t*entry #{entry}  \n\t*description_xpath = #{@description_xpath}"
+#       STDERR.puts "***extract_description #{parent_element} \n\t*entry #{entry}  \n\t*description_xpath = #{@description_xpath}"
         code_elements = parent_element.xpath(@description_xpath)
 #        STDERR.puts "Found #{code_elements.size} elements"
         code_elements.each do |code_element|
@@ -89,7 +87,7 @@ module QME
                         end
                       end       
                    end
-                  STDERR.puts "Reference = #{code_element['value']}  tag = #{tag} has value #{value}"
+#                  STDERR.puts "Reference = #{code_element['value']}  tag = #{tag} has value #{value}"
                   entry.description = value
         end
       end
@@ -180,7 +178,7 @@ if __FILE__ == $0
 
 # procedures
         si = QME::Importer::SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']",
-                                                  nil,nil,
+                                                  "./cda:code", nil,
                                                 "./cda:code/cda:originalText/cda:reference[@value]")
 
 # immunizations
@@ -199,7 +197,7 @@ if __FILE__ == $0
 #                                                "./cda:code/cda:originalText/cda:reference[@value]")
 
 
-#    si.check_for_usable = false
+    si.check_for_usable = false
     doc = Nokogiri::XML(File.new('/home/saul/src/pilot-toolkit/play.XML'))
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
 
