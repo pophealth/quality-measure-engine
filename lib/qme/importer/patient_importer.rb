@@ -191,8 +191,8 @@ module QME
       def create_c32_hash(doc, check_usable_entries = true)
         c32_patient = {}
         @section_importers.each_pair do |section, importer|
+          importer.check_for_usable = check_usable_entries
           c32_patient[section] = importer.create_entries(doc)
-          c32_patient[section].check_for_usable = check_usable_entries
         end
         c32_patient
       end
