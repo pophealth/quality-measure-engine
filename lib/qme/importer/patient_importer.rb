@@ -75,28 +75,32 @@ module QME
                                                                  "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
                                                                  nil,
                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
-       @section_importers[:encounters].check_usable = false
-       @section_importers[:procedures].check_usable = false
-
-       @section_importers[:results].check_usable = false
-
-       @section_importers[:vital_signs].check_usable = false
-
-       @section_importers[:medications].check_usable = false
-
-       @section_importers[:conditions].check_usable = false
-
-       @section_importers[:social_history].check_usable = false
-
-       @section_importers[:care_goals].check_usable = false
-
-       @section_importers[:medical_equipment].check_usable = false
-
-       @section_importers[:allergies].check_usable = false
-
-       @section_importers[:immunizations].check_usable = false
 
       end
+
+
+      def check_usable(flag)
+       @section_importers[:encounters].check_usable = flag
+       @section_importers[:procedures].check_usable = flag
+
+       @section_importers[:results].check_usable = flag
+
+       @section_importers[:vital_signs].check_usable = flag
+
+       @section_importers[:medications].check_usable = flag
+
+       @section_importers[:conditions].check_usable = flag
+
+       @section_importers[:social_history].check_usable = flag
+
+       @section_importers[:care_goals].check_usable = flag
+
+       @section_importers[:medical_equipment].check_usable = flag
+
+       @section_importers[:allergies].check_usable = flag
+
+       @section_importers[:immunizations].check_usable = flag
+    end
 
       # Parses a HITSP C32 document and returns a Hash of of the patient.
       #
@@ -184,10 +188,11 @@ module QME
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Hash] a represnetation of the patient with symbols as keys for each section
-      def create_c32_hash(doc)
+      def create_c32_hash(doc, check_usable_entries = true)
         c32_patient = {}
         @section_importers.each_pair do |section, importer|
           c32_patient[section] = importer.create_entries(doc)
+          c32_patient[section].check_for_usable = check_usable_entries
         end
         c32_patient
       end
