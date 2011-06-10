@@ -11,7 +11,7 @@ module QME
       # @param [String] status_xpath XPath expression to find the status element as a child of the desired CDA
       #        entry. Defaults to nil. If not provided, a status will not be checked for since it is not applicable
       #        to all enrty types
-      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value]")
+      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] ")
         @entry_xpath = entry_xpath
         @code_xpath = code_xpath
         @status_xpath = status_xpath
