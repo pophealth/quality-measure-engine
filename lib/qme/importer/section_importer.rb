@@ -144,59 +144,11 @@ if __FILE__ == $0
  require_relative 'code_system_helper'
  require_relative 'hl7_helper'
 
-# vitals    si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']","./cda:code",nil,
-#                 "./cda:code/cda:originalText/cda:reference[@value]")
-
-# meds   si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
-#                                                               "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",nil,
-#                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]")
-
-#results        si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']",
-# "./cda:code",nil,
-# "./cda:code/cda:originalText/cda:reference[@value]")
-
-# conditions si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
-#                                       "./cda:value",
-#                                       "./cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.1 13883.10.20.1.50']/cda:value",
-#                                       "./cda:text/cda:reference[@value]")
-
-#allergies
-#                     si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
-#                                                             "./cda:participant/cda:participantRole/cda:playingEntity/cda:code",
-#                                                             nil,
- #                                                            "./cda:value/cda:originalText/cda:reference[@value]")
-
-# encounters
-#        si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter",
- #                                               "./cda:code",nil,
-#                                               "./cda:code/cda:originalText/cda:reference[@value]")
-
-# social history
-#        si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']",
-#                                                "./cda:code",nil,
- #                                               "./cda:code/cda:originalText/cda:reference[@value]")
 
 # procedures
         si = QME::Importer::SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']",
                                                   "./cda:code", nil,
                                                 "./cda:code/cda:originalText/cda:reference[@value]")
-
-# immunizations
-#        si = QME::Importer::SectionImporter.new("//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
-#                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",nil,
-#                                               "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]"     )
-
-# care_goals
-#        si = QME::Importer::SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']",
-#                                                "./cda:code",nil,
-#                                              "./cda:code/cda:originalText/cda:reference[@value]")
-
-# medical_equipment
-#        si = QME::Importer::SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
-#                                                "./cda:participant/cda:participantRole/cda:playingDevice/cda:code",nil,
-#                                                "./cda:code/cda:originalText/cda:reference[@value]")
-
-
     si.check_for_usable = false
     doc = Nokogiri::XML(File.new('/home/saul/src/pilot-toolkit/play.XML'))
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')

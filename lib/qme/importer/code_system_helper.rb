@@ -22,6 +22,17 @@ module QME
       def self.code_system_for(oid)
         CODE_SYSTEMS[oid]
       end
+      # Returns the oid for a code system given a codesystem name
+      # @param [String] the name of the code system
+      # @return [String] the oid of the code system
+      def self.oid_for_code_system(codesystem)
+        if(!@@oid_map)
+          CODE_SYSTEMS.each_pair do |oid, codesystem|
+            @@oid_map[codesystem] = oid
+          end
+        end
+        return @@oid_map[codesystem]    
+      end
       
     end
   end

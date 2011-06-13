@@ -79,28 +79,11 @@ module QME
       end
 
 
-      def check_usable(flag)
-       @section_importers[:encounters].check_usable = flag
-       @section_importers[:procedures].check_usable = flag
-
-       @section_importers[:results].check_usable = flag
-
-       @section_importers[:vital_signs].check_usable = flag
-
-       @section_importers[:medications].check_usable = flag
-
-       @section_importers[:conditions].check_usable = flag
-
-       @section_importers[:social_history].check_usable = flag
-
-       @section_importers[:care_goals].check_usable = flag
-
-       @section_importers[:medical_equipment].check_usable = flag
-
-       @section_importers[:allergies].check_usable = flag
-
-       @section_importers[:immunizations].check_usable = flag
-    end
+      def check_usable(check_usable_entries)
+        @section_importers.each_pair do |section, importer|
+           importer.check_for_usable = check_usable_entries
+         end
+      end
 
       # Parses a HITSP C32 document and returns a Hash of of the patient.
       #
