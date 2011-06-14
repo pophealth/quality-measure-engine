@@ -75,14 +75,13 @@ module QME
                                                                  "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
                                                                  nil,
                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
-        build_id_map
       end
 
       # Build a map of all of the ID tags to their values
-      def build_id_map
+      def build_id_map(doc)
         @id_map = {}
         path = "//*[@ID]"
-        ids = @doc.xpath(path)
+        ids = doc.xpath(path)
         ids.each do |id|
           tag = id['ID']
           value = id.content
@@ -104,6 +103,7 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_c32(doc)
+        build_id_map(doc)
         c32_patient = {}
         entries = create_c32_hash(doc)
         get_demographics(c32_patient, doc)
