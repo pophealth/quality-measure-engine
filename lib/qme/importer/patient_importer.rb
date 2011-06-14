@@ -53,6 +53,7 @@ module QME
       def initialize (check_usable = true)
         @measure_importers = {}
         @section_importers = {}
+        @id_map = {}
         @section_importers[:encounters] = SectionImporter.new(@id_map,"//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
         @section_importers[:procedures] = SectionImporter.new(@id_map,"//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']")
         @section_importers[:results] = SectionImporter.new(@id_map,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
@@ -79,7 +80,6 @@ module QME
 
       # Build a map of all of the ID tags to their values
       def build_id_map(doc)
-        @id_map = {}
         path = "//*[@ID]"
         ids = doc.xpath(path)
         ids.each do |id|
