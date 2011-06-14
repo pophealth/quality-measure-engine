@@ -5,13 +5,15 @@ module QME
     class SectionImporter
           attr_accessor :check_for_usable
       # Creates a new SectionImporter
+      # @param [Hash] id_map A hash of all ID tags to values for the enclosing document.  Used to look up descriptions.
       # @param [String] entry_xpath An XPath expression that can be used to find the desired entries
       # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
       #        Defaults to "./cda:code"
       # @param [String] status_xpath XPath expression to find the status element as a child of the desired CDA
       #        entry. Defaults to nil. If not provided, a status will not be checked for since it is not applicable
       #        to all enrty types
-      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] ")
+      def initialize(id_map, entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] ")
+        @id_map = id_map
         @entry_xpath = entry_xpath
         @code_xpath = code_xpath
         @status_xpath = status_xpath
@@ -19,6 +21,17 @@ module QME
         @check_for_usable = true               # Pilot tools will set this to false
       end
 
+      # @param [String] tag 
+      def lookup_tag(tag)
+        value = @id_map[tag]
+        # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
+        # sometimes it is #<Reference>.  We look for both.
+        if !value and tag[0] == '#'  
+          tag = tag[1,tag.length]
+          value = @id_map[tag]
+        end
+        return value
+      end
 
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
       # objects based on what it finds                          
@@ -70,25 +83,7 @@ module QME
         code_elements.each do |code_element|
 #                STDERR.puts "\tcode_element = #{code_element}"
                   tag = code_element['value']
-                  value = "NOT FOUND - #{tag}"
-                  # This seems a bit aggressive, but it works.   The ID can be cound in all sorts of tags.
-                 path = "//*[@ID='#{tag}']"
-               # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
-               # sometimes it is #<Reference>.  We look for both.
-                  if code_element.document.xpath(path)[0]
-                        value = code_element.document.xpath(path)[0].content
-                  else 
-                      if tag[0] == '#'
-                        tag = tag[1,tag.length]
-                        # This seems a bit aggressive, but it works.   The ID can be cound in all sorts of tags.
-                        path = "//*[@ID='#{tag}']"
-                        if code_element.document.xpath(path)[0]
-                                value = code_element.document.xpath(path)[0].content
-                        end
-                      end       
-                   end
-#                  STDERR.puts "Reference = #{code_element['value']}  tag = #{tag} has value #{value}"
-                  entry.description = value
+                  entry.description = lookup_tag(tag)
         end
       end
       def extract_codes(parent_element, entry)
@@ -148,7 +143,7 @@ if __FILE__ == $0
 # procedures
         si = QME::Importer::SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']",
                                                   "./cda:code", nil,
-                                                "./cda:code/cda:originalText/cda:reference[@value]")
+                                                  "./cda:code/cda:originalText/cda:reference[@value]")
     si.check_for_usable = false
     doc = Nokogiri::XML(File.new('/home/saul/src/pilot-toolkit/play.XML'))
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')

@@ -53,31 +53,44 @@ module QME
       def initialize (check_usable = true)
         @measure_importers = {}
         @section_importers = {}
-        @section_importers[:encounters] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
-        @section_importers[:procedures] = SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']")
-        @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
-        @section_importers[:vital_signs] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']")
-        @section_importers[:medications] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
+        @section_importers[:encounters] = SectionImporter.new(@id_map,"//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")
+        @section_importers[:procedures] = SectionImporter.new(@id_map,"//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']")
+        @section_importers[:results] = SectionImporter.new(@id_map,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
+        @section_importers[:vital_signs] = SectionImporter.new(@id_map,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']")
+        @section_importers[:medications] = SectionImporter.new(@id_map,"//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
                                                                "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
                                                                 nil,
                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]")
-        @section_importers[:conditions] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
+        @section_importers[:conditions] = SectionImporter.new(@id_map,"//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
                                                               "./cda:value",
                                                               "./cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.1 13883.10.20.1.50']/cda:value",
                                                                 "./cda:text/cda:reference[@value]")
-        @section_importers[:social_history] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']")
-        @section_importers[:care_goals] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']")
-        @section_importers[:medical_equipment] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
+        @section_importers[:social_history] = SectionImporter.new(@id_map,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']")
+        @section_importers[:care_goals] = SectionImporter.new(@id_map,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']")
+        @section_importers[:medical_equipment] = SectionImporter.new(@id_map,"//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
                                                                      "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
-        @section_importers[:allergies] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
+        @section_importers[:allergies] = SectionImporter.new(@id_map,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
                                                              "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
-        @section_importers[:immunizations] = SectionImporter.new("//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
+        @section_importers[:immunizations] = SectionImporter.new(@id_map,"//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
                                                                  "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
                                                                  nil,
                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
-
+        build_id_map
       end
 
+      # Build a map of all of the ID tags to their values
+      def build_id_map
+        @id_map = {}
+        path = "//*[@ID]"
+        ids = @doc.xpath(path)
+        ids.each do |id|
+          tag = id['ID']
+          value = id.content
+          #        STDERR.puts "tag = #{tag} value = #{value}"
+          @id_map[tag] = value
+        end
+
+      end
 
       def check_usable(check_usable_entries)
         @section_importers.each_pair do |section, importer|
