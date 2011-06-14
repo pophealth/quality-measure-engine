@@ -73,7 +73,7 @@ module QME
 #                STDERR.puts "\tcode_element = #{code_element}"
                   tag = code_element['value']
                   entry.description = @patient.lookup_tag(tag)
-                  STDERR.puts "extract_description tag #{tag}  description #{description}"
+                  STDERR.puts "extract_description tag #{tag}  description #{entry.description}"
         end
       end
       def extract_codes(parent_element, entry)
