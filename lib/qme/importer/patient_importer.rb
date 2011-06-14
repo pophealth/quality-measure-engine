@@ -85,7 +85,7 @@ module QME
         ids.each do |id|
           tag = id['ID']
           value = id.content
-          #        STDERR.puts "tag = #{tag} value = #{value}"
+          STDERR.puts "tag = #{tag} value = #{value}"
           @id_map[tag] = value
         end
 
