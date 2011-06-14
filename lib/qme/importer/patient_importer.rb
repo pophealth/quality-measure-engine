@@ -198,6 +198,7 @@ module QME
       # @return [Hash] a represnetation of the patient with symbols as keys for each section
       def create_c32_hash(doc, check_usable_entries = true)
         c32_patient = {}
+        build_id_map(doc)
         @section_importers.each_pair do |section, importer|
           importer.check_for_usable = check_usable_entries
           c32_patient[section] = importer.create_entries(doc)
