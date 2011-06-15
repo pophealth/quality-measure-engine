@@ -31,7 +31,7 @@ module QME
         if(!@@oid_map)
           @@oid_map = {}
           CODE_SYSTEMS.each_pair do |oid, codesystem|
-#            STDERR.puts "Adding #{oid}, #{codesystem}"
+ #            STDERR.puts "Adding #{oid}, #{codesystem}"
             @@oid_map[codesystem] = oid
           end
         end

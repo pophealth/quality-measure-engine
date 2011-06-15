@@ -122,24 +122,3 @@ module QME
   end
 end
 
-if __FILE__ == $0
- 
- require 'nokogiri'
- require_relative 'entry'
- require_relative 'code_system_helper'
- require_relative 'hl7_helper'
-
-
-# procedures
-        si = QME::Importer::SectionImporter.new("//cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']",
-                                                  "./cda:code", nil,
-                                                  "./cda:code/cda:originalText/cda:reference[@value]")
-    si.check_for_usable = false
-    doc = Nokogiri::XML(File.new('/home/saul/src/pilot-toolkit/play.XML'))
-    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
-
-    entries = si.create_entries(doc)
-    STDERR.puts entries.size
-
-
-end

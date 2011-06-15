@@ -72,13 +72,14 @@ module QME
                                                                      "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
         @section_importers[:allergies] = SectionImporter.new(self,"//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
                                                              "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
-        @section_importers[:immunizations] = SectionImporter.new(self,"//cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']",
+        @section_importers[:immunizations] = SectionImporter.new(self,"//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.117']/cda:entry/cda:substanceAdministration",
                                                                  "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
                                                                  nil,
                                                                 "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
       end
 
       # Build a map of all of the ID tags to their values
+      # @param [Nokogiri::Document] document to scan for ID tags/values 
       def build_id_map(doc)
         path = "//*[@ID]"
         ids = doc.xpath(path)
@@ -92,6 +93,7 @@ module QME
       end
 
       # @param [String] tag 
+      # @return [String] text description of tag
        def lookup_tag(tag)
          value = @id_map[tag]
          # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
@@ -103,6 +105,7 @@ module QME
          return value
        end
 
+       # @param [boolean] value for check_usable_entries...importer uses true, stats uses false 
       def check_usable(check_usable_entries)
         @section_importers.each_pair do |section, importer|
            importer.check_for_usable = check_usable_entries
@@ -115,7 +118,7 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_c32(doc)
-        build_id_map(doc)
+        build_id_map(doc)   # Make one pass through doc, find all tags, and their values
         c32_patient = {}
         entries = create_c32_hash(doc)
         get_demographics(c32_patient, doc)
