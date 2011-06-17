@@ -3,7 +3,7 @@ module QME
     # Class that can be used to create an importer for a section of a HITSP C32 document. It usually
     # operates by selecting all CDA entries in a section and then creates entries for them.
     class SectionImporter
-          attr_accessor :check_for_usable
+      attr_accessor :check_for_usable
       # Creates a new SectionImporter
       # @param [Hash] id_map A hash of all ID tags to values for the enclosing document.  Used to look up descriptions.
       # @param [String] entry_xpath An XPath expression that can be used to find the desired entries
@@ -12,8 +12,7 @@ module QME
       # @param [String] status_xpath XPath expression to find the status element as a child of the desired CDA
       #        entry. Defaults to nil. If not provided, a status will not be checked for since it is not applicable
       #        to all enrty types
-      def initialize(patient, entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] ")
-        @patient = patient
+      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] ")
         @entry_xpath = entry_xpath
         @code_xpath = code_xpath
         @status_xpath = status_xpath
@@ -21,7 +20,35 @@ module QME
         @check_for_usable = true               # Pilot tools will set this to false
       end
 
- 
+      # Build a map of all of the ID tags to their values
+      # @param [Nokogiri::Document] document to scan for ID tags/values 
+      def build_id_map(doc)
+        path = "//*[@ID]"
+        ids = doc.xpath(path)
+        id_map = {}
+        ids.each do |id|
+          tag = id['ID']
+          value = id.content
+          id_map[tag] = value
+        end
+        
+        id_map
+      end
+
+      # @param [String] tag 
+      # @return [String] text description of tag
+      def lookup_tag(id_map, tag)
+         value = id_map[tag]
+         # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
+         # sometimes it is #<Reference>.  We look for both.
+         if !value and tag[0] == '#'  
+           tag = tag[1,tag.length]
+           value = id_map[tag]
+         end
+         
+         value
+       end
+
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
       # objects based on what it finds                          
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
@@ -31,18 +58,21 @@ module QME
       def create_entries(doc)
         entry_list = []
         entry_elements = doc.xpath(@entry_xpath)
+        id_map = build_id_map(doc)
         entry_elements.each do |entry_element|
           entry = Entry.new
           extract_codes(entry_element, entry)
           extract_dates(entry_element, entry)
-         extract_value(entry_element, entry)
+          extract_value(entry_element, entry)
           if @status_xpath
             extract_status(entry_element, entry)
           end
           if @description_xpath
-            extract_description(entry_element, entry)
+            extract_description(entry_element, entry, id_map)
           end
-          if !@check_for_usable or entry.usable?   # if we want all entries, or we want only usable entries, and the entry is usable
+          if @check_for_usable
+            entry_list << entry if entry.usable?
+          else
             entry_list << entry
           end
         end
@@ -65,17 +95,14 @@ module QME
         end
       end
 
-      def extract_description(parent_element, entry)
-#       STDERR.puts "***extract_description #{parent_element} \n\t*entry #{entry}  \n\t*description_xpath = #{@description_xpath}"
+      def extract_description(parent_element, entry, id_map)
         code_elements = parent_element.xpath(@description_xpath)
-#        STDERR.puts "Found #{code_elements.size} elements"
         code_elements.each do |code_element|
-#                STDERR.puts "\tcode_element = #{code_element}"
-                  tag = code_element['value']
-                  entry.description = @patient.lookup_tag(tag)
-#                  STDERR.puts "extract_description tag #{tag}  description #{entry.description}"
+          tag = code_element['value']
+          entry.description = lookup_tag(id_map, tag)
         end
       end
+      
       def extract_codes(parent_element, entry)
         code_elements = parent_element.xpath(@code_xpath)
         code_elements.each do |code_element|
