@@ -7,7 +7,6 @@ describe QME::Importer::SectionImporter do
   end
 
   it "should be able to extract an entry with a date" do
-    ap @si
     entries = @si.create_entries(@doc)
     entry = entries[1]
     entry.time.should == 1026777600
