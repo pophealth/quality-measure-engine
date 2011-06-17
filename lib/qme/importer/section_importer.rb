@@ -18,32 +18,19 @@ module QME
         @status_xpath = status_xpath
         @description_xpath = description_xpath
         @check_for_usable = true               # Pilot tools will set this to false
+        @id_map = {}
       end
 
-      # Build a map of all of the ID tags to their values
-      # @param [Nokogiri::Document] document to scan for ID tags/values 
-      def build_id_map(doc)
-        path = "//*[@ID]"
-        ids = doc.xpath(path)
-        id_map = {}
-        ids.each do |id|
-          tag = id['ID']
-          value = id.content
-          id_map[tag] = value
-        end
-        
-        id_map
-      end
-
+ 
       # @param [String] tag 
       # @return [String] text description of tag
-      def lookup_tag(id_map, tag)
-         value = id_map[tag]
+      def lookup_tag(tag)
+         value = @id_map[tag]
          # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
          # sometimes it is #<Reference>.  We look for both.
          if !value and tag[0] == '#'  
            tag = tag[1,tag.length]
-           value = id_map[tag]
+           value = @id_map[tag]
          end
          
          value
@@ -55,10 +42,10 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       #        measure definition
       # @return [Array] will be a list of Entry objects
-      def create_entries(doc)
+      def create_entries(doc,id_map = {})
+        @id_map = id_map
         entry_list = []
         entry_elements = doc.xpath(@entry_xpath)
-        id_map = build_id_map(doc)
         entry_elements.each do |entry_element|
           entry = Entry.new
           extract_codes(entry_element, entry)
@@ -99,7 +86,7 @@ module QME
         code_elements = parent_element.xpath(@description_xpath)
         code_elements.each do |code_element|
           tag = code_element['value']
-          entry.description = lookup_tag(id_map, tag)
+          entry.description = lookup_tag(tag)
         end
       end
       
