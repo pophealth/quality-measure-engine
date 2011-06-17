@@ -222,6 +222,8 @@ module QME
         patient['birthdate'] = HL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
         gender_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:administrativeGenderCode')
         patient['gender'] = gender_node['code']
+        id_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:id')
+        patient['patient_id'] = id_node['extension']
       end
     end
   end

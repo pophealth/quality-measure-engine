@@ -19,7 +19,7 @@ module QME
       # @param [String] oid of a code system
       # @return [String] the name of the code system as described in the measure definition JSON
       def self.code_system_for(oid)
-        CODE_SYSTEMS[oid]
+        CODE_SYSTEMS[oid] || "Unknown"
       end
       
       @@oid_map = nil
