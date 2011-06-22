@@ -1,0 +1,20 @@
+{
+  "results":[
+    {
+      "id": "test2",
+      "sub_id": "a",
+      "initialPopulation": 4,
+      "numerator": 1,
+      "denominator": 2,
+      "exclusions": 1
+    },
+    {
+      "id": "test2",
+      "sub_id": "b",
+      "initialPopulation": 4,
+      "numerator": 1,
+      "denominator": 2,
+      "exclusions": 1
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "first": "David",                                                       // personal data
+  "last": "Smith",
+  "gender": "M",
+  "test_id": 1,
+  "birthdate": 182908800,                                                 // Time.gm(1975, 10, 19).to_i
+  "measures": {                                                           // bag of measures, one entry per measure
+    "test1": {
+      "eyes": "blue"
+    }
+  }
+}

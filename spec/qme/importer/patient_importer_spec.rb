@@ -1,7 +1,7 @@
 describe QME::Importer::PatientImporter do
 
   before do
-    @loader = load_measures
+    @loader = reload_bundle
   end
 
   it "should import demographic information" do
@@ -14,19 +14,19 @@ describe QME::Importer::PatientImporter do
     patient['last'].should == 'Smith'
     patient['birthdate'].should == -87696000
     patient['gender'].should == 'M'
+    patient['patient_id'].should == '24602'
   end
 
   it 'should import a whole patient' do
     doc = Nokogiri::XML(File.new('fixtures/c32_fragments/0032/numerator.xml'))
     doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
 
-    QME::Importer::PatientImporter.instance.add_measure('0032', QME::Importer::GenericImporter.new(measure_definition(@loader, '0032')))
-    QME::Importer::PatientImporter.instance.add_measure('0043', QME::Importer::GenericImporter.new(measure_definition(@loader, '0043')))
+    measure_json = JSON.parse(File.read(File.join('fixtures', 'entry', 'sample.json')))
+    QME::Importer::PatientImporter.instance.add_measure('0043', QME::Importer::GenericImporter.new(measure_json))
 
     patient = QME::Importer::PatientImporter.instance.parse_c32(doc)
 
     patient['first'].should == 'FirstName'
-    patient['measures']['0032']['encounter_outpatient'].should include(1270598400)
     patient['measures']['0043']['encounter'].should include(1270598400)
   end
 

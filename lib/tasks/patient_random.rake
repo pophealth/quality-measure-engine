@@ -11,8 +11,8 @@ loader = QME::Database::Loader.new(db_name)
 namespace :patient do
 
   desc 'Generate n (default 10) random patient records and save them in the database'
-  task :random, [:n] => ['mongo:drop_records', 'mongo:reload_measures'] do |t, args|
-    n = args.n.to_i>0 ? args.n.to_i : 1
+  task :random, [:n] => ['mongo:drop_records'] do |t, args|
+    n = args.n.to_i>0 ? args.n.to_i : 10
     
     templates = []
     Dir.glob(File.join(patient_template_dir, '*.json.erb')).each do |file|
@@ -24,9 +24,8 @@ namespace :patient do
       return
     end
     
-    map = QME::MapReduce::Executor.new(loader.get_db)
     processed_measures = {}
-    map.all_measures.each_value do |measure_def|
+    QME::QualityMeasure.all.each_value do |measure_def|
       measure_id = measure_def['id']
       if !processed_measures[measure_id]
         QME::Importer::PatientImporter.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))
