@@ -19,7 +19,7 @@ module QME
     # @param [String] sub_id value of the measure's sub_id field, may be nil 
     #                 for measures with only a single numerator and denominator
     # @param [Hash] parameter_values slots in the measure definition that need to
-    #               be filled in.
+    #               be filled in and an optional test_id to identify a sub-population.
     def initialize(measure_id, sub_id, parameter_values)
       @measure_id = measure_id
       @sub_id = sub_id
@@ -38,7 +38,8 @@ module QME
     # @return a unique id for the measure calculation job
     def calculate
       MapReduce::MeasureCalculationJob.create(:measure_id => @measure_id, :sub_id => @sub_id, 
-                                              :effective_date => @parameter_values['effective_date'])
+                                              :effective_date => @parameter_values['effective_date'], 
+                                              :test_id => @parameter_values['test_id'])
     end
     
     # Returns the status of a measure calculation job
@@ -54,7 +55,8 @@ module QME
     def result
       cache = get_db.collection("query_cache")
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
-               :effective_date => @parameter_values['effective_date']}
+               :effective_date => @parameter_values['effective_date'],
+               :test_id => @parameter_values['test_id']}
       cache.find_one(query)
     end
   end

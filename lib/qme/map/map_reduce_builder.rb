@@ -85,6 +85,9 @@ module QME
         "function (key, value) { 
           var patient = value;
           patient.measure_id = \"#{@measure_def['id']}\";\n"
+        if @params['test_id'] && @params['test_id'].class==BSON::ObjectId
+          reduce += "  patient.test_id = new ObjectId(\"#{@params['test_id']}\");\n"
+        end
         if @measure_def['sub_id']
           reduce += "  patient.sub_id = \"#{@measure_def['sub_id']}\";\n"
         end

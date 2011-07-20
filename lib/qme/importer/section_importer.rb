@@ -3,27 +3,47 @@ module QME
     # Class that can be used to create an importer for a section of a HITSP C32 document. It usually
     # operates by selecting all CDA entries in a section and then creates entries for them.
     class SectionImporter
-
+      attr_accessor :check_for_usable
       # Creates a new SectionImporter
+      # @param [Hash] id_map A hash of all ID tags to values for the enclosing document.  Used to look up descriptions.
       # @param [String] entry_xpath An XPath expression that can be used to find the desired entries
       # @param [String] code_xpath XPath expression to find the code element as a child of the desired CDA entry.
       #        Defaults to "./cda:code"
       # @param [String] status_xpath XPath expression to find the status element as a child of the desired CDA
       #        entry. Defaults to nil. If not provided, a status will not be checked for since it is not applicable
       #        to all enrty types
-      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil)
+      def initialize(entry_xpath, code_xpath="./cda:code", status_xpath=nil, description_xpath="./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] ")
         @entry_xpath = entry_xpath
         @code_xpath = code_xpath
         @status_xpath = status_xpath
+        @description_xpath = description_xpath
+        @check_for_usable = true               # Pilot tools will set this to false
+        @id_map = {}
       end
 
+ 
+      # @param [String] tag 
+      # @return [String] text description of tag
+      def lookup_tag(tag)
+         value = @id_map[tag]
+         # Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and 
+         # sometimes it is #<Reference>.  We look for both.
+         if !value and tag[0] == '#'  
+           tag = tag[1,tag.length]
+           value = @id_map[tag]
+         end
+         
+         value
+       end
+
       # Traverses that HITSP C32 document passed in using XPath and creates an Array of Entry
-      # objects based on what it finds
+      # objects based on what it finds                          
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       #        measure definition
       # @return [Array] will be a list of Entry objects
-      def create_entries(doc)
+      def create_entries(doc,id_map = {})
+        @id_map = id_map
         entry_list = []
         entry_elements = doc.xpath(@entry_xpath)
         entry_elements.each do |entry_element|
@@ -34,7 +54,12 @@ module QME
           if @status_xpath
             extract_status(entry_element, entry)
           end
-          if entry.usable?
+          if @description_xpath
+            extract_description(entry_element, entry, id_map)
+          end
+          if @check_for_usable
+            entry_list << entry if entry.usable?
+          else
             entry_list << entry
           end
         end
@@ -51,12 +76,20 @@ module QME
             entry.status = :active
           when '73425007'
             entry.status = :inactive
-          when '413322009'
+          when '413322009'      
             entry.status = :resolved
           end
         end
       end
 
+      def extract_description(parent_element, entry, id_map)
+        code_elements = parent_element.xpath(@description_xpath)
+        code_elements.each do |code_element|
+          tag = code_element['value']
+          entry.description = lookup_tag(tag)
+        end
+      end
+      
       def extract_codes(parent_element, entry)
         code_elements = parent_element.xpath(@code_xpath)
         code_elements.each do |code_element|
@@ -102,3 +135,4 @@ module QME
     end
   end
 end
+

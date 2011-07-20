@@ -1,6 +1,5 @@
 module QME
   module Importer
-    
     # General helpers for working with codes and code systems
     class CodeSystemHelper
       CODE_SYSTEMS = {
@@ -20,9 +19,27 @@ module QME
       # @param [String] oid of a code system
       # @return [String] the name of the code system as described in the measure definition JSON
       def self.code_system_for(oid)
-        CODE_SYSTEMS[oid]
+        CODE_SYSTEMS[oid] || "Unknown"
+      end
+      
+      @@oid_map = nil
+      
+      # Returns the oid for a code system given a codesystem name
+      # @param [String] the name of the code system
+      # @return [String] the oid of the code system
+      def self.oid_for_code_system(codesystem)
+        if(!@@oid_map)
+          @@oid_map = {}
+          CODE_SYSTEMS.each_pair do |oid, codesystem|
+ #            STDERR.puts "Adding #{oid}, #{codesystem}"
+            @@oid_map[codesystem] = oid
+          end
+        end
+#        STDERR.puts "@@oid_map[#{codesystem}] = #{@@oid_map[codesystem]}"
+        return @@oid_map[codesystem]    
       end
       
     end
   end
 end
+

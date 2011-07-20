@@ -1,4 +1,4 @@
-Bundler.require(:default)
+require "bundler/setup"
 
 require 'resque/job_with_status'
 
@@ -12,6 +12,7 @@ require_relative 'qme/map/measure_calculation_job'
 require_relative 'qme/quality_report'
 
 require_relative 'qme/randomizer/patient_randomizer'
+require_relative 'qme/randomizer/patient_randomization_job'
 
 require 'singleton'
 
