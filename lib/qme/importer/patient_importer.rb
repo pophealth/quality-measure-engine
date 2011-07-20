@@ -117,6 +117,7 @@ module QME
       def parse_hash(patient_hash)
         patient_record = {}
         patient_record['first'] = patient_hash['first']
+        patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['last'] = patient_hash['last']
         patient_record['gender'] = patient_hash['gender']
         patient_record['birthdate'] = patient_hash['birthdate']
