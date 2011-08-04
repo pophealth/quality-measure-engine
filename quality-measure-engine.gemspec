@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.email = "talk@projectpophealth.org"
   s.homepage = "http://github.com/pophealth/quality-measure-engine"
   s.authors = ["Marc Hadley", "Andy Gregorowicz", "Rob Dingwell"]
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   
   s.add_dependency 'mongo', '~> 1.3'
   s.add_dependency 'rubyzip', '~> 0.9.4'
