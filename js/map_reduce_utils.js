@@ -120,6 +120,7 @@ function() {
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: false, denominator: false, numerator: false, 
                  exclusions: false, antinumerator: false, patient_id: record._id,
+                 medical_record_id: record.patient_id,
                  first: record.first, last: record.last, gender: record.gender,
                  birthdate: record.birthdate, test_id: record.test_id};
     if (population()) {
