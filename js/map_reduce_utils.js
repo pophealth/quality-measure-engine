@@ -66,6 +66,8 @@ function() {
     if (allInDateRange.length==0)
       return defaultValue;
     var min = _.min(allInDateRange, function(reading) {return reading.value;});
+    if (min==undefined)
+      return defaultValue;
     return min.value;
   };
   
@@ -83,6 +85,8 @@ function() {
     if (allInDateRange.length==0)
       return defaultValue;
     var latest = _.max(allInDateRange, function(reading) {return reading.date;});
+    if (latest==undefined)
+      return defaultValue;
     return latest.value;
   };
   
