@@ -1,13 +1,15 @@
 require 'erb'
 
 module QME
+
   module Randomizer
-  
+
     # Provides functionality for randomizing patient records based on erb templates
     class Patient
 
       # Utility class used to supply a binding to Erb
       class Context
+
         # Create a new context
         def initialize()
           @genders = ['M', 'F']
@@ -18,27 +20,66 @@ module QME
           }
           # 500 most popular surnames according to US census 1990
           @surnames = %w{Smith Johnson Williams Jones Brown Davis Miller Wilson Moore Taylor Anderson Thomas Jackson White Harris Martin Thompson Garcia Martinez Robinson Clark Rodriguez Lewis Lee Walker Hall Allen Young Hernandez King Wright Lopez Hill Scott Green Adams Baker Gonzalez Nelson Carter Mitchell Perez Roberts Turner Phillips Campbell Parker Evans Edwards Collins Stewart Sanchez Morris Rogers Reed Cook Morgan Bell Murphy Bailey Rivera Cooper Richardson Cox Howard Ward Torres Peterson Gray Ramirez James Watson Brooks Kelly Sanders Price Bennett Wood Barnes Ross Henderson Coleman Jenkins Perry Powell Long Patterson Hughes Flores Washington Butler Simmons Foster Gonzales Bryant Alexander Russell Griffin Diaz Hayes Myers Ford Hamilton Graham Sullivan Wallace Woods Cole West Jordan Owens Reynolds Fisher Ellis Harrison Gibson Mcdonald Cruz Marshall Ortiz Gomez Murray Freeman Wells Webb Simpson Stevens Tucker Porter Hunter Hicks Crawford Henry Boyd Mason Morales Kennedy Warren Dixon Ramos Reyes Burns Gordon Shaw Holmes Rice Robertson Hunt Black Daniels Palmer Mills Nichols Grant Knight Ferguson Rose Stone Hawkins Dunn Perkins Hudson Spencer Gardner Stephens Payne Pierce Berry Matthews Arnold Wagner Willis Ray Watkins Olson Carroll Duncan Snyder Hart Cunningham Bradley Lane Andrews Ruiz Harper Fox Riley Armstrong Carpenter Weaver Greene Lawrence Elliott Chavez Sims Austin Peters Kelley Franklin Lawson Fields Gutierrez Ryan Schmidt Carr Vasquez Castillo Wheeler Chapman Oliver Montgomery Richards Williamson Johnston Banks Meyer Bishop Mccoy Howell Alvarez Morrison Hansen Fernandez Garza Harvey Little Burton Stanley Nguyen George Jacobs Reid Kim Fuller Lynch Dean Gilbert Garrett Romero Welch Larson Frazier Burke Hanson Day Mendoza Moreno Bowman Medina Fowler Brewer Hoffman Carlson Silva Pearson Holland Douglas Fleming Jensen Vargas Byrd Davidson Hopkins May Terry Herrera Wade Soto Walters Curtis Neal Caldwell Lowe Jennings Barnett Graves Jimenez Horton Shelton Barrett Obrien Castro Sutton Gregory Mckinney Lucas Miles Craig Rodriquez Chambers Holt Lambert Fletcher Watts Bates Hale Rhodes Pena Beck Newman Haynes Mcdaniel Mendez Bush Vaughn Parks Dawson Santiago Norris Hardy Love Steele Curry Powers Schultz Barker Guzman Page Munoz Ball Keller Chandler Weber Leonard Walsh Lyons Ramsey Wolfe Schneider Mullins Benson Sharp Bowen Daniel Barber Cummings Hines Baldwin Griffith Valdez Hubbard Salazar Reeves Warner Stevenson Burgess Santos Tate Cross Garner Mann Mack Moss Thornton Dennis Mcgee Farmer Delgado Aguilar Vega Glover Manning Cohen Harmon Rodgers Robbins Newton Todd Blair Higgins Ingram Reese Cannon Strickland Townsend Potter Goodwin Walton Rowe Hampton Ortega Patton Swanson Joseph Francis Goodman Maldonado Yates Becker Erickson Hodges Rios Conner Adkins Webster Norman Malone Hammond Flowers Cobb Moody Quinn Blake Maxwell Pope Floyd Osborne Paul Mccarthy Guerrero Lindsey Estrada Sandoval Gibbs Tyler Gross Fitzgerald Stokes Doyle Sherman Saunders Wise Colon Gill Alvarado Greer Padilla Simon Waters Nunez Ballard Schwartz Mcbride Houston Christensen Klein Pratt Briggs Parsons Mclaughlin Zimmerman French Buchanan Moran Copeland Roy Pittman Brady Mccormick Holloway Brock Poole Frank Logan Owen Bass Marsh Drake Wong Jefferson Park Morton Abbott Sparks Patrick Norton Huff Clayton Massey Lloyd Figueroa Carson Bowers Roberson Barton Tran Lamb Harrington Casey Boone Cortez Clarke Mathis Singleton Wilkins Cain Bryan Underwood Hogan Mckenzie Collier Luna Phelps Mcguire Allison Bridges Wilkerson Nash Summers Atkins}
+          
+          @streetnames = %w{Park Main Oak Pine Maple Cedar Elm Lake Hill Second Washington}
+          @zipcodes = {
+            '01000' => {'city' => 'Springfield', 'state'=> 'MA'},
+            '01200' => {'city' => 'Springfield', 'state'=> 'MA'},
+            '01400' => {'city' => 'Worcester', 'state'=> 'MA'},
+            '02000' => {'city' => 'Brockton', 'state'=> 'MA'},
+            '02100' => {'city' => 'Boston', 'state'=> 'MA'},
+            '02500' => {'city' => 'Cape Cod', 'state'=> 'MA'},
+            '03000' => {'city' => 'Manchester', 'state'=> 'NH'},
+            '03300' => {'city' => 'Concord', 'state'=> 'NH'},
+            '03500' => {'city' => 'White River Junction', 'state'=> 'VT'},
+            '03800' => {'city' => 'Portsmouth', 'state'=> 'NH'},
+            '04000' => {'city' => 'Portland', 'state'=> 'ME'},
+            '04400' => {'city' => 'Bangor', 'state'=> 'ME'},
+            '05400' => {'city' => 'Burlington', 'state'=> 'VT'},
+            '06000' => {'city' => 'Hartford', 'state'=> 'CT'},
+            '06500' => {'city' => 'New Haven', 'state'=> 'CT'}
+          }
         end
-        
+
         # Pick a gender at random
         # @return 'M' or 'F'
         def gender
           @genders[rand(@genders.length)]
         end
-        
+
         # Pick a forename at random appropriate for the supplied gender
         # @param [String] gender the gender 'M' or 'F'
         # @return a suitable forename
         def forename(gender)
           @forenames[gender][rand(@forenames[gender].length)]
         end
-        
+
         # Pick a surname at random
         # @return a surname
         def surname
           @surnames[rand(@surnames.length)]
         end
         
+        # Create an address at random
+        # @return an address hash
+        def address
+          zip = @zipcodes.keys[rand(@zipcodes.length)]
+          {
+            'street' => [
+              "#{rand(100)} #{@streetnames[rand(@streetnames.length)]} Street"
+            ],
+            'city' => @zipcodes[zip]['city'],
+            'state' => @zipcodes[zip]['state'],
+            'postalCode' => zip
+          }.to_json
+        end
+
+        # Pick a patient id, which will be a 10 character string, limited to numeric
+        # values for the string
+        def patient_id
+          (0...10).map{ ('0'..'9').to_a[rand(10)] }.join.to_s
+        end
+
         # Return a set of randomly selected numbers between two bounds
         # @param [int] min the lower inclusive bound
         # @param [int] max the upper inclusive bound
@@ -53,7 +94,7 @@ module QME
           end
           result.to_json
         end
-      
+
         # Return a randomly selected number between two bounds
         # @param [int] min the lower inclusive bound
         # @param [int] max the upper inclusive bound
@@ -62,14 +103,14 @@ module QME
           span = max.to_i - min.to_i + 1
           min.to_i+rand(span)
         end
-        
+
         # Pick true or false according to the supplied probability
         # @param [int] probability the probability of getting true as a percentage
         # @return [boolean] true or false
         def percent(probability)
           return rand(100)<probability
         end
-      
+
         # Get a binding that for the current instance
         # @return [Binding]
         def get_binding
@@ -82,7 +123,7 @@ module QME
       def initialize(patient)
         @template = ERB.new(patient)
       end
-      
+
       # Get a randomized record based on the stored template
       # @return [String] a randomized patient
       def get
@@ -91,5 +132,7 @@ module QME
       end
 
     end
+
   end
+
 end

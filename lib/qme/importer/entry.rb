@@ -22,7 +22,9 @@ module QME
         if event['description']
           entry.description = event['description']
         end
-        
+        if event['status']
+          entry.status = event['status']
+        end
         entry
       end
 

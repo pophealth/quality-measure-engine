@@ -1,11 +1,13 @@
 module QME
+
   module MapReduce
 
     # Computes the value of quality measures based on the current set of patient
     # records in the database
     class Executor
+
       include DatabaseAccess
-      
+
       # Create a new Executor for a specific measure, effective date and patient population.
       # @param [String] measure_id the measure identifier
       # @param [String] sub_id the measure sub-identifier or null if the measure is single numerator
@@ -29,15 +31,12 @@ module QME
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id']}
-        
         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
             result[measure_group] = cursor.count
           end
         end
-        
         get_db.collection("query_cache").save(result)
-        
         result
       end
 

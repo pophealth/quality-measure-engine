@@ -12,13 +12,13 @@ module QME
         test_id = options['test_id'] ? BSON::ObjectId(options['test_id']) : nil
         template_dir = options['template_dir']
         count = options['count']
-        
+
         tick('Reading templates')
         templates = []
         Dir.glob(File.join(template_dir, '*.json.erb')).each do |file|
           templates << File.read(file)
         end
-        
+
         tick('Initializing parser')
         processed_measures = {}
         QME::QualityMeasure.all.each_value do |measure_def|
@@ -28,7 +28,7 @@ module QME
             processed_measures[measure_id]=true
           end
         end
-    
+
         loader = QME::Database::Loader.new()
         tick('Generating patients')
         count.times do |i|
@@ -40,7 +40,7 @@ module QME
           patient_record_hash['test_id'] = test_id
           loader.save('records', patient_record_hash)
         end
-        
+
         completed
       end
     end

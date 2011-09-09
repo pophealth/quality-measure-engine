@@ -85,18 +85,17 @@ module QME
         ids.each do |id|
           tag = id['ID']
           value = id.content
-          #          STDERR.puts "tag = #{tag} value = #{value}"
           id_map[tag] = value
         end
         return id_map
       end
-      
-        # @param [boolean] value for check_usable_entries...importer uses true, stats uses false 
-        def check_usable(check_usable_entries)
-          @section_importers.each_pair do |section, importer|
-            importer.check_for_usable = check_usable_entries
-          end
+
+      # @param [boolean] value for check_usable_entries...importer uses true, stats uses false 
+      def check_usable(check_usable_entries)
+        @section_importers.each_pair do |section, importer|
+          importer.check_for_usable = check_usable_entries
         end
+      end
 
       # Parses a HITSP C32 document and returns a Hash of of the patient.
       #
@@ -110,16 +109,19 @@ module QME
         process_events(c32_patient, entries)
       end
 
-      # Parses a patient hash containing demongraphic and event information
+      # Parses a patient hash containing demographic and event information
       #
       # @param [Hash] patient_hash patient data
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_hash(patient_hash)
         patient_record = {}
         patient_record['first'] = patient_hash['first']
+        patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['last'] = patient_hash['last']
         patient_record['gender'] = patient_hash['gender']
+        patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['birthdate'] = patient_hash['birthdate']
+        patient_record['addresses'] = patient_hash['addresses']
         event_hash = {}
         patient_hash['events'].each do |key, value|
           event_hash[key.intern] = parse_events(value)
@@ -140,7 +142,7 @@ module QME
         @measure_importers.each_pair do |measure_id, importer|
           patient_record['measures'][measure_id] = importer.parse(entries)
         end
-        
+
         entries.each_pair do |key, value|
           patient_record[key] = value.map do |e|
             if e.usable?
@@ -150,7 +152,7 @@ module QME
             end
           end.compact
         end
-        
+
         patient_record
       end
 

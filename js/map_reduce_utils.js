@@ -66,6 +66,8 @@ function() {
     if (allInDateRange.length==0)
       return defaultValue;
     var min = _.min(allInDateRange, function(reading) {return reading.value;});
+    if (min==undefined)
+      return defaultValue;
     return min.value;
   };
   
@@ -83,6 +85,8 @@ function() {
     if (allInDateRange.length==0)
       return defaultValue;
     var latest = _.max(allInDateRange, function(reading) {return reading.date;});
+    if (latest==undefined)
+      return defaultValue;
     return latest.value;
   };
   
@@ -116,6 +120,7 @@ function() {
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: false, denominator: false, numerator: false, 
                  exclusions: false, antinumerator: false, patient_id: record._id,
+                 medical_record_id: record.patient_id,
                  first: record.first, last: record.last, gender: record.gender,
                  birthdate: record.birthdate, test_id: record.test_id};
     if (population()) {
