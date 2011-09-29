@@ -4,6 +4,7 @@
   "first": "<%= forename(sex) %>",
   "last": "<%= surname %>",
   "gender": "<%= sex %>",
+  "addresses": [<%= address %>],
   "patient_id": "<%= (0...10).map{ ('0'..'9').to_a[rand(10)] }.join.to_s %>",
   "birthdate": <%= between(Time.gm(1930, 1, 1), Time.gm(1960, 12, 31)) %>,
   "events": {

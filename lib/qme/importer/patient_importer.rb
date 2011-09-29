@@ -121,6 +121,7 @@ module QME
         patient_record['gender'] = patient_hash['gender']
         patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['birthdate'] = patient_hash['birthdate']
+        patient_record['addresses'] = patient_hash['addresses']
         event_hash = {}
         patient_hash['events'].each do |key, value|
           event_hash[key.intern] = parse_events(value)
