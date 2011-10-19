@@ -115,7 +115,7 @@ module QME
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_hash(patient_hash)
         patient_record = {}
-        patient_record['first'] = patient_hash['first']
+        patient_record['first'] = 'Wooooo!'#patient_hash['first']
         patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['last'] = patient_hash['last']
         patient_record['gender'] = patient_hash['gender']
