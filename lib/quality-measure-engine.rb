@@ -24,6 +24,7 @@ require_relative 'qme/importer/hl7_helper'
 
 require_relative 'qme/importer/section_importer'
 require_relative 'qme/importer/generic_importer'
+require_relative 'qme/importer/provider_importer'
 
 require 'json'
 require 'mongo'
