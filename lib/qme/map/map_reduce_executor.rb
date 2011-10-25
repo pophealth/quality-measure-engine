@@ -28,9 +28,12 @@ module QME
         query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                  'value.effective_date' => @parameter_values['effective_date'],
                  'value.test_id' => @parameter_values['test_id']}
+        
+        query.merge!(filter_parameters)
+                 
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
-                  :test_id => @parameter_values['test_id']}
+                  :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
             result[measure_group] = cursor.count
@@ -51,6 +54,16 @@ module QME
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
                            :query => {:test_id => @parameter_values['test_id']})
+      end
+      
+      def filter_parameters
+        if(filters = @parameter_values['filters'])
+          if (filters['providers'] && filters['providers'].size > 0)
+            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id)}
+            return {'value.provider_performances.provider_id' => {'$in' => providers}}
+          end
+        end
+        {}
       end
     end
   end

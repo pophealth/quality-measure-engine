@@ -39,7 +39,8 @@ module QME
     def calculate
       MapReduce::MeasureCalculationJob.create(:measure_id => @measure_id, :sub_id => @sub_id, 
                                               :effective_date => @parameter_values['effective_date'], 
-                                              :test_id => @parameter_values['test_id'])
+                                              :test_id => @parameter_values['test_id'],
+                                              :filters => @parameter_values['filters'])
     end
     
     # Returns the status of a measure calculation job
