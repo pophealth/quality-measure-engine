@@ -30,7 +30,7 @@ module QME
                  'value.test_id' => @parameter_values['test_id']}
         
         query.merge!(filter_parameters)
-                 
+        
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
