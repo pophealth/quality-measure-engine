@@ -33,19 +33,24 @@ module QME
     def calculated?
       ! result().nil?
     end
+
+    def patients_cached?
+      ! unfiltered_result().nil?
+    end
     
     # Kicks off a background job to calculate the measure
     # @return a unique id for the measure calculation job
     def calculate
       MapReduce::MeasureCalculationJob.create(:measure_id => @measure_id, :sub_id => @sub_id, 
                                               :effective_date => @parameter_values['effective_date'], 
-                                              :test_id => @parameter_values['test_id'])
+                                              :test_id => @parameter_values['test_id'],
+                                              :filters => @parameter_values['filters'])
     end
     
     # Returns the status of a measure calculation job
     # @param job_id the id of the job to check on
     # @return [Hash] containing status information on the measure calculation job
-    def status(job_id)
+    def self.status(job_id)
       Resque::Status.get(job_id)
     end
     
@@ -57,7 +62,17 @@ module QME
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
                :effective_date => @parameter_values['effective_date'],
                :test_id => @parameter_values['test_id']}
+      query.merge!({filters: @parameter_values['filters']}) if @parameter_values['filters']
       cache.find_one(query)
     end
+    
+    def unfiltered_result
+      cache = get_db.collection("query_cache")
+      query = {:measure_id => @measure_id, :sub_id => @sub_id, 
+               :effective_date => @parameter_values['effective_date'],
+               :test_id => @parameter_values['test_id']}
+      cache.find_one(query)
+    end
+    
   end
 end
