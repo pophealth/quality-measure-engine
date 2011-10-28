@@ -67,8 +67,8 @@ module QME
     end
     
     # make sure all filter id arrays are sorted
-    def self.normalize_filters(filters) 
-      filters.each {|key, value| value.sort! if value.is_a? Array}
+    def self.normalize_filters(filters)
+      filters.each {|key, value| value.sort! if value.is_a? Array} unless filters.nil?
     end
     
     def unfiltered_result
