@@ -44,13 +44,13 @@ module QME
       MapReduce::MeasureCalculationJob.create(:measure_id => @measure_id, :sub_id => @sub_id, 
                                               :effective_date => @parameter_values['effective_date'], 
                                               :test_id => @parameter_values['test_id'],
-                                              :filters => @parameter_values['filters'])
+                                              :filters => QME::QualityReport.normalize_filters(@parameter_values['filters']))
     end
     
     # Returns the status of a measure calculation job
     # @param job_id the id of the job to check on
     # @return [Hash] containing status information on the measure calculation job
-    def self.status(job_id)
+    def status(job_id)
       Resque::Status.get(job_id)
     end
     
@@ -62,8 +62,13 @@ module QME
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
                :effective_date => @parameter_values['effective_date'],
                :test_id => @parameter_values['test_id']}
-      query.merge!({filters: @parameter_values['filters']}) if @parameter_values['filters']
+      query.merge!({filters: QME::QualityReport.normalize_filters(@parameter_values['filters'])}) if @parameter_values['filters']
       cache.find_one(query)
+    end
+    
+    # make sure all filter id arrays are sorted
+    def self.normalize_filters(filters) 
+      filters.each {|key, value| value.sort! if value.is_a? Array}
     end
     
     def unfiltered_result
