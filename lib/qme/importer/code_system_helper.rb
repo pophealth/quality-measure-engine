@@ -22,23 +22,18 @@ module QME
         CODE_SYSTEMS[oid] || "Unknown"
       end
       
-      @@oid_map = nil
-      
       # Returns the oid for a code system given a codesystem name
       # @param [String] the name of the code system
       # @return [String] the oid of the code system
-      def self.oid_for_code_system(codesystem)
-        if(!@@oid_map)
-          @@oid_map = {}
-          CODE_SYSTEMS.each_pair do |oid, codesystem|
- #            STDERR.puts "Adding #{oid}, #{codesystem}"
-            @@oid_map[codesystem] = oid
-          end
-        end
-#        STDERR.puts "@@oid_map[#{codesystem}] = #{@@oid_map[codesystem]}"
-        return @@oid_map[codesystem]    
+      def self.oid_for_code_system(code_system)
+        CODE_SYSTEMS.invert[code_system]
       end
       
+      # Returns the whole map of OIDs to code systems
+      # @terurn [Hash] oids as keys, code system names as values
+      def self.code_systems
+        CODE_SYSTEMS
+      end
     end
   end
 end

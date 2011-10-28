@@ -2,6 +2,8 @@ require "bundler/setup"
 
 require 'resque/job_with_status'
 
+require_relative 'qme/ext/string'
+
 require_relative 'qme/database_access'
 require_relative 'qme/quality_measure'
 

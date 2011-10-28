@@ -1,3 +1,6 @@
+require "date"
+require "date/delta"
+
 module QME
   module Importer
     class ProviderImporter
@@ -9,23 +12,33 @@ module QME
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Array] an array of providers found in the document
       def extract_providers(doc)
-        performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer/cda:assignedEntity")
+        
+        performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
         
         providers = performers.map do |performer|
           provider = {}
-          name = performer.xpath("./cda:assignedPerson/cda:name")
+          entity = performer.xpath(performer, "./cda:assignedEntity")
+          name = entity.xpath("./cda:assignedPerson/cda:name")
           provider[:title]        = extract_data(name, "./cda:prefix")
           provider[:given_name]   = extract_data(name, "./cda:given")
           provider[:family_name]  = extract_data(name, "./cda:family")
-          provider[:phone]        = extract_data(performer, "./cda:telecom/@value") { |text| text.gsub("tel:", "") }
-          provider[:npi]          = extract_data(performer, "./cda:id[@root='2.16.840.1.113883.4.6']/@extension")
-          provider[:organization] = extract_data(performer, "./cda:representedOrganization/cda:name")
-          provider[:specialty]    = extract_data(performer, "./cda:code/@code")
+          provider[:phone]        = extract_data(entity, "./cda:telecom/@value") { |text| text.gsub("tel:", "") }
+          provider[:npi]          = extract_data(entity, "./cda:id[@root='2.16.840.1.113883.4.6']/@extension")
+          provider[:organization] = extract_data(entity, "./cda:representedOrganization/cda:name")
+          provider[:specialty]    = extract_data(entity, "./cda:code/@code")
+          time                    = performer.xpath(performer, "./cda:time")
+          provider[:start]        = extract_date(time, "./cda:low/@value")
+          provider[:end]          = extract_date(time, "./cda:high/@value")
           provider
         end
       end
       
       private
+      
+      def extract_date(subject,query)
+        date = extract_data(subject,query)
+        date ? Date.parse(date).to_time.to_i : nil
+      end
       
       # Returns nil if result is an empty string, block allows text munging of result if there is one
       def extract_data(subject, query)
