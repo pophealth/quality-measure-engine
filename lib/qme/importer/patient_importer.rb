@@ -210,9 +210,11 @@ module QME
         birthdate_in_hl7ts = birthdate_in_hl7ts_node['value']
         patient['birthdate'] = HL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
         gender_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:administrativeGenderCode')
-        patient['race'] = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:raceCode')
-        patient['ethnicity'] = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:ethnicGroupCode')        
         patient['gender'] = gender_node['code']
+        race_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:raceCode')
+        patient['race'] = race_node['code'] if race_node
+        ethnicity_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:ethnicGroupCode')
+        patient['ethnicity'] = ethnicity_node['code'] if ethnicity_node
         id_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:id')
         patient['patient_id'] = id_node['extension']
       end
