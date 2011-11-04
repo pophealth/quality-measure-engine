@@ -59,23 +59,26 @@ module QME
         @section_importers[:results] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")
         @section_importers[:vital_signs] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']")
         @section_importers[:medications] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration",
-        "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
-        nil,
-        "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]")
+                                                              "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
+                                                              nil,
+                                                              "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]")
         @section_importers[:conditions] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation",
-        "./cda:value",
-        "./cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.1 13883.10.20.1.50']/cda:value",
-        "./cda:text/cda:reference[@value]")
-        @section_importers[:social_history] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']")
+                                                              "./cda:value",
+                                                              "./cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.1 13883.10.20.1.50']/cda:value",
+                                                              "./cda:text/cda:reference[@value]")
+        @section_importers[:social_history] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']",
+                                                              "./cda:value",
+                                                              "./cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.1 13883.10.20.1.50']/cda:value",
+                                                              "./cda:text/cda:reference[@value]")
         @section_importers[:care_goals] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']")
         @section_importers[:medical_equipment] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.128']/cda:entry/cda:supply",
-        "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
+                                                                    "./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
         @section_importers[:allergies] = SectionImporter.new("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']",
-        "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
+                                                            "./cda:participant/cda:participantRole/cda:playingEntity/cda:code")
         @section_importers[:immunizations] = SectionImporter.new("//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.117']/cda:entry/cda:substanceAdministration",
-        "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
-        nil,
-        "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
+                                                                "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code",
+                                                                nil,
+                                                                "./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code/cda:originalText/cda:reference[@value]" )
       end
 
       def build_id_map(doc)
@@ -115,7 +118,7 @@ module QME
       # @return [Hash] a representation of the patient that can be inserted into MongoDB
       def parse_hash(patient_hash)
         patient_record = {}
-        patient_record['first'] = 'Wooooo!'#patient_hash['first']
+        patient_record['first'] = patient_hash['first']
         patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['last'] = patient_hash['last']
         patient_record['gender'] = patient_hash['gender']
