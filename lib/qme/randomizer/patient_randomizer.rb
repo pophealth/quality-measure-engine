@@ -46,6 +46,40 @@ module QME
         def gender
           @genders[rand(@genders.length)]
         end
+        
+        # Picks a race based on 2010 census estimates
+        # Pacific Islander 0.2%
+        # American Indian 0.9%
+        # Asian 4.8%
+        # Black persons 12.6%
+        # Hispanic 16.3%
+        # White 63.7%
+        def race_and_ethnicity
+          race_percent = rand(999)
+          case race_percent
+          when 0..1
+           # pacific islander
+           {race: '2076-8', ethnicity: '2186-5'}
+          when 2..10
+           # american indian
+           {race: '1002-5', ethnicity: '2186-5'}
+          when 11..58
+           # asian
+           {race: '2028-9', ethnicity: '2186-5'}
+          when 59..184
+           # black
+           {race: '2054-5', ethnicity: '2186-5'}
+          when 185..347
+           # hispanic
+           {race: '2106-3', ethnicity: '2135-2'}
+          when 348..984
+           # white (not hispanic)
+           {race: '2106-3', ethnicity: '2186-5'}
+          when 985..999
+           # other
+            {race: '2131-1', ethnicity: '2186-5'}
+          end
+        end
 
         # Pick a forename at random appropriate for the supplied gender
         # @param [String] gender the gender 'M' or 'F'
