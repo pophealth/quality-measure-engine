@@ -70,6 +70,40 @@ describe QME::Importer::PropertyMatcher do
       result.length.should == 1
     end
     
+    it "should be able to deal with boolean values" do
+      property_description = {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "properties" => {
+            "value" => {
+              "type" => "boolean"
+            },
+            "date" =>  {
+              "type" => "number"
+            }
+          }
+        },
+        "codes" =>  [
+          {
+            "set" => "SNOMED-CT",
+            "values" => ["314443004"]
+          }
+        ]
+      }
+
+      pm = QME::Importer::PropertyMatcher.new(property_description)
+
+      entry = QME::Importer::Entry.new
+      entry.add_code('314443004', 'SNOMED-CT')
+      entry.set_value('true')
+      entry.start_time = 1026777600
+
+      result = pm.match([entry])
+      result.should include({'date' => 1026777600, 'value' => true})
+      result.length.should == 1
+    end
+    
     it "should be able to deal with string" do
       property_description = {
         "type" => "array",

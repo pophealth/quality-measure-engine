@@ -33,13 +33,18 @@ module QME
     def calculated?
       ! result().nil?
     end
+
+    def patients_cached?
+      ! unfiltered_result().nil?
+    end
     
     # Kicks off a background job to calculate the measure
     # @return a unique id for the measure calculation job
     def calculate
       MapReduce::MeasureCalculationJob.create(:measure_id => @measure_id, :sub_id => @sub_id, 
                                               :effective_date => @parameter_values['effective_date'], 
-                                              :test_id => @parameter_values['test_id'])
+                                              :test_id => @parameter_values['test_id'],
+                                              :filters => QME::QualityReport.normalize_filters(@parameter_values['filters']))
     end
     
     # Returns the status of a measure calculation job
@@ -57,7 +62,22 @@ module QME
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
                :effective_date => @parameter_values['effective_date'],
                :test_id => @parameter_values['test_id']}
+      query.merge!({filters: QME::QualityReport.normalize_filters(@parameter_values['filters'])}) if @parameter_values['filters']
       cache.find_one(query)
     end
+    
+    # make sure all filter id arrays are sorted
+    def self.normalize_filters(filters)
+      filters.each {|key, value| value.sort! if value.is_a? Array} unless filters.nil?
+    end
+    
+    def unfiltered_result
+      cache = get_db.collection("query_cache")
+      query = {:measure_id => @measure_id, :sub_id => @sub_id, 
+               :effective_date => @parameter_values['effective_date'],
+               :test_id => @parameter_values['test_id']}
+      cache.find_one(query)
+    end
+    
   end
 end

@@ -124,6 +124,8 @@ module QME
         patient_record['gender'] = patient_hash['gender']
         patient_record['patient_id'] = patient_hash['patient_id']
         patient_record['birthdate'] = patient_hash['birthdate']
+        patient_record['race'] = patient_hash['race']
+        patient_record['ethnicity'] = patient_hash['ethnicity']
         patient_record['addresses'] = patient_hash['addresses']
         event_hash = {}
         patient_hash['events'].each do |key, value|
@@ -212,6 +214,10 @@ module QME
         patient['birthdate'] = HL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
         gender_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:administrativeGenderCode')
         patient['gender'] = gender_node['code']
+        race_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:raceCode')
+        patient['race'] = race_node['code'] if race_node
+        ethnicity_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:ethnicGroupCode')
+        patient['ethnicity'] = ethnicity_node['code'] if ethnicity_node
         id_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:id')
         patient['patient_id'] = id_node['extension']
       end

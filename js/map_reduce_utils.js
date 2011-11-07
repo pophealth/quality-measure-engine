@@ -122,7 +122,7 @@ function() {
                  exclusions: false, antinumerator: false, patient_id: record._id,
                  medical_record_id: record.patient_id,
                  first: record.first, last: record.last, gender: record.gender,
-                 birthdate: record.birthdate, test_id: record.test_id};
+                 birthdate: record.birthdate, test_id: record.test_id, provider_performances: record.provider_performances};
     if (population()) {
       value.population = true;
       if (denominator()) {

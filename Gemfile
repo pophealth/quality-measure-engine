@@ -4,6 +4,7 @@ gemspec :development_group => :test
 
 gem 'bson_ext', :platforms => :mri
 gem 'rake'
+gem 'pry', :require => true
 
 group :test do
   gem 'cover_me', '>= 1.0.0.rc5', :platforms => :ruby_19
