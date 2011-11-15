@@ -20,7 +20,7 @@ module QME
         if qr.calculated?
           completed("#{options['measure_id']}#{options['sub_id']} has already been calculated")
         else
-          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'])
+          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'], 'start_time' => Time.now.to_i)
 
           if !qr.patients_cached?
             tick('Starting MapReduce')

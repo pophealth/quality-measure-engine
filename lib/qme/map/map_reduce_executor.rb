@@ -34,11 +34,24 @@ module QME
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
-        %w(population denominator numerator antinumerator exclusions).each do |measure_group|
-          patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
-            result[measure_group] = cursor.count
-          end
-        end
+        
+        aggregate = patient_cache.group({cond: query, 
+                                           initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}, 
+                                           reduce: "function(record,sums) { for (var key in sums) { sums[key] += (record['value'][key]) ? 1 : 0 } }"}).first
+        
+        aggregate ||= {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
+        aggregate.each {|key, value| aggregate[key] = value.to_i}
+        result.merge!(aggregate)
+ 
+# need to time the old way agains the single query to verify that the single query is more performant        
+#        %w(population denominator numerator antinumerator exclusions).each do |measure_group|
+#          patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
+#            result[measure_group] = cursor.count
+#          end
+#        end
+
+        result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
+
         get_db.collection("query_cache").save(result)
         result
       end
@@ -57,13 +70,20 @@ module QME
       end
       
       def filter_parameters
+        results = {}
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
             providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id)}
-            return {'value.provider_performances.provider_id' => {'$in' => providers}}
+            results.merge!({'value.provider_performances.provider_id' => {'$in' => providers}})
+          end
+          if (filters['races'] && filters['races'].size > 0 && filters['ethnicities'] && filters['ethnicities'].size > 0)
+            results.merge!({'value.race.code' => {'$in' => filters['races']}, 'value.ethnicity.code' => {'$in' => filters['ethnicities']}})
+          end
+          if (filters['genders'] && filters['genders'].size > 0)
+            results.merge!({'value.gender' => {'$in' => filters['genders']}})
           end
         end
-        {}
+        results
       end
     end
   end
