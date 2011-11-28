@@ -73,7 +73,8 @@ module QME
         results = {}
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id)}
+            # TODO: NEED TO CHECK DATES FOR PROVIDER PERFORMANCE
+            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
             results.merge!({'value.provider_performances.provider_id' => {'$in' => providers}})
           end
           if (filters['races'] && filters['races'].size > 0 && filters['ethnicities'] && filters['ethnicities'].size > 0)
