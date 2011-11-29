@@ -73,9 +73,8 @@ module QME
         results = {}
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
-            # TODO: NEED TO CHECK DATES FOR PROVIDER PERFORMANCE
             providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
-            results.merge!({'value.provider_performances.provider_id' => {'$in' => providers}})
+            results.merge!(provider_queries(providers, @parameter_values['effective_date']))
           end
           if (filters['races'] && filters['races'].size > 0 && filters['ethnicities'] && filters['ethnicities'].size > 0)
             results.merge!({'value.race.code' => {'$in' => filters['races']}, 'value.ethnicity.code' => {'$in' => filters['ethnicities']}})
@@ -85,6 +84,12 @@ module QME
           end
         end
         results
+      end
+      def provider_queries(provider_ids, effective_date)
+       {'$or' => [provider_query(provider_ids, effective_date,effective_date), provider_query(provider_ids, nil,effective_date), provider_query(provider_ids, effective_date,nil)]}
+      end
+      def provider_query(provider_ids, start_before, end_after)
+        {'value.provider_performances' => {'$elemMatch' => {'provider_id' => {'$in' => provider_ids}, 'start_date'=> {'$lt'=>start_before}, 'end_date'=> {'$gt'=>end_after} } }}
       end
     end
   end
