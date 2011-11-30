@@ -76,8 +76,8 @@ module QME
             providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
             results.merge!(provider_queries(providers, @parameter_values['effective_date']))
           end
-          if (filters['races'] && filters['races'].size > 0 && filters['ethnicities'] && filters['ethnicities'].size > 0)
-            results.merge!({'value.race.code' => {'$in' => filters['races']}, 'value.ethnicity.code' => {'$in' => filters['ethnicities']}})
+          if (filters['races_ethnicities'] && filters['races_ethnicities'].size > 0)
+            results.merge!(race_ethnicity_queries(filters['races_ethnicities']))
           end
           if (filters['genders'] && filters['genders'].size > 0)
             results.merge!({'value.gender' => {'$in' => filters['genders']}})
@@ -90,6 +90,12 @@ module QME
       end
       def provider_query(provider_ids, start_before, end_after)
         {'value.provider_performances' => {'$elemMatch' => {'provider_id' => {'$in' => provider_ids}, 'start_date'=> {'$lt'=>start_before}, 'end_date'=> {'$gt'=>end_after} } }}
+      end
+      def race_ethnicity_queries(races_ethnicities) 
+        {'$or'=>races_ethnicities.map {|race_ethnicity| race_ethnicity_query(race_ethnicity['race'], race_ethnicity['ethnicity'])}}
+      end
+      def race_ethnicity_query(races, ethnicities) 
+        {'value.race.code' => {'$in' => races}, 'value.ethnicity.code' => {'$in' => ethnicities}}
       end
     end
   end
