@@ -69,6 +69,19 @@ module QME
                            :query => {:test_id => @parameter_values['test_id']})
       end
       
+      # This method runs the MapReduce job for the measure and a specific patient.
+      # This will create a document in the patient_cache collection. This document
+      # will state the measure groups that the record belongs to, such as numerator, etc.
+      def map_record_into_measure_groups(patient_id)
+        qm = QualityMeasure.new(@measure_id, @sub_id)
+        measure = Builder.new(get_db, qm.definition, @parameter_values)
+        records = get_db.collection('records')
+        records.map_reduce(measure.map_function, "function(key, values){return values;}",
+                           :out => {:reduce => 'patient_cache'}, 
+                           :finalize => measure.finalize_function,
+                           :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+      end
+
       def filter_parameters
         results = {}
         conditions = []
