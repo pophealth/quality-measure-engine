@@ -28,14 +28,16 @@ module QME
       
       # get a list of cached measure results for the patient and then remove them
       sample_patient = get_db.collection('patient_cache').find_one()
-      cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
-      
-      # for each cached result
-      cached_results.each do |measure|
-        # recalculate patient_cache value for modified patient
-        value = measure['value']
-        map = QME::MapReduce::Executor.new(value['measure_id'], value['sub_id'], 'effective_date' => value['effective_date'], 'test_id' => value['test_id'])
-        map.map_record_into_measure_groups(id)
+      if sample_patient
+        cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
+        
+        # for each cached result
+        cached_results.each do |measure|
+          # recalculate patient_cache value for modified patient
+          value = measure['value']
+          map = QME::MapReduce::Executor.new(value['measure_id'], value['sub_id'], 'effective_date' => value['effective_date'], 'test_id' => value['test_id'])
+          map.map_record_into_measure_groups(id)
+        end
       end
     end
 
