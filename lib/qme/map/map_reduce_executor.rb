@@ -52,7 +52,7 @@ module QME
 
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
 
-        get_db.collection("query_cache").save(result)
+        get_db.collection("query_cache").save(result, safe: true)
         result
       end
 
@@ -71,18 +71,20 @@ module QME
       
       def filter_parameters
         results = {}
+        conditions = []
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
             providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
-            results.merge!(provider_queries(providers, @parameter_values['effective_date']))
+            conditions << provider_queries(providers, @parameter_values['effective_date'])
           end
           if (filters['races_ethnicities'] && filters['races_ethnicities'].size > 0)
-            results.merge!(race_ethnicity_queries(filters['races_ethnicities']))
+            conditions << race_ethnicity_queries(filters['races_ethnicities'])
           end
           if (filters['genders'] && filters['genders'].size > 0)
-            results.merge!({'value.gender' => {'$in' => filters['genders']}})
+            conditions << {'value.gender' => {'$in' => filters['genders']}}
           end
         end
+        results.merge!({'$and'=>conditions}) if conditions.length > 0
         results
       end
       def provider_queries(provider_ids, effective_date)
