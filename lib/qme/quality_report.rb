@@ -13,6 +13,31 @@ module QME
       get_db.collection("query_cache").drop
       get_db.collection("patient_cache").drop
     end
+    
+    # Removes the cached results for the patient with the supplied id and
+    # recalculates as necessary
+    def self.update_patient_results(id)
+      determine_connection_information
+      
+      # update calculation count to indicate that any calculations currently in flight
+      # should be abandoned
+
+      # drop any cached measure result calculations
+      get_db.collection("query_cache").drop
+      get_db.collection("patient_cache").remove('value.medical_record_id' => id)
+      
+      # get a list of cached measure results for the patient and then remove them
+      sample_patient = get_db.collection('patient_cache').find_one()
+      cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
+      
+      # for each cached result
+      cached_results.each do |measure|
+        # recalculate patient_cache value for modified patient
+        value = measure['value']
+        map = QME::MapReduce::Executor.new(value['measure_id'], value['sub_id'], 'effective_date' => value['effective_date'], 'test_id' => value['test_id'])
+        map.map_record_into_measure_groups(id)
+      end
+    end
 
     # Creates a new QualityReport
     # @param [String] measure_id value of the measure's id field
@@ -34,8 +59,10 @@ module QME
       ! result().nil?
     end
 
+    # Determines whether the patient mapping for the quality report has been
+    # completed
     def patients_cached?
-      ! unfiltered_result().nil?
+      ! patient_result().nil?
     end
     
     # Kicks off a background job to calculate the measure
@@ -76,11 +103,11 @@ module QME
       filters.each {|key, value| value.sort_by! {|v| (v.is_a? Hash) ? "#{v}" : v} if value.is_a? Array} unless filters.nil?
     end
     
-    def unfiltered_result
-      cache = get_db.collection("query_cache")
-      query = {:measure_id => @measure_id, :sub_id => @sub_id, 
-               :effective_date => @parameter_values['effective_date'],
-               :test_id => @parameter_values['test_id']}
+    def patient_result
+      cache = get_db.collection("patient_cache")
+      query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id, 
+               'value.effective_date' => @parameter_values['effective_date'],
+               'value.test_id' => @parameter_values['test_id']}
       cache.find_one(query)
     end
     
