@@ -38,6 +38,11 @@ module QME
         end
         
       end
+      
+#      This can be uncommented and changed to put the jobs on a separate queue.  
+#      def self.queue
+#        :statused
+#      end
     end
   end
 end
