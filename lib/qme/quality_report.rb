@@ -19,23 +19,26 @@ module QME
     def self.update_patient_results(id)
       determine_connection_information
       
-      # update calculation count to indicate that any calculations currently in flight
-      # should be abandoned
+      # TODO: need to wait for any outstanding calculations to complete and then prevent
+      # any new ones from starting until we are done.
 
       # drop any cached measure result calculations
       get_db.collection("query_cache").drop
       get_db.collection("patient_cache").remove('value.medical_record_id' => id)
       
-      # get a list of cached measure results for the patient and then remove them
+      # get a list of cached measure results for a single patient
       sample_patient = get_db.collection('patient_cache').find_one()
-      cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
-      
-      # for each cached result
-      cached_results.each do |measure|
-        # recalculate patient_cache value for modified patient
-        value = measure['value']
-        map = QME::MapReduce::Executor.new(value['measure_id'], value['sub_id'], 'effective_date' => value['effective_date'], 'test_id' => value['test_id'])
-        map.map_record_into_measure_groups(id)
+      if sample_patient
+        cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
+        
+        # for each cached result (a combination of measure_id, sub_id, effective_date and test_id)
+        cached_results.each do |measure|
+          # recalculate patient_cache value for modified patient
+          value = measure['value']
+          map = QME::MapReduce::Executor.new(value['measure_id'], value['sub_id'],
+            'effective_date' => value['effective_date'], 'test_id' => value['test_id'])
+          map.map_record_into_measure_groups(id)
+        end
       end
     end
 
