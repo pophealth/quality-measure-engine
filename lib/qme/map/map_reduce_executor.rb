@@ -42,7 +42,7 @@ module QME
         aggregate ||= {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
         aggregate.each {|key, value| aggregate[key] = value.to_i}
         result.merge!(aggregate)
- 
+        
 # need to time the old way agains the single query to verify that the single query is more performant        
 #        %w(population denominator numerator antinumerator exclusions).each do |measure_group|
 #          patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
@@ -90,8 +90,11 @@ module QME
             providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
             conditions << provider_queries(providers, @parameter_values['effective_date'])
           end
-          if (filters['races_ethnicities'] && filters['races_ethnicities'].size > 0)
-            conditions << race_ethnicity_queries(filters['races_ethnicities'])
+          if (filters['races'] && filters['races'].size > 0)
+            conditions << {'value.race.code' => {'$in' => filters['races']}}
+          end
+          if (filters['ethnicities'] && filters['ethnicities'].size > 0)
+            conditions << {'value.ethnicity.code' => {'$in' => filters['ethnicities']}}
           end
           if (filters['genders'] && filters['genders'].size > 0)
             conditions << {'value.gender' => {'$in' => filters['genders']}}
@@ -105,12 +108,6 @@ module QME
       end
       def provider_query(provider_ids, start_before, end_after)
         {'value.provider_performances' => {'$elemMatch' => {'provider_id' => {'$in' => provider_ids}, 'start_date'=> {'$lt'=>start_before}, 'end_date'=> {'$gt'=>end_after} } }}
-      end
-      def race_ethnicity_queries(races_ethnicities) 
-        {'$or'=>races_ethnicities.map {|race_ethnicity| race_ethnicity_query(race_ethnicity['race'], race_ethnicity['ethnicity'])}}
-      end
-      def race_ethnicity_query(races, ethnicities) 
-        {'value.race.code' => {'$in' => races}, 'value.ethnicity.code' => {'$in' => ethnicities}}
       end
     end
   end
