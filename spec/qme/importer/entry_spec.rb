@@ -48,4 +48,19 @@ describe QME::Importer::Entry do
     h['time'].should == 1270598400
     h['codes']['RxNorm'].should include('44556699')
   end
+  
+  it "should be able to create itself from a hash with a single code" do
+    hash = {'code' => '1234', 'code_set' => 'RxNorm', 'time' => 1270598400}
+    entry = QME::Importer::Entry.from_event_hash(hash)
+    entry.codes['RxNorm'].should include('1234')
+    entry.time.should == 1270598400
+  end
+  
+  it "should be able to create itself from a hash with a full set of codes" do
+    hash = {'codes' => {'RxNorm' => ['1234'], 'SNOMED-CT' => ['5678']}, 'time' => 1270598400}
+    entry = QME::Importer::Entry.from_event_hash(hash)
+    entry.codes['RxNorm'].should include('1234')
+    entry.codes['SNOMED-CT'].should include('5678')
+    entry.time.should == 1270598400
+  end
 end
