@@ -36,8 +36,8 @@ module QME
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
         
         aggregate = patient_cache.group({cond: query, 
-                                           initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}, 
-                                           reduce: "function(record,sums) { for (var key in sums) { sums[key] += (record['value'][key]) ? 1 : 0 } }"}).first
+                                           initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0, considered: 0}, 
+                                           reduce: "function(record,sums) { for (var key in sums) { sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0 } }"}).first
         
         aggregate ||= {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
         aggregate.each {|key, value| aggregate[key] = value.to_i}
