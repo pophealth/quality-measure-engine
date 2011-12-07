@@ -14,7 +14,10 @@ module QME
         entry = Entry.new
         if event['code']
           entry.add_code(event['code'], event['code_set'])
+        elsif event['codes']
+          entry.instance_eval { @codes = event['codes'] }
         end
+        
         entry.time = event['time']
         if event['value']
           entry.set_value(event['value'], event['unit'])
