@@ -28,15 +28,31 @@ module QME
         query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                  'value.effective_date' => @parameter_values['effective_date'],
                  'value.test_id' => @parameter_values['test_id']}
+        
+        query.merge!(filter_parameters)
+        
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
-                  :test_id => @parameter_values['test_id']}
-        %w(population denominator numerator antinumerator exclusions).each do |measure_group|
-          patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
-            result[measure_group] = cursor.count
-          end
-        end
-        get_db.collection("query_cache").save(result)
+                  :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
+        
+        aggregate = patient_cache.group({cond: query, 
+                                           initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0, considered: 0}, 
+                                           reduce: "function(record,sums) { for (var key in sums) { sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0 } }"}).first
+        
+        aggregate ||= {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
+        aggregate.each {|key, value| aggregate[key] = value.to_i}
+        result.merge!(aggregate)
+        
+# need to time the old way agains the single query to verify that the single query is more performant        
+#        %w(population denominator numerator antinumerator exclusions).each do |measure_group|
+#          patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
+#            result[measure_group] = cursor.count
+#          end
+#        end
+
+        result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
+
+        get_db.collection("query_cache").save(result, safe: true)
         result
       end
 
@@ -51,6 +67,47 @@ module QME
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
                            :query => {:test_id => @parameter_values['test_id']})
+      end
+      
+      # This method runs the MapReduce job for the measure and a specific patient.
+      # This will create a document in the patient_cache collection. This document
+      # will state the measure groups that the record belongs to, such as numerator, etc.
+      def map_record_into_measure_groups(patient_id)
+        qm = QualityMeasure.new(@measure_id, @sub_id)
+        measure = Builder.new(get_db, qm.definition, @parameter_values)
+        records = get_db.collection('records')
+        records.map_reduce(measure.map_function, "function(key, values){return values;}",
+                           :out => {:reduce => 'patient_cache'}, 
+                           :finalize => measure.finalize_function,
+                           :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+      end
+
+      def filter_parameters
+        results = {}
+        conditions = []
+        if(filters = @parameter_values['filters'])
+          if (filters['providers'] && filters['providers'].size > 0)
+            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
+            conditions << provider_queries(providers, @parameter_values['effective_date'])
+          end
+          if (filters['races'] && filters['races'].size > 0)
+            conditions << {'value.race.code' => {'$in' => filters['races']}}
+          end
+          if (filters['ethnicities'] && filters['ethnicities'].size > 0)
+            conditions << {'value.ethnicity.code' => {'$in' => filters['ethnicities']}}
+          end
+          if (filters['genders'] && filters['genders'].size > 0)
+            conditions << {'value.gender' => {'$in' => filters['genders']}}
+          end
+        end
+        results.merge!({'$and'=>conditions}) if conditions.length > 0
+        results
+      end
+      def provider_queries(provider_ids, effective_date)
+       {'$or' => [provider_query(provider_ids, effective_date,effective_date), provider_query(provider_ids, nil,effective_date), provider_query(provider_ids, effective_date,nil)]}
+      end
+      def provider_query(provider_ids, start_before, end_after)
+        {'value.provider_performances' => {'$elemMatch' => {'provider_id' => {'$in' => provider_ids}, 'start_date'=> {'$lt'=>start_before}, 'end_date'=> {'$gt'=>end_after} } }}
       end
     end
   end

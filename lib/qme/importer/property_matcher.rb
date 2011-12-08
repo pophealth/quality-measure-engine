@@ -46,6 +46,8 @@ module QME
           if value
             if @property_description['items']['properties']['value']['type'] == 'number'
               value = value.to_f
+            elsif @property_description['items']['properties']['value']['type'] == 'boolean'
+              value = value.to_boolean
             end
             
             matching_values << {'date' => entry.as_point_in_time, 'value' => value}

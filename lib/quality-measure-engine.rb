@@ -2,6 +2,8 @@ require "bundler/setup"
 
 require 'resque/job_with_status'
 
+require_relative 'qme/ext/string'
+
 require_relative 'qme/database_access'
 require_relative 'qme/quality_measure'
 
@@ -24,6 +26,7 @@ require_relative 'qme/importer/hl7_helper'
 
 require_relative 'qme/importer/section_importer'
 require_relative 'qme/importer/generic_importer'
+require_relative 'qme/importer/provider_importer'
 
 require 'json'
 require 'mongo'

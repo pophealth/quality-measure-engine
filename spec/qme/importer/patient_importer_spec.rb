@@ -15,6 +15,8 @@ describe QME::Importer::PatientImporter do
     patient['birthdate'].should == -87696000
     patient['gender'].should == 'M'
     patient['patient_id'].should == '24602'
+    patient['race'].should == '2108-9'
+    patient['ethnicity'].should == '2137-8'
   end
 
   it 'should import a whole patient' do

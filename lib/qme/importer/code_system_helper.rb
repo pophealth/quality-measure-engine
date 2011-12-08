@@ -12,7 +12,8 @@ module QME
         '2.16.840.1.113883.6.104' =>  'ICD-9-CM',
         '2.16.840.1.113883.6.90' =>   'ICD-10-CM',
         '2.16.840.1.113883.6.14' =>   'HCPCS',
-        '2.16.840.1.113883.6.59' =>   'CVX'
+        '2.16.840.1.113883.6.59' =>   'CVX',
+        '2.16.840.1.113883.6.238' =>   'CDC-RE'
       }
       
       # Returns the name of a code system given an oid
@@ -22,23 +23,18 @@ module QME
         CODE_SYSTEMS[oid] || "Unknown"
       end
       
-      @@oid_map = nil
-      
       # Returns the oid for a code system given a codesystem name
       # @param [String] the name of the code system
       # @return [String] the oid of the code system
-      def self.oid_for_code_system(codesystem)
-        if(!@@oid_map)
-          @@oid_map = {}
-          CODE_SYSTEMS.each_pair do |oid, codesystem|
- #            STDERR.puts "Adding #{oid}, #{codesystem}"
-            @@oid_map[codesystem] = oid
-          end
-        end
-#        STDERR.puts "@@oid_map[#{codesystem}] = #{@@oid_map[codesystem]}"
-        return @@oid_map[codesystem]    
+      def self.oid_for_code_system(code_system)
+        CODE_SYSTEMS.invert[code_system]
       end
       
+      # Returns the whole map of OIDs to code systems
+      # @terurn [Hash] oids as keys, code system names as values
+      def self.code_systems
+        CODE_SYSTEMS
+      end
     end
   end
 end
