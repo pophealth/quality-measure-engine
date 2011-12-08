@@ -100,7 +100,12 @@ module QME
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
                :effective_date => @parameter_values['effective_date'],
                :test_id => @parameter_values['test_id']}
-      query.merge!({filters: QME::QualityReport.normalize_filters(@parameter_values['filters'])}) if @parameter_values['filters']
+      if @parameter_values['filters']
+        query.merge!({filters: QME::QualityReport.normalize_filters(@parameter_values['filters'])})
+      else
+        query.merge!({filters: nil})
+      end
+        
       cache.find_one(query)
     end
     
