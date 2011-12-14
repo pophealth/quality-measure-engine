@@ -27,7 +27,8 @@ module QME
         patient_cache = get_db.collection('patient_cache')
         query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                  'value.effective_date' => @parameter_values['effective_date'],
-                 'value.test_id' => @parameter_values['test_id']}
+                 'value.test_id' => @parameter_values['test_id'],
+                 'value.manual_exclusion' => {'$in' => [nil, false]}}
         
         query.merge!(filter_parameters)
         
@@ -39,8 +40,7 @@ module QME
                                            initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0, considered: 0}, 
                                            reduce: "function(record,sums) {
                                                       for (var key in sums) {
-                                                        if (!record['value']['manual_exclusion'])
-                                                          sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0
+                                                        sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0
                                                       }
                                                     }"}).first
         
@@ -89,7 +89,7 @@ module QME
         apply_manual_exclusions
       end
       
-      # This records collects the set of manual exclusions from the manual_exclusions collections
+      # This collects the set of manual exclusions from the manual_exclusions collections
       # and sets a flag in each cached patient result for patients that have been excluded from the
       # current measure
       def apply_manual_exclusions
