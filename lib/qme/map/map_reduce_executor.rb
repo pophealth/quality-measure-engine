@@ -37,7 +37,12 @@ module QME
         
         aggregate = patient_cache.group({cond: query, 
                                            initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0, considered: 0}, 
-                                           reduce: "function(record,sums) { for (var key in sums) { sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0 } }"}).first
+                                           reduce: "function(record,sums) {
+                                                      for (var key in sums) {
+                                                        if (!record['value']['manual_exclusion'])
+                                                          sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0
+                                                      }
+                                                    }"}).first
         
         aggregate ||= {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
         aggregate.each {|key, value| aggregate[key] = value.to_i}
@@ -67,6 +72,7 @@ module QME
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
                            :query => {:test_id => @parameter_values['test_id']})
+        apply_manual_exclusions
       end
       
       # This method runs the MapReduce job for the measure and a specific patient.
@@ -80,6 +86,19 @@ module QME
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
                            :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+        apply_manual_exclusions
+      end
+      
+      # This records collects the set of manual exclusions from the manual_exclusions collections
+      # and sets a flag in each cached patient result for patients that have been excluded from the
+      # current measure
+      def apply_manual_exclusions
+        exclusions = get_db.collection('manual_exclusions').find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
+          exclusion['medical_record_id']
+        end
+        get_db.collection('patient_cache').update(
+          {'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} },
+          {'$set'=>{'value.manual_exclusion'=>true}}, :multi=>true)
       end
 
       def filter_parameters
