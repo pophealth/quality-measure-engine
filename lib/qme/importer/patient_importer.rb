@@ -123,6 +123,7 @@ module QME
         patient_record['birthdate'] = patient_hash['birthdate']
         patient_record['race'] = patient_hash['race']
         patient_record['ethnicity'] = patient_hash['ethnicity']
+        patient_record['language'] = patient_hash['language']
         patient_record['addresses'] = patient_hash['addresses']
         event_hash = {}
         patient_hash['events'].each do |key, value|

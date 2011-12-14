@@ -87,8 +87,9 @@ module QME
         conditions = []
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
-            conditions << provider_queries(providers, @parameter_values['effective_date'])
+            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if (provider_id and provider_id != 'null') }
+            # provider_performances have already been filtered by start and end date in map_reduce_builder as part of the finalize
+            conditions << {'value.provider_performances.provider_id' => {'$in' => providers}}
           end
           if (filters['races'] && filters['races'].size > 0)
             conditions << {'value.race.code' => {'$in' => filters['races']}}
@@ -99,15 +100,17 @@ module QME
           if (filters['genders'] && filters['genders'].size > 0)
             conditions << {'value.gender' => {'$in' => filters['genders']}}
           end
+          if (filters['languages'] && filters['languages'].size > 0)
+            languages = filters['languages'].clone
+            has_unspecified = languages.delete('null')
+            or_clauses = []
+            or_clauses << {'value.language'=>{'$regex'=>Regexp.new("(#{languages.join("|")})-..")}} if languages.length > 0
+            or_clauses << {'value.language'=>nil} if (has_unspecified)
+            conditions << {'$or'=>or_clauses}
+          end
         end
         results.merge!({'$and'=>conditions}) if conditions.length > 0
         results
-      end
-      def provider_queries(provider_ids, effective_date)
-       {'$or' => [provider_query(provider_ids, effective_date,effective_date), provider_query(provider_ids, nil,effective_date), provider_query(provider_ids, effective_date,nil)]}
-      end
-      def provider_query(provider_ids, start_before, end_after)
-        {'value.provider_performances' => {'$elemMatch' => {'provider_id' => {'$in' => provider_ids}, 'start_date'=> {'$lt'=>start_before}, 'end_date'=> {'$gt'=>end_after} } }}
       end
     end
   end
