@@ -123,7 +123,7 @@ module QME
         patient_record['birthdate'] = patient_hash['birthdate']
         patient_record['race'] = patient_hash['race']
         patient_record['ethnicity'] = patient_hash['ethnicity']
-        patient_record['language'] = patient_hash['language']
+        patient_record['languages'] = patient_hash['languages']
         patient_record['addresses'] = patient_hash['addresses']
         event_hash = {}
         patient_hash['events'].each do |key, value|
@@ -216,6 +216,10 @@ module QME
         patient['race'] = race_node['code'] if race_node
         ethnicity_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient/cda:ethnicGroupCode')
         patient['ethnicity'] = ethnicity_node['code'] if ethnicity_node
+
+        languages = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient').search('languageCommunication').map {|lc| lc.at_xpath('cda:languageCode')['code'] }
+        patient['languages'] = languages unless languages.empty?
+        
         id_node = doc.at_xpath('/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:id')
         patient['patient_id'] = id_node['extension']
       end

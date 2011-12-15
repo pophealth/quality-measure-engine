@@ -124,7 +124,7 @@ function() {
                  first: record.first, last: record.last, gender: record.gender,
                  birthdate: record.birthdate, test_id: record.test_id,
                  provider_performances: record.provider_performances,
-                 race: record.race, ethnicity: record.ethnicity, language: record.language};
+                 race: record.race, ethnicity: record.ethnicity, languages: record.languages};
     if (population()) {
       value.population = true;
       if (denominator()) {

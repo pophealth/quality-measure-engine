@@ -130,8 +130,8 @@ module QME
             languages = filters['languages'].clone
             has_unspecified = languages.delete('null')
             or_clauses = []
-            or_clauses << {'value.language'=>{'$regex'=>Regexp.new("(#{languages.join("|")})-..")}} if languages.length > 0
-            or_clauses << {'value.language'=>nil} if (has_unspecified)
+            or_clauses << {'value.languages'=>{'$regex'=>Regexp.new("(#{languages.join("|")})-..")}} if languages.length > 0
+            or_clauses << {'value.languages'=>nil} if (has_unspecified)
             conditions << {'$or'=>or_clauses}
           end
         end
