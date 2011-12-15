@@ -28,10 +28,11 @@ module QME
         base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                       'value.effective_date' => @parameter_values['effective_date'],
                       'value.test_id' => @parameter_values['test_id']}
+
+        base_query.merge!(filter_parameters)
         
         query = base_query.clone
         
-        query.merge!(filter_parameters)
         query.merge!({'value.manual_exclusion'=>{'$ne'=>true}})
         
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
