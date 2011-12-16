@@ -2,7 +2,8 @@ source "http://rubygems.org"
 
 gemspec :development_group => :test
 
-gem 'bson_ext', :platforms => :mri
+gem 'mongo', '1.5.1'
+gem 'bson_ext', '1.5.1',  :platforms => :mri
 gem 'rake'
 gem 'pry', :require => true
 
