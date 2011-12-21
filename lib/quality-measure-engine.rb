@@ -22,6 +22,7 @@ require_relative 'qme/ext/record'
 require_relative 'qme/importer/property_matcher'
 require_relative 'qme/importer/generic_importer'
 require_relative 'qme/importer/provider_importer'
+require_relative 'qme/importer/measure_properties_generator'
 
 require 'json'
 require 'mongo'
