@@ -10,7 +10,6 @@ gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-d
 
 group :test do
   gem 'cover_me', '>= 1.0.0.rc5', :platforms => :ruby_19
-  gem 'metric_fu'
   gem 'sinatra'
 end
 

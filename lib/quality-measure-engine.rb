@@ -2,8 +2,6 @@ require "bundler/setup"
 
 require 'resque/job_with_status'
 
-require_relative 'qme/ext/string'
-
 require_relative 'qme/database_access'
 require_relative 'qme/quality_measure'
 
@@ -17,14 +15,11 @@ require_relative 'qme/randomizer/patient_randomizer'
 require_relative 'qme/randomizer/patient_randomization_job'
 
 require 'singleton'
+require 'health-data-standards'
 
-require_relative 'qme/importer/entry'
+require_relative 'qme/ext/record'
+
 require_relative 'qme/importer/property_matcher'
-require_relative 'qme/importer/patient_importer'
-require_relative 'qme/importer/code_system_helper'
-require_relative 'qme/importer/hl7_helper'
-
-require_relative 'qme/importer/section_importer'
 require_relative 'qme/importer/generic_importer'
 require_relative 'qme/importer/provider_importer'
 
