@@ -11,6 +11,7 @@ require_relative 'qme/map/measure_calculation_job'
 
 require_relative 'qme/quality_report'
 
+require_relative 'qme/randomizer/random_patient_creator'
 require_relative 'qme/randomizer/patient_randomizer'
 require_relative 'qme/randomizer/patient_randomization_job'
 
