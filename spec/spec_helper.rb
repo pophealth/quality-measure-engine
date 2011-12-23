@@ -5,7 +5,7 @@ rescue LoadError
 end
 require 'bundler/setup'
 
-require 'pry'
+#require 'pry'
 
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
 
