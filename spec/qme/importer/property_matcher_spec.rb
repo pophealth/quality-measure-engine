@@ -26,7 +26,7 @@ describe QME::Importer::PropertyMatcher do
     
     pm = QME::Importer::PropertyMatcher.new(property_description)
     
-    entry = QME::Importer::Entry.new
+    entry = Entry.new
     entry.add_code('314443004', 'SNOMED-CT')
     entry.start_time = 1026777600
     
@@ -60,7 +60,7 @@ describe QME::Importer::PropertyMatcher do
 
       pm = QME::Importer::PropertyMatcher.new(property_description)
 
-      entry = QME::Importer::Entry.new
+      entry = Entry.new
       entry.add_code('314443004', 'SNOMED-CT')
       entry.set_value('11.45')
       entry.start_time = 1026777600
@@ -94,7 +94,7 @@ describe QME::Importer::PropertyMatcher do
 
       pm = QME::Importer::PropertyMatcher.new(property_description)
 
-      entry = QME::Importer::Entry.new
+      entry = Entry.new
       entry.add_code('314443004', 'SNOMED-CT')
       entry.set_value('true')
       entry.start_time = 1026777600
@@ -128,7 +128,7 @@ describe QME::Importer::PropertyMatcher do
 
       pm = QME::Importer::PropertyMatcher.new(property_description)
 
-      entry = QME::Importer::Entry.new
+      entry = Entry.new
       entry.add_code('314443004', 'SNOMED-CT')
       entry.set_value('super critical')
       entry.start_time = 1026777600
@@ -163,7 +163,7 @@ describe QME::Importer::PropertyMatcher do
     
     pm = QME::Importer::PropertyMatcher.new(property_description)
 
-    entry = QME::Importer::Entry.new
+    entry = Entry.new
     entry.add_code('194774006', 'SNOMED-CT')
     entry.start_time = 1026777600
     entry.end_time = 1189814400

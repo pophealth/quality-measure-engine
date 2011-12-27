@@ -28,7 +28,7 @@ namespace :patient do
     QME::QualityMeasure.all.each_value do |measure_def|
       measure_id = measure_def['id']
       if !processed_measures[measure_id]
-        QME::Importer::PatientImporter.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))
+        QME::Importer::MeasurePropertiesGenerator.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))
         processed_measures[measure_id]=true
       end
     end
@@ -37,8 +37,8 @@ namespace :patient do
       template = templates[rand(templates.length)]
       generator = QME::Randomizer::Patient.new(template)
       json = JSON.parse(generator.get())
-      patient_record = QME::Importer::PatientImporter.instance.parse_hash(json)
-      loader.save('records', patient_record)
+      patient_record = QME::Randomizer::RandomPatientCreator.parse_hash(json)
+      patient_record.save!
     end
   end
     

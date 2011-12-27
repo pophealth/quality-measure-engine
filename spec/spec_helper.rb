@@ -5,6 +5,8 @@ rescue LoadError
 end
 require 'bundler/setup'
 
+#require 'pry'
+
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
 
 require PROJECT_ROOT + 'lib/quality-measure-engine'
