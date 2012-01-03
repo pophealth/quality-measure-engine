@@ -25,15 +25,16 @@ module QME
       # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
         patient_cache = get_db.collection('patient_cache')
+<<<<<<< HEAD
         base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                       'value.effective_date' => @parameter_values['effective_date'],
-                      'value.test_id' => @parameter_values['test_id']}
+                      'value.test_id' => @parameter_values['test_id'],
+                      'value.manual_exclusion' => {'$in' => [nil, false]}}
 
         base_query.merge!(filter_parameters)
         
         query = base_query.clone
-        
-        query.merge!({'value.manual_exclusion'=>{'$ne'=>true}})
+
         
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
@@ -96,7 +97,23 @@ module QME
         apply_manual_exclusions
       end
       
-      # This records collects the set of manual exclusions from the manual_exclusions collections
+      # This method runs the MapReduce job for the measure and a specific patient.
+      # This will *not* create a document in the patient_cache collection, instead the
+      # result is returned directly.
+      def get_patient_result(patient_id)
+        qm = QualityMeasure.new(@measure_id, @sub_id)
+        measure = Builder.new(get_db, qm.definition, @parameter_values)
+        records = get_db.collection('records')
+        result = records.map_reduce(measure.map_function, "function(key, values){return values;}",
+                           :out => {:inline => true}, 
+                           :raw => true, 
+                           :finalize => measure.finalize_function,
+                           :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+        raise result['err'] if result['ok']!=1
+        result['results'][0]['value']
+      end
+      
+      # This collects the set of manual exclusions from the manual_exclusions collections
       # and sets a flag in each cached patient result for patients that have been excluded from the
       # current measure
       def apply_manual_exclusions
