@@ -11,7 +11,7 @@ module QME
         patient_record.first = patient_hash['first']
         patient_record.last = patient_hash['last']
         patient_record.gender = patient_hash['gender']
-        patient_record.medical_record_number = patient_hash['patient_id']
+        patient_record.medical_record_number = patient_hash['medical_record_number']
         patient_record.birthdate = patient_hash['birthdate']
         patient_record.race = patient_hash['race']
         patient_record.ethnicity = patient_hash['ethnicity']

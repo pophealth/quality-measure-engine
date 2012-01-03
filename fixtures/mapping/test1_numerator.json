@@ -1,5 +1,5 @@
 {
-  "patient_id": "patient1",
+  "medical_record_number": "patient1",
   "first": "Clark",                                                       // personal data
   "last": "Kent",
   "gender": "M",

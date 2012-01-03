@@ -27,13 +27,13 @@ module QME
         patient_cache = get_db.collection('patient_cache')
         base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                       'value.effective_date' => @parameter_values['effective_date'],
-                      'value.test_id' => @parameter_values['test_id'],
-                      'value.manual_exclusion' => {'$in' => [nil, false]}}
+                      'value.test_id' => @parameter_values['test_id']}
 
         base_query.merge!(filter_parameters)
         
         query = base_query.clone
 
+        query.merge!({'value.manual_exclusion' => {'$in' => [nil, false]}})
         
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
@@ -92,7 +92,7 @@ module QME
         records.map_reduce(measure.map_function, "function(key, values){return values;}",
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
-                           :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+                           :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
         apply_manual_exclusions
       end
       
@@ -107,7 +107,7 @@ module QME
                            :out => {:inline => true}, 
                            :raw => true, 
                            :finalize => measure.finalize_function,
-                           :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+                           :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
         raise result['err'] if result['ok']!=1
         result['results'][0]['value']
       end
