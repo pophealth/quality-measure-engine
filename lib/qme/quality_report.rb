@@ -22,8 +22,7 @@ module QME
       # TODO: need to wait for any outstanding calculations to complete and then prevent
       # any new ones from starting until we are done.
 
-      # drop any cached measure result calculations
-      get_db.collection("query_cache").drop
+      # drop any cached measure result calculations for the modified patient
       get_db.collection("patient_cache").remove('value.medical_record_id' => id)
       
       # get a list of cached measure results for a single patient
@@ -40,6 +39,10 @@ module QME
           map.map_record_into_measure_groups(id)
         end
       end
+      
+      # remove the query totals so they will be recalculated using the new results for
+      # the modified patient
+      get_db.collection("query_cache").drop
     end
 
     # Creates a new QualityReport

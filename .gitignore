@@ -9,3 +9,5 @@ doc
 .yardoc
 coverage*
 tmp*
+dump.rdb
+

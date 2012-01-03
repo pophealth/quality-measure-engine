@@ -25,30 +25,42 @@ module QME
       # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
         patient_cache = get_db.collection('patient_cache')
-        query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
-                 'value.effective_date' => @parameter_values['effective_date'],
-                 'value.test_id' => @parameter_values['test_id']}
+        base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
+                      'value.effective_date' => @parameter_values['effective_date'],
+                      'value.test_id' => @parameter_values['test_id']}
+
+        base_query.merge!(filter_parameters)
         
-        query.merge!(filter_parameters)
+        query = base_query.clone
+        
+        query.merge!({'value.manual_exclusion'=>{'$ne'=>true}})
         
         result = {:measure_id => @measure_id, :sub_id => @sub_id, 
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
         
         aggregate = patient_cache.group({cond: query, 
-                                           initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0, considered: 0}, 
-                                           reduce: "function(record,sums) { for (var key in sums) { sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0 } }"}).first
-        
-        aggregate ||= {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
-        aggregate.each {|key, value| aggregate[key] = value.to_i}
-        result.merge!(aggregate)
-        
-# need to time the old way agains the single query to verify that the single query is more performant        
-#        %w(population denominator numerator antinumerator exclusions).each do |measure_group|
-#          patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
-#            result[measure_group] = cursor.count
-#          end
-#        end
+                                            initial: {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0, considered: 0}, 
+                                            reduce: "function(record,sums) {
+                                                       for (var key in sums) {
+                                                           sums[key] += (record['value'][key] || key == 'considered') ? 1 : 0
+                                                       }
+                                                     }"}).first
+         
+         aggregate ||= {"population"=>0, "denominator"=>0, "numerator"=>0, "antinumerator"=>0, "exclusions"=>0}
+         aggregate.each {|key, value| aggregate[key] = value.to_i}
+         aggregate['exclusions'] += patient_cache.find(base_query.merge({'value.manual_exclusion'=>true})).count
+         result.merge!(aggregate)
+
+        # # need to time the old way agains the single query to verify that the single query is more performant        
+        # aggregate = {population: 0, denominator: 0, numerator: 0, antinumerator: 0,  exclusions: 0}
+        # %w(population denominator numerator antinumerator exclusions).each do |measure_group|
+        #   patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
+        #     aggregate[measure_group] = cursor.count
+        #   end
+        # end
+        # aggregate[:considered] = patient_cache.find(query).count
+        # result.merge!(aggregate)
 
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
 
@@ -67,6 +79,7 @@ module QME
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
                            :query => {:test_id => @parameter_values['test_id']})
+        apply_manual_exclusions
       end
       
       # This method runs the MapReduce job for the measure and a specific patient.
@@ -80,6 +93,19 @@ module QME
                            :out => {:reduce => 'patient_cache'}, 
                            :finalize => measure.finalize_function,
                            :query => {:patient_id => patient_id, :test_id => @parameter_values['test_id']})
+        apply_manual_exclusions
+      end
+      
+      # This records collects the set of manual exclusions from the manual_exclusions collections
+      # and sets a flag in each cached patient result for patients that have been excluded from the
+      # current measure
+      def apply_manual_exclusions
+        exclusions = get_db.collection('manual_exclusions').find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
+          exclusion['medical_record_id']
+        end
+        get_db.collection('patient_cache').update(
+          {'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} },
+          {'$set'=>{'value.manual_exclusion'=>true}}, :multi=>true)
       end
 
       def filter_parameters
@@ -87,8 +113,9 @@ module QME
         conditions = []
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if provider_id }
-            conditions << provider_queries(providers, @parameter_values['effective_date'])
+            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if (provider_id and provider_id != 'null') }
+            # provider_performances have already been filtered by start and end date in map_reduce_builder as part of the finalize
+            conditions << {'value.provider_performances.provider_id' => {'$in' => providers}}
           end
           if (filters['races'] && filters['races'].size > 0)
             conditions << {'value.race.code' => {'$in' => filters['races']}}
@@ -99,15 +126,17 @@ module QME
           if (filters['genders'] && filters['genders'].size > 0)
             conditions << {'value.gender' => {'$in' => filters['genders']}}
           end
+          if (filters['languages'] && filters['languages'].size > 0)
+            languages = filters['languages'].clone
+            has_unspecified = languages.delete('null')
+            or_clauses = []
+            or_clauses << {'value.languages'=>{'$regex'=>Regexp.new("(#{languages.join("|")})-..")}} if languages.length > 0
+            or_clauses << {'value.languages'=>nil} if (has_unspecified)
+            conditions << {'$or'=>or_clauses}
+          end
         end
         results.merge!({'$and'=>conditions}) if conditions.length > 0
         results
-      end
-      def provider_queries(provider_ids, effective_date)
-       {'$or' => [provider_query(provider_ids, effective_date,effective_date), provider_query(provider_ids, nil,effective_date), provider_query(provider_ids, effective_date,nil)]}
-      end
-      def provider_query(provider_ids, start_before, end_after)
-        {'value.provider_performances' => {'$elemMatch' => {'provider_id' => {'$in' => provider_ids}, 'start_date'=> {'$lt'=>start_before}, 'end_date'=> {'$gt'=>end_after} } }}
       end
     end
   end

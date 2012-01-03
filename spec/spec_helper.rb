@@ -5,6 +5,8 @@ rescue LoadError
 end
 require 'bundler/setup'
 
+#require 'pry'
+
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
 
 require PROJECT_ROOT + 'lib/quality-measure-engine'
@@ -16,6 +18,7 @@ def reload_bundle(bundle_dir='.', measure_dir=ENV['MEASURE_DIR'] || 'measures')
   loader = QME::Database::Loader.new
   loader.drop_collection('bundles')
   loader.drop_collection('measures')
+  loader.drop_collection('manual_exclusions')
   loader.save_bundle(bundle_dir, measure_dir)
   loader
 end
@@ -23,6 +26,8 @@ end
 def validate_measures(measure_dirs, loader)
 
   reload_bundle
+
+  loader.get_db.collection('manual_exclusions').save({'measure_id'=>'test1', 'medical_record_id'=>'1234567890'})
   
   measure_dirs.each do |dir|
     # check for sample data
