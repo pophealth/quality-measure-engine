@@ -15,7 +15,8 @@ module QME
         patient_record.birthdate = patient_hash['birthdate']
         patient_record.race = patient_hash['race']
         patient_record.ethnicity = patient_hash['ethnicity']
-        #patient_record['languages'] = patient_hash['languages']
+        # pophealth needs languages... please do not remove
+        patient_record.languages = patient_hash['languages']
         #patient_record['addresses'] = patient_hash['addresses']
         patient_hash['events'].each do |key, value|
           patient_record.send("#{key}=".to_sym, parse_events(value))
