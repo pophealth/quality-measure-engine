@@ -47,9 +47,9 @@ module QME
         when 'procedure'
           case qds_data_type
           when 'procedure_performed'
-            patient.encounters
-          when 'procedure_adverse_event', 'procedure_intolerance'
             patient.procedures
+          when 'procedure_adverse_event', 'procedure_intolerance'
+            patient.allergies
           when 'procedure_result'
             patient.procedure_results
           end
