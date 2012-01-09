@@ -1,13 +1,13 @@
 {
-  "first": "Frederick",                                                       // personal data
-  "last": "Smith",
+  "medical_record_number": "patient1",
+  "first": "Clark",                                                       // personal data
+  "last": "Kent",
   "gender": "M",
-  "medical_record_number": "1234567890",
-  "test_id": 1,
   "birthdate": 182908800,                                                 // Time.gm(1975, 10, 19).to_i
+  "test_id": null,
   "measures": {                                                           // bag of measures, one entry per measure
     "test1": {
-      "eyes": "blue"
+      "eyes": "green"
     }
   }
 }
