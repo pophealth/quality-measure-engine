@@ -15,24 +15,34 @@ module QME
     # the report.
     class MeasureCalculationJob < Resque::JobWithStatus
       def perform
+        MeasureCalculationJob.calculate(options)
+      end
+      
+      def self.calculate(options)
         test_id = options['test_id'] ? BSON::ObjectId(options['test_id']) : nil
         qr = QualityReport.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'])
         if qr.calculated?
-          completed("#{options['measure_id']}#{options['sub_id']} has already been calculated")
+          completed("#{options['measure_id']}#{options['sub_id']} has already been calculated") if respond_to? :completed
         else
-          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'])
+          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'], 'start_time' => Time.now.to_i)
 
           if !qr.patients_cached?
-            tick('Starting MapReduce')
+            tick('Starting MapReduce') if respond_to? :tick
             map.map_records_into_measure_groups
-            tick('MapReduce complete')
+            tick('MapReduce complete') if respond_to? :tick
           end
           
-          tick('Calculating group totals')
+          tick('Calculating group totals') if respond_to? :tick
           result = map.count_records_in_measure_groups
-          completed("#{options['measure_id']}#{options['sub_id']}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, e#{result['exclusions']}")
+          completed("#{options['measure_id']}#{options['sub_id']}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, e#{result['exclusions']}") if respond_to? :completed
         end
+        
       end
+      
+#      This can be uncommented and changed to put the jobs on a separate queue.  
+#      def self.queue
+#        :statused
+#      end
     end
   end
 end

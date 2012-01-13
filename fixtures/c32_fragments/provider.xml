@@ -20,7 +20,7 @@
          </time>
          <assignedEntity>
            
-           <id root="2.16.840.1.113883.4.6" extension="0123456789"/>
+           <id root="2.16.840.1.113883.4.6" extension="808401234567893"/>
            <code code="200000000X" displayName="Allopathic and Osteopathic Physicians" codeSystemName="Provider Codes" codeSystem="2.16.840.1.113883.6.101"/>
            <addr/>
            <telecom value="tel:+1-301-975-3251" use="HP"/>
@@ -53,7 +53,7 @@
         <high value=""/> 
       </time>
       <assignedEntity> 
-        <id extension="PseudoMD-3" root="2.16.840.1.113883.3.72.5.2"/>
+        <id extension="1234567893" root="2.16.840.1.113883.3.72.5.2"/>
         <code code="230000000X" displayName="Speech, Language and Hearing Providers" codeSystem="2.16.840.1.113883.6.101" codeSystemName="ProviderCodes"/>
         <assignedPerson> 
           <name>

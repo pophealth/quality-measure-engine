@@ -80,6 +80,84 @@ module QME
             {race: '2131-1', ethnicity: '2186-5'}
           end
         end
+        
+        # Picks spoken language based on 2010 census estamates
+        # 80.3% english
+        # 12.3% spanish
+        # 00.9% chinese
+        # 00.7% french
+        # 00.4% german
+        # 00.4% korean
+        # 00.4% vietnamese
+        # 00.3% italian
+        # 00.3% portuguese
+        # 00.3% russian
+        # 00.2% japanese
+        # 00.2% polish
+        # 00.1% greek
+        # 00.1% persian
+        # 00.1% us sign
+        # 03.0% other
+        # 
+        def language
+          language_percent = rand(999)
+          case language_percent
+          when 0..802
+            # english
+            'en-US'
+          when 802..925
+            # spanish
+            'es-US'
+          when 926..932
+            # french
+            'fr-US'
+          when 933..935
+            # italian
+            'it-US'
+          when 936..938
+            # portuguese
+            'pt-US'
+          when 939..942
+            # german
+            'de-US'
+          when 943..943
+            # greek
+            'el-US'
+          when 944..946
+            # russian
+            'ru-US'
+          when 947..948
+            # polish
+            'pl-US'
+          when 949..949
+            # persian
+            'fa-US'
+          when 950..958
+            # chinese
+            'zh-US'
+          when 959..960
+            # japanese
+            'ja-US'
+          when 961..964
+            # korean
+            'ko-US'
+          when 965..968
+            # vietnamese
+            'vi-US'
+          when 969..969
+            # us sign
+            'sgn-US'
+          when 970..999
+            # other
+            other = ["aa","ab","ae","af","ak","am","an","ar","as","av","ay","az","ba","be","bg","bh","bi","bm","bn","bo","br","bs","ca","ce","ch","co","cr","cs","cu","cv","cy","da",
+                     "dv","dz","ee","eo","et","eu","ff","fi","fj","fo","fy","ga","gd","gl","gn","gu","gv","ha","he","hi","ho","hr","ht","hu","hy","hz","ia","id","ie","ig","ii","ik",
+                     "io","is","iu","jv","ka","kg","ki","kj","kk","kl","km","kn","kr","ks","ku","kv","kw","ky","la","lb","lg","li","ln","lo","lt","lu","lv","mg","mh","mi","mk","ml",
+                     "mn","mr","ms","mt","my","na","nb","nd","ne","ng","nl","nn","no","nr","nv","ny","oc","oj","om","or","os","pa","pi","ps","qu","rm","rn","ro","rw","sa","sc","sd",
+                     "se","sg","si","sk","sl","sm","sn","so","sq","sr","ss","st","su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts","tt","tw","ty","ug","uk","ur",
+                     "uz","ve","vo","wa","wo","xh","yi","yo","za","zu"].sample
+            "#{other}-US"
+          end
+        end
 
         # Pick a forename at random appropriate for the supplied gender
         # @param [String] gender the gender 'M' or 'F'

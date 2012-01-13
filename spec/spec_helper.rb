@@ -5,6 +5,8 @@ rescue LoadError
 end
 require 'bundler/setup'
 
+#require 'pry'
+
 PROJECT_ROOT = File.dirname(__FILE__) + '/../'
 
 require PROJECT_ROOT + 'lib/quality-measure-engine'
@@ -16,6 +18,7 @@ def reload_bundle(bundle_dir='.', measure_dir=ENV['MEASURE_DIR'] || 'measures')
   loader = QME::Database::Loader.new
   loader.drop_collection('bundles')
   loader.drop_collection('measures')
+  loader.drop_collection('manual_exclusions')
   loader.save_bundle(bundle_dir, measure_dir)
   loader
 end
@@ -23,6 +26,8 @@ end
 def validate_measures(measure_dirs, loader)
 
   reload_bundle
+
+  loader.get_db.collection('manual_exclusions').save({'measure_id'=>'test1', 'medical_record_id'=>'1234567890'})
   
   measure_dirs.each do |dir|
     # check for sample data
@@ -91,4 +96,25 @@ def validate_measures(measure_dirs, loader)
     puts ' - done'
   end
   
+end
+
+def validate_patient_mapping(loader)
+  reload_bundle
+  loader.drop_collection('records')
+  loader.drop_collection('query_cache')
+  loader.drop_collection('patient_cache')
+  
+  patient_file = File.join('fixtures', 'mapping', 'test1_numerator.json')
+  patient = JSON.parse(File.read(patient_file))
+  loader.save('records', patient)
+
+  executor = QME::MapReduce::Executor.new('test1', nil,
+    'effective_date'=>Time.gm(2010, 9, 19).to_i)
+  result = executor.get_patient_result('patient1')
+
+  result['population'].should be(true)
+  result['numerator'].should be(true)
+  result['denominator'].should be(true)
+  result['exclusions'].should be(false)
+  result['antinumerator'].should be(false)
 end
