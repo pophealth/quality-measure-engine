@@ -24,21 +24,20 @@ module QME
         QME::QualityMeasure.all.each_value do |measure_def|
           measure_id = measure_def['id']
           if !processed_measures[measure_id]
-            QME::Importer::PatientImporter.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))
-            processed_measures[measure_id]=true
+            QME::Importer::MeasurePropertiesGenerator.instance.add_measure(measure_id, QME::Importer::GenericImporter.new(measure_def))
+            processed_measures[measure_id] = true
           end
         end
 
-        loader = QME::Database::Loader.new()
         tick('Generating patients')
         count.times do |i|
           at(i, count, "Generating patient #{i} of #{count}")
           template = templates[rand(templates.length)]
           generator = QME::Randomizer::Patient.new(template)
           json = JSON.parse(generator.get())
-          patient_record_hash = QME::Importer::PatientImporter.instance.parse_hash(json)
-          patient_record_hash['test_id'] = test_id
-          loader.save('records', patient_record_hash)
+          patient_record = RandomPatientCreator.parse_hash(json)
+          patient_record.test_id = test_id
+          patient_record.save!
         end
 
         completed
