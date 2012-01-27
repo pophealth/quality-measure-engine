@@ -11,16 +11,19 @@ module QME
       # @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
       #        will have the "cda" namespace registered to "urn:hl7-org:v3"
       # @return [Array] an array of providers found in the document
-      def extract_providers(doc)
+      def extract_providers(doc, use_encounters=false)
         
-        performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
-        
+
+        xpath_base = use_encounters ? "//cda:encounter/cda:performer" : "//cda:documentationOf/cda:serviceEvent/cda:performer"
+  
+        performers = doc.xpath(xpath_base)
+
         providers = performers.map do |performer|
           provider = {}
           entity = performer.xpath(performer, "./cda:assignedEntity")
           name = entity.xpath("./cda:assignedPerson/cda:name")
           provider[:title]        = extract_data(name, "./cda:prefix")
-          provider[:given_name]   = extract_data(name, "./cda:given")
+          provider[:given_name]   = extract_data(name, "./cda:given[1]")
           provider[:family_name]  = extract_data(name, "./cda:family")
           provider[:phone]        = extract_data(entity, "./cda:telecom/@value") { |text| text.gsub("tel:", "") }
           provider[:organization] = extract_data(entity, "./cda:representedOrganization/cda:name")
