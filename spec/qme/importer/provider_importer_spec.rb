@@ -62,4 +62,17 @@ describe QME::Importer::ProviderImporter do
     provider2[:specialty].should == "200000000X"
   end
   
+  it "should extract providers from encounters" do
+    providers = @importer.extract_providers(@nist_doc, true)
+    providers.size.should == 1
+    
+    provider = providers.first
+    provider[:given_name].should == "John"
+    provider[:family_name].should == "Johnson"
+    provider[:phone].should == nil
+    provider[:npi].should == "808401234567893"
+    provider[:organization].should == "Family Doctors"
+    provider[:start].should_not == nil
+  end
+  
 end

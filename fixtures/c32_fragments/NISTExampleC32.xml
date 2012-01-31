@@ -2321,15 +2321,29 @@
 							<text>IHE Requires reference to go here instead of originalText of code.<reference/>
 							</text>
 							<effectiveTime value="20000407"/>
-							<performer>
-								<assignedEntity>
-									<id/>
-									<addr/>
-									<telecom/>
-									<assignedPerson>
-										<name>Performer Name</name>
-									</assignedPerson>
-								</assignedEntity>
+							<performer typeCode='PRF'>
+							  <time>
+							    <low value='20990608'/>
+							    <high nullFlavor='UNK'/>
+							  </time>
+							  <assignedEntity>
+							    <id extension='808401234567893' root='2.16.840.1.113883.4.6'/>
+							    <addr/><telecom/>
+							    <assignedPerson>
+							      <name>
+							        <prefix>Dr. </prefix>
+							        <given>John</given>
+							        <given>J</given>
+							        <family>Johnson</family>
+							      </name>
+							    </assignedPerson>
+							    <representedOrganization>
+							      <id root='2.16.840.1.113883.3.186'/>
+							      <name>Family Doctors</name>
+							      <telecom/>
+										<addr/>
+							    </representedOrganization>
+							  </assignedEntity>
 							</performer>
 							<participant typeCode="LOC">
 								<templateId root="2.16.840.1.113883.10.20.1.45"/>
