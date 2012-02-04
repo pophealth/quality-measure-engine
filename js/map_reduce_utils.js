@@ -116,7 +116,32 @@ function() {
     values = normalize(values);
     return _.select(values, function(value) { return value<=max && value>=min; });
   }
-    
+  
+  // returns the earliest birthdate for a maximum age
+  // age: integer in years
+  // effective_date: end of the measurement period, in seconds
+  root.earliestBirthdayForThisAge = function(age, effective_date) {
+    return calculateDateForAge(age, effective_date, true);
+  }
+  // returns the latest birthdate for a minimum age
+  // age: integer in years
+  // effective_date: end of the measurement period, in seconds
+  root.latestBirthdayForThisAge = function(age, effective_date) {
+    return calculateDateForAge(age, effective_date, false);
+  }
+  // returns birth date for age
+  // age: integer in years
+  // effective_date: end of the measurement period, in seconds
+  // is_inclusive: boolean for including or excluding age
+  root.calculateDateForAge = function(age, effective_date, is_inclusive) {
+    var earliest_birthdate = new Date(effective_date*1000);
+    var difference = age;
+    if (is_inclusive) difference += 1;
+    earliest_birthdate.setFullYear(earliest_birthdate.getFullYear()-difference);
+    return earliest_birthdate.getTime()/1000;
+  }
+  
+  
   root.map = function(record, population, denominator, numerator, exclusion) {
     var value = {population: false, denominator: false, numerator: false, 
                  exclusions: false, antinumerator: false, patient_id: record._id,
