@@ -117,19 +117,22 @@ function() {
     return _.select(values, function(value) { return value<=max && value>=min; });
   }
   
-  // returns the earliest birthdate for a maximum age
+  // calculates the earliest birthdate for a maximum age given a target date.
+  // calculation is inclusive of the full year for the target age
+  // returns: (earliest birthdate that will reach by not exceed the age by the target date)
   // age: integer in years
   // effective_date: end of the measurement period, in seconds
   root.earliestBirthdayForThisAge = function(age, effective_date) {
     return calculateDateForAge(age, effective_date, true);
   }
-  // returns the latest birthdate for a minimum age
+  // calculates the latest birthdate for a minimum age given a target date 
+  // returns: (latest birthdate that will reach the age by the target date)
   // age: integer in years
   // effective_date: end of the measurement period, in seconds
   root.latestBirthdayForThisAge = function(age, effective_date) {
     return calculateDateForAge(age, effective_date, false);
   }
-  // returns birth date for age
+  // returns birth date for an age value given a specific date
   // age: integer in years
   // effective_date: end of the measurement period, in seconds
   // is_inclusive: boolean for including or excluding age
