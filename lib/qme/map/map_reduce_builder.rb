@@ -97,7 +97,7 @@ module QME
                      var tmp = [];
                      for(var i=0; i<patient.provider_performances.length; i++) {
                        var value = patient.provider_performances[i];
-                       if (value['start_date'] <= #{@params['effective_date']} && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null))
+                       if ((value['start_date'] <= #{@params['effective_date']} || value['start_date'] == null) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null))
                        tmp.push(value);
                      }
                      if (tmp.length == 0) tmp = null;
