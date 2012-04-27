@@ -3,6 +3,10 @@
 class Record
   extend ActiveSupport::Memoizable
   
+  def procedures_performed
+    procedures.to_a + immunizations.to_a
+  end
+  
   def procedure_results
     results.to_a + vital_signs.to_a + procedures.to_a
   end
