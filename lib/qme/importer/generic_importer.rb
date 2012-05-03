@@ -44,10 +44,12 @@ module QME
         case standard_category
         when 'encounter'
           patient.encounters
+        when 'immunization'
+          patient.immunizations
         when 'procedure'
           case qds_data_type
           when 'procedure_performed'
-            patient.procedures
+            patient.procedures_performed
           when 'procedure_adverse_event', 'procedure_intolerance'
             patient.allergies
           when 'procedure_result'
