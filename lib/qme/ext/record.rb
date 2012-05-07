@@ -1,6 +1,11 @@
 # Extensions to the Record model in health-data-standards to support
 # quality measure calculation
-class Record  
+class Record
+
+  def procedures_performed
+    @procedures_performed = procedures.to_a + immunizations.to_a
+  end  
+
   def procedure_results
     @procedure_results ||= results.to_a + vital_signs.to_a + procedures.to_a
   end
