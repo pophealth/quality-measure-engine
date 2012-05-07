@@ -24,6 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "google-spreadsheet-ruby", "~> 0.1.2"
 
   s.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') +
-            Dir.glob('js/**/*.js*') + ["Gemfile", "README.md", "Rakefile", "VERSION"]
+            Dir.glob('js/**/*.js*') + Dir.glob('spec/**/*.rb') + ["Gemfile", "README.md", "Rakefile", "VERSION"]
 end
 
