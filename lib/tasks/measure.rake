@@ -6,7 +6,6 @@ gem 'rubyzip'
 require 'zip/zip'
 require 'zip/zipfilesystem'
 require File.join(path,'../quality-measure-engine')
-
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
 bundle_dir = ENV['BUNDLE_DIR'] || './'
 xls_dir = ENV['XLS_DIR'] || 'xls'
@@ -91,5 +90,21 @@ EOF
       file.close
     end
   end
+  
+  desc "export results of measures (expects date in YYYY-MM-DD format)"
+  task :export_results, :effective_date do |t, args|
+    measure_ids = ENV["MEASURES"].split(",")
+    measures = QME::QualityMeasure.get_measures(measure_ids)
+    effective_date_s = args[:effective_date] || "2010-12-31"
+    effective_date = Time.parse(effective_date_s).to_i
+    measures.each do |measure|
+      qr = QME::QualityReport.new(measure['id'], measure['sub_id'], 'effective_date' => effective_date)
+      qr.calculate(false) unless qr.calculated?
+      r = qr.result
+      
+      puts "#{measure['id']}#{measure['sub_id']}: #{r['numerator']}/#{r['denominator']}/#{r['population']} (#{r['exclusions']})"
+    end
+  end
+  
 
 end
