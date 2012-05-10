@@ -6,8 +6,8 @@ gem 'mongo', '1.5.1'
 gem 'bson_ext', '1.5.1',  :platforms => :mri
 gem 'rake'
 #gem 'pry', :require => true
-gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'master'
-#gem 'health-data-standards', '0.7.1'
+#gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'master'
+gem 'health-data-standards', '0.8.0'
 
 group :test do
   gem 'cover_me', '>= 1.0.0.rc5', :platforms => :ruby_19
