@@ -24,13 +24,13 @@ class Record
   end
   
   def inactive_diagnosis
-    @inactive_diagnosis ||= conditions.any_of({:status => 'inactive'}, {:status => nil}).to_a + 
-    social_history.any_of({:status => 'inactive'}, {:status => nil}).to_a
+    @inactive_diagnosis ||= conditions.any_of({:status => 'inactive'}).to_a + 
+    social_history.any_of({:status => 'inactive'}).to_a
   end
   
   def resolved_diagnosis
-    @resolved_diagnosis ||= conditions.any_of({:status => 'resolved'}, {:status => nil}).to_a + 
-    social_history.any_of({:status => 'resolved'}, {:status => nil}).to_a
+    @resolved_diagnosis ||= conditions.any_of({:status => 'resolved'}).to_a + 
+    social_history.any_of({:status => 'resolved'}).to_a
   end
   
   def all_problems
