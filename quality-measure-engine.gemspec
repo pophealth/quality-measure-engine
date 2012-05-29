@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   
   s.add_dependency 'mongo', '~> 1.3'
   s.add_dependency 'rubyzip', '~> 0.9.4'
-  s.add_dependency 'nokogiri', '~> 1.4.4'
+  s.add_dependency 'nokogiri', '>= 1.4.4'
   s.add_dependency 'resque', '~> 1.15.0'
   s.add_dependency 'resque-status', '~> 0.2.3'
   

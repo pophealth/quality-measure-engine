@@ -3,7 +3,7 @@
 class Record
 
   def procedures_performed
-    @procedures_performed = procedures.to_a + immunizations.to_a
+    @procedures_performed = procedures.to_a + immunizations.to_a + medications.to_a
   end  
 
   def procedure_results
