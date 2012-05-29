@@ -62,7 +62,7 @@ module QME
         when 'laboratory_test'
           patient.laboratory_tests
         when 'physical_exam'
-          patient.vital_signs
+          patient.procedure_results
         when 'medication'
           case qds_data_type
           when 'medication_dispensed', 'medication_order', 'medication_active', 'medication_administered'

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.email = "talk@projectpophealth.org"
   s.homepage = "http://github.com/pophealth/quality-measure-engine"
   s.authors = ["Marc Hadley", "Andy Gregorowicz", "Rob Dingwell"]
-  s.version = '1.1.2'
+  s.version = '1.1.3'
   
   s.add_dependency 'mongo', '~> 1.3'
   s.add_dependency 'rubyzip', '~> 0.9.4'
@@ -24,6 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "google-spreadsheet-ruby", "~> 0.1.2"
 
   s.files = Dir.glob('lib/**/*.rb') + Dir.glob('lib/**/*.rake') +
-            Dir.glob('js/**/*.js*') + ["Gemfile", "README.md", "Rakefile", "VERSION"]
+            Dir.glob('js/**/*.js*') + Dir.glob('spec/**/*.rb') + ["Gemfile", "README.md", "Rakefile", "VERSION"]
 end
 
