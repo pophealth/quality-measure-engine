@@ -19,7 +19,7 @@ class Record
   end
   
   def active_diagnosis
-    @active_diagnosis ||= conditions.any_of({:status => 'active'}, {:status => nil}).to_a + 
+    @active_diagnosis ||= conditions.any_of({:status => 'active'}, {:status => nil}, {:ordinality => 'principal'}).to_a + 
     social_history.any_of({:status => 'active'}, {:status => nil}).to_a
   end
   

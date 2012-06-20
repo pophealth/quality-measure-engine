@@ -74,6 +74,8 @@ module QME
           case qds_data_type
           when 'diagnosis_active'
             patient.active_diagnosis
+          when 'diagnosis_active_priority_principal'
+            patient.active_diagnosis
           when 'diagnosis_inactive'
             patient.inactive_diagnosis
           when 'diagnosis_resolved'
