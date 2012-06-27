@@ -9,6 +9,9 @@ gem 'rake'
 gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
 #gem 'health-data-standards', '0.8.0'
 
+# does not work with redis 3.0
+gem 'redis', '~> 2.2.2'
+
 group :test do
   gem 'cover_me', '>= 1.0.0.rc5', :platforms => :ruby_19
   gem 'sinatra'
