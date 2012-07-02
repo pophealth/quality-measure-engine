@@ -74,6 +74,8 @@ module QME
           case qds_data_type
           when 'diagnosis_active'
             patient.active_diagnosis
+          when 'diagnosis_active_priority_principal'
+            patient.active_diagnosis
           when 'diagnosis_inactive'
             patient.inactive_diagnosis
           when 'diagnosis_resolved'
@@ -85,15 +87,21 @@ module QME
           patient.all_problems
         when 'device'
           case qds_data_type
-          when 'device_applied'
-            patient.all_devices
-          when 'device_allergy'
-            patient.allergies
+            when 'device_applied'
+             patient.all_devices
+            when 'device_allergy'
+              patient.allergies
           end
         when 'care_goal'
           patient.care_goals
         when 'diagnostic_study'
-          patient.procedures
+          case qds_data_type
+           
+             when 'diagnostic_study_performed'
+               patient.procedures
+             when 'diagnostic_study_result'
+              patient.procedure_results
+            end
         when 'substance'
           patient.allergies
         else
