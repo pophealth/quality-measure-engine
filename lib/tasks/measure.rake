@@ -7,6 +7,7 @@ require 'zip/zip'
 require 'zip/zipfilesystem'
 require File.join(path,'../quality-measure-engine')
 measures_dir = ENV['MEASURE_DIR'] || 'measures'
+js_dir = ENV['JS_DIR'] || 'js'
 bundle_dir = ENV['BUNDLE_DIR'] || './'
 xls_dir = ENV['XLS_DIR'] || 'xls'
 db_name = ENV['DB_NAME'] || 'test'
@@ -16,20 +17,38 @@ namespace :measures do
   desc 'Build all measures to tmp directory'
   task :build do
     puts "Loading measures from #{measures_dir}"
-    dest_dir = File.join('.', 'tmp')
-    Dir.mkdir(dest_dir) if !Dir.exist?(dest_dir)
+    
+    
+    dest_dir = File.join('.', 'tmp', 'build')
+    json_dir =  File.join(dest_dir,"json")
+    lib_dir = File.join(dest_dir,"libraries")
+    FileUtils.remove_dir(dest_dir)       if Dir.exists?(dest_dir)
+    FileUtils.mkdir_p(json_dir) 
+    FileUtils.mkdir_p(lib_dir)
+    
+    
     Dir.glob(File.join(measures_dir, '*')).each do |measure_dir|
       measures = QME::Measure::Loader.load_measure(measure_dir)
       measures.each do |measure|
         id = measure['id']
         sub_id = measure['sub_id']
         json = JSON.pretty_generate(measure)
-        file_name = File.join(dest_dir, "#{id}#{sub_id}.json")
+        file_name = File.join(json_dir, "#{id}#{sub_id}.json")
         file = File.new(file_name,  "w")
         file.write(json)
         file.close
       end
     end
+    
+   
+    
+    Dir.glob(File.join(js_dir, '*')).each do |js_file|
+       FileUtils.cp(js_file, lib_dir)
+     end
+    
+    FileUtils.cp("./bundle.json", dest_dir) if File.exists?("./bundle.json")
+    FileUtils.cp("./license.html", dest_dir) if File.exists?("./license.html")
+    
   end
   
   desc "run the map_test tool"
