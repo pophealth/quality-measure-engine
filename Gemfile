@@ -12,6 +12,9 @@ gem 'health-data-standards', '1.0.1'
 # does not work with redis 3.0
 gem 'redis', '~> 2.2.2'
 
+# does not work with redis 3.0
+gem 'redis', '~> 2.2.2'
+
 group :test do
   gem 'cover_me', '>= 1.0.0.rc5', :platforms => :ruby_19
   gem 'sinatra'
