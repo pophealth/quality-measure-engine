@@ -91,6 +91,9 @@ module QME
         if @measure_def['sub_id']
           reduce += "  patient.sub_id = \"#{@measure_def['sub_id']}\";\n"
         end
+        if @measure_def['nqf_id']
+          reduce += "  patient.nqf_id = \"#{@measure_def['nqf_id']}\";\n"
+        end
           
         reduce += "patient.effective_date = #{@params['effective_date']};
                    if (patient.provider_performances) {

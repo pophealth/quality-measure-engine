@@ -16,6 +16,7 @@ module QME
         @measure_id = measure_id
         @sub_id = sub_id
         @parameter_values = parameter_values
+        @measure_def = QualityMeasure.new(@measure_id, @sub_id).definition
         determine_connection_information
       end
 
@@ -35,7 +36,9 @@ module QME
 
         query.merge!({'value.manual_exclusion' => {'$in' => [nil, false]}})
         
-        result = {:measure_id => @measure_id, :sub_id => @sub_id, 
+        nqf_id = @measure_def['nqf_id'] || @measure_def['id']
+        
+        result = {:measure_id => @measure_id, :sub_id => @sub_id, :nqf_id => nqf_id, :population_ids => @measure_def["population_ids"],
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
         
@@ -60,8 +63,7 @@ module QME
       # in the patient_cache collection. These documents will state the measure groups
       # that the record belongs to, such as numerator, etc.
       def map_records_into_measure_groups
-        qm = QualityMeasure.new(@measure_id, @sub_id)
-        measure = Builder.new(get_db, qm.definition, @parameter_values)
+        measure = Builder.new(get_db, @measure_def, @parameter_values)
         records = get_db.collection('records')
         records.map_reduce(measure.map_function, "function(key, values){return values;}",
                            :out => {:reduce => 'patient_cache'}, 
@@ -74,8 +76,7 @@ module QME
       # This will create a document in the patient_cache collection. This document
       # will state the measure groups that the record belongs to, such as numerator, etc.
       def map_record_into_measure_groups(patient_id)
-        qm = QualityMeasure.new(@measure_id, @sub_id)
-        measure = Builder.new(get_db, qm.definition, @parameter_values)
+        measure = Builder.new(get_db, @measure_def, @parameter_values)
         records = get_db.collection('records')
         records.map_reduce(measure.map_function, "function(key, values){return values;}",
                            :out => {:reduce => 'patient_cache'}, 
@@ -88,8 +89,7 @@ module QME
       # This will *not* create a document in the patient_cache collection, instead the
       # result is returned directly.
       def get_patient_result(patient_id)
-        qm = QualityMeasure.new(@measure_id, @sub_id)
-        measure = Builder.new(get_db, qm.definition, @parameter_values)
+        measure = Builder.new(get_db, @measure_def, @parameter_values)
         records = get_db.collection('records')
         result = records.map_reduce(measure.map_function, "function(key, values){return values;}",
                            :out => {:inline => true}, 
