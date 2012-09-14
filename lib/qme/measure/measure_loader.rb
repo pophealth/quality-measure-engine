@@ -124,8 +124,7 @@ module QME
         JSON.parse(File.read(file_path))
       end
       
-      
-      #Load a bundle from a directory
+      # Load a bundle from a directory
       # @param [String] bundle_path path to directory containing the bundle information
       def self.load_bundle(bundle_path, measure_dir)
         begin
@@ -149,7 +148,6 @@ module QME
           throw e
         end
       end
-      
       
       # Load all of the extenson functions that will be available to map reduce functions from the bundle dir
       # This will load from bundle_path/js and from ext directories in the individule measures directories 
