@@ -15,23 +15,23 @@ module QME
       # @param [File] zip The bundle zip file.
       # @param [Boolean] keep_existing If true, delete all current collections related to patients and measures.
       def import(zip, delete_existing)
-        drop_collections if delete_existing
+        Bundle.drop_collections if delete_existing
         
         # Unpack content from the bundle.
         bundle_contents = { bundle: nil, measures: {}, patients: {}, libraries: {}, results: {} }
         Zip::ZipFile.open(zip.path) do |zipfile|
           zipfile.entries.each do |entry|
-            bundle_contents[:bundle] = zipfile.read(entry.name) if entry.name.match /^bundle/
-            bundle_contents[:measures][entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures/
-            bundle_contents[:patients][entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
-            bundle_contents[:libraries][entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^libraries/
-            bundle_contents[:results][entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results/
+            bundle_contents[:bundle] = zipfile.read(Bundle.entry.name) if entry.name.match /^bundle/
+            bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures/
+            bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
+            bundle_contents[:libraries][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^libraries/
+            bundle_contents[:results][Bundle.entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results/
           end
         end
 
         # Store all JS libraries.
-        bundle_contents[:libraries].each do |key,contents|
-          save_system_js_fn(key, contents)
+        bundle_contents[:libraries].each do |key, contents|
+          Bundle.save_system_js_fn(key, contents)
         end
 
         # Store the bundle metadata.
@@ -59,40 +59,6 @@ module QME
           contents.each {|document| @db[collection] << document}
         end
       end
-
-      # Delete a list of collections. By default, this function drops all of collections related to measures and patients.
-      #
-      # @param [Array] collection_names Optionally, an array of collection names to be dropped.
-      def drop_collections(collection_names=[])
-        collection_names = ["bundles", "records", "measures", "selected_measures", "patient_cache", "query_cache"] if collection_names.empty?
-        collection_names.each {|collection| @db[collection].drop}
-      end
-
-      # Save a javascript function into Mongo's system.js collection for measure execution.
-      #
-      # @param [String] name The name by which the function will be referred.
-      # @param [String] fn The body of the function being saved.
-      def save_system_js_fn(name, fn)
-        fn = "function () {\n #{fn} \n }"
-        @db['system.js'].save(
-          {
-            "_id" => name,
-            "value" => BSON::Code.new(fn)
-          }
-        )
-      end
-
-      private
-
-      # A utility function for importing from a bundle. Strip a file path of it's extension and just give the filename.
-      #
-      # @param [String] original A file path.
-      # @param [String] extension A file extension.
-      # @return The filename at the end of the original String path with the extension removed. e.g. "/boo/urns.html" -> "urns"
-      def entry_key(original, extension)
-        original.split('/').last.gsub(".#{extension}", '')
-      end
-
     end
   end
 end
