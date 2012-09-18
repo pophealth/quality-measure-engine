@@ -31,4 +31,5 @@ require 'nokogiri'
 require_relative 'qme/measure/measure_loader'
 require_relative 'qme/measure/database_loader'
 
+require_relative 'qme/bundle/bundle'
 require_relative 'qme/bundle/importer'

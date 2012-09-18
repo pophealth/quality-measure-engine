@@ -5,7 +5,7 @@ module QME
     # @param [Array] collection_names Optionally, an array of collection names to be dropped.
     def self.drop_collections(collection_names=[])
       collection_names = ["bundles", "records", "measures", "selected_measures", "patient_cache", "query_cache", "System.js"] if collection_names.empty?
-      collection_names.each {|collection| @db[collection].drop}
+      collection_names.each {|collection| MONGO_DB[collection].drop}
     end
 
     # Save a javascript function into Mongo's system.js collection for measure execution.
@@ -14,7 +14,7 @@ module QME
     # @param [String] fn The body of the function being saved.
     def self.save_system_js_fn(name, fn)
       fn = "function () {\n #{fn} \n }"
-      @db['system.js'].save(
+      MONGO_DB['system.js'].save(
         {
           "_id" => name,
           "value" => BSON::Code.new(fn)

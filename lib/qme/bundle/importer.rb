@@ -24,7 +24,7 @@ module QME
             bundle_contents[:bundle] = zipfile.read(Bundle.entry.name) if entry.name.match /^bundle/
             bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures/
             bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
-            bundle_contents[:libraries][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^libraries/
+            bundle_contents[:extensions][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^library_functions/
             bundle_contents[:results][Bundle.entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results/
           end
         end
