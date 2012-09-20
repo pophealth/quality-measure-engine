@@ -18,19 +18,23 @@ module QME
         Bundle.drop_collections if delete_existing
         
         # Unpack content from the bundle.
-        bundle_contents = { bundle: nil, measures: {}, patients: {}, libraries: {}, results: {} }
+        bundle_contents = { bundle: nil, measures: {}, patients: {}, extensions: {}, results: {} }
         Zip::ZipFile.open(zip.path) do |zipfile|
           zipfile.entries.each do |entry|
-            bundle_contents[:bundle] = zipfile.read(Bundle.entry.name) if entry.name.match /^bundle/
-            bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures/
-            bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
-            bundle_contents[:extensions][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^library_functions/
-            bundle_contents[:results][Bundle.entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results/
+            begin
+              bundle_contents[:bundle] = zipfile.read(entry.name) if entry.name.match /^bundle/
+              bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures/
+              bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
+              bundle_contents[:extensions][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^library_functions/
+              bundle_contents[:results][Bundle.entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results/
+            rescue
+              binding.pry
+            end
           end
         end
 
         # Store all JS libraries.
-        bundle_contents[:libraries].each do |key, contents|
+        bundle_contents[:extensions].each do |key, contents|
           Bundle.save_system_js_fn(key, contents)
         end
 
