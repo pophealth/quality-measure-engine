@@ -15,13 +15,13 @@ module QME
       # @param [File] zip The bundle zip file.
       # @param [Boolean] keep_existing If true, delete all current collections related to patients and measures.
       def import(zip, delete_existing)
-        Bundle.drop_collections if delete_existing
+        Bundle.drop_collections(@db) if delete_existing
         
         # Unpack content from the bundle.
-        bundle_contents = { bundle: nil, measures: {}, patients: {}, libraries: {}, results: {} }
+        bundle_contents = { bundle: nil, measures: {}, patients: {}, extensions: {}, results: {} }
         Zip::ZipFile.open(zip.path) do |zipfile|
           zipfile.entries.each do |entry|
-            bundle_contents[:bundle] = zipfile.read(Bundle.entry.name) if entry.name.match /^bundle/
+            bundle_contents[:bundle] = zipfile.read(entry.name) if entry.name.match /^bundle/
             bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures/
             bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
             bundle_contents[:extensions][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^library_functions/
@@ -30,26 +30,27 @@ module QME
         end
 
         # Store all JS libraries.
-        bundle_contents[:libraries].each do |key, contents|
-          Bundle.save_system_js_fn(key, contents)
+        bundle_contents[:extensions].each do |key, contents|
+          Bundle.save_system_js_fn(@db, key, contents)
         end
 
         # Store the bundle metadata.
         bundle = JSON.parse(bundle_contents[:bundle])
         bundle_id = @db['bundles'] << bundle
+        bundle["_id"] = bundle_id
         
         # Store all measures.
         bundle_contents[:measures].each do |key, contents|
           measure = JSON.parse(contents, {:max_nesting => 100})
           measure['bundle'] = bundle_id  
-          @db['measures'] << measure
+          measure_id = @db['measures'] << measure
         end
         
         # Store all patients.
         bundle_contents[:patients].each do |key, contents|
           patient = JSON.parse(contents, {:max_nesting => 100})
           patient['bundle'] = bundle_id
-          @db['records'] << patient
+          Record.new(patient).save
         end
         
         # Store the expected results into the query and patient caches.
