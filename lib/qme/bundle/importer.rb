@@ -44,15 +44,13 @@ module QME
           measure = JSON.parse(contents, {:max_nesting => 100})
           measure['bundle'] = bundle_id  
           measure_id = @db['measures'] << measure
-          measure["_id"] = measure_id
         end
         
         # Store all patients.
         bundle_contents[:patients].each do |key, contents|
           patient = JSON.parse(contents, {:max_nesting => 100})
           patient['bundle'] = bundle_id
-          patient_id = @db['records'] << patient
-          patient["_id"] = patient_id
+          Record.new(patient).save
         end
         
         # Store the expected results into the query and patient caches.
