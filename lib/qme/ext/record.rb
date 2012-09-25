@@ -19,18 +19,18 @@ class Record
   end
   
   def active_diagnosis
-    @active_diagnosis ||= conditions.any_of({:status => 'active'}, {:status => nil}, {:ordinality => 'principal'}).to_a + 
-    social_history.any_of({:status => 'active'}, {:status => nil}).to_a
+    @active_diagnosis ||= (conditions.select {|entry| entry.status == 'active' || entry.status.nil? || entry.ordinality == 'principal'}) + 
+      (social_history.select {|entry| entry.status == 'active' || entry.status.nil? })
   end
   
   def inactive_diagnosis
-    @inactive_diagnosis ||= conditions.any_of({:status => 'inactive'}).to_a + 
-    social_history.any_of({:status => 'inactive'}).to_a
+    @inactive_diagnosis ||= (conditions.select {|entry| entry.status == 'inactive'}) + 
+    (social_history.select {|entry| entry.status == 'inactive'})
   end
   
   def resolved_diagnosis
-    @resolved_diagnosis ||= conditions.any_of({:status => 'resolved'}).to_a + 
-    social_history.any_of({:status => 'resolved'}).to_a
+    @resolved_diagnosis ||= (conditions.select {|entry| entry.status == 'resolved'}) + 
+    (social_history.select {|entry| entry.status == 'resolved'})
   end
   
   def all_problems

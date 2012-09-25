@@ -6,8 +6,9 @@ gem 'mongo', '1.5.1'
 gem 'bson_ext', '1.5.1',  :platforms => :mri
 gem 'rake'
 #gem 'pry'
-#gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
-gem 'health-data-standards', '1.0.1'
+gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
+#gem 'health-data-standards', '1.0.1'
+#gem 'health-data-standards', :path => '../health-data-standards'
 
 # does not work with redis 3.0
 gem 'redis', '~> 2.2.2'
