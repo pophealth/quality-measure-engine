@@ -42,7 +42,7 @@ module QME
       #         Hashes will have a "value" and "date" property containing the respective data
       def extract_value_date_list(entry_list)
         basic_extractor(entry_list) do |entry, matching_values|
-          value = entry.value[:scalar]
+          value = entry.values.first[:scalar]
           if value
             if @property_description['items']['properties']['value']['type'] == 'number'
               value = value.to_f

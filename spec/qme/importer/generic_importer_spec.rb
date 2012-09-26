@@ -52,12 +52,12 @@ describe QME::Importer::GenericImporter do
       ]
     }}}
     
-    entry1 = Entry.new
+    entry1 = Condition.new
     entry1.add_code('14106009', 'SNOMED-CT')
     entry1.start_time = 1026777600
     entry1.status = 'active'
     
-    entry2 = Entry.new
+    entry2 = Condition.new
     entry2.add_code('14106009', 'SNOMED-CT')
     entry2.start_time = 1026777601
     entry2.status = 'inactive'
