@@ -94,7 +94,7 @@ module QME
       # Creates a Hash for this Entry
       # @return [Hash] a Hash representing the Entry
       def to_hash
-        entry_hash = {'_id' => BSON::ObjectId.new}
+        entry_hash = {'_id' => Moped::BSON::ObjectId.new}
         entry_hash['codes'] = @codes
         unless @value.empty?
           entry_hash['value'] = @value

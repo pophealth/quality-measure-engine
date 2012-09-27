@@ -32,7 +32,6 @@ GEM
       multi_json (~> 1.0)
     awesome_print (0.4.0)
     bson (1.5.1)
-    bson_ext (1.5.1)
     builder (3.0.3)
     choice (0.1.6)
     configatron (2.9.1)
@@ -133,7 +132,6 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 0.3)
-  bson_ext (= 1.5.1)
   builder (~> 3.0.0)
   cover_me (>= 1.0.0.rc5)
   google-spreadsheet-ruby (~> 0.1.2)

@@ -9,7 +9,7 @@ module QME
     #
     class PatientRandomizationJob < Resque::JobWithStatus
       def perform
-        test_id = options['test_id'] ? BSON::ObjectId(options['test_id']) : nil
+        test_id = options['test_id'] ? Moped::BSON::ObjectId(options['test_id']) : nil
         template_dir = options['template_dir']
         count = options['count']
 

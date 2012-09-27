@@ -117,7 +117,7 @@ module QME
         conditions = []
         if(filters = @parameter_values['filters'])
           if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if (provider_id and provider_id != 'null') }
+            providers = filters['providers'].map {|provider_id| Moped::BSON::ObjectId(provider_id) if (provider_id and provider_id != 'null') }
             # provider_performances have already been filtered by start and end date in map_reduce_builder as part of the finalize
             conditions << {'value.provider_performances.provider_id' => {'$in' => providers}}
           end

@@ -19,7 +19,7 @@ module QME
       end
       
       def self.calculate(options)
-        test_id = options['test_id'] ? BSON::ObjectId(options['test_id']) : nil
+        test_id = options['test_id'] ? Moped::BSON::ObjectId(options['test_id']) : nil
         qr = QualityReport.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'])
         if qr.calculated?
           completed("#{options['measure_id']}#{options['sub_id']} has already been calculated") if respond_to? :completed
