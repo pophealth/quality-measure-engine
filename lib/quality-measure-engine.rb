@@ -1,5 +1,5 @@
 require "bundler/setup"
-
+require 'pry'
 require 'resque/job_with_status'
 
 require_relative 'qme/database_access'

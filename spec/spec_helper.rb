@@ -27,7 +27,7 @@ def validate_measures(measure_dirs, loader)
 
   reload_bundle
 
-  loader.get_db.collection('manual_exclusions').save({'measure_id'=>'test1', 'medical_record_id'=>'1234567890'})
+  loader.get_db()['manual_exclusions'].insert({'measure_id'=>'test1', 'medical_record_id'=>'1234567890'})
   
   measure_dirs.each do |dir|
     # check for sample data

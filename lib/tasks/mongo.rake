@@ -47,9 +47,9 @@ namespace :mongo do
   task :seed_cache, [:year, :month, :day] do |t, args|
     db = loader.get_db
     patient_cache = db['patient_cache']
-    patient_cache.create_index([['value.measure_id', Mongo::ASCENDING],
-                                ['value.sub_id', Mongo::ASCENDING],
-                                ['value.effective_date', Mongo::ASCENDING]])
+    patient_cache.indexes().create('value.measure_id' => 1)
+    patient_cache.indexes().create('value.sub_id' => 1)
+    patient_cache.indexes().create('value.effective_date' => 1)
     year = args.year.to_i>0 ? args.year.to_i : 2010
     month = args.month.to_i>0 ? args.month.to_i : 9
     day = args.day.to_i>0 ? args.day.to_i : 19

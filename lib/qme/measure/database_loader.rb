@@ -29,20 +29,25 @@ module QME
       # @param [String] collection_name name of the database collection
       # @param [Hash] json the JSON hash to save in the database 
       def save(collection_name, json)
-        get_db[collection_name].save(json)
+        if !json['_id']
+          id = Moped::BSON::ObjectId.new()
+          json['_id'] = id
+        end
+        get_db[collection_name].find('_id' => json['_id']).upsert(json)
+        json['_id']
       end
       
       # Drop a database collection
       # @param [String] collection_name name of the database collection
       def drop_collection(collection_name)
-        get_db.drop_collection(collection_name)
+        get_db()[collection_name].drop()
       end
       
       def save_system_js_fn(name, fn)
-        get_db['system.js'].save(
+        get_db()['system.js'].find('_id' => name).upsert(
           {
             "_id" => name,
-            "value" => BSON::Code.new(fn)
+            "value" => Moped::BSON::Code.new(fn)
           }
         )
       end
@@ -71,12 +76,11 @@ module QME
       
       
       def remove_bundle(bundle_id, bundle_collection = 'bundles', measure_collection = 'measures')
-        bundle = get_db[bundle_collection].find_one(bundle_id)
-        bundle['measures'].each do |measure|
-          mes = get_db[measure_collection].find_one(measure)
-          get_db[measure_collection].remove(mes)
+        bundle = get_db()[bundle_collection].find('_id' => bundle_id).first()
+        bundle['measures'].each do |measure_id|
+          get_db()[measure_collection].find('_id' => measure_id).remove()
         end
-        get_db[bundle_collection].remove(bundle)
+        get_db()[bundle_collection].find('_id' => bundle_id).remove()
       end
     end
   end

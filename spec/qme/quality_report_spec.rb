@@ -3,7 +3,7 @@ describe QME::QualityReport do
     loader = QME::Database::Loader.new
     loader.drop_collection('query_cache')
     loader.drop_collection('patient_cache')
-    loader.get_db['query_cache'].save(
+    loader.get_db()['query_cache'].insert(
       "measure_id" => "test2",
       "sub_id" =>  "b",
       "initialPopulation" => 4,
@@ -12,7 +12,7 @@ describe QME::QualityReport do
       "exclusions" => 1,
       "effective_date" => Time.gm(2010, 9, 19).to_i
     )
-    loader.get_db['patient_cache'].save(
+    loader.get_db()['patient_cache'].insert(
       "value" => {
         "population" => false,
         "denominator" => false,

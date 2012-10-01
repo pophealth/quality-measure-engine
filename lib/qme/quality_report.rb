@@ -10,25 +10,25 @@ module QME
     # and query_cache collections
     def self.destroy_all
       determine_connection_information
-      get_db.collection("query_cache").drop
-      get_db.collection("patient_cache").drop
+      get_db()["query_cache"].drop
+      get_db()["patient_cache"].drop
     end
     
     # Removes the cached results for the patient with the supplied id and
     # recalculates as necessary
     def self.update_patient_results(id)
-      determine_connection_information
+      determine_connection_information()
       
       # TODO: need to wait for any outstanding calculations to complete and then prevent
       # any new ones from starting until we are done.
 
       # drop any cached measure result calculations for the modified patient
-      get_db.collection("patient_cache").remove('value.medical_record_id' => id)
+      get_db()["patient_cache"].find('value.medical_record_id' => id).remove_all()
       
       # get a list of cached measure results for a single patient
-      sample_patient = get_db.collection('patient_cache').find_one()
+      sample_patient = get_db()['patient_cache'].find().first()
       if sample_patient
-        cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
+        cached_results = get_db()['patient_cache'].find({'value.patient_id' => sample_patient['value']['patient_id']})
         
         # for each cached result (a combination of measure_id, sub_id, effective_date and test_id)
         cached_results.each do |measure|
@@ -42,7 +42,7 @@ module QME
       
       # remove the query totals so they will be recalculated using the new results for
       # the modified patient
-      get_db.collection("query_cache").drop
+      get_db()["query_cache"].drop()
     end
 
     # Creates a new QualityReport
@@ -96,7 +96,7 @@ module QME
     # @return [Hash] measure groups (like numerator) as keys, counts as values or nil if
     #                the measure has not yet been calculated
     def result
-      cache = get_db.collection("query_cache")
+      cache = get_db()["query_cache"]
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
                :effective_date => @parameter_values['effective_date'],
                :test_id => @parameter_values['test_id']}
@@ -106,7 +106,7 @@ module QME
         query.merge!({filters: nil})
       end
         
-      cache.find_one(query)
+      cache.find(query).first()
     end
     
     # make sure all filter id arrays are sorted
@@ -115,11 +115,11 @@ module QME
     end
     
     def patient_result
-      cache = get_db.collection("patient_cache")
+      cache = get_db()["patient_cache"]
       query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id, 
                'value.effective_date' => @parameter_values['effective_date'],
                'value.test_id' => @parameter_values['test_id']}
-      cache.find_one(query)
+      cache.find(query).first()
     end
     
   end

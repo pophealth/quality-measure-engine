@@ -13,20 +13,27 @@ module QME
     
     # Directly inject an instance of a database
     # @param [Mongo::Database] db the database that you would like the object to use
-    def inject_db(db)
-      @db = db
-    end
+#     def inject_db(db)
+#       @db = db
+#     end
 
     # Lazily creates a connection to the database and initializes the
     # JavaScript environment
     # @return [Mongo::Connection]
     def get_db
-      if @db == nil
-        @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
-      end
+#       if @db == nil
+#         @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
+#       end
       
-      Mongoid.configure do |config|
-        config.sessions = { default: { hosts: [ "#{@db_host}:#{@db_port}" ], database: @db_name }}
+      if @db == nil
+        if @db_name==nil || @db_host==nil || @db_port==nil
+          determine_connection_information()
+        end
+        Mongoid.configure do |config|
+          config.sessions = { default: { hosts: [ "#{@db_host}:#{@db_port}" ], database: @db_name }}
+        end
+        
+        @db = Mongoid.default_session
       end
       
       @db

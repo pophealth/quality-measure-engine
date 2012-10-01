@@ -17,7 +17,7 @@ module QME
         @sub_id = sub_id
         @parameter_values = parameter_values
         @measure_def = QualityMeasure.new(@measure_id, @sub_id).definition
-        determine_connection_information
+        determine_connection_information()
       end
 
       # Examines the patient_cache collection and generates a total of all groups
@@ -25,7 +25,7 @@ module QME
       # collection.
       # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
-        patient_cache = get_db.collection('patient_cache')
+        patient_cache = get_db()['patient_cache']
         base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                       'value.effective_date' => @parameter_values['effective_date'],
                       'value.test_id' => @parameter_values['test_id']}
@@ -45,17 +45,15 @@ module QME
          # need to time the old way agains the single query to verify that the single query is more performant
          aggregate = {"population"=>0, "denominator"=>0, "numerator"=>0, "antinumerator"=>0,  "exclusions"=>0}
          %w(population denominator numerator antinumerator exclusions).each do |measure_group|
-           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
-             aggregate[measure_group] = cursor.count
-           end
+           aggregate[measure_group] = patient_cache.find(query.merge("value.#{measure_group}" => true)).count()
          end
          aggregate["considered"] = patient_cache.find(query).count
          aggregate["exclusions"] += patient_cache.find(base_query.merge({'value.manual_exclusion'=>true})).count
          result.merge!(aggregate)
 
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
-
-        get_db.collection("query_cache").save(result, safe: true)
+        get_db()["query_cache"].insert(result)
+        get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
         result
       end
 
@@ -63,12 +61,13 @@ module QME
       # in the patient_cache collection. These documents will state the measure groups
       # that the record belongs to, such as numerator, etc.
       def map_records_into_measure_groups
-        measure = Builder.new(get_db, @measure_def, @parameter_values)
-        records = get_db.collection('records')
-        records.map_reduce(measure.map_function, "function(key, values){return values;}",
-                           :out => {:reduce => 'patient_cache'}, 
-                           :finalize => measure.finalize_function,
-                           :query => {:test_id => @parameter_values['test_id']})
+        measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        get_db().command(:mapReduce => 'records',
+                         :map => measure.map_function,
+                         :reduce => "function(key, values){return values;}",
+                         :out => {:reduce => 'patient_cache'}, 
+                         :finalize => measure.finalize_function,
+                         :query => {:test_id => @parameter_values['test_id']})
         apply_manual_exclusions
       end
       
@@ -76,12 +75,13 @@ module QME
       # This will create a document in the patient_cache collection. This document
       # will state the measure groups that the record belongs to, such as numerator, etc.
       def map_record_into_measure_groups(patient_id)
-        measure = Builder.new(get_db, @measure_def, @parameter_values)
-        records = get_db.collection('records')
-        records.map_reduce(measure.map_function, "function(key, values){return values;}",
-                           :out => {:reduce => 'patient_cache'}, 
-                           :finalize => measure.finalize_function,
-                           :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
+        measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        get_db().command(:mapReduce => 'records',
+                         :map => measure.map_function,
+                         :reduce => "function(key, values){return values;}",
+                         :out => {:reduce => 'patient_cache'}, 
+                         :finalize => measure.finalize_function,
+                         :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
         apply_manual_exclusions
       end
       
@@ -89,13 +89,14 @@ module QME
       # This will *not* create a document in the patient_cache collection, instead the
       # result is returned directly.
       def get_patient_result(patient_id)
-        measure = Builder.new(get_db, @measure_def, @parameter_values)
-        records = get_db.collection('records')
-        result = records.map_reduce(measure.map_function, "function(key, values){return values;}",
-                           :out => {:inline => true}, 
-                           :raw => true, 
-                           :finalize => measure.finalize_function,
-                           :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
+        measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        result = get_db().command(:mapReduce => 'records',
+                                  :map => measure.map_function,
+                                  :reduce => "function(key, values){return values;}",
+                                  :out => {:inline => true}, 
+                                  :raw => true, 
+                                  :finalize => measure.finalize_function,
+                                  :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
         raise result['err'] if result['ok']!=1
         result['results'][0]['value']
       end
@@ -104,12 +105,11 @@ module QME
       # and sets a flag in each cached patient result for patients that have been excluded from the
       # current measure
       def apply_manual_exclusions
-        exclusions = get_db.collection('manual_exclusions').find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
+        exclusions = get_db()['manual_exclusions'].find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
           exclusion['medical_record_id']
         end
-        get_db.collection('patient_cache').update(
-          {'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} },
-          {'$set'=>{'value.manual_exclusion'=>true}}, :multi=>true)
+        get_db()['patient_cache'].find({'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} })
+          .update_all({'$set'=>{'value.manual_exclusion'=>true}})
       end
 
       def filter_parameters

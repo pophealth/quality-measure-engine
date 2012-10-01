@@ -35,15 +35,18 @@ module QME
         end
 
         # Store the bundle metadata.
+        bundle_id = Moped::BSON::ObjectId.new()
         bundle = JSON.parse(bundle_contents[:bundle])
-        bundle_id = @db['bundles'] << bundle
         bundle["_id"] = bundle_id
+        @db['bundles'].insert(bundle)
         
         # Store all measures.
         bundle_contents[:measures].each do |key, contents|
+          measure_id = Moped::BSON::ObjectId.new()
           measure = JSON.parse(contents, {:max_nesting => 100})
+          measure['_id'] = measure_id
           measure['bundle'] = bundle_id  
-          measure_id = @db['measures'] << measure
+          @db['measures'].insert(measure)
         end
         
         # Store all patients.
@@ -57,7 +60,7 @@ module QME
         bundle_contents[:results].each do |name, contents|
           collection = name == "by_patient" ? "patient_cache" : "query_cache"
           contents = JSON.parse(contents, {:max_nesting => 100})
-          contents.each {|document| @db[collection] << document}
+          contents.each {|document| @db[collection].insert(document)}
         end
       end
     end
