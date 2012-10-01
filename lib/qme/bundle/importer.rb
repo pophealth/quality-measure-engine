@@ -50,6 +50,7 @@ module QME
         end
         
         # Store all patients.
+        bundle_id = Moped::BSON::ObjectId(bundle_id.to_s)
         bundle_contents[:patients].each do |key, contents|
           patient = JSON.parse(contents, {:max_nesting => 100})
           patient['bundle'] = bundle_id
