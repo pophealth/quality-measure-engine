@@ -65,7 +65,7 @@ module QME
           combination['measure'].each do |key, value|
             measure['measure'][key] = value
           end
-          ['population', 'denominator', 'numerator', 'exclusions'].each do |component|
+          ['population', 'denominator', 'numerator', 'exclusions', 'denexcep'].each do |component|
             if combination[component]
               measure[component] = load_json(component_dir, combination[component])
             end
