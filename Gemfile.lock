@@ -145,7 +145,6 @@ DEPENDENCIES
   health-data-standards!
   jsonschema (~> 2.0.0)
   kramdown
-  mongo (= 1.5.1)
   pry
   quality-measure-engine!
   rake

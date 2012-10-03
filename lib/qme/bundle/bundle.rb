@@ -14,7 +14,7 @@ module QME
     # @param [String] fn The body of the function being saved.
     def self.save_system_js_fn(db, name, fn)
       fn = "function () {\n #{fn} \n }"
-      db['system.js'].insert(
+      db['system.js'].find('_id' => name).upsert(
         {
           "_id" => name,
           "value" => Moped::BSON::Code.new(fn)

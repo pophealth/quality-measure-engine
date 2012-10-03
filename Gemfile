@@ -2,8 +2,6 @@ source "http://rubygems.org"
 
 gemspec :development_group => :test
 
-gem 'mongo', '1.5.1'
-#gem 'bson_ext', '1.5.1',  :platforms => :mri
 gem 'rake'
 gem 'pry'
 gem 'health-data-standards', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
