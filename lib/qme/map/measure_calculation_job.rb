@@ -34,7 +34,7 @@ module QME
           
           tick('Calculating group totals') if respond_to? :tick
           result = map.count_records_in_measure_groups
-          completed("#{options['measure_id']}#{options['sub_id']}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, e#{result['exclusions']}") if respond_to? :completed
+          completed("#{options['measure_id']}#{options['sub_id']}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, excl#{result['exclusions']}, excep#{result['denexcep']}") if respond_to? :completed
         end
         
       end

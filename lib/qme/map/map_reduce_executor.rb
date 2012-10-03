@@ -43,8 +43,8 @@ module QME
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
         
          # need to time the old way agains the single query to verify that the single query is more performant
-         aggregate = {"population"=>0, "denominator"=>0, "numerator"=>0, "antinumerator"=>0,  "exclusions"=>0}
-         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
+         aggregate = {"population"=>0, "denominator"=>0, "numerator"=>0, "antinumerator"=>0,  "exclusions"=>0, "denexcep"=>0}
+         %w(population denominator numerator antinumerator exclusions denexcep).each do |measure_group|
            aggregate[measure_group] = patient_cache.find(query.merge("value.#{measure_group}" => true)).count()
          end
          aggregate["considered"] = patient_cache.find(query).count
