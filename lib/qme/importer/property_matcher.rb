@@ -2,6 +2,7 @@ module QME
   module Importer
     # Compares Entry objects to measure definition properties.
     class PropertyMatcher
+      include EntryFilter
       
       def initialize(property_description)
         @property_description = property_description
@@ -93,17 +94,8 @@ module QME
       
       private
       
-      def basic_extractor(entry_list)
-        matching_values = []
-        entry_list.each do |entry|
-          if entry.usable?
-            if entry.is_in_code_set?(@property_description['codes'])
-              yield entry, matching_values
-            end
-          end
-        end
-        
-        matching_values
+      def basic_extractor(entry_list, &block)
+        filter_entries_by_codes(entry_list, @property_description['codes'], &block)
       end
     end
   end

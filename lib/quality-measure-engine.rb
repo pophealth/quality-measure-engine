@@ -20,6 +20,7 @@ require 'health-data-standards'
 
 require_relative 'qme/ext/record'
 
+require_relative 'qme/importer/entry_filter'
 require_relative 'qme/importer/property_matcher'
 require_relative 'qme/importer/generic_importer'
 require_relative 'qme/importer/measure_properties_generator'
