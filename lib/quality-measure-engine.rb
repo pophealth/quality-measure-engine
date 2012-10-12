@@ -26,7 +26,6 @@ require_relative 'qme/importer/generic_importer'
 require_relative 'qme/importer/measure_properties_generator'
 
 require 'json'
-require 'mongo'
 require 'nokogiri'
 
 require_relative 'qme/measure/measure_loader'

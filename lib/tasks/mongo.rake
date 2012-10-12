@@ -1,6 +1,6 @@
 path = File.dirname(__FILE__)
 path = path.index('lib') == 0 ? "./#{path}" : path
-require 'mongo'
+
 require 'json'
 require 'resque'
 require File.join(path,'../quality-measure-engine')
