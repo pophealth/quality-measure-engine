@@ -1,7 +1,3 @@
-module Quality
-  module Measure
-    module Engine
-      VERSION = "0.0.1"
-    end
-  end
+module QME
+  VERSION = "2.0.0"
 end
