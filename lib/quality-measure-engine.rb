@@ -1,9 +1,14 @@
-require "quality-measure-engine/version"
+require "bundler/setup"
 
-module Quality
-  module Measure
-    module Engine
-      # Your code goes here...
-    end
-  end
-end
+require "qme/version"
+require 'qme/database_access'
+require 'qme/quality_measure'
+
+require 'qme/map/map_reduce_builder'
+require 'qme/map/map_reduce_executor'
+require 'qme/map/measure_calculation_job'
+
+require 'qme/quality_report'
+
+require 'qme/bundle/bundle'
+require 'qme/bundle/importer'
