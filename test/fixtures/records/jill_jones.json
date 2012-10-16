@@ -1,0 +1,80 @@
+{
+  "_id": "506afdf87042f9e32c000002",
+  "first": "Jill",
+  "last": "Jones",
+  "name": "Jill Jones",
+  "gender": "F",
+  "expired": true,
+  "clinicalTrialParticipant": false,
+  "birthdate": 1255651200,
+  "religiousAffiliation": {
+    "code": "1013",
+    "codeSystem": "HL7"
+  },
+  "race": {
+    "code": "2131-1",
+    "codeSystem": "CDC"
+  },
+  "ethnicity": {
+    "code": "2186-5",
+    "codeSystem": "CDC"
+  },
+  "birthPlace": {
+    "city": "Washington",
+    "state": "DC"
+  },
+  "confidentiality": {
+    "code": "N",
+    "codeSystem": "HL7"
+  },
+  "provider": {
+    "providerEntity": {
+      "first": "Mary",
+      "last": "Care"
+    },
+    "careProvisionDateRange": {
+      "hi": 1124956803,
+      "low": 1124956803
+    }
+  },
+  "languages": [
+    {
+      "codes": {
+        "IETF": [
+          "en"
+        ]
+      }
+    }
+  ],
+  "addresses": [
+    {
+      "street": [
+        "15 Credibility Street"
+      ],
+      "city": "Boston",
+      "state": "MA",
+      "zip": "01803"
+    }
+  ],
+  "supports": {
+    "supportDate": {
+      "hi": 1124956803,
+      "low": 1124956803
+    }
+  },
+  "custodian": {
+    "name": "General Hospital"
+  },
+  "encounters": [
+    {
+      "codes": {
+        "ICD-9-CM": [
+          "V70.0"
+        ]
+      },
+      "time": 1345075200,
+      "description": "encounter",
+      "_id": "OP12345"
+    }
+  ]
+}

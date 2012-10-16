@@ -4,6 +4,7 @@ require 'redis'
 require 'resque'
 require 'resque-status'
 require 'moped'
+require 'zip/zip'
 
 require "qme/version"
 require 'qme/database_access'
