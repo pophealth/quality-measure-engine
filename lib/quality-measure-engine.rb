@@ -1,5 +1,10 @@
 require "bundler/setup"
 
+require 'redis'
+require 'resque'
+require 'resque-status'
+require 'moped'
+
 require "qme/version"
 require 'qme/database_access'
 require 'qme/quality_measure'
