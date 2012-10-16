@@ -27,4 +27,12 @@ class MapReduceBuilderTest < MiniTest::Unit::TestCase
     end
     assert_equal "No value supplied for measure parameter: effective_date", rte.message
   end
+
+  def test_context_building
+    vars = {'a'=>10, 'b'=>20}
+    context = QME::MapReduce::Builder::Context.new(get_db(), vars)
+    binding = context.get_binding
+    assert_equal 10, eval("a",binding)
+    assert_equal 20, eval("b",binding)
+  end
 end
