@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'moped', '~> 1.2.7'
 
   gem.add_development_dependency "minitest", "~> 4.1.0"
+  gem.add_development_dependency "simplecov", "~> 0.7.1"
 end
