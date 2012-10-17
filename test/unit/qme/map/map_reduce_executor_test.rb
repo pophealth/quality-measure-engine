@@ -32,5 +32,25 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     assert_equal 3, doc['population']
     assert_equal 2, doc['denominator']
     assert_equal 1, doc['numerator']
-  end  
+  end
+
+  def test_map_record_into_measure_groups
+    executor = QME::MapReduce::Executor.new("2E679CD2-3FEC-4A75-A75A-61403E5EFEE8", nil,
+                                            'effective_date' => Time.gm(2011, 1, 15).to_i)
+    executor.map_record_into_measure_groups("12345")
+
+    assert_equal 1, get_db['patient_cache'].find().count
+    assert_equal 1, get_db['patient_cache'].find('value.population' => true).count
+    assert_equal 0, get_db['patient_cache'].find('value.population' => false).count
+    assert_equal 1, get_db['patient_cache'].find('value.denominator' => true).count
+    assert_equal 1, get_db['patient_cache'].find('value.numerator' => true).count
+  end
+
+  def test_get_patient_result
+    executor = QME::MapReduce::Executor.new("2E679CD2-3FEC-4A75-A75A-61403E5EFEE8", nil,
+                                            'effective_date' => Time.gm(2011, 1, 15).to_i)
+    result = executor.get_patient_result("12345")
+    assert_equal 0, get_db['patient_cache'].find().count
+    assert result['numerator']
+  end
 end
