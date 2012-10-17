@@ -4,7 +4,7 @@ module QME
     #
     # @param [Array] collection_names Optionally, an array of collection names to be dropped.
     def self.drop_collections(db, collection_names=[])
-      collection_names = ["bundles", "records", "measures", "selected_measures", "patient_cache", "query_cache", "System.js"] if collection_names.empty?
+      collection_names = ["bundles", "records", "measures", "selected_measures", "patient_cache", "query_cache", "system.js"] if collection_names.empty?
       collection_names.each {|collection| db[collection].drop}
     end
 

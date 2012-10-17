@@ -16,10 +16,10 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     executor.map_records_into_measure_groups
 
     assert_equal 4, get_db['patient_cache'].find().count
-    assert_equal 3, get_db['patient_cache'].find('value.population' => true).count
-    assert_equal 1, get_db['patient_cache'].find('value.population' => false).count
-    assert_equal 2, get_db['patient_cache'].find('value.denominator' => true).count
-    assert_equal 1, get_db['patient_cache'].find('value.numerator' => true).count
+    assert_equal 3, get_db['patient_cache'].find('value.population' => 1).count
+    assert_equal 1, get_db['patient_cache'].find('value.population' => 0).count
+    assert_equal 2, get_db['patient_cache'].find('value.denominator' => 1).count
+    assert_equal 1, get_db['patient_cache'].find('value.numerator' => 1).count
   end
 
   def test_count_records_in_measure_groups
@@ -40,10 +40,10 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     executor.map_record_into_measure_groups("12345")
 
     assert_equal 1, get_db['patient_cache'].find().count
-    assert_equal 1, get_db['patient_cache'].find('value.population' => true).count
-    assert_equal 0, get_db['patient_cache'].find('value.population' => false).count
-    assert_equal 1, get_db['patient_cache'].find('value.denominator' => true).count
-    assert_equal 1, get_db['patient_cache'].find('value.numerator' => true).count
+    assert_equal 1, get_db['patient_cache'].find('value.population' => 1).count
+    assert_equal 0, get_db['patient_cache'].find('value.population' => 0).count
+    assert_equal 1, get_db['patient_cache'].find('value.denominator' => 1).count
+    assert_equal 1, get_db['patient_cache'].find('value.numerator' => 1).count
   end
 
   def test_get_patient_result

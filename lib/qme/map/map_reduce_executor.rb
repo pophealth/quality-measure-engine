@@ -25,7 +25,7 @@ module QME
       # collection.
       # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
-        patient_cache = get_db()['patient_cache']
+        pipeline = []
         base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
                       'value.effective_date' => @parameter_values['effective_date'],
                       'value.test_id' => @parameter_values['test_id']}
@@ -35,22 +35,34 @@ module QME
         query = base_query.clone
 
         query.merge!({'value.manual_exclusion' => {'$in' => [nil, false]}})
+
+        pipeline << {'$match' => query}
+        pipeline << {'$group' => {
+          "_id" => "$value.measure_id", # we don't really need this, but Mongo requires that we group 
+          "population" => {"$sum" => "$value.population"}, 
+          "denominator" => {"$sum" => "$value.denominator"},
+          "numerator" => {"$sum" => "$value.numerator"},
+          "antinumerator" => {"$sum" => "$value.antinumerator"},
+          "exclusions" => {"$sum" => "$value.exclusions"},
+          "denexcep" => {"$sum" => "$value.denexcep"},
+          "considered" => {"$sum" => 1}
+        }}
         
+        aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
+        if aggregate['ok'] != 1
+          raise RuntimeError, "Aggregation Failed"
+        elsif aggregate['result'].size !=1
+          raise RuntimeError, "Expected one group from patient_cache aggregation, got #{aggregate['result'].size}"
+        end
+
         nqf_id = @measure_def['nqf_id'] || @measure_def['id']
-        
         result = {:measure_id => @measure_id, :sub_id => @sub_id, :nqf_id => nqf_id, :population_ids => @measure_def["population_ids"],
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
-        
-         # need to time the old way agains the single query to verify that the single query is more performant
-         aggregate = {"population"=>0, "denominator"=>0, "numerator"=>0, "antinumerator"=>0,  "exclusions"=>0, "denexcep"=>0}
-         %w(population denominator numerator antinumerator exclusions denexcep).each do |measure_group|
-           aggregate[measure_group] = patient_cache.find(query.merge("value.#{measure_group}" => true)).count()
-         end
-         aggregate["considered"] = patient_cache.find(query).count
-         aggregate["exclusions"] += patient_cache.find(base_query.merge({'value.manual_exclusion'=>true})).count
-         result.merge!(aggregate)
 
+        result.merge!(aggregate['result'].first)
+        result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
+        result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
         get_db()["query_cache"].insert(result)
         get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
