@@ -1,6 +1,6 @@
 {
-    "_id": "507ec1407042f9362c000017",
-    "birthdate": 946715400,
+    "_id": "507eb5977042f9362c000001",
+    "birthdate": 1059723000,
     "conditions": [
         {
             "codes": {
@@ -14,8 +14,8 @@
             "mood_code": "EVN",
             "_type": "Condition",
             "description": "Diagnosis, Active: pharyngitis (Code List: 2.16.840.1.113883.3.464.0001.369)",
-            "start_time": 1293858000,
-            "end_time": 1293858000,
+            "start_time": 1295067600,
+            "end_time": 1295067600,
             "status_code": {
                 "SNOMED-CT": [
                     "55561003"
@@ -43,15 +43,15 @@
             "mood_code": "EVN",
             "_type": "Encounter",
             "description": "Encounter: Encounter ambulatory including pediatrics (Code List: 2.16.840.1.113883.3.464.0001.231)",
-            "start_time": 1293858000,
-            "end_time": 1293858000
+            "start_time": 1295067600,
+            "end_time": 1295067600
         }
     ],
     "expired": false,
-    "first": "Jill",
-    "gender": "F",
+    "first": "Billy",
+    "gender": "M",
     "last": "Jones",
-    "measure_period_end": 1325307600000,
+    "measure_period_end": 1325394000000,
     "measure_period_start": 1293858000000,
     "medications": [
         {
@@ -63,8 +63,8 @@
             "mood_code": "EVN",
             "_type": "Medication",
             "description": "Medication, Active: pharyngitis antibiotics (Code List: 2.16.840.1.113883.3.464.0001.373)",
-            "start_time": 1293944400,
-            "end_time": 1293944400,
+            "start_time": 1295154000,
+            "end_time": 1295154000,
             "status_code": {
                 "SNOMED-CT": [
                     "55561003"

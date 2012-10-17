@@ -1,5 +1,5 @@
 {
-    "_id": "507ec1407042f9362c000017",
+    "_id": "507ec2077042f9362c00001b",
     "birthdate": 946715400,
     "conditions": [
         {
@@ -12,10 +12,13 @@
                 ]
             },
             "mood_code": "EVN",
+            "_id": {
+                "$oid": "507ecc2b7042f9362c000061"
+            },
             "_type": "Condition",
             "description": "Diagnosis, Active: pharyngitis (Code List: 2.16.840.1.113883.3.464.0001.369)",
-            "start_time": 1293858000,
-            "end_time": 1293858000,
+            "start_time": 1293253200,
+            "end_time": 1293253200,
             "status_code": {
                 "SNOMED-CT": [
                     "55561003"
@@ -27,7 +30,7 @@
         }
     ],
     "description": "",
-    "description_category": "DENOM",
+    "description_category": "NUMER",
     "elimination_population": null,
     "elimination_reason": null,
     "encounters": [
@@ -43,12 +46,12 @@
             "mood_code": "EVN",
             "_type": "Encounter",
             "description": "Encounter: Encounter ambulatory including pediatrics (Code List: 2.16.840.1.113883.3.464.0001.231)",
-            "start_time": 1293858000,
-            "end_time": 1293858000
+            "start_time": 1293253200,
+            "end_time": 1293253200
         }
     ],
     "expired": false,
-    "first": "Jill",
+    "first": "Jane",
     "gender": "F",
     "last": "Jones",
     "measure_period_end": 1325307600000,
@@ -63,8 +66,8 @@
             "mood_code": "EVN",
             "_type": "Medication",
             "description": "Medication, Active: pharyngitis antibiotics (Code List: 2.16.840.1.113883.3.464.0001.373)",
-            "start_time": 1293944400,
-            "end_time": 1293944400,
+            "start_time": 1293339600,
+            "end_time": 1293339600,
             "status_code": {
                 "SNOMED-CT": [
                     "55561003"
@@ -73,6 +76,44 @@
                     "active"
                 ]
             }
+        }
+    ],
+    "vital_signs": [
+        {
+            "codes": {
+                "CPT": [
+                    "87070"
+                ],
+                "LOINC": [
+                    "11268-0"
+                ],
+                "SNOMED-CT": [
+                    "89634005.0"
+                ]
+            },
+            "mood_code": "EVN",
+            "_type": "VitalSign",
+            "description": "Laboratory Test, Performed: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.0001.250)",
+            "start_time": 1293166800,
+            "end_time": 1293166800
+        },
+        {
+            "codes": {
+                "CPT": [
+                    "87070"
+                ],
+                "LOINC": [
+                    "11268-0"
+                ],
+                "SNOMED-CT": [
+                    "89634005.0"
+                ]
+            },
+            "mood_code": "EVN",
+            "_type": "VitalSign",
+            "description": "Laboratory Test, Performed: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.0001.250)",
+            "start_time": 1293339600,
+            "end_time": 1293339600
         }
     ]
 }
