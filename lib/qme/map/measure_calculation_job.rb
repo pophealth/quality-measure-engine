@@ -13,7 +13,9 @@ module QME
     #
     # When a measure needs calculation, the job will create a QME::MapReduce::Executor and interact with it to calculate
     # the report.
-    class MeasureCalculationJob < Resque::JobWithStatus
+    class MeasureCalculationJob
+      include Resque::Plugins::Status
+      
       def perform
         MeasureCalculationJob.calculate(options)
       end

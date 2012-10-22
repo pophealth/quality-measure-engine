@@ -89,7 +89,7 @@ module QME
     # @param job_id the id of the job to check on
     # @return [Hash] containing status information on the measure calculation job
     def status(job_id)
-      Resque::Status.get(job_id)
+      Resque::Plugins::Status::Hash.get(job_id)
     end
     
     # Gets the result of running a quality measure
