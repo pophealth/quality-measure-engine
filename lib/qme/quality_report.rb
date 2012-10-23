@@ -74,10 +74,12 @@ module QME
     # Kicks off a background job to calculate the measure
     # @return a unique id for the measure calculation job
     def calculate(asynchronous=true)
-      options = {'measure_id' => @measure_id, 'sub_id' => @sub_id, 
-                 'effective_date' => @parameter_values['effective_date'],
-                 'test_id' => @parameter_values['test_id'],
-                 'filters' => QME::QualityReport.normalize_filters(@parameter_values['filters'])}
+      
+      options = {'measure_id' => @measure_id, 'sub_id' => @sub_id}
+      
+      options.merge! @parameter_values
+      options['filters'] = QME::QualityReport.normalize_filters(@parameter_values['filters'])
+      
       if (asynchronous)
         MapReduce::MeasureCalculationJob.create(options)
       else
