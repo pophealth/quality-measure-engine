@@ -22,11 +22,13 @@ module QME
       
       def self.calculate(options)
         test_id = options['test_id'] ? Moped::BSON::ObjectId(options['test_id']) : nil
-        qr = QualityReport.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'])
+        qr = QualityReport.new(options['measure_id'], options['sub_id'], options)
         if qr.calculated?
           completed("#{options['measure_id']}#{options['sub_id']} has already been calculated") if respond_to? :completed
         else
-          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'], 'start_time' => Time.now.to_i)
+          options = options.dup
+          options['start_time'] = Time.now.to_i
+          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], options)
 
           if !qr.patients_cached?
             tick('Starting MapReduce') if respond_to? :tick
