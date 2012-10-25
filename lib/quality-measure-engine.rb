@@ -1,9 +1,7 @@
 require "bundler/setup"
 
-require 'redis'
-require 'resque'
-require 'resque-status'
 require 'moped'
+require 'delayed_job_mongoid'
 require 'zip/zip'
 
 require "qme/version"

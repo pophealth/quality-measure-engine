@@ -1,11 +1,8 @@
 module QME
   module MapReduce
-    # A Resque job that allows for measure calculation by a Resque worker. Can be created as follows:
+    # A delayed_job that allows for measure calculation by a delayed_job worker. Can be created as follows:
     #
-    #    MapReduce::MeasureCalculationJob.create(:measure_id => '0221', :sub_id => 'a', :effective_date => 1291352400, :test_id => xyzzy)
-    #
-    # This will return a uuid which can be used to check in on the status of a job. More details on this can be found
-    # at the {Resque Stats project page}[https://github.com/quirkey/resque-status].
+    #     Delayed::Job.enqueue QME::MapRedude::MeasureCalculationJob.new(:measure_id => '0221', :sub_id => 'a', :effective_date => 1291352400, :test_id => xyzzy)
     #
     # MeasureCalculationJob will check to see if a measure has been calculated before running the calculation. It does
     # this by creating a QME::QualityReport and asking if it has been calculated. If so, it will complete the job without
@@ -14,37 +11,46 @@ module QME
     # When a measure needs calculation, the job will create a QME::MapReduce::Executor and interact with it to calculate
     # the report.
     class MeasureCalculationJob
-      include Resque::Plugins::Status
+      attr_accessor :test_id, :measure_id, :sub_id, :effective_date, :filters
+
+      def initialize(options)
+        @test_id = options['test_id']
+        @measure_id = options['measure_id']
+        @sub_id = options['sub_id']
+        @effective_date = options['effective_date']
+        @filters = options['filters']
+      end
       
       def perform
-        MeasureCalculationJob.calculate(options)
-      end
-      
-      def self.calculate(options)
-        test_id = options['test_id'] ? Moped::BSON::ObjectId(options['test_id']) : nil
-        qr = QualityReport.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'])
+        bson_test_id = @test_id ? Moped::BSON::ObjectId(@test_id) : nil
+        qr = QualityReport.new(@measure_id, @sub_id, 'effective_date' => @effective_date, 
+                               'test_id' => bson_test_id, 'filters' => @filters)
         if qr.calculated?
-          completed("#{options['measure_id']}#{options['sub_id']} has already been calculated") if respond_to? :completed
+          completed("#{@measure_id}#{@sub_id} has already been calculated")
         else
-          map = QME::MapReduce::Executor.new(options['measure_id'], options['sub_id'], 'effective_date' => options['effective_date'], 'test_id' => test_id, 'filters' => options['filters'], 'start_time' => Time.now.to_i)
+          map = QME::MapReduce::Executor.new(@measure_id, @sub_id, 'effective_date' => @effective_date,
+                                             'test_id' => bson_test_id, 'filters' => @filters, 
+                                             'start_time' => Time.now.to_i)
 
           if !qr.patients_cached?
-            tick('Starting MapReduce') if respond_to? :tick
+            tick('Starting MapReduce')
             map.map_records_into_measure_groups
-            tick('MapReduce complete') if respond_to? :tick
+            tick('MapReduce complete')
           end
           
-          tick('Calculating group totals') if respond_to? :tick
+          tick('Calculating group totals')
           result = map.count_records_in_measure_groups
-          completed("#{options['measure_id']}#{options['sub_id']}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, excl#{result['exclusions']}, excep#{result['denexcep']}") if respond_to? :completed
+          completed("#{@measure_id}#{@sub_id}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, excl#{result['exclusions']}, excep#{result['denexcep']}")
         end
+      end
+
+      def completed(message)
         
       end
-      
-#      This can be uncommented and changed to put the jobs on a separate queue.  
-#      def self.queue
-#        :statused
-#      end
+
+      def tick(message)
+        
+      end
     end
   end
 end

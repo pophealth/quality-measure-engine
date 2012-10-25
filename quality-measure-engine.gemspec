@@ -17,11 +17,9 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency 'resque', '~> 1.23.0'
-  gem.add_dependency 'redis', '~> 3.0.2'
-  gem.add_dependency 'resque-status', '~> 0.3.3'
   gem.add_dependency 'moped', '~> 1.2.7'
   gem.add_dependency 'rubyzip', '~> 0.9.9'
+  gem.add_dependency 'delayed_job_mongoid', '~> 2.0.0'
 
   gem.add_development_dependency "minitest", "~> 4.1.0"
   gem.add_development_dependency "simplecov", "~> 0.7.1"
