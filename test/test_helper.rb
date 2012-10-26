@@ -2,6 +2,12 @@ require 'simplecov_setup'
 require 'minitest/autorun'
 require 'quality-measure-engine'
 
+db_host = ENV['TEST_DB_HOST'] || 'localhost'
+
+Mongoid.configure do |config|
+  config.sessions = { default: { hosts: [ "#{db_host}:27017" ], database: 'test' }}
+end
+
 class MiniTest::Unit::TestCase
   # Add more helper methods to be used by all tests here...
   

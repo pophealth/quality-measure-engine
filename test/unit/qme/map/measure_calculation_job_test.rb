@@ -17,7 +17,6 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
                'effective_date' => Time.gm(2011, 1, 15).to_i}
 
     job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options))
-
     assert job
   end
 end

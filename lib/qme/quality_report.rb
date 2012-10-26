@@ -79,17 +79,33 @@ module QME
                  'test_id' => @parameter_values['test_id'],
                  'filters' => QME::QualityReport.normalize_filters(@parameter_values['filters'])}
       if (asynchronous)
-        MapReduce::MeasureCalculationJob.create(options)
+        job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options))
+        job._id
       else
-        MapReduce::MeasureCalculationJob.calculate(options)
+        mcj = QME::MapReduce::MeasureCalculationJob.new(options)
+        mcj.perform
       end
     end
     
     # Returns the status of a measure calculation job
     # @param job_id the id of the job to check on
-    # @return [Hash] containing status information on the measure calculation job
+    # @return [Symbol] Will return the status: :complete, :queued, :running, :failed
     def status(job_id)
-      Resque::Plugins::Status::Hash.get(job_id)
+      job = Delayed::Job.where(job_id).first
+      if job.nil?
+        # If we can't find the job, we assume that it is complete
+        :complete
+      else
+        if job.locked_at.nil?
+          :queued
+        else
+          if job.failed?
+            :failed
+          else
+            :running
+          end            
+        end
+      end
     end
     
     # Gets the result of running a quality measure
