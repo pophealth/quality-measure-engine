@@ -31,7 +31,6 @@ module QME
           map = QME::MapReduce::Executor.new(@measure_id, @sub_id, 'effective_date' => @effective_date,
                                              'test_id' => bson_test_id, 'filters' => @filters, 
                                              'start_time' => Time.now.to_i)
-
           if !qr.patients_cached?
             tick('Starting MapReduce')
             map.map_records_into_measure_groups
