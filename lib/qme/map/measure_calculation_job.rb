@@ -14,23 +14,17 @@ module QME
       attr_accessor :test_id, :measure_id, :sub_id, :effective_date, :filters
 
       def initialize(options)
-        @test_id = options['test_id']
         @measure_id = options['measure_id']
         @sub_id = options['sub_id']
-        @effective_date = options['effective_date']
-        @filters = options['filters']
+        @options = options
       end
       
       def perform
-        bson_test_id = @test_id ? Moped::BSON::ObjectId(@test_id) : nil
-        qr = QualityReport.new(@measure_id, @sub_id, 'effective_date' => @effective_date, 
-                               'test_id' => bson_test_id, 'filters' => @filters)
+        qr = QualityReport.new(@measure_id, @sub_id, @options)
         if qr.calculated?
           completed("#{@measure_id}#{@sub_id} has already been calculated")
         else
-          map = QME::MapReduce::Executor.new(@measure_id, @sub_id, 'effective_date' => @effective_date,
-                                             'test_id' => bson_test_id, 'filters' => @filters, 
-                                             'start_time' => Time.now.to_i)
+          map = QME::MapReduce::Executor.new(@measure_id, @sub_id, @options.merge('start_time' => Time.now.to_i))
           if !qr.patients_cached?
             tick('Starting MapReduce')
             map.map_records_into_measure_groups
