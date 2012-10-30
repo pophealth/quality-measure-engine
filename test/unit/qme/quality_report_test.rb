@@ -75,4 +75,12 @@ class QualityReportTest < MiniTest::Unit::TestCase
     assert !qr.patients_cached?
   end
 
+  def test_status
+    qr = QME::QualityReport.new('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
+    status = qr.status('not really a job id')
+    assert_equal :complete, status
+    status = qr.status("508aeff07042f9f88900000d")
+    assert_equal :queued, status
+  end
+
 end

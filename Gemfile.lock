@@ -3,6 +3,7 @@ PATH
   specs:
     quality-measure-engine (2.0.0)
       delayed_job_mongoid (~> 2.0.0)
+      mongoid (~> 3.0.9)
       moped (~> 1.2.7)
       rubyzip (~> 0.9.9)
 

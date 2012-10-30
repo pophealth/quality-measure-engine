@@ -91,7 +91,7 @@ module QME
     # @param job_id the id of the job to check on
     # @return [Symbol] Will return the status: :complete, :queued, :running, :failed
     def status(job_id)
-      job = Delayed::Job.where(job_id).first
+      job = Delayed::Job.where(_id: job_id).first
       if job.nil?
         # If we can't find the job, we assume that it is complete
         :complete
