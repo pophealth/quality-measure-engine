@@ -1,32 +1,20 @@
 require "bundler/setup"
 
-require 'resque/job_with_status'
+require 'moped'
+require 'delayed_job_mongoid'
+require 'zip/zip'
 
-require_relative 'qme/database_access'
-require_relative 'qme/quality_measure'
+require "qme/version"
+require 'qme/database_access'
+require 'qme/quality_measure'
 
-require_relative 'qme/map/map_reduce_builder'
-require_relative 'qme/map/map_reduce_executor'
-require_relative 'qme/map/measure_calculation_job'
+require 'qme/map/map_reduce_builder'
+require 'qme/map/map_reduce_executor'
+require 'qme/map/measure_calculation_job'
 
-require_relative 'qme/quality_report'
+require 'qme/quality_report'
 
-require_relative 'qme/randomizer/random_patient_creator'
-require_relative 'qme/randomizer/patient_randomizer'
-require_relative 'qme/randomizer/patient_randomization_job'
+require 'qme/bundle/bundle'
+require 'qme/bundle/importer'
 
-require 'singleton'
-require 'health-data-standards'
-
-require_relative 'qme/ext/record'
-
-require_relative 'qme/importer/property_matcher'
-require_relative 'qme/importer/generic_importer'
-require_relative 'qme/importer/measure_properties_generator'
-
-require 'json'
-require 'mongo'
-require 'nokogiri'
-
-require_relative 'qme/measure/measure_loader'
-require_relative 'qme/measure/database_loader'
+require 'qme/railtie' if defined?(Rails)
