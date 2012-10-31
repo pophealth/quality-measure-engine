@@ -1,9 +1,6 @@
 {
-    _id: "508aeff07042f9f88900000d",
-    priority: 0,
-    attempts: 0,
-    handler: "--- !ruby/object:QME::MapReduce::MeasureCalculationJob\ntest_id: \nmeasure_id: test2\nsub_id: b\neffective_date: 1284854400\nfilters: \n",
-    run_at: ISODate("2012-10-26T20:17:52+00:00"),
-    updated_at: ISODate("2012-10-26T20:17:52+00:00"),
-    created_at: ISODate("2012-10-26T20:17:52+00:00")
+    "_id": "508aeff07042f9f88900000d",
+    "priority": 0,
+    "attempts": 0,
+    "handler": "--- !ruby/object:QME::MapReduce::MeasureCalculationJob\ntest_id: \nmeasure_id: test2\nsub_id: b\neffective_date: 1284854400\nfilters: \n"
 }

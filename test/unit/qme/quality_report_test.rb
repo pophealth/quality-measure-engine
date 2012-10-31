@@ -42,6 +42,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
         "effective_date" => Time.gm(2010, 9, 19).to_i 
       }
     )
+    collection_fixtures(get_db(), 'delayed_backend_mongoid_jobs', '_id')
   end
 
   def test_calculated
