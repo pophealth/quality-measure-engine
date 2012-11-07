@@ -9,6 +9,6 @@ namespace :bundle do
 
     bundle = File.open(args.bundle_path)    
     importer = QME::Bundle::Importer.new(db_name)
-    importer.import(bundle, args.delete_existing)
+    importer.import(bundle, args.delete_existing == "true")
   end
 end
