@@ -19,6 +19,7 @@ namespace :bundle do
     
   end
   
+  # this task is most likely temporary.  Once Bonnie can handle both EP and EH measures together, this would no longer be required.
   desc 'Merge two bundles into one.'
   task :merge, [:bundle_one,:bundle_two] do |t, args|
     raise "Two bundle zip file paths to be merged must be specified" unless args.bundle_one && args.bundle_two
