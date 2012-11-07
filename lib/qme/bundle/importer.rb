@@ -63,6 +63,8 @@ module QME
           contents = JSON.parse(contents, {:max_nesting => 100})
           contents.each {|document| @db[collection].insert(document)}
         end
+        
+        bundle_contents
       end
     end
   end
