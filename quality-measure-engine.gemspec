@@ -21,6 +21,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'mongoid', '~> 3.0.9'
   gem.add_dependency 'rubyzip', '~> 0.9.9'
   gem.add_dependency 'delayed_job_mongoid', '~> 2.0.0'
+  gem.add_dependency 'nokogiri', '~> 1.5.5'
+  gem.add_dependency 'rubyXL', '~> 1.2.10'
 
   gem.add_development_dependency "minitest", "~> 4.1.0"
   gem.add_development_dependency "simplecov", "~> 0.7.1"
