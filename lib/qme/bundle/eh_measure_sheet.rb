@@ -1,63 +1,96 @@
 module QME
   module Bundle
     class EHMeasureSheet
+      attr_reader :query_cache_document, :patient_cache_documents,
+                  :patient_updates
+
       def initialize(db, sheet)
         @db = db
         @sheet = sheet
+        @patient_cache_documents = []
+        @patient_updates = []
       end
 
-      def query_cache_document_for_sheet
+      def parse
         qc_document = {}
         measure_info = extract_measure_info
         qc_document['population_ids'] = measure_info
         measure_doc = @db['measures'].where('population_ids' => measure_info).first
-        qc_document['measure_id'] = measure_doc['measure_id']
-        qc_document['sub_id'] = measure_doc['sub_id']
-        qc_document['nqf_id'] = measure_doc['nqf_id']
+        measure_ids = measure_doc.slice('measure_id', 'sub_id', 'nqf_id')
+        qc_document.merge!(measure_ids)
+        extract_patients(measure_ids)
 
-        ####
-        # Note that the row numbers below will need to change 
-        # if more patients are added
-        ####
-        qc_document['population'] = extract_data_from_cell('C23')
+        qc_document['population'] = extract_data_from_cell("C#{@population_totals_row}")
         qc_document['considered'] = 20 # hardcoded to the number of patients in the sheet
         if cv_measure?
-          qc_document['msrpopl'] = extract_data_from_cell('E23')
+          qc_document['msrpopl'] = extract_data_from_cell("E#{@population_totals_row}")
         else
-          qc_document['denominator'] = extract_data_from_cell('D23')
-          qc_document['numerator'] = extract_data_from_cell('E23')
+          qc_document['denominator'] = extract_data_from_cell("D#{@population_totals_row}")
+          qc_document['numerator'] = extract_data_from_cell("E#{@population_totals_row}")
           qc_document['antinumerator'] = qc_document['denominator'] - qc_document['numerator']
-          qc_document['exclusions'] = extract_data_from_cell('F23')
-          qc_document['denexcep'] = extract_data_from_cell('G23')
+          qc_document['exclusions'] = extract_data_from_cell("F#{@population_totals_row}")
+          qc_document['denexcep'] = extract_data_from_cell("G#{@population_totals_row}")
         end
 
         qc_document['test_id'] = nil
         qc_document['filters'] = nil
         qc_document['execution_time'] = 0
 
-        qc_document
+        @query_cache_document = qc_document
+      end
+
+      def extract_patients(measure_ids)
+        row = 2
+        medical_record_number = extract_data_from_cell("B#{row}")
+        while medical_record_number.present?
+          patient_document = extract_patient(row, medical_record_number.to_s)
+          patient_document.merge!(measure_ids)
+          @patient_cache_documents << {'value' => patient_document}
+          @patient_updates << {'medical_record_number' => medical_record_number.to_s,
+                               'measure_id' => measure_ids['measure_id']}
+          row = row + 1
+          medical_record_number = extract_data_from_cell("B#{row}")
+        end
+
+        @population_totals_row = row + 1
       end
 
       def extract_measure_info
         measure_info = {}
-        measure_info['IPP'] = extract_data_from_cell('I4')
+        measure_info['IPP'] = extract_data_from_cell('I5')
         if cv_measure?
-          measure_info['MSRPOPL'] = extract_data_from_cell('I5')
-          strat_id = extract_data_from_cell('I6')
-          if strat_id.present?
-            measure_info['stratification'] = strat_id
-          end
+          measure_info['MSRPOPL'] = extract_data_from_cell('I10')
+          measure_info['stratification'] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
         else
-          measure_info['DENOM'] = extract_data_from_cell('I5')
-          measure_info['NUMER'] = extract_data_from_cell('I6')
-          measure_info['DENEX'] = extract_data_from_cell('I7')
-          strat_id = extract_data_from_cell('I8')
-          if strat_id.present?
-            measure_info['stratification'] = strat_id
-          end
+          measure_info['DENOM'] = extract_data_from_cell('I6')
+          measure_info['NUMER'] = extract_data_from_cell('I7')
+          measure_info['DENEXCEP'] = extract_data_from_cell('I8') if extract_data_from_cell('I8').present?
+          measure_info['DENEX'] = extract_data_from_cell('I9') if extract_data_from_cell('I9').present?
+          measure_info['stratification'] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
         end
 
         measure_info
+      end
+
+      def extract_patient(row, medical_record_number)
+        record = @db['records'].where('medical_record_number' => medical_record_number).first
+        patient_document = record.slice('first', 'last', 'gender', 'birthdate', 'race',
+                                              'ethnicity', 'languages')
+        patient_document['medical_record_id'] = medical_record_number
+        patient_document['patient_id'] = record['_id'].to_s
+        patient_document['population'] = extract_data_from_cell("C#{row}") || 0
+        if cv_measure?
+          patient_document['values'] = [extract_data_from_cell("E#{row}")]
+        else
+          patient_document['denominator'] = extract_data_from_cell("D#{row}") || 0
+          patient_document['numerator'] = extract_data_from_cell("E#{row}") || 0
+          patient_document['exclusions'] = extract_data_from_cell("F#{row}") || 0
+          patient_document['denexcep'] = extract_data_from_cell("G#{row}") || 0
+
+        end
+        patient_document['test_id'] = nil
+
+        patient_document
       end
 
       def cv_measure?

@@ -1,6 +1,7 @@
 {
     "_id": "507eb5977042f9362c000001",
     "birthdate": 1059723000,
+    "medical_record_number" : "1235",
     "conditions": [
         {
             "codes": {
