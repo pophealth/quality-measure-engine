@@ -21,7 +21,7 @@ module QME
         extract_patients(measure_ids)
 
         qc_document['population'] = extract_data_from_cell("C#{@population_totals_row}")
-        qc_document['considered'] = 20 # hardcoded to the number of patients in the sheet
+        qc_document['considered'] = @population_totals_row - 3 # header row, blank row and totals row
         if cv_measure?
           qc_document['msrpopl'] = extract_data_from_cell("E#{@population_totals_row}")
         else
