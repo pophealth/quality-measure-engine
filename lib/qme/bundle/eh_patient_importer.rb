@@ -1,5 +1,3 @@
-require 'pry'
-
 module QME
   module Bundle
     class EHPatientImporter
