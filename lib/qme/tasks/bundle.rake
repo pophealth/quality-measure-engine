@@ -73,7 +73,7 @@ namespace :bundle do
       date_string = Time.now.strftime("%Y-%m-%d")
 
       out_zip = File.join('tmp','bundles',"bundle-merged-#{date_string}.zip")
-      FileUtils.remove_entry_secure out_zip
+      FileUtils.remove_entry_secure out_zip if File.exists?(out_zip)
       Zip::ZipFile.open(out_zip, 'w') do |zipfile|
         path = File.join(tmpdir,'output')
         Dir[File.join(path,'**','**')].each do |file|
