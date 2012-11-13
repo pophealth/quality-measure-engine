@@ -16,7 +16,8 @@ module QME
         measure_info = extract_measure_info
         qc_document['population_ids'] = measure_info
         measure_doc = @db['measures'].where('population_ids' => measure_info).first
-        measure_ids = measure_doc.slice('measure_id', 'sub_id', 'nqf_id')
+        measure_ids = measure_doc.slice('sub_id', 'nqf_id')
+        measure_ids['measure_id'] = measure_doc['hqmf_id']
         qc_document.merge!(measure_ids)
         extract_patients(measure_ids)
 
