@@ -89,6 +89,7 @@ module QME
           patient_document['numerator'] = extract_data_from_cell("E#{row}") || 0
           patient_document['exclusions'] = extract_data_from_cell("F#{row}") || 0
           patient_document['denexcep'] = extract_data_from_cell("G#{row}") || 0
+          patient_document['antinumerator'] = patient_document['denominator'] - patient_document['numerator']
 
         end
         patient_document['test_id'] = nil
