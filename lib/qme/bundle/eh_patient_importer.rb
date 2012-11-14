@@ -1,9 +1,9 @@
 module QME
   module Bundle
     class EHPatientImporter
-      def self.load(db, spreadsheet)
+      def self.load(db, spreadsheet, effective_date=nil)
         spreadsheet.worksheets.each do |worksheet|
-          ms = EHMeasureSheet.new(db, worksheet)
+          ms = EHMeasureSheet.new(db, worksheet, effective_date)
           ms.parse
           qc_document = ms.query_cache_document
           db['query_cache'].insert(qc_document)

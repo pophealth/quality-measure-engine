@@ -8,7 +8,7 @@ class EHMeasureSheetTest < MiniTest::Unit::TestCase
     collection_fixtures(get_db(), 'records', '_id')
     @workbook = RubyXL::Parser.parse(File.join('test', 'fixtures', 'eh_patient_sheets', 'results_matrix_eh.xlsx'))
     sheet = @workbook.worksheets[0]
-    @ms = QME::Bundle::EHMeasureSheet.new(get_db(), sheet)
+    @ms = QME::Bundle::EHMeasureSheet.new(get_db(), sheet, 12345000)
   end
 
   def test_extract_measure_info
@@ -22,6 +22,7 @@ class EHMeasureSheetTest < MiniTest::Unit::TestCase
     qcd = @ms.query_cache_document
     assert_equal '0142', qcd['nqf_id']
     assert_equal 4, qcd['population']
+    assert_equal 12345000, qcd['effective_date']
   end
 
   def test_patient_cache_documents
@@ -29,6 +30,8 @@ class EHMeasureSheetTest < MiniTest::Unit::TestCase
     pcd = @ms.patient_cache_documents.first
     assert_equal 1, pcd['value']['population']
     assert_equal 0, pcd['value']['numerator']
+    assert_equal 1, pcd['value']['antinumerator']
     assert_equal '1234', pcd['value']['medical_record_id']
+    assert_equal 12345000, pcd['value']['effective_date']
   end
 end

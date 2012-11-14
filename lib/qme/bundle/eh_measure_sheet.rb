@@ -4,9 +4,10 @@ module QME
       attr_reader :query_cache_document, :patient_cache_documents,
                   :patient_updates
 
-      def initialize(db, sheet)
+      def initialize(db, sheet, effective_date=nil)
         @db = db
         @sheet = sheet
+        @effective_date = effective_date
         @patient_cache_documents = []
         @patient_updates = []
       end
@@ -36,6 +37,7 @@ module QME
         qc_document['test_id'] = nil
         qc_document['filters'] = nil
         qc_document['execution_time'] = 0
+        qc_document['effective_date'] = @effective_date
 
         @query_cache_document = qc_document
       end
@@ -87,9 +89,11 @@ module QME
           patient_document['numerator'] = extract_data_from_cell("E#{row}") || 0
           patient_document['exclusions'] = extract_data_from_cell("F#{row}") || 0
           patient_document['denexcep'] = extract_data_from_cell("G#{row}") || 0
+          patient_document['antinumerator'] = patient_document['denominator'] - patient_document['numerator']
 
         end
         patient_document['test_id'] = nil
+        patient_document['effective_date'] = @effective_date
 
         patient_document
       end
