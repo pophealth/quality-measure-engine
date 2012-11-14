@@ -3,6 +3,7 @@ require "bundler/setup"
 require 'moped'
 require 'delayed_job_mongoid'
 require 'zip/zip'
+require 'rubyXL'
 
 require "qme/version"
 require 'qme/database_access'
@@ -14,6 +15,8 @@ require 'qme/map/measure_calculation_job'
 
 require 'qme/quality_report'
 
+require 'qme/bundle/eh_measure_sheet'
+require 'qme/bundle/eh_patient_importer'
 require 'qme/bundle/bundle'
 require 'qme/bundle/importer'
 

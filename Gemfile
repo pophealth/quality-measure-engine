@@ -5,3 +5,5 @@ gemspec
 
 gem 'pry'
 gem 'pry-nav'
+gem 'pry-rescue'
+gem 'pry-stack_explorer'
