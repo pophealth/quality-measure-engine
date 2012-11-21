@@ -20,29 +20,63 @@ module QME
         determine_connection_information()
       end
 
+      def build_query
+        pipeline = []
+
+        filters = @parameter_values['filters']
+
+        if(filters)
+          if (filters['races'] && filters['races'].size > 0)
+            match['value.race.code'] = {'$in' => filters['races']}
+          end
+          if (filters['ethnicities'] && filters['ethnicities'].size > 0)
+            match['value.ethnicity.code'] = {'$in' => filters['ethnicities']}
+          end
+          if (filters['genders'] && filters['genders'].size > 0)
+            match['value.gender'] = {'$in' => filters['genders']}
+          end
+          if (filters['providers'] && filters['providers'].size > 0)
+            providers = filters['providers'].map { |pv| {'providers' => Moped::BSON::ObjectId(pv) } }
+            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}}, 
+                             {'$unwind' => '$providers'}, 
+                             {'$match' => {'$or' => providers}},
+                             {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
+          end
+          if (filters['languages'] && filters['languages'].size > 0)
+            languages = filters['languages'].map { |l| {'languages' => l } }
+            pipeline.concat  [{'$project' => {'value' => 1, 'languages' => "$value.languages"}},
+                              {'$unwind' => "$languages"},
+                              {'$project' => {'value' => 1, 'languages' => {'$substr' => ['$languages', 0, 2]}}},
+                              {'$match' => {'$or' => languages}},
+                              {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
+          end
+        end
+
+        match = {'value.measure_id'       => @measure_id, 
+         'value.sub_id'           => @sub_id,
+         'value.effective_date'   => @parameter_values['effective_date'],
+         'value.test_id'          => @parameter_values['test_id'],
+         'value.manual_exclusion' => {'$in' => [nil, false]}}
+
+        pipeline.unshift({'$match' => match})
+
+        pipeline
+      end
+
       # Examines the patient_cache collection and generates a total of all groups
       # for the measure. The totals are placed in a document in the query_cache
       # collection.
       # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
-        pipeline = []
-        base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
-                      'value.effective_date' => @parameter_values['effective_date'],
-                      'value.test_id' => @parameter_values['test_id']}
+        pipeline = build_query
 
-        base_query.merge!(filter_parameters)
-        
-        query = base_query.clone
-
-        query.merge!({'value.manual_exclusion' => {'$in' => [nil, false]}})
-
-        pipeline << {'$match' => query}
         pipeline << {'$group' => {
           "_id" => "$value.measure_id", # we don't really need this, but Mongo requires that we group 
           "population" => {"$sum" => "$value.population"}, 
           "denominator" => {"$sum" => "$value.denominator"},
           "numerator" => {"$sum" => "$value.numerator"},
           "antinumerator" => {"$sum" => "$value.antinumerator"},
+          'providers' => {'$push' => "$value.provider_performances.provider_id"},
           "exclusions" => {"$sum" => "$value.exclusions"},
           "denexcep" => {"$sum" => "$value.denexcep"},
           "considered" => {"$sum" => 1}
@@ -62,7 +96,7 @@ module QME
 
         result.merge!(aggregate['result'].first)
         result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
-        result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
+        # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
         get_db()["query_cache"].insert(result)
         get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
@@ -122,37 +156,6 @@ module QME
         end
         get_db()['patient_cache'].find({'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} })
           .update_all({'$set'=>{'value.manual_exclusion'=>true}})
-      end
-
-      def filter_parameters
-        results = {}
-        conditions = []
-        if(filters = @parameter_values['filters'])
-          if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map {|provider_id| Moped::BSON::ObjectId(provider_id) if (provider_id and provider_id != 'null') }
-            # provider_performances have already been filtered by start and end date in map_reduce_builder as part of the finalize
-            conditions << {'value.provider_performances.provider_id' => {'$in' => providers}}
-          end
-          if (filters['races'] && filters['races'].size > 0)
-            conditions << {'value.race.code' => {'$in' => filters['races']}}
-          end
-          if (filters['ethnicities'] && filters['ethnicities'].size > 0)
-            conditions << {'value.ethnicity.code' => {'$in' => filters['ethnicities']}}
-          end
-          if (filters['genders'] && filters['genders'].size > 0)
-            conditions << {'value.gender' => {'$in' => filters['genders']}}
-          end
-          if (filters['languages'] && filters['languages'].size > 0)
-            languages = filters['languages'].clone
-            has_unspecified = languages.delete('null')
-            or_clauses = []
-            or_clauses << {'value.languages'=>{'$regex'=>Regexp.new("(#{languages.join("|")})-..")}} if languages.length > 0
-            or_clauses << {'value.languages'=>nil} if (has_unspecified)
-            conditions << {'$or'=>or_clauses}
-          end
-        end
-        results.merge!({'$and'=>conditions}) if conditions.length > 0
-        results
       end
     end
   end

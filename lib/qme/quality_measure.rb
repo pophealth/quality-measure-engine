@@ -21,6 +21,14 @@ module QME
     def self.get_measures(measure_ids)
       get_db()['measures'].find('id' => {"$in" => measure_ids})
     end
+
+    def self.get(measure_id, sub_id)
+      get_db()['measures'].find('id' => measure_id, 'sub_id' => sub_id)
+    end
+
+    def self.sub_measures(measure_id)
+      get_db()['measures'].find('id' => measure_id)
+    end
     
     # Creates a new QualityMeasure
     # @param [String] measure_id value of the measure's id field
