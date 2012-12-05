@@ -22,17 +22,17 @@ module QME
         qc_document.merge!(measure_ids)
         extract_patients(measure_ids)
 
-        qc_document['population'] = extract_data_from_cell("C#{@population_totals_row}")
-        qc_document['considered'] = @population_totals_row - 3 # header row, blank row and totals row
+        qc_document[QME::QualityReport::POPULATION] = extract_data_from_cell("C#{@population_totals_row}")
+        qc_document[QME::QualityReport::CONSIDERED] = @population_totals_row - 3 # header row, blank row and totals row
         if cv_measure?
-          qc_document['msrpopl'] = extract_data_from_cell("E#{@population_totals_row}")
-          qc_document['observ'] = extract_data_from_cell("F#{@population_totals_row}")
+          qc_document[QME::QualityReport::MSRPOPL] = extract_data_from_cell("E#{@population_totals_row}")
+          qc_document[QME::QualityReport::OBSERVATION] = extract_data_from_cell("F#{@population_totals_row}")
         else
-          qc_document['denominator'] = extract_data_from_cell("D#{@population_totals_row}")
-          qc_document['numerator'] = extract_data_from_cell("E#{@population_totals_row}")
-          qc_document['antinumerator'] = qc_document['denominator'] - qc_document['numerator']
-          qc_document['exclusions'] = extract_data_from_cell("F#{@population_totals_row}")
-          qc_document['denexcep'] = extract_data_from_cell("G#{@population_totals_row}")
+          qc_document[QME::QualityReport::DENOMINATOR] = extract_data_from_cell("D#{@population_totals_row}")
+          qc_document[QME::QualityReport::NUMERATOR] = extract_data_from_cell("E#{@population_totals_row}")
+          qc_document[QME::QualityReport::ANTINUMERATOR] = qc_document[QME::QualityReport::DENOMINATOR] - qc_document[QME::QualityReport::NUMERATOR]
+          qc_document[QME::QualityReport::EXCLUSIONS] = extract_data_from_cell("F#{@population_totals_row}")
+          qc_document[QME::QualityReport::EXCEPTIONS] = extract_data_from_cell("G#{@population_totals_row}")
         end
 
         qc_document['test_id'] = nil
@@ -61,10 +61,10 @@ module QME
 
       def extract_measure_info
         measure_info = {}
-        measure_info['IPP'] = extract_data_from_cell('I5')
+        measure_info[QME::QualityReport::POPULATION] = extract_data_from_cell('I5')
         if cv_measure?
-          measure_info['MSRPOPL'] = extract_data_from_cell('I10')
-          measure_info['OBSERV'] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
+          measure_info[QME::QualityReport::MSRPOPL] = extract_data_from_cell('I10')
+          measure_info[QME::QualityReport::OBSERVATION] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
           measure_info['stratification'] = extract_data_from_cell('I12') if extract_data_from_cell('I12').present?
         else
           measure_info['DENOM'] = extract_data_from_cell('I6')
@@ -83,15 +83,16 @@ module QME
                                               'ethnicity', 'languages')
         patient_document['medical_record_id'] = medical_record_number
         patient_document['patient_id'] = record['_id'].to_s
-        patient_document['population'] = extract_data_from_cell("C#{row}") || 0
+        patient_document[QME::QualityReport::POPULATION] = extract_data_from_cell("C#{row}") || 0
         if cv_measure?
-          patient_document['values'] = [extract_data_from_cell("E#{row}")]
+          patient_document[QME::QualityReport::MSRPOPL] = extract_data_from_cell("E#{row}")
+          patient_document['values'] = [extract_data_from_cell("F#{row}")]
         else
-          patient_document['denominator'] = extract_data_from_cell("D#{row}") || 0
-          patient_document['numerator'] = extract_data_from_cell("E#{row}") || 0
-          patient_document['exclusions'] = extract_data_from_cell("F#{row}") || 0
-          patient_document['denexcep'] = extract_data_from_cell("G#{row}") || 0
-          patient_document['antinumerator'] = patient_document['denominator'] - patient_document['numerator']
+          patient_document[QME::QualityReport::DENOMINATOR] = extract_data_from_cell("D#{row}") || 0
+          patient_document[QME::QualityReport::NUMERATOR] = extract_data_from_cell("E#{row}") || 0
+          patient_document[QME::QualityReport::EXCLUSIONS] = extract_data_from_cell("F#{row}") || 0
+          patient_document[QME::QualityReport::EXCEPTIONS] = extract_data_from_cell("G#{row}") || 0
+          patient_document[QME::QualityReport::ANTINUMERATOR] = patient_document[QME::QualityReport::DENOMINATOR] - patient_document[QME::QualityReport::NUMERATOR]
 
         end
         patient_document['test_id'] = nil

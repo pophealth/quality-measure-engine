@@ -10,18 +10,18 @@ class QualityReportTest < MiniTest::Unit::TestCase
       "measure_id" => "test2",
       "sub_id" =>  "b",
       "initialPopulation" => 4,
-      "numerator" => 1,
-      "denominator" => 2,
-      "exclusions" => 1,
+      QME::QualityReport::NUMERATOR => 1,
+      QME::QualityReport::DENOMINATOR => 2,
+      QME::QualityReport::EXCLUSIONS => 1,
       "effective_date" => Time.gm(2010, 9, 19).to_i
     )
     get_db()['patient_cache'].insert(
       "value" => {
-        "population" => false,
-        "denominator" => false,
-        "numerator" => false,
-        "exclusions" => false,
-        "antinumerator" => false,
+        QME::QualityReport::POPULATION => 0,
+        QME::QualityReport::DENOMINATOR => 0,
+        QME::QualityReport::NUMERATOR => 0,
+        QME::QualityReport::EXCLUSIONS => 0,
+        QME::QualityReport::ANTINUMERATOR => 0,
         "medical_record_id" => "0616911582",
         "first" => "Mary",
         "last" => "Edwards",
@@ -57,7 +57,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
     qr = QME::QualityReport.new('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
     result = qr.result
     
-    assert_equal 1, result['numerator']
+    assert_equal 1, result[QME::QualityReport::NUMERATOR]
   end
   
   def test_destroy_all

@@ -21,16 +21,16 @@ class EHMeasureSheetTest < MiniTest::Unit::TestCase
     @ms.parse
     qcd = @ms.query_cache_document
     assert_equal '0142', qcd['nqf_id']
-    assert_equal 4, qcd['population']
+    assert_equal 4, qcd[QME::QualityReport::POPULATION]
     assert_equal 12345000, qcd['effective_date']
   end
 
   def test_patient_cache_documents
     @ms.parse
     pcd = @ms.patient_cache_documents.first
-    assert_equal 1, pcd['value']['population']
-    assert_equal 0, pcd['value']['numerator']
-    assert_equal 1, pcd['value']['antinumerator']
+    assert_equal 1, pcd['value'][QME::QualityReport::POPULATION]
+    assert_equal 0, pcd['value'][QME::QualityReport::NUMERATOR]
+    assert_equal 1, pcd['value'][QME::QualityReport::ANTINUMERATOR]
     assert_equal '1234', pcd['value']['medical_record_id']
     assert_equal 12345000, pcd['value']['effective_date']
   end

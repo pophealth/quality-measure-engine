@@ -1,10 +1,22 @@
 module QME
+  
   # A class that allows you to create and obtain the results of running a
   # quality measure against a set of patient records.
   class QualityReport
+    
     include DatabaseAccess
     extend DatabaseAccess
     determine_connection_information
+
+    POPULATION = 'IPP'
+    DENOMINATOR = 'DENOM'
+    NUMERATOR = 'NUMER'
+    EXCLUSIONS = 'DENEX'
+    EXCEPTIONS = 'DENEXCEP'
+    MSRPOPL = 'MSRPOPL'
+    OBSERVATION = 'OBSERV'
+    ANTINUMERATOR = 'antinumerator'
+    CONSIDERED = 'considered'
 
     # Gets rid of all calculated QualityReports by dropping the patient_cache
     # and query_cache collections

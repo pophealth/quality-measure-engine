@@ -72,14 +72,14 @@ module QME
 
         pipeline << {'$group' => {
           "_id" => "$value.measure_id", # we don't really need this, but Mongo requires that we group 
-          "population" => {"$sum" => "$value.population"}, 
-          "denominator" => {"$sum" => "$value.denominator"},
-          "numerator" => {"$sum" => "$value.numerator"},
-          "antinumerator" => {"$sum" => "$value.antinumerator"},
+          QME::QualityReport::POPULATION => {"$sum" => "$value.#{QME::QualityReport::POPULATION}"}, 
+          QME::QualityReport::DENOMINATOR => {"$sum" => "$value.#{QME::QualityReport::DENOMINATOR}"},
+          QME::QualityReport::NUMERATOR => {"$sum" => "$value.#{QME::QualityReport::NUMERATOR}"},
+          QME::QualityReport::ANTINUMERATOR => {"$sum" => "$value.#{QME::QualityReport::ANTINUMERATOR}"},
           'providers' => {'$push' => "$value.provider_performances.provider_id"},
-          "exclusions" => {"$sum" => "$value.exclusions"},
-          "denexcep" => {"$sum" => "$value.denexcep"},
-          "considered" => {"$sum" => 1}
+          QME::QualityReport::EXCLUSIONS => {"$sum" => "$value.#{QME::QualityReport::EXCLUSIONS}"},
+          QME::QualityReport::EXCEPTIONS => {"$sum" => "$value.#{QME::QualityReport::EXCEPTIONS}"},
+          QME::QualityReport::CONSIDERED => {"$sum" => 1}
         }}
         
         aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)

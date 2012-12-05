@@ -33,7 +33,7 @@ module QME
           
           tick('Calculating group totals')
           result = map.count_records_in_measure_groups
-          completed("#{@measure_id}#{@sub_id}: p#{result['population']}, d#{result['denominator']}, n#{result['numerator']}, excl#{result['exclusions']}, excep#{result['denexcep']}")
+          completed("#{@measure_id}#{@sub_id}: p#{result[QME::QualityReport::POPULATION]}, d#{result[QME::QualityReport::DENOMINATOR]}, n#{result[QME::QualityReport::NUMERATOR]}, excl#{result[QME::QualityReport::EXCLUSIONS]}, excep#{result[QME::QualityReport::EXCEPTIONS]}")
         end
       end
 
