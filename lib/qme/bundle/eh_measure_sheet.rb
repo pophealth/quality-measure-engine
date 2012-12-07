@@ -26,6 +26,7 @@ module QME
         qc_document['considered'] = @population_totals_row - 3 # header row, blank row and totals row
         if cv_measure?
           qc_document['msrpopl'] = extract_data_from_cell("E#{@population_totals_row}")
+          qc_document['observ'] = extract_data_from_cell("F#{@population_totals_row}")
         else
           qc_document['denominator'] = extract_data_from_cell("D#{@population_totals_row}")
           qc_document['numerator'] = extract_data_from_cell("E#{@population_totals_row}")
@@ -63,13 +64,14 @@ module QME
         measure_info['IPP'] = extract_data_from_cell('I5')
         if cv_measure?
           measure_info['MSRPOPL'] = extract_data_from_cell('I10')
-          measure_info['stratification'] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
+          measure_info['OBSERV'] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
+          measure_info['stratification'] = extract_data_from_cell('I12') if extract_data_from_cell('I12').present?
         else
           measure_info['DENOM'] = extract_data_from_cell('I6')
           measure_info['NUMER'] = extract_data_from_cell('I7')
           measure_info['DENEXCEP'] = extract_data_from_cell('I8') if extract_data_from_cell('I8').present?
           measure_info['DENEX'] = extract_data_from_cell('I9') if extract_data_from_cell('I9').present?
-          measure_info['stratification'] = extract_data_from_cell('I11') if extract_data_from_cell('I11').present?
+          measure_info['stratification'] = extract_data_from_cell('I12') if extract_data_from_cell('I12').present?
         end
 
         measure_info
