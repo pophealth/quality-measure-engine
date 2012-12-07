@@ -13,6 +13,7 @@ module QME
       # Import a quality bundle into the database. This includes metadata, measures, test patients, supporting JS libraries, and expected results.
       #
       # @param [File] zip The bundle zip file.
+      # @param [String] Type of measures to import, either 'ep', 'eh' or nil for all
       # @param [Boolean] keep_existing If true, delete all current collections related to patients and measures.
       def import(zip, type, delete_existing)
         Bundle.drop_collections(@db) if delete_existing
