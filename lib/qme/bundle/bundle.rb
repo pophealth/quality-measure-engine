@@ -31,15 +31,18 @@ module QME
       original.split('/').last.gsub(".#{extension}", '')
     end
     
-    def self.unpack_bundle_contents(zip)
+    def self.unpack_bundle_contents(zip, type = nil)
       bundle_contents = { bundle: nil, measures: {}, patients: {}, extensions: {}, results: {} }
       Zip::ZipFile.open(zip.path) do |zipfile|
         zipfile.entries.each do |entry|
           bundle_contents[:bundle] = zipfile.read(entry.name) if entry.name.include? "bundle"
-          bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures.*\.json$/
-          bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
+          if type.nil? || entry.name.match(Regexp.new("/#{type}/")) 
+            bundle_contents[:measures][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^measures.*\.json$/
+            bundle_contents[:patients][Bundle.entry_key(entry.name, "json")] = zipfile.read(entry.name) if entry.name.match /^patients.*\.json$/ # Only need to import one of the formats
+            bundle_contents[:results][Bundle.entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results.*\.json/
+          end
           bundle_contents[:extensions][Bundle.entry_key(entry.name,"js")] = zipfile.read(entry.name) if entry.name.match /^library_functions.*\.js/
-          bundle_contents[:results][Bundle.entry_key(entry.name,"json")] = zipfile.read(entry.name) if entry.name.match /^results.*\.json/
+
         end
       end
       bundle_contents
