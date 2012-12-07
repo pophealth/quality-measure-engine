@@ -25,6 +25,13 @@ module QME
 
         filters = @parameter_values['filters']
 
+        
+        match = {'value.measure_id'       => @measure_id, 
+         'value.sub_id'           => @sub_id,
+         'value.effective_date'   => @parameter_values['effective_date'],
+         'value.test_id'          => @parameter_values['test_id'],
+         'value.manual_exclusion' => {'$in' => [nil, false]}}
+
         if(filters)
           if (filters['races'] && filters['races'].size > 0)
             match['value.race.code'] = {'$in' => filters['races']}
@@ -52,12 +59,6 @@ module QME
           end
         end
 
-        match = {'value.measure_id'       => @measure_id, 
-         'value.sub_id'           => @sub_id,
-         'value.effective_date'   => @parameter_values['effective_date'],
-         'value.test_id'          => @parameter_values['test_id'],
-         'value.manual_exclusion' => {'$in' => [nil, false]}}
-
         pipeline.unshift({'$match' => match})
 
         pipeline
@@ -76,7 +77,6 @@ module QME
           "denominator" => {"$sum" => "$value.denominator"},
           "numerator" => {"$sum" => "$value.numerator"},
           "antinumerator" => {"$sum" => "$value.antinumerator"},
-          'providers' => {'$push' => "$value.provider_performances.provider_id"},
           "exclusions" => {"$sum" => "$value.exclusions"},
           "denexcep" => {"$sum" => "$value.denexcep"},
           "considered" => {"$sum" => 1}
