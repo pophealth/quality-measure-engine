@@ -13,12 +13,13 @@ module QME
       # Import a quality bundle into the database. This includes metadata, measures, test patients, supporting JS libraries, and expected results.
       #
       # @param [File] zip The bundle zip file.
+      # @param [String] Type of measures to import, either 'ep', 'eh' or nil for all
       # @param [Boolean] keep_existing If true, delete all current collections related to patients and measures.
-      def import(zip, delete_existing)
+      def import(zip, type, delete_existing)
         Bundle.drop_collections(@db) if delete_existing
         
         # Unpack content from the bundle.
-        bundle_contents = QME::Bundle.unpack_bundle_contents(zip)
+        bundle_contents = QME::Bundle.unpack_bundle_contents(zip, type)
 
         # Store all JS libraries.
         bundle_contents[:extensions].each do |key, contents|

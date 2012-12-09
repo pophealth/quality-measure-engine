@@ -25,6 +25,13 @@ module QME
 
         filters = @parameter_values['filters']
 
+        
+        match = {'value.measure_id'       => @measure_id, 
+         'value.sub_id'           => @sub_id,
+         'value.effective_date'   => @parameter_values['effective_date'],
+         'value.test_id'          => @parameter_values['test_id'],
+         'value.manual_exclusion' => {'$in' => [nil, false]}}
+
         if(filters)
           if (filters['races'] && filters['races'].size > 0)
             match['value.race.code'] = {'$in' => filters['races']}
@@ -52,12 +59,6 @@ module QME
           end
         end
 
-        match = {'value.measure_id'       => @measure_id, 
-         'value.sub_id'           => @sub_id,
-         'value.effective_date'   => @parameter_values['effective_date'],
-         'value.test_id'          => @parameter_values['test_id'],
-         'value.manual_exclusion' => {'$in' => [nil, false]}}
-
         pipeline.unshift({'$match' => match})
 
         pipeline
@@ -76,7 +77,6 @@ module QME
           QME::QualityReport::DENOMINATOR => {"$sum" => "$value.#{QME::QualityReport::DENOMINATOR}"},
           QME::QualityReport::NUMERATOR => {"$sum" => "$value.#{QME::QualityReport::NUMERATOR}"},
           QME::QualityReport::ANTINUMERATOR => {"$sum" => "$value.#{QME::QualityReport::ANTINUMERATOR}"},
-          'providers' => {'$push' => "$value.provider_performances.provider_id"},
           QME::QualityReport::EXCLUSIONS => {"$sum" => "$value.#{QME::QualityReport::EXCLUSIONS}"},
           QME::QualityReport::EXCEPTIONS => {"$sum" => "$value.#{QME::QualityReport::EXCEPTIONS}"},
           QME::QualityReport::CONSIDERED => {"$sum" => 1}
