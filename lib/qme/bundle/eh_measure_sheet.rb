@@ -85,7 +85,7 @@ module QME
         patient_document['patient_id'] = record['_id'].to_s
         patient_document[QME::QualityReport::POPULATION] = extract_data_from_cell("C#{row}") || 0
         if cv_measure?
-          patient_document[QME::QualityReport::MSRPOPL] = extract_data_from_cell("E#{row}")
+          patient_document[QME::QualityReport::MSRPOPL] = extract_data_from_cell("E#{row}") || 0
           patient_document['values'] = [extract_data_from_cell("F#{row}")]
         else
           patient_document[QME::QualityReport::DENOMINATOR] = extract_data_from_cell("D#{row}") || 0
