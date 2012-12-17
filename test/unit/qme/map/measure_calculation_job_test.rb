@@ -5,7 +5,7 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
 
   def setup
     importer = QME::Bundle::Importer.new
-    importer.import(File.new('test/fixtures/bundles/just_measure_0002.zip'), nil, true)
+    importer.import(File.new('test/fixtures/bundles/just_measure_0002.zip'),  true, nil)
 
     collection_fixtures(get_db(), 'records', '_id')
 
