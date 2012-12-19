@@ -68,11 +68,13 @@ namespace :bundle do
       ['measures','patients','extensions'].each do |key|
         json_out[key] = (json_one[key] + json_two[key]).uniq
       end
+      
+      version = json_out['version']
 
       File.open(File.join(tmpdir,'output','bundle.json'), 'w') {|f| f.write(JSON.pretty_generate(json_out)) }
       date_string = Time.now.strftime("%Y-%m-%d")
 
-      out_zip = File.join('tmp','bundles',"bundle-merged-#{date_string}.zip")
+      out_zip = File.join('tmp','bundles',"bundle-merged-#{date_string}-#{version}.zip")
       FileUtils.remove_entry_secure out_zip if File.exists?(out_zip)
       Zip::ZipFile.open(out_zip, 'w') do |zipfile|
         path = File.join(tmpdir,'output')
