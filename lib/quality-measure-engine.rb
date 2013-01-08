@@ -12,6 +12,7 @@ require 'qme/quality_measure'
 require 'qme/map/map_reduce_builder'
 require 'qme/map/map_reduce_executor'
 require 'qme/map/measure_calculation_job'
+require 'qme/map/cv_aggregator'
 
 require 'qme/quality_report'
 
