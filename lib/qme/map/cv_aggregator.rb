@@ -29,7 +29,9 @@ module QME
       def self.mean(frequencies)
         count = frequencies.values.reduce(0, :+)
         sum = frequencies.map {|key,value| key*value}.reduce(0,:+)
-        sum/count
+        result = 0
+        result = sum/count if count > 0
+        result
       end
 
     end
