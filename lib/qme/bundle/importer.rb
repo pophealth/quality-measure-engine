@@ -34,26 +34,38 @@ module QME
         
         # Store all measures.
         bundle_contents[:measures].each do |key, contents|
-          measure_id = Moped::BSON::ObjectId.new()
+
           measure = JSON.parse(contents, {:max_nesting => 100})
+          hqmf_id = measure["hqmf_id"]
+          db_query  = @db['measures'].where({:hqmf_id=>hqmf_id})
+          db_measure = db_query.first
+          measure_id =  db_measure.nil? ? Moped::BSON::ObjectId.new() : db_measure["_id"] 
+          bundle_ids = db_measure.nil? ? [bundle_id] : db_measure["bundle_ids"] + [bundle_id]
           measure['_id'] = measure_id
-          measure['bundle'] = bundle_id  
-          @db['measures'].insert(measure)
+          measure['bundle_ids'] = bundle_ids
+ 
+          if db_measure
+            db_query.update(measure)
+          else
+            @db['measures'].insert(measure)
+          end
         end
         
-        # Store all patients.
-        bundle_id = Moped::BSON::ObjectId(bundle_id.to_s)
+     
         bundle_contents[:patients].each do |key, contents|
           patient = JSON.parse(contents, {:max_nesting => 100})
-          patient['bundle'] = bundle_id
-          Record.new(patient).save
+          patient['bundle_id'] = bundle_id
+          ::Record.new(patient).save
         end
         
         # Store the expected results into the query and patient caches.
         bundle_contents[:results].each do |name, contents|
           collection = name == "by_patient" ? "patient_cache" : "query_cache"
           contents = JSON.parse(contents, {:max_nesting => 100})
-          contents.each {|document| @db[collection].insert(document)}
+
+          contents.each {|document| 
+            document['bundle_id'] = bundle_id
+            @db[collection].insert(document)}
         end
         
         bundle_contents
