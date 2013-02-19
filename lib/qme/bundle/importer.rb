@@ -37,7 +37,8 @@ module QME
 
           measure = JSON.parse(contents, {:max_nesting => 100})
           hqmf_id = measure["hqmf_id"]
-          db_query  = @db['measures'].where({:hqmf_id=>hqmf_id})
+          sub_id = measure["sub_id"]
+          db_query  = @db['measures'].where({:hqmf_id=>hqmf_id, :sub_id=>sub_id})
           db_measure = db_query.first
           measure_id =  db_measure.nil? ? Moped::BSON::ObjectId.new() : db_measure["_id"] 
           bundle_ids = db_measure.nil? ? [bundle_id] : db_measure["bundle_ids"] + [bundle_id]
