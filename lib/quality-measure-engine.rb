@@ -18,7 +18,6 @@ require 'qme/quality_report'
 
 require 'qme/bundle/eh_measure_sheet'
 require 'qme/bundle/eh_patient_importer'
-require 'qme/bundle/bundle'
-require 'qme/bundle/importer'
+
 
 require 'qme/railtie' if defined?(Rails)
