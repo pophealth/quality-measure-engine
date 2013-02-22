@@ -44,9 +44,19 @@ namespace :bundle do
       end
       
       
-      ['measures','patients','library_functions', 'sources', 'value_sets'].each do |dir|
+      ['measures','patients','library_functions', 'sources'].each do |dir|
         ['one','two'].each do |key|
           FileUtils.mv(Dir.glob(File.join(tmpdir,key,dir,'*')), File.join(tmpdir,'output',dir))
+        end
+      end
+
+      ['value_sets'].each do |dir|
+        FileUtils.mkdir_p(File.join(tmpdir,'output',dir,'json'))
+        FileUtils.mkdir_p(File.join(tmpdir,'output',dir,'xml'))
+        ['one','two'].each do |key|
+          ['json', 'xml'].each do |type|
+            FileUtils.mv(Dir.glob(File.join(tmpdir,key,dir,type,'*')), File.join(tmpdir,'output',dir,type))
+          end
         end
       end
       
