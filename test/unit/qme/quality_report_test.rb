@@ -4,6 +4,8 @@ class QualityReportTest < MiniTest::Unit::TestCase
   include QME::DatabaseAccess
   
   def setup
+    load_system_js
+   collection_fixtures(get_db(), 'bundles')
     get_db()['query_cache'].drop()
     get_db()['patient_cache'].drop()
     get_db()['query_cache'].insert(

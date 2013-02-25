@@ -9,6 +9,22 @@ Mongoid.configure do |config|
 end
 
 class MiniTest::Unit::TestCase
+
+  def load_system_js
+     Mongoid.default_session['system.js'].drop
+    Dir.glob(File.join(File.dirname(__FILE__), 'fixtures', "library_functions", '*.js')).each do |json_fixture_file|
+      name = File.basename(json_fixture_file,".*")
+      fn = "function () {\n #{File.read(json_fixture_file)} \n }"
+      Mongoid.default_session['system.js'].find('_id' => name).upsert(
+        {
+          "_id" => name,
+          "value" => Moped::BSON::Code.new(fn)
+        }
+      )
+    end
+ 
+  end
+
   # Add more helper methods to be used by all tests here...
   
   def collection_fixtures(db, collection, *id_attributes)

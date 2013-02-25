@@ -6,6 +6,7 @@ class MapReduceBuilderTest < MiniTest::Unit::TestCase
   def setup
     raw_measure_json = File.read(File.join('test', 'fixtures', 'measures', 'measure_metadata.json'))
     @measure_json = JSON.parse(raw_measure_json)
+     load_system_js
   end
 
   def test_extracting_measure_metadata

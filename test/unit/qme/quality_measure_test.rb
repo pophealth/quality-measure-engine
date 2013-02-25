@@ -5,7 +5,8 @@ class QualityMeasureTest < MiniTest::Unit::TestCase
   def setup
 
     collection_fixtures(get_db(), 'measures')
-
+    collection_fixtures(get_db(), 'bundles')
+    load_system_js
   end
 
   def test_getting_all_measures
