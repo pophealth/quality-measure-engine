@@ -26,11 +26,11 @@ module QME
         filters = @parameter_values['filters']
 
         
-        match = {'value.measure_id'       => @measure_id, 
-         'value.sub_id'           => @sub_id,
-         'value.effective_date'   => @parameter_values['effective_date'],
-         'value.test_id'          => @parameter_values['test_id'],
-         'value.manual_exclusion' => {'$in' => [nil, false]}}
+        match = {'value.measure_id' => @measure_id, 
+                 'value.sub_id'           => @sub_id,
+                 'value.effective_date'   => @parameter_values['effective_date'],
+                 'value.test_id'          => @parameter_values['test_id'],
+                 'value.manual_exclusion' => {'$in' => [nil, false]}}
 
         if(filters)
           if (filters['races'] && filters['races'].size > 0)
@@ -79,9 +79,10 @@ module QME
           QME::QualityReport::ANTINUMERATOR => {"$sum" => "$value.#{QME::QualityReport::ANTINUMERATOR}"},
           QME::QualityReport::EXCLUSIONS => {"$sum" => "$value.#{QME::QualityReport::EXCLUSIONS}"},
           QME::QualityReport::EXCEPTIONS => {"$sum" => "$value.#{QME::QualityReport::EXCEPTIONS}"},
+          QME::QualityReport::MSRPOPL => {"$sum" => "$value.#{QME::QualityReport::MSRPOPL}"},
           QME::QualityReport::CONSIDERED => {"$sum" => 1}
         }}
-        
+
         aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
         if aggregate['ok'] != 1
           raise RuntimeError, "Aggregation Failed"
@@ -94,6 +95,11 @@ module QME
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
 
+        if @measure_def['continuous_variable']
+          aggregated_value = calculate_cv_aggregation 
+          result[QME::QualityReport::OBSERVATION] = aggregated_value
+        end
+
         result.merge!(aggregate['result'].first)
         result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
         # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
@@ -102,6 +108,29 @@ module QME
         get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
         result
       end
+
+      # This method calculates the aggregated value for a CV measure.  It extracts all 
+      # the values for patients in the MSRPOPL and uses the aggregator to combine those 
+      # values into an aggregated value.  The currently supported aggregators are:
+      #   MEDIAN
+      #   MEAN
+      def calculate_cv_aggregation
+        cv_pipeline = build_query
+        cv_pipeline.first['$match']["value.#{QME::QualityReport::MSRPOPL}"] = {'$gt'=>0}
+        cv_pipeline << {'$unwind' => '$value.values'}
+        cv_pipeline << {'$group' => {'_id' => '$value.values', 'count' => {'$sum' => 1}}}
+
+        aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => cv_pipeline)
+
+        raise RuntimeError, "Aggregation Failed" if aggregate['ok'] != 1
+
+        frequencies = {}
+        aggregate['result'].each do |freq_count_pair|
+          frequencies[freq_count_pair['_id']] = freq_count_pair['count']
+        end
+        QME::MapReduce::CVAggregator.send(@measure_def['aggregator'].parameterize, frequencies)
+      end
+
 
       # This method runs the MapReduce job for the measure which will create documents
       # in the patient_cache collection. These documents will state the measure groups

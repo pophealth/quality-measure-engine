@@ -4,10 +4,13 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
   include QME::DatabaseAccess
 
   def setup
-    importer = QME::Bundle::Importer.new
-    importer.import(File.new('test/fixtures/bundles/just_measure_0002.zip'), true, nil)
 
+    get_db['query_cache'].drop()
+    get_db['patient_cache'].drop()
+    collection_fixtures(get_db(), 'measures')
     collection_fixtures(get_db(), 'records', '_id')
+    collection_fixtures(get_db(), 'bundles')
+    load_system_js
   end
 
   def test_map_records_into_measure_groups
