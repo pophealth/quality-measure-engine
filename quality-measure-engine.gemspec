@@ -6,7 +6,7 @@ require 'qme/version'
 Gem::Specification.new do |gem|
   gem.name          = "quality-measure-engine"
   gem.version       = QME::VERSION
-  gem.authors       = ["Marc Hadley", "Andy Gregorowicz", "Rob Dingwell", "Adam Goldstein"]
+  gem.authors       = ["Marc Hadley", "Andy Gregorowicz", "Rob Dingwell", "Adam Goldstein", "Andre Quina"]
   gem.email         = ["talk@projectpophealth.org"]
   gem.description   = %q{A library for running clinical quality measures}
   gem.summary       = %q{This library can run JavaScript based clinical quality measures on a repository of patients stored in MongoDB}
