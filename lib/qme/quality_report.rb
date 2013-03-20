@@ -18,6 +18,12 @@ module QME
     ANTINUMERATOR = 'antinumerator'
     CONSIDERED = 'considered'
 
+    RACE = 'RACE'
+    ETHNICITY = 'ETHNICITY'
+    SEX ='SEX'
+    POSTAL_CODE = 'POSTAL_CODE'
+    PROVIDER   = 'PROVIDER'
+
     # Gets rid of all calculated QualityReports by dropping the patient_cache
     # and query_cache collections
     def self.destroy_all
