@@ -11,7 +11,7 @@ module QME
                                     QME::QualityReport::ETHNICITY => "$value.ethnicity.code",
                                     QME::QualityReport::SEX => "$value.gender",
                                     QME::QualityReport::POSTAL_CODE => "$value.postal_code",
-                                    QME::QualityReport::PROVIDER => "$value.provider"}
+                                    QME::QualityReport::PAYER => "$value.payer"}
       # Create a new Executor for a specific measure, effective date and patient population.
       # @param [String] measure_id the measure identifier
       # @param [String] sub_id the measure sub-identifier or null if the measure is single numerator
@@ -83,7 +83,7 @@ module QME
                                                    QME::QualityReport::ETHNICITY => {},
                                                    QME::QualityReport::SEX => {},
                                                    QME::QualityReport::POSTAL_CODE => {},
-                                                   QME::QualityReport::PROVIDER => {}}]}.flatten]
+                                                   QME::QualityReport::PAYER => {}}]}.flatten]
                                                  
         keys.each do |pop_id|
           _match = match.clone

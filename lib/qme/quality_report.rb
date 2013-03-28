@@ -22,7 +22,7 @@ module QME
     ETHNICITY = 'ETHNICITY'
     SEX ='SEX'
     POSTAL_CODE = 'POSTAL_CODE'
-    PROVIDER   = 'PROVIDER'
+    PAYER   = 'PAYER'
 
     # Gets rid of all calculated QualityReports by dropping the patient_cache
     # and query_cache collections

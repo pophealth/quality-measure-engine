@@ -41,21 +41,21 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     ipp = {QME::QualityReport::RACE =>{""=>3},
      QME::QualityReport::ETHNICITY => {""=>3},
      QME::QualityReport::POSTAL_CODE => {""=>3},
-     QME::QualityReport::PROVIDER => {""=>3},
+     QME::QualityReport::PAYER => {""=>3},
      QME::QualityReport::SEX => {"F"=>2,"M"=>1}
      }
 
      denom = {QME::QualityReport::RACE =>{""=>2},
      QME::QualityReport::ETHNICITY => {""=>2},
      QME::QualityReport::POSTAL_CODE => {""=>2},
-     QME::QualityReport::PROVIDER => {""=>2},
+     QME::QualityReport::PAYER => {""=>2},
      QME::QualityReport::SEX => {"F"=>2}
      }
 
      numer = {QME::QualityReport::RACE =>{""=>1},
      QME::QualityReport::ETHNICITY => {""=>1},
      QME::QualityReport::POSTAL_CODE => {""=>1},
-     QME::QualityReport::PROVIDER => {""=>1},
+     QME::QualityReport::PAYER => {""=>1},
      QME::QualityReport::SEX => {"F"=>1}
      }
 
