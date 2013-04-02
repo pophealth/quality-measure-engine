@@ -10,7 +10,6 @@ module QME
       SUPPLEMENTAL_DATA_ELEMENTS = {QME::QualityReport::RACE => "$value.race.code",
                                     QME::QualityReport::ETHNICITY => "$value.ethnicity.code",
                                     QME::QualityReport::SEX => "$value.gender",
-                                    QME::QualityReport::POSTAL_CODE => "$value.postal_code",
                                     QME::QualityReport::PAYER => "$value.payer"}
       # Create a new Executor for a specific measure, effective date and patient population.
       # @param [String] measure_id the measure identifier
@@ -82,7 +81,6 @@ module QME
         supplemental_data = Hash[*keys.map{|k| [k,{QME::QualityReport::RACE => {},
                                                    QME::QualityReport::ETHNICITY => {},
                                                    QME::QualityReport::SEX => {},
-                                                   QME::QualityReport::POSTAL_CODE => {},
                                                    QME::QualityReport::PAYER => {}}]}.flatten]
                                                  
         keys.each do |pop_id|
