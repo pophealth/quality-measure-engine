@@ -38,21 +38,21 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     doc = get_db['query_cache'].find().first
     suppl = doc["supplemental_data"]
     assert !suppl.empty?, "should contain supplemental data entries"
-    ipp = {QME::QualityReport::RACE =>{""=>3},
-     QME::QualityReport::ETHNICITY => {""=>3},
-     QME::QualityReport::PAYER => {""=>3},
+    ipp = {QME::QualityReport::RACE =>{"UNK"=>2, "1002-5"=>1},
+     QME::QualityReport::ETHNICITY => {"UNK"=>1, "2186-5"=>2},
+     QME::QualityReport::PAYER => {"UNK"=>3},
      QME::QualityReport::SEX => {"F"=>2,"M"=>1}
      }
 
-     denom = {QME::QualityReport::RACE =>{""=>2},
-     QME::QualityReport::ETHNICITY => {""=>2},
-     QME::QualityReport::PAYER => {""=>2},
+     denom = {QME::QualityReport::RACE =>{"UNK"=>1, "1002-5"=>1},
+     QME::QualityReport::ETHNICITY => { "2186-5"=>2},
+     QME::QualityReport::PAYER => {"UNK"=>2},
      QME::QualityReport::SEX => {"F"=>2}
      }
 
-     numer = {QME::QualityReport::RACE =>{""=>1},
-     QME::QualityReport::ETHNICITY => {""=>1},
-     QME::QualityReport::PAYER => {""=>1},
+     numer = {QME::QualityReport::RACE =>{"UNK"=>1},
+     QME::QualityReport::ETHNICITY => {"2186-5"=>1},
+     QME::QualityReport::PAYER => {"UNK"=>1},
      QME::QualityReport::SEX => {"F"=>1}
      }
 

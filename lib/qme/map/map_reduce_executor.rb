@@ -93,7 +93,10 @@ module QME
             aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
 
             v = {}
-            (aggregate["result"] || []).each {|entry| v[entry["_id"]] = entry["val"]}
+            (aggregate["result"] || []).each  do |entry| 
+              code  = entry["_id"].nil? ? "UNK" : entry["_id"]
+              v[code] = entry["val"]
+            end
             supplemental_data[pop_id] ||= {}
             supplemental_data[pop_id][supp_element] = v
            end
