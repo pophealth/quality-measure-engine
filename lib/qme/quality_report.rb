@@ -18,6 +18,12 @@ module QME
     ANTINUMERATOR = 'antinumerator'
     CONSIDERED = 'considered'
 
+    RACE = 'RACE'
+    ETHNICITY = 'ETHNICITY'
+    SEX ='SEX'
+    POSTAL_CODE = 'POSTAL_CODE'
+    PAYER   = 'PAYER'
+
     # Gets rid of all calculated QualityReports by dropping the patient_cache
     # and query_cache collections
     def self.destroy_all
@@ -144,11 +150,14 @@ module QME
       filters.each {|key, value| value.sort_by! {|v| (v.is_a? Hash) ? "#{v}" : v} if value.is_a? Array} unless filters.nil?
     end
     
-    def patient_result
+    def patient_result(patient_id = nil)
       cache = get_db()["patient_cache"]
       query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id, 
                'value.effective_date' => @parameter_values['effective_date'],
                'value.test_id' => @parameter_values['test_id']}
+      if patient_id
+        query['value.medical_record_id'] = patient_id
+      end
       cache.find(query).first()
     end
     

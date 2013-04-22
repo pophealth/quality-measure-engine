@@ -11,9 +11,10 @@ module QME
       # Utility class used to supply a binding to Erb
       class Context < OpenStruct
         # Create a new context
-        # @param [Hash] vars a hash of parameter names (String) and values (Object). Each entry is added as an accessor of the new Context
+        # @param [Hash] vars a hash of parameter names (String) and values (Object). Each 
+        # entry is added as an accessor of the new Context
         def initialize(db, vars)
-          super(vars)
+          super(Context.add_defaults(vars))
           @db = db
         end
       
@@ -21,6 +22,17 @@ module QME
         # @return [Binding]
         def get_binding
           binding
+        end
+        
+        # Add default parameter values if not specified
+        def self.add_defaults(vars)
+          if !vars.has_key?('enable_logging')
+            vars['enable_logging'] = false
+          end
+          if !vars.has_key?('enable_rationale')
+            vars['enable_rationale'] = false
+          end
+          vars
         end
         
         # Inserts any library code into the measure JS. JS library code is loaded from

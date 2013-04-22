@@ -2,6 +2,12 @@
     "_id": "507ec1407042f9362c000017",
     "birthdate": 946715400,
     "medical_record_number" : "1236",
+    "race" : { "code" : "1002-5",
+      "name" : "American Indian or Alaska Native",
+      "codeSystem" : "CDC Race" },
+     "ethnicity" : { "code" : "2186-5",
+      "name" : "Not Hispanic or Latino",
+      "codeSystem" : "CDC Race" },
     "conditions": [
         {
             "codes": {

@@ -2,6 +2,9 @@
     "_id": "507ec2077042f9362c00001b",
     "birthdate": 946715400,
     "medical_record_number": "12345",
+     "ethnicity" : { "code" : "2186-5",
+      "name" : "Not Hispanic or Latino",
+      "codeSystem" : "CDC Race" },
     "conditions": [
         {
             "codes": {

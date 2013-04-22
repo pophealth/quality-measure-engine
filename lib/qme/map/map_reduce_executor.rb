@@ -7,7 +7,10 @@ module QME
     class Executor
 
       include DatabaseAccess
-
+      SUPPLEMENTAL_DATA_ELEMENTS = {QME::QualityReport::RACE => "$value.race.code",
+                                    QME::QualityReport::ETHNICITY => "$value.ethnicity.code",
+                                    QME::QualityReport::SEX => "$value.gender",
+                                    QME::QualityReport::PAYER => "$value.payer"}
       # Create a new Executor for a specific measure, effective date and patient population.
       # @param [String] measure_id the measure identifier
       # @param [String] sub_id the measure sub-identifier or null if the measure is single numerator
@@ -64,6 +67,44 @@ module QME
         pipeline
       end
 
+
+      #Calculate all of the supoplemental data elements 
+      def calculate_supplemental_data_elements
+
+        match = {'value.measure_id' => @measure_id, 
+                 'value.sub_id'           => @sub_id,
+                 'value.effective_date'   => @parameter_values['effective_date'],
+                 'value.test_id'          => @parameter_values['test_id'],
+                 'value.manual_exclusion' => {'$in' => [nil, false]}}    
+       
+        keys = @measure_def["population_ids"].keys - [QME::QualityReport::OBSERVATION, "stratification"]
+        supplemental_data = Hash[*keys.map{|k| [k,{QME::QualityReport::RACE => {},
+                                                   QME::QualityReport::ETHNICITY => {},
+                                                   QME::QualityReport::SEX => {},
+                                                   QME::QualityReport::PAYER => {}}]}.flatten]
+                                                 
+        keys.each do |pop_id|
+          _match = match.clone
+          _match["value.#{pop_id}"] = {"$gt" => 0}
+          SUPPLEMENTAL_DATA_ELEMENTS.each_pair do |supp_element,location|
+            group1 = {"$group" => { "_id" => { "id" => "$_id", "val" => location}}} 
+            group2 = {"$group" => {"_id" => "$_id.val", "val" =>{"$sum" => 1} }}
+            pipeline = [{"$match" =>_match},group1,group2]
+            aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
+
+            v = {}
+            (aggregate["result"] || []).each  do |entry| 
+              code  = entry["_id"].nil? ? "UNK" : entry["_id"]
+              v[code] = entry["val"]
+            end
+            supplemental_data[pop_id] ||= {}
+            supplemental_data[pop_id][supp_element] = v
+           end
+        end
+        supplemental_data
+      end
+
+
       # Examines the patient_cache collection and generates a total of all groups
       # for the measure. The totals are placed in a document in the query_cache
       # collection.
@@ -104,6 +145,7 @@ module QME
         result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
         # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
+        result[:supplemental_data] = self.calculate_supplemental_data_elements
         get_db()["query_cache"].insert(result)
         get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
         result

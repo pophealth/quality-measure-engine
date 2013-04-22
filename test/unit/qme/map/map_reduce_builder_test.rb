@@ -35,5 +35,14 @@ class MapReduceBuilderTest < MiniTest::Unit::TestCase
     binding = context.get_binding
     assert_equal 10, eval("a",binding)
     assert_equal 20, eval("b",binding)
+    assert_equal false, eval("enable_logging",binding)
+    vars = {'enable_logging'=>true}
+    context = QME::MapReduce::Builder::Context.new(get_db(), vars)
+    binding = context.get_binding
+    assert_equal true, eval("enable_logging",binding)
+    vars = {'enable_logging'=>false}
+    context = QME::MapReduce::Builder::Context.new(get_db(), vars)
+    binding = context.get_binding
+    assert_equal false, eval("enable_logging",binding)
   end
 end
