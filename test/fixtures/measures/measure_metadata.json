@@ -1,0 +1,53 @@
+{
+  
+  "id": "0043",
+  "name": "Pneumonia Vaccination Status for Older Adults",
+  "description": "Patients more than 65 years old who received a pneumococcal vaccine.",
+  "category": "Miscellaneous",
+  "steward": "NCQA",
+  "parameters": {
+    "effective_date": {
+      "description": "Effective end date for measure",
+      "type": "number",
+      "format": "utc-sec"
+    }
+  },
+  "patient":
+  {
+    "birthdate":
+    {
+      "description": "Date of birth",
+      "critical": true,
+      "standard_category": "characteristic",
+      "type":"number",
+      "format": "utc-sec",
+      "codes":
+      [
+        {
+          "set": "HL7",
+          "version": "3.0",
+          "values": ["00110"]
+        }
+      ]
+    }
+  },
+  "measure":
+  {
+  },
+  "population":
+  {
+    "category": "Patient Characteristic",
+    "title": "Age >= 64"
+  },
+  "denominator":
+  {
+    "category": "Outpatient Encounter",
+    "title": "Within a year"
+  },
+  "numerator":
+  {
+    "category": "Medication Administered",
+    "title": "Pneumococcal vaccination"
+  },
+  "exclusions": {}
+}

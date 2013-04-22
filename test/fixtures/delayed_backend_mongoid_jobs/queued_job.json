@@ -1,0 +1,6 @@
+{
+    "_id": "508aeff07042f9f88900000d",
+    "priority": 0,
+    "attempts": 0,
+    "handler": "--- !ruby/object:QME::MapReduce::MeasureCalculationJob\ntest_id: \nmeasure_id: test2\nsub_id: b\neffective_date: 1284854400\nfilters: \n"
+}

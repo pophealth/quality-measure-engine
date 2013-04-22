@@ -16,7 +16,52 @@ module QME
         @measure_id = measure_id
         @sub_id = sub_id
         @parameter_values = parameter_values
-        determine_connection_information
+        @measure_def = QualityMeasure.new(@measure_id, @sub_id).definition
+        determine_connection_information()
+      end
+
+      def build_query
+        pipeline = []
+
+        filters = @parameter_values['filters']
+
+        
+        match = {'value.measure_id' => @measure_id, 
+                 'value.sub_id'           => @sub_id,
+                 'value.effective_date'   => @parameter_values['effective_date'],
+                 'value.test_id'          => @parameter_values['test_id'],
+                 'value.manual_exclusion' => {'$in' => [nil, false]}}
+
+        if(filters)
+          if (filters['races'] && filters['races'].size > 0)
+            match['value.race.code'] = {'$in' => filters['races']}
+          end
+          if (filters['ethnicities'] && filters['ethnicities'].size > 0)
+            match['value.ethnicity.code'] = {'$in' => filters['ethnicities']}
+          end
+          if (filters['genders'] && filters['genders'].size > 0)
+            match['value.gender'] = {'$in' => filters['genders']}
+          end
+          if (filters['providers'] && filters['providers'].size > 0)
+            providers = filters['providers'].map { |pv| {'providers' => Moped::BSON::ObjectId(pv) } }
+            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}}, 
+                             {'$unwind' => '$providers'}, 
+                             {'$match' => {'$or' => providers}},
+                             {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
+          end
+          if (filters['languages'] && filters['languages'].size > 0)
+            languages = filters['languages'].map { |l| {'languages' => l } }
+            pipeline.concat  [{'$project' => {'value' => 1, 'languages' => "$value.languages"}},
+                              {'$unwind' => "$languages"},
+                              {'$project' => {'value' => 1, 'languages' => {'$substr' => ['$languages', 0, 2]}}},
+                              {'$match' => {'$or' => languages}},
+                              {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
+          end
+        end
+
+        pipeline.unshift({'$match' => match})
+
+        pipeline
       end
 
       # Examines the patient_cache collection and generates a total of all groups
@@ -24,49 +69,80 @@ module QME
       # collection.
       # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
-        patient_cache = get_db.collection('patient_cache')
-        base_query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id,
-                      'value.effective_date' => @parameter_values['effective_date'],
-                      'value.test_id' => @parameter_values['test_id']}
+        pipeline = build_query
 
-        base_query.merge!(filter_parameters)
-        
-        query = base_query.clone
+        pipeline << {'$group' => {
+          "_id" => "$value.measure_id", # we don't really need this, but Mongo requires that we group 
+          QME::QualityReport::POPULATION => {"$sum" => "$value.#{QME::QualityReport::POPULATION}"}, 
+          QME::QualityReport::DENOMINATOR => {"$sum" => "$value.#{QME::QualityReport::DENOMINATOR}"},
+          QME::QualityReport::NUMERATOR => {"$sum" => "$value.#{QME::QualityReport::NUMERATOR}"},
+          QME::QualityReport::ANTINUMERATOR => {"$sum" => "$value.#{QME::QualityReport::ANTINUMERATOR}"},
+          QME::QualityReport::EXCLUSIONS => {"$sum" => "$value.#{QME::QualityReport::EXCLUSIONS}"},
+          QME::QualityReport::EXCEPTIONS => {"$sum" => "$value.#{QME::QualityReport::EXCEPTIONS}"},
+          QME::QualityReport::MSRPOPL => {"$sum" => "$value.#{QME::QualityReport::MSRPOPL}"},
+          QME::QualityReport::CONSIDERED => {"$sum" => 1}
+        }}
 
-        query.merge!({'value.manual_exclusion' => {'$in' => [nil, false]}})
-        
-        result = {:measure_id => @measure_id, :sub_id => @sub_id, 
+        aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
+        if aggregate['ok'] != 1
+          raise RuntimeError, "Aggregation Failed"
+        elsif aggregate['result'].size !=1
+          raise RuntimeError, "Expected one group from patient_cache aggregation, got #{aggregate['result'].size}"
+        end
+
+        nqf_id = @measure_def['nqf_id'] || @measure_def['id']
+        result = {:measure_id => @measure_id, :sub_id => @sub_id, :nqf_id => nqf_id, :population_ids => @measure_def["population_ids"],
                   :effective_date => @parameter_values['effective_date'],
                   :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
-        
-         # need to time the old way agains the single query to verify that the single query is more performant
-         aggregate = {"population"=>0, "denominator"=>0, "numerator"=>0, "antinumerator"=>0,  "exclusions"=>0}
-         %w(population denominator numerator antinumerator exclusions).each do |measure_group|
-           patient_cache.find(query.merge("value.#{measure_group}" => true)) do |cursor|
-             aggregate[measure_group] = cursor.count
-           end
-         end
-         aggregate["considered"] = patient_cache.find(query).count
-         aggregate["exclusions"] += patient_cache.find(base_query.merge({'value.manual_exclusion'=>true})).count
-         result.merge!(aggregate)
 
+        if @measure_def['continuous_variable']
+          aggregated_value = calculate_cv_aggregation 
+          result[QME::QualityReport::OBSERVATION] = aggregated_value
+        end
+
+        result.merge!(aggregate['result'].first)
+        result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
+        # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
         result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
-
-        get_db.collection("query_cache").save(result, safe: true)
+        get_db()["query_cache"].insert(result)
+        get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
         result
       end
+
+      # This method calculates the aggregated value for a CV measure.  It extracts all 
+      # the values for patients in the MSRPOPL and uses the aggregator to combine those 
+      # values into an aggregated value.  The currently supported aggregators are:
+      #   MEDIAN
+      #   MEAN
+      def calculate_cv_aggregation
+        cv_pipeline = build_query
+        cv_pipeline.first['$match']["value.#{QME::QualityReport::MSRPOPL}"] = {'$gt'=>0}
+        cv_pipeline << {'$unwind' => '$value.values'}
+        cv_pipeline << {'$group' => {'_id' => '$value.values', 'count' => {'$sum' => 1}}}
+
+        aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => cv_pipeline)
+
+        raise RuntimeError, "Aggregation Failed" if aggregate['ok'] != 1
+
+        frequencies = {}
+        aggregate['result'].each do |freq_count_pair|
+          frequencies[freq_count_pair['_id']] = freq_count_pair['count']
+        end
+        QME::MapReduce::CVAggregator.send(@measure_def['aggregator'].parameterize, frequencies)
+      end
+
 
       # This method runs the MapReduce job for the measure which will create documents
       # in the patient_cache collection. These documents will state the measure groups
       # that the record belongs to, such as numerator, etc.
       def map_records_into_measure_groups
-        qm = QualityMeasure.new(@measure_id, @sub_id)
-        measure = Builder.new(get_db, qm.definition, @parameter_values)
-        records = get_db.collection('records')
-        records.map_reduce(measure.map_function, "function(key, values){return values;}",
-                           :out => {:reduce => 'patient_cache'}, 
-                           :finalize => measure.finalize_function,
-                           :query => {:test_id => @parameter_values['test_id']})
+        measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        get_db().command(:mapReduce => 'records',
+                         :map => measure.map_function,
+                         :reduce => "function(key, values){return values;}",
+                         :out => {:reduce => 'patient_cache'}, 
+                         :finalize => measure.finalize_function,
+                         :query => {:test_id => @parameter_values['test_id']})
         apply_manual_exclusions
       end
       
@@ -74,13 +150,13 @@ module QME
       # This will create a document in the patient_cache collection. This document
       # will state the measure groups that the record belongs to, such as numerator, etc.
       def map_record_into_measure_groups(patient_id)
-        qm = QualityMeasure.new(@measure_id, @sub_id)
-        measure = Builder.new(get_db, qm.definition, @parameter_values)
-        records = get_db.collection('records')
-        records.map_reduce(measure.map_function, "function(key, values){return values;}",
-                           :out => {:reduce => 'patient_cache'}, 
-                           :finalize => measure.finalize_function,
-                           :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
+        measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        get_db().command(:mapReduce => 'records',
+                         :map => measure.map_function,
+                         :reduce => "function(key, values){return values;}",
+                         :out => {:reduce => 'patient_cache'}, 
+                         :finalize => measure.finalize_function,
+                         :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
         apply_manual_exclusions
       end
       
@@ -88,14 +164,14 @@ module QME
       # This will *not* create a document in the patient_cache collection, instead the
       # result is returned directly.
       def get_patient_result(patient_id)
-        qm = QualityMeasure.new(@measure_id, @sub_id)
-        measure = Builder.new(get_db, qm.definition, @parameter_values)
-        records = get_db.collection('records')
-        result = records.map_reduce(measure.map_function, "function(key, values){return values;}",
-                           :out => {:inline => true}, 
-                           :raw => true, 
-                           :finalize => measure.finalize_function,
-                           :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
+        measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        result = get_db().command(:mapReduce => 'records',
+                                  :map => measure.map_function,
+                                  :reduce => "function(key, values){return values;}",
+                                  :out => {:inline => true}, 
+                                  :raw => true, 
+                                  :finalize => measure.finalize_function,
+                                  :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
         raise result['err'] if result['ok']!=1
         result['results'][0]['value']
       end
@@ -104,43 +180,11 @@ module QME
       # and sets a flag in each cached patient result for patients that have been excluded from the
       # current measure
       def apply_manual_exclusions
-        exclusions = get_db.collection('manual_exclusions').find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
+        exclusions = get_db()['manual_exclusions'].find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
           exclusion['medical_record_id']
         end
-        get_db.collection('patient_cache').update(
-          {'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} },
-          {'$set'=>{'value.manual_exclusion'=>true}}, :multi=>true)
-      end
-
-      def filter_parameters
-        results = {}
-        conditions = []
-        if(filters = @parameter_values['filters'])
-          if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map {|provider_id| BSON::ObjectId(provider_id) if (provider_id and provider_id != 'null') }
-            # provider_performances have already been filtered by start and end date in map_reduce_builder as part of the finalize
-            conditions << {'value.provider_performances.provider_id' => {'$in' => providers}}
-          end
-          if (filters['races'] && filters['races'].size > 0)
-            conditions << {'value.race.code' => {'$in' => filters['races']}}
-          end
-          if (filters['ethnicities'] && filters['ethnicities'].size > 0)
-            conditions << {'value.ethnicity.code' => {'$in' => filters['ethnicities']}}
-          end
-          if (filters['genders'] && filters['genders'].size > 0)
-            conditions << {'value.gender' => {'$in' => filters['genders']}}
-          end
-          if (filters['languages'] && filters['languages'].size > 0)
-            languages = filters['languages'].clone
-            has_unspecified = languages.delete('null')
-            or_clauses = []
-            or_clauses << {'value.languages'=>{'$regex'=>Regexp.new("(#{languages.join("|")})-..")}} if languages.length > 0
-            or_clauses << {'value.languages'=>nil} if (has_unspecified)
-            conditions << {'$or'=>or_clauses}
-          end
-        end
-        results.merge!({'$and'=>conditions}) if conditions.length > 0
-        results
+        get_db()['patient_cache'].find({'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} })
+          .update_all({'$set'=>{'value.manual_exclusion'=>true}})
       end
     end
   end

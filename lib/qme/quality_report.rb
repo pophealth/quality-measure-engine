@@ -1,34 +1,46 @@
 module QME
+  
   # A class that allows you to create and obtain the results of running a
   # quality measure against a set of patient records.
   class QualityReport
+    
     include DatabaseAccess
     extend DatabaseAccess
     determine_connection_information
+
+    POPULATION = 'IPP'
+    DENOMINATOR = 'DENOM'
+    NUMERATOR = 'NUMER'
+    EXCLUSIONS = 'DENEX'
+    EXCEPTIONS = 'DENEXCEP'
+    MSRPOPL = 'MSRPOPL'
+    OBSERVATION = 'OBSERV'
+    ANTINUMERATOR = 'antinumerator'
+    CONSIDERED = 'considered'
 
     # Gets rid of all calculated QualityReports by dropping the patient_cache
     # and query_cache collections
     def self.destroy_all
       determine_connection_information
-      get_db.collection("query_cache").drop
-      get_db.collection("patient_cache").drop
+      get_db()["query_cache"].drop
+      get_db()["patient_cache"].drop
     end
     
     # Removes the cached results for the patient with the supplied id and
     # recalculates as necessary
     def self.update_patient_results(id)
-      determine_connection_information
+      determine_connection_information()
       
       # TODO: need to wait for any outstanding calculations to complete and then prevent
       # any new ones from starting until we are done.
 
       # drop any cached measure result calculations for the modified patient
-      get_db.collection("patient_cache").remove('value.medical_record_id' => id)
+      get_db()["patient_cache"].find('value.medical_record_id' => id).remove_all()
       
       # get a list of cached measure results for a single patient
-      sample_patient = get_db.collection('patient_cache').find_one()
+      sample_patient = get_db()['patient_cache'].find().first()
       if sample_patient
-        cached_results = get_db.collection('patient_cache').find({'value.patient_id' => sample_patient['value']['patient_id']})
+        cached_results = get_db()['patient_cache'].find({'value.patient_id' => sample_patient['value']['patient_id']})
         
         # for each cached result (a combination of measure_id, sub_id, effective_date and test_id)
         cached_results.each do |measure|
@@ -42,7 +54,7 @@ module QME
       
       # remove the query totals so they will be recalculated using the new results for
       # the modified patient
-      get_db.collection("query_cache").drop
+      get_db()["query_cache"].drop()
     end
 
     # Creates a new QualityReport
@@ -74,29 +86,47 @@ module QME
     # Kicks off a background job to calculate the measure
     # @return a unique id for the measure calculation job
     def calculate(asynchronous=true)
-      options = {'measure_id' => @measure_id, 'sub_id' => @sub_id, 
-                 'effective_date' => @parameter_values['effective_date'],
-                 'test_id' => @parameter_values['test_id'],
-                 'filters' => QME::QualityReport.normalize_filters(@parameter_values['filters'])}
+      
+      options = {'measure_id' => @measure_id, 'sub_id' => @sub_id}
+      
+      options.merge! @parameter_values
+      options['filters'] = QME::QualityReport.normalize_filters(@parameter_values['filters'])
+      
       if (asynchronous)
-        MapReduce::MeasureCalculationJob.create(options)
+        job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options))
+        job._id
       else
-        MapReduce::MeasureCalculationJob.calculate(options)
+        mcj = QME::MapReduce::MeasureCalculationJob.new(options)
+        mcj.perform
       end
     end
     
     # Returns the status of a measure calculation job
     # @param job_id the id of the job to check on
-    # @return [Hash] containing status information on the measure calculation job
+    # @return [Symbol] Will return the status: :complete, :queued, :running, :failed
     def status(job_id)
-      Resque::Status.get(job_id)
+      job = Delayed::Job.where(_id: job_id).first
+      if job.nil?
+        # If we can't find the job, we assume that it is complete
+        :complete
+      else
+        if job.locked_at.nil?
+          :queued
+        else
+          if job.failed?
+            :failed
+          else
+            :running
+          end            
+        end
+      end
     end
     
     # Gets the result of running a quality measure
     # @return [Hash] measure groups (like numerator) as keys, counts as values or nil if
     #                the measure has not yet been calculated
     def result
-      cache = get_db.collection("query_cache")
+      cache = get_db()["query_cache"]
       query = {:measure_id => @measure_id, :sub_id => @sub_id, 
                :effective_date => @parameter_values['effective_date'],
                :test_id => @parameter_values['test_id']}
@@ -106,7 +136,7 @@ module QME
         query.merge!({filters: nil})
       end
         
-      cache.find_one(query)
+      cache.find(query).first()
     end
     
     # make sure all filter id arrays are sorted
@@ -115,11 +145,11 @@ module QME
     end
     
     def patient_result
-      cache = get_db.collection("patient_cache")
+      cache = get_db()["patient_cache"]
       query = {'value.measure_id' => @measure_id, 'value.sub_id' => @sub_id, 
                'value.effective_date' => @parameter_values['effective_date'],
                'value.test_id' => @parameter_values['test_id']}
-      cache.find_one(query)
+      cache.find(query).first()
     end
     
   end

@@ -10,22 +10,18 @@ module QME
       @db_host = ENV['TEST_DB_HOST'] || 'localhost'
       @db_port = ENV['TEST_DB_PORT'] ? ENV['TEST_DB_PORT'].to_i : 27017
     end
-    
-    # Directly inject an instance of a database
-    # @param [Mongo::Database] db the database that you would like the object to use
-    def inject_db(db)
-      @db = db
-    end
 
     # Lazily creates a connection to the database and initializes the
     # JavaScript environment
-    # @return [Mongo::Connection]
+    # @return [Moped::Session]
     def get_db
       if @db == nil
-        @db = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
-      end
-      Mongoid.configure do |config|
-        config.master = Mongo::Connection.new(@db_host, @db_port).db(@db_name)
+        if @db_name==nil || @db_host==nil || @db_port==nil
+          determine_connection_information()
+        end
+        
+        @db = Moped::Session.new(["#{@db_host}:#{@db_port}"])
+        @db.use(@db_name)
       end
       
       @db

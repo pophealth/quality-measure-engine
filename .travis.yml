@@ -1,8 +1,9 @@
 language: ruby
 rvm:
-  - 1.9.2
-script: bundle exec rake spec
-
+  - 1.9.3
+script: bundle exec rake test
+services:
+  - mongodb
 notifications:
   email:
     recipients:

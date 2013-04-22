@@ -8,7 +8,7 @@ module QME
     # @return [Hash] an hash of measure definitions
     def self.all
       result = {}
-      measures = get_db.collection('measures')
+      measures = get_db()['measures']
       measures.find().each do |measure|
         id = measure['id']
         sub_id = measure['sub_id']
@@ -19,7 +19,15 @@ module QME
     end
     
     def self.get_measures(measure_ids)
-      get_db.collection('measures').find('id' => {"$in" => measure_ids})
+      get_db()['measures'].find('id' => {"$in" => measure_ids})
+    end
+
+    def self.get(measure_id, sub_id)
+      get_db()['measures'].find('id' => measure_id, 'sub_id' => sub_id)
+    end
+
+    def self.sub_measures(measure_id)
+      get_db()['measures'].find('id' => measure_id)
     end
     
     # Creates a new QualityMeasure
@@ -34,11 +42,11 @@ module QME
     # Retrieve a measure definition from the database
     # @return [Hash] a JSON hash of the encoded measure
     def definition
-      measures = get_db.collection('measures')
+      measures = get_db()['measures']
       if @sub_id
-        measures.find_one({'id' => @measure_id, 'sub_id' => @sub_id})
+        measures.find({'id' => @measure_id, 'sub_id' => @sub_id}).first()
       else
-        measures.find_one({'id' => @measure_id})
+        measures.find({'id' => @measure_id}).first()
       end
     end
   end
