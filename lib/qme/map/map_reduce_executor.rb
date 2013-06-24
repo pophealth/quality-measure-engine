@@ -10,7 +10,7 @@ module QME
       SUPPLEMENTAL_DATA_ELEMENTS = {QME::QualityReport::RACE => "$value.race.code",
                                     QME::QualityReport::ETHNICITY => "$value.ethnicity.code",
                                     QME::QualityReport::SEX => "$value.gender",
-                                    QME::QualityReport::PAYER => "$value.payer"}
+                                    QME::QualityReport::PAYER => "$value.payer.code"}
       # Create a new Executor for a specific measure, effective date and patient population.
       # @param [String] measure_id the measure identifier
       # @param [String] sub_id the measure sub-identifier or null if the measure is single numerator
