@@ -1,6 +1,8 @@
 require 'simplecov_setup'
 require 'minitest/autorun'
 require 'quality-measure-engine'
+require 'test/unit'
+require 'turn'
 
 db_host = ENV['TEST_DB_HOST'] || 'localhost'
 

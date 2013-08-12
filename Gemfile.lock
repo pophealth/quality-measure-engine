@@ -39,6 +39,7 @@ GEM
     activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    ansi (1.4.3)
     arel (3.0.2)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
@@ -127,13 +128,15 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
+    turn (0.9.6)
+      ansi
     tzinfo (0.3.35)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  minitest (~> 4.1.0)
+  minitest
   pry
   pry-nav
   pry-rescue
@@ -141,3 +144,4 @@ DEPENDENCIES
   quality-measure-engine!
   rails (~> 3.2.8)
   simplecov (~> 0.7.1)
+  turn
