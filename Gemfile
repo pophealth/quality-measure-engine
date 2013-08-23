@@ -9,6 +9,6 @@ gem 'pry-rescue'
 gem 'pry-stack_explorer'
 
 group :test do
-  gem 'minitest'
+  gem "minitest", "~> 4.0"
   gem 'turn', :require => false
 end
