@@ -13,7 +13,7 @@ end
 class MiniTest::Unit::TestCase
 
   def load_system_js
-     Mongoid.default_session['system.js'].drop
+     Mongoid.default_session['system.js'].find.remove_all
     Dir.glob(File.join(File.dirname(__FILE__), 'fixtures', "library_functions", '*.js')).each do |json_fixture_file|
       name = File.basename(json_fixture_file,".*")
       fn = "function () {\n #{File.read(json_fixture_file)} \n }"
