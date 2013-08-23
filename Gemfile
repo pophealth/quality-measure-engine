@@ -7,3 +7,8 @@ gem 'pry'
 gem 'pry-nav'
 gem 'pry-rescue'
 gem 'pry-stack_explorer'
+
+group :test do
+  gem 'minitest'
+  gem 'turn', :require => false
+end
