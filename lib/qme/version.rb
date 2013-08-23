@@ -1,3 +1,3 @@
 module QME
-  VERSION = "2.1.0"
+  VERSION = "2.5.1"
 end
