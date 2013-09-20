@@ -41,5 +41,11 @@ root.map = function(record, population, denominator, numerator, exclusion, denex
 
   if (typeof Logger != 'undefined') value['logger'] = Logger.logger
   
+  value.measure_id = hqmfjs.hqmf_id
+  value.sub_id = hqmfjs.sub_id
+  value.nqf_id = hqmfjs.nqf_id
+  value.test_id = hqmfjs.test_id
+  value.effective_date = hqmfjs.effective_date;
+
   emit(ObjectId(), value);
 };
