@@ -3,17 +3,13 @@ require 'minitest/autorun'
 require 'quality-measure-engine'
 require 'test/unit'
 require 'turn'
-
-db_host = ENV['TEST_DB_HOST'] || 'localhost'
-
-Mongoid.configure do |config|
-  config.sessions = { default: { hosts: [ "#{db_host}:27017" ], database: 'test' }}
-end
+require 'pry-nav'
+Mongoid.load!(File.join(File.dirname(__FILE__),"mongoid.yml"), :test)
 
 class MiniTest::Unit::TestCase
 
   def load_system_js
-     Mongoid.default_session['system.js'].find.remove_all
+    Mongoid.default_session['system.js'].find.remove_all
     Dir.glob(File.join(File.dirname(__FILE__), 'fixtures', "library_functions", '*.js')).each do |json_fixture_file|
       name = File.basename(json_fixture_file,".*")
       fn = "function () {\n #{File.read(json_fixture_file)} \n }"

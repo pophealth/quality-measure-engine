@@ -17,8 +17,8 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
   def test_perform
     options = {'measure_id' => "2E679CD2-3FEC-4A75-A75A-61403E5EFEE8",
                'effective_date' => Time.gm(2011, 1, 15).to_i}
-
-    job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options))
+    qr = QME::QualityReport.find_or_create_by(options)
+    job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new({'quality_report_id' => qr.id,"oid_dictionary"=>{}}))
     assert job
   end
 end

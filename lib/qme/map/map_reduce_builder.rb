@@ -66,8 +66,8 @@ module QME
           @params[name.to_s] = value
         end
         @measure_def = measure_def
-        @measure_def['parameters'] ||= {}
-        @measure_def['parameters'].each do |parameter, value|
+        @measure_def.parameters ||= {}
+        @measure_def.parameters.each do |parameter, value|
           if !@params.has_key?(parameter)
             raise "No value supplied for measure parameter: #{parameter}"
           end
@@ -75,17 +75,17 @@ module QME
         # if the map function is specified then replace any erb templates with their values
         # taken from the supplied params
         # always true for actual measures, not always true for unit tests
-        if (@measure_def['map_fn'])
-          template = ERB.new(@measure_def['map_fn'])
+        if (@measure_def.map_fn)
+          template = ERB.new(@measure_def.map_fn)
           context = Context.new(@db, @params)
-          @measure_def['map_fn'] = template.result(context.get_binding)
+          @measure_def.map_fn = template.result(context.get_binding)
         end
       end
 
       # Get the map function for the measure
       # @return [String] the map function
       def map_function
-        @measure_def['map_fn']
+        @measure_def.map_fn
       end
 
       # Get the reduce function for the measure, this is a simple
@@ -100,11 +100,11 @@ module QME
         if @params['test_id'] && @params['test_id'].class==Moped::BSON::ObjectId
           reduce += "  patient.test_id = new ObjectId(\"#{@params['test_id']}\");\n"
         end
-        if @measure_def['sub_id']
-          reduce += "  patient.sub_id = \"#{@measure_def['sub_id']}\";\n"
+        if @measure_def.sub_id
+          reduce += "  patient.sub_id = \"#{@measure_def.sub_id}\";\n"
         end
-        if @measure_def['nqf_id']
-          reduce += "  patient.nqf_id = \"#{@measure_def['nqf_id']}\";\n"
+        if @measure_def.nqf_id
+          reduce += "  patient.nqf_id = \"#{@measure_def.nqf_id}\";\n"
         end
           
         reduce += "patient.effective_date = #{@params['effective_date']};
