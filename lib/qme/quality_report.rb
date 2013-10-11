@@ -58,8 +58,6 @@ module QME
     # Removes the cached results for the patient with the supplied id and
     # recalculates as necessary
     def self.update_patient_results(id)
-
-      
       # TODO: need to wait for any outstanding calculations to complete and then prevent
       # any new ones from starting until we are done.
 
@@ -110,17 +108,21 @@ module QME
       ! patient_result().nil?
     end
     
+
     # Kicks off a background job to calculate the measure
     # @return a unique id for the measure calculation job
     def calculate(parameters, asynchronous=true)
-      
+
       options = {'quality_report_id' => self.id}
+      options.merge! parameters || {}
       
-      options.merge! parameters
-     
+      if self.status["state"] == "completed" && !options["recalculate"]
+        return self
+      end
+      
+      self.status["state"] = "queued"
       if (asynchronous)
         job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options))
-        self.status["state"] = "queued"
         job._id
       else
         mcj = QME::MapReduce::MeasureCalculationJob.new(options)
@@ -128,7 +130,12 @@ module QME
       end
     end
     
-    
+    def patient_results
+     ex = QME::MapReduce::Executor.new(self.measure_id,self.sub_id, self.attributes)
+     patient_query = ex.build_query
+     QME::PatientCache.where(patient_query)
+    end
+
     # make sure all filter id arrays are sorted
     def self.normalize_filters(filters)
       filters.each {|key, value| value.sort_by! {|v| (v.is_a? Hash) ? "#{v}" : v} if value.is_a? Array} unless filters.nil?

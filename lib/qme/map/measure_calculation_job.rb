@@ -50,7 +50,7 @@ module QME
       end
 
       def enqueue(job)
-        @quality_report.status = {"state" => "queued", log: ["Queued at #{Time.now}"]} 
+        @quality_report.status = {"state" => "queued", "log" => ["Queued at #{Time.now}"], "job_id" => job.id} 
       end
 
 
@@ -63,6 +63,11 @@ module QME
       def failure(job)
         @quality_report.status["state"] = "failed"
         @quality_report.status["log"] << "Failed at #{Time.now}"
+        @quality_report.save
+      end
+
+      def after(job)
+        @quality_report.status.delete("job_id")
         @quality_report.save
       end
 
