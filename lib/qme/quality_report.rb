@@ -137,7 +137,7 @@ module QME
     end
 
     def measure
-      QME::QualityMeasure.where({"hqmf_id"=>slef.measure_id, "sub_id" => self.sub_id}).first
+      QME::QualityMeasure.where({"hqmf_id"=>self.measure_id, "sub_id" => self.sub_id}).first
     end
 
     # make sure all filter id arrays are sorted
