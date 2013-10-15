@@ -136,6 +136,10 @@ module QME
      QME::PatientCache.where(patient_query)
     end
 
+    def measure
+      QME::QualityMeasure.where({"hqmf_id"=>slef.measure_id, "sub_id" => self.sub_id}).first
+    end
+
     # make sure all filter id arrays are sorted
     def self.normalize_filters(filters)
       filters.each {|key, value| value.sort_by! {|v| (v.is_a? Hash) ? "#{v}" : v} if value.is_a? Array} unless filters.nil?
