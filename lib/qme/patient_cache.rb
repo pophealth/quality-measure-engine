@@ -14,6 +14,7 @@
 
     embedded_in :patient_cache, inverse_of: :value
 
+    field :filters, type: Hash
     field :manual_exclusion, type: Boolean, default: false
     field :DENOM, type: Integer
     field :NUMER, type: Integer

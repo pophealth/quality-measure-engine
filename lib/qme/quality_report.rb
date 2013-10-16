@@ -132,8 +132,7 @@ module QME
     
     def patient_results
      ex = QME::MapReduce::Executor.new(self.measure_id,self.sub_id, self.attributes)
-     patient_query = ex.build_query
-     QME::PatientCache.where(patient_query)
+     QME::PatientCache.where(patient_cache_matcher)
     end
 
     def measure
@@ -146,14 +145,45 @@ module QME
     end
     
     def patient_result(patient_id = nil)
-      query = {'value.measure_id' => self.measure_id, 'value.sub_id' => self.sub_id, 
-               'value.effective_date' => self.effective_date,
-               'value.test_id' => self['test_id']}
+      query = patient_cache_matcher
       if patient_id
         query['value.medical_record_id'] = patient_id
       end
        QME::PatientCache.where(query).first()
     end
-    
+
+
+  def patient_cache_matcher
+    match = {'value.measure_id' => self.measure_id, 
+             'value.sub_id'           => self.sub_id,
+             'value.effective_date'   => self.effective_date,
+             'value.test_id'          => test_id,
+             'value.manual_exclusion' => {'$in' => [nil, false]}}
+
+    if(filters)
+      if (filters['races'] && filters['races'].size > 0)
+        match['value.race.code'] = {'$in' => filters['races']}
+      end
+      if (filters['ethnicities'] && filters['ethnicities'].size > 0)
+        match['value.ethnicity.code'] = {'$in' => filters['ethnicities']}
+      end
+      if (filters['genders'] && filters['genders'].size > 0)
+        match['value.gender'] = {'$in' => filters['genders']}
+      end
+      if (filters['providers'] && filters['providers'].size > 0)
+
+        providers = filters['providers'].map { |pv| {'providers' => Moped::BSON::ObjectId(pv) } }
+        match['value.provider_performances.provider_id']= {'$in' => providers}
+      end
+      if (filters['languages'] && filters['languages'].size > 0)
+        match["value.languages"] = {'$in' => filters['languages']}
+      end
+    end
+    match
   end
+
+
+  end
+
+
 end
