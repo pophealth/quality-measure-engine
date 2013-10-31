@@ -21,10 +21,12 @@ module QME
         @sub_id =sub_id
         
         @parameter_values = parameter_values
-        @bundle_id = @parameter_values['bundle_id']
-        @measure_def = QualityMeasure.where({hqmf_id: @measure_id, 
-                                             sub_id: @sub_id, 
-                                             bundle_id: @bundle_id}).first
+        q_filter = {hqmf_id: @measure_id,sub_id: @sub_id}
+        if @parameter_values.keys.index("bundle_id")
+          q_filter["bundle_id"] == @parameter_values['bundle_id']
+          @bundle_id = @parameter_values['bundle_id']
+        end  
+        @measure_def = QualityMeasure.where(q_filter).first
       end
 
       def build_query
