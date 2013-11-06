@@ -191,7 +191,6 @@ module QME
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
                          :out => {:reduce => 'patient_cache'}, 
-                         :finalize => measure.finalize_function,
                          :query => {:test_id => @parameter_values['test_id']})
         QME::ManualExclusion.apply_manual_exclusions(@measure_id,@sub_id)
       end
@@ -205,9 +204,9 @@ module QME
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
                          :out => {:reduce => 'patient_cache'}, 
-                         :finalize => measure.finalize_function,
                          :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
         QME::ManualExclusion.apply_manual_exclusions(@measure_id,@sub_id)
+
       end
       
       # This method runs the MapReduce job for the measure and a specific patient.
@@ -220,8 +219,8 @@ module QME
                                   :reduce => "function(key, values){return values;}",
                                   :out => {:inline => true}, 
                                   :raw => true, 
-                                  :finalize => measure.finalize_function,
                                   :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
+
         raise result['err'] if result['ok']!=1
         result['results'][0]['value']
       end
