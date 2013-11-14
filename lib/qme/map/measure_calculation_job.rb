@@ -31,6 +31,13 @@ module QME
           tick('Calculating group totals')
           result = map.count_records_in_measure_groups
           @quality_report.result=result
+          # backwards compatibility with previous q cahce users.  Should be reomved going foward 
+          # and provide a means to update existing results to the newer format
+          result.attributes.each_pair do |k,v|
+            unless k.to_s == "_id"
+              @quality_report[k]=v
+            end
+          end
           @quality_report.save
           completed("#{@measure_id}#{@sub_id}: p#{result[QME::QualityReport::POPULATION]}, d#{result[QME::QualityReport::DENOMINATOR]}, n#{result[QME::QualityReport::NUMERATOR]}, excl#{result[QME::QualityReport::EXCLUSIONS]}, excep#{result[QME::QualityReport::EXCEPTIONS]}")
         end
