@@ -35,8 +35,10 @@ class QualityMeasureTest < MiniTest::Unit::TestCase
   def test_getting_measure_subset
     measure_ids = get_db['measures'].find({}).map { |m| m['id'] }
     measure_ids.pop
+    
     measures = QME::QualityMeasure.get_measures(measure_ids)
-    assert_equal 4, measures.count
+    measure_ids2 = measures.map { |m| m['id'] }
+    assert_equal measure_ids.sort, measure_ids2.sort
   end
 
   def test_getting_sub_measures
