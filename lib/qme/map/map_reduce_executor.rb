@@ -19,7 +19,7 @@ module QME
         @measure_id = measure_id
         @sub_id = sub_id
         @parameter_values = parameter_values
-        @measure_def = QualityMeasure.new(@measure_id, @sub_id).definition
+        @measure_def = QualityMeasure.new(@measure_id, @sub_id, parameter_values['bundle_id']).definition
         determine_connection_information()
       end
 
