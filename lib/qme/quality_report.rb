@@ -171,9 +171,8 @@ module QME
         match['value.gender'] = {'$in' => filters['genders']}
       end
       if (filters['providers'] && filters['providers'].size > 0)
-
-        providers = filters['providers'].map { |pv| {'providers' => Moped::BSON::ObjectId(pv) } }
-        match['value.provider_performances.provider_id']= {'$in' => providers}
+        providers = filters['providers'].map { |pv| Moped::BSON::ObjectId(pv) }
+        match['value.provider_performances.provider_id'] = {'$in' => providers}
       end
       if (filters['languages'] && filters['languages'].size > 0)
         match["value.languages"] = {'$in' => filters['languages']}
