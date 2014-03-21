@@ -52,9 +52,9 @@ module QME
             match['value.gender'] = {'$in' => filters['genders']}
           end
           if (filters['providers'] && filters['providers'].size > 0)
-            providers = filters['providers'].map { |pv| {'providers' => Moped::BSON::ObjectId(pv) } }
-            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}},
-                             {'$unwind' => '$providers'},
+            providers = filters['providers'].map { |pv| {'providers' => BSON::ObjectId(pv) } }
+            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}}, 
+                             {'$unwind' => '$providers'}, 
                              {'$match' => {'$or' => providers}},
                              {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
           end
