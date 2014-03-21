@@ -4,7 +4,7 @@ module QME
     include Mongoid::Document
     store_in collection: 'measures'
 
-    field :id, type: String
+    field :id, as: :id, type: String
     field :sub_id, type: String
     field :map_fn, type: String
     field :nqf_id, type: String
