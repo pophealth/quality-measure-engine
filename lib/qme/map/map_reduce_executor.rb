@@ -15,18 +15,24 @@ module QME
       # @param [String] measure_id the measure identifier
       # @param [String] sub_id the measure sub-identifier or null if the measure is single numerator
       # @param [Hash] parameter_values a hash that may contain the following keys: 'effective_date' the measurement period end date, 'test_id' an identifier for a specific set of patients
-      def initialize(measure_id, sub_id, parameter_values)
+      def initialize(measure_id,sub_id, parameter_values)
+
         @measure_id = measure_id
-        @sub_id = sub_id
+        @sub_id =sub_id
+        
         @parameter_values = parameter_values
-        @measure_def = QualityMeasure.new(@measure_id, @sub_id, parameter_values['bundle_id']).definition
-        determine_connection_information()
+        q_filter = {hqmf_id: @measure_id,sub_id: @sub_id}
+        if @parameter_values.keys.index("bundle_id")
+          q_filter["bundle_id"] == @parameter_values['bundle_id']
+          @bundle_id = @parameter_values['bundle_id']
+        end  
+        @measure_def = QualityMeasure.where(q_filter).first
       end
 
       def build_query
         pipeline = []
 
-        filters = @parameter_values['filters']
+        filters = @parameter_values["filters"]
 
         
         match = {'value.measure_id' => @measure_id, 
@@ -77,7 +83,7 @@ module QME
                  'value.test_id'          => @parameter_values['test_id'],
                  'value.manual_exclusion' => {'$in' => [nil, false]}}    
        
-        keys = @measure_def["population_ids"].keys - [QME::QualityReport::OBSERVATION, "stratification"]
+        keys = @measure_def.population_ids.keys - [QME::QualityReport::OBSERVATION, "stratification"]
         supplemental_data = Hash[*keys.map{|k| [k,{QME::QualityReport::RACE => {},
                                                    QME::QualityReport::ETHNICITY => {},
                                                    QME::QualityReport::SEX => {},
@@ -131,24 +137,26 @@ module QME
           raise RuntimeError, "Expected one group from patient_cache aggregation, got #{aggregate['result'].size}"
         end
 
-        nqf_id = @measure_def['nqf_id'] || @measure_def['id']
-        result = {:measure_id => @measure_id, :sub_id => @sub_id, :nqf_id => nqf_id, :population_ids => @measure_def["population_ids"],
-                  :effective_date => @parameter_values['effective_date'],
-                  :test_id => @parameter_values['test_id'], :filters => @parameter_values['filters']}
+        nqf_id = @measure_def.nqf_id || @measure_def['id']
+        result = QME::QualityReportResult.new
+        result.population_ids=@measure_def.population_ids
 
-        if @measure_def['continuous_variable']
+
+        if @measure_def.continuous_variable
           aggregated_value = calculate_cv_aggregation 
           result[QME::QualityReport::OBSERVATION] = aggregated_value
         end
 
-        result.merge!(aggregate['result'].first)
-        result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
+        agg_result = aggregate['result'].first
+        agg_result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
         # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
-        result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
-        result[:supplemental_data] = self.calculate_supplemental_data_elements
-        get_db()["query_cache"].insert(result)
-        get_db().command({:getLastError => 1}) # make sure last insert finished before we continue
+        agg_result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
+        agg_result.each_pair do |k,v|
+          result[k]=v
+        end
+        result.supplemental_data = self.calculate_supplemental_data_elements
         result
+
       end
 
       # This method calculates the aggregated value for a CV measure.  It extracts all 
@@ -170,7 +178,7 @@ module QME
         aggregate['result'].each do |freq_count_pair|
           frequencies[freq_count_pair['_id']] = freq_count_pair['count']
         end
-        QME::MapReduce::CVAggregator.send(@measure_def['aggregator'].parameterize, frequencies)
+        QME::MapReduce::CVAggregator.send(@measure_def.aggregator.parameterize, frequencies)
       end
 
 
@@ -179,13 +187,13 @@ module QME
       # that the record belongs to, such as numerator, etc.
       def map_records_into_measure_groups
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
-        get_db().command(:mapReduce => 'records',
+        get_db().command(:mapreduce => 'records',
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
-                         :out => {:reduce => 'patient_cache'}, 
+                         :out => {:reduce => 'patient_cache', :sharded => true}, 
                          :finalize => measure.finalize_function,
                          :query => {:test_id => @parameter_values['test_id']})
-        apply_manual_exclusions
+        QME::ManualExclusion.apply_manual_exclusions(@measure_id,@sub_id)
       end
       
       # This method runs the MapReduce job for the measure and a specific patient.
@@ -193,13 +201,14 @@ module QME
       # will state the measure groups that the record belongs to, such as numerator, etc.
       def map_record_into_measure_groups(patient_id)
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
-        get_db().command(:mapReduce => 'records',
+        get_db().command(:mapreduce => 'records',
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
-                         :out => {:reduce => 'patient_cache'}, 
+                         :out => {:reduce => 'patient_cache', :sharded => true}, 
                          :finalize => measure.finalize_function,
-                         :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
-        apply_manual_exclusions
+                         :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
+        QME::ManualExclusion.apply_manual_exclusions(@measure_id,@sub_id)
+
       end
       
       # This method runs the MapReduce job for the measure and a specific patient.
@@ -207,27 +216,18 @@ module QME
       # result is returned directly.
       def get_patient_result(patient_id)
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
-        result = get_db().command(:mapReduce => 'records',
+        result = get_db().command(:mapreduce => 'records',
                                   :map => measure.map_function,
                                   :reduce => "function(key, values){return values;}",
                                   :out => {:inline => true}, 
                                   :raw => true, 
-                                  :finalize => measure.finalize_function,
-                                  :query => {:medical_record_number => patient_id, :test_id => @parameter_values['test_id']})
+                                  :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
+
         raise result['err'] if result['ok']!=1
         result['results'][0]['value']
       end
       
-      # This collects the set of manual exclusions from the manual_exclusions collections
-      # and sets a flag in each cached patient result for patients that have been excluded from the
-      # current measure
-      def apply_manual_exclusions
-        exclusions = get_db()['manual_exclusions'].find({'measure_id'=>@measure_id, 'sub_id'=>@sub_id}).to_a.map do |exclusion|
-          exclusion['medical_record_id']
-        end
-        get_db()['patient_cache'].find({'value.measure_id'=>@measure_id, 'value.sub_id'=>@sub_id, 'value.medical_record_id'=>{'$in'=>exclusions} })
-          .update_all({'$set'=>{'value.manual_exclusion'=>true}})
-      end
+
     end
   end
 end

@@ -1,12 +1,10 @@
 PATH
   remote: .
   specs:
-    quality-measure-engine (2.5.3)
+    quality-measure-engine (3.0.0)
       delayed_job_mongoid (~> 2.0.0)
       mongoid (~> 3.1.4)
       moped (~> 1.5.1)
-      nokogiri (~> 1.6.0)
-      rubyXL (~> 1.2.10)
       rubyzip (~> 0.9.9)
 
 GEM
@@ -62,17 +60,14 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.2)
     mime-types (1.24)
-    mini_portile (0.5.2)
     minitest (4.7.5)
-    mongoid (3.1.5)
+    mongoid (3.1.6)
       activemodel (~> 3.2)
       moped (~> 1.4)
       origin (~> 1.0)
       tzinfo (~> 0.3.29)
-    moped (1.5.1)
-    multi_json (1.7.9)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
+    moped (1.5.2)
+    multi_json (1.8.2)
     origin (1.1.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
@@ -112,7 +107,6 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    rubyXL (1.2.10)
     rubyzip (0.9.9)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -131,7 +125,7 @@ GEM
       polyglot (>= 0.3.1)
     turn (0.9.6)
       ansi
-    tzinfo (0.3.37)
+    tzinfo (0.3.38)
 
 PLATFORMS
   ruby
