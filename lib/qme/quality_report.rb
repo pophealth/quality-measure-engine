@@ -183,6 +183,13 @@ module QME
 
     protected
 
+     #In the older version of QME QualityReport was not treated as apersisted object. As
+     # a result anytime you wanted to get the cached results for a calculation you would create
+     # a new QR object which would then go to the db and see if the calculation was performed or
+     # not yet and then return the results.  now that QR objects are persisted you need to go through
+     # the find_or_create by method to ensure that duplicate entries are not being created.  Protecting
+     # this method causes an exception to be thrown for anyone attempting to use this version of QME with the 
+     # sematics of the older version to highlight the issue
     def initialize(attrs = nil, options = nil)
       super(attrs, options)
     end
