@@ -76,6 +76,14 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     assert_equal 3, result[QME::QualityReport::POPULATION]
     assert_equal 2, result[QME::QualityReport::DENOMINATOR]
     assert_equal 1, result[QME::QualityReport::NUMERATOR]
+
+    executor = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, {
+                                            'effective_date' => Time.gm(2011, 1, 14).to_i})
+ 
+    result = executor.count_records_in_measure_groups
+    assert_equal 0, result[QME::QualityReport::POPULATION]
+    assert_equal 0, result[QME::QualityReport::DENOMINATOR]
+    assert_equal 0, result[QME::QualityReport::NUMERATOR]
   end
 
   def test_map_record_into_measure_groups
