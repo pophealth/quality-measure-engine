@@ -115,10 +115,6 @@ module QME
       # for the measure. The totals are placed in a document in the query_cache
       # collection.
       # @return [Hash] measure groups (like numerator) as keys, counts as values
-      # Examines the patient_cache collection and generates a total of all groups
-      # for the measure. The totals are placed in a document in the query_cache
-      # collection.
-      # @return [Hash] measure groups (like numerator) as keys, counts as values
       def count_records_in_measure_groups
         pipeline = build_query
 
