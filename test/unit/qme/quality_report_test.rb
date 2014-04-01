@@ -4,8 +4,9 @@ class QualityReportTest < MiniTest::Unit::TestCase
   include QME::DatabaseAccess
   
   def setup
-    load_system_js
+   load_system_js
    collection_fixtures(get_db(), 'bundles')
+   collection_fixtures(get_db(), 'measures')
     get_db()['query_cache'].drop()
     get_db()['patient_cache'].drop()
     get_db()['query_cache'].insert(
@@ -88,5 +89,46 @@ class QualityReportTest < MiniTest::Unit::TestCase
     status = QME::MapReduce::MeasureCalculationJob.status("508aeff07042f9f88900000d")
     assert_equal :queued, status
   end
+
+  def test_rollup_buffering
+    Delayed::Worker.delay_jobs=true
+    assert Delayed::Worker.delay_jobs
+    Delayed::Job.destroy_all
+    QME::QualityReport.destroy_all
+    Mongoid.default_session["rollup_buffer"].find({}).remove_all
+    qr = QME::QualityReport.find_or_create('2E679CD2-3FEC-4A75-A75A-61403E5EFEE8', nil, "effective_date" => Time.gm(2011, 9, 19).to_i)
+    qr2 = QME::QualityReport.find_or_create('2E679CD2-3FEC-4A75-A75A-61403E5EFEE8', nil, {"effective_date" => Time.gm(2011, 9, 19).to_i,:filters=>{"providers"=>["a"]}})
+    assert !qr.calculated?
+    assert !qr2.calculated?
+    assert_equal 0, Delayed::Job.count()
+    assert !qr.patients_cached?
+    assert !qr2.patients_cached?
+
+    assert !qr.calculation_queued_or_running?
+    assert !qr2.calculation_queued_or_running?
+ 
+    qr.calculate({"oid_dictionary"=>{}},true)
+
+    assert qr.calculation_queued_or_running?
+    assert qr2.calculation_queued_or_running?
+
+    assert_equal 0, Mongoid.default_session["rollup_buffer"].find({}).count
+    qr2.calculate({"oid_dictionary"=>{}},true)
+    assert_equal 1, Mongoid.default_session["rollup_buffer"].find({}).count
+
+
+    assert_equal 1, Delayed::Job.count()
+    job = Delayed::Job.where({}).first
+    assert_equal "calculation", job.queue
+    job.invoke_job
+    job.delete
+
+    assert_equal 1, Delayed::Job.count()
+    job = Delayed::Job.where({}).first
+    assert_equal "rollup", job.queue
+
+    assert_equal 0, Mongoid.default_session["rollup_buffer"].find({}).count
+  end
+
 
 end
