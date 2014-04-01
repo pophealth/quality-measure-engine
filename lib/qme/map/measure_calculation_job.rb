@@ -40,6 +40,7 @@ module QME
           end
           @quality_report.save
           completed("#{@measure_id}#{@sub_id}: p#{result[QME::QualityReport::POPULATION]}, d#{result[QME::QualityReport::DENOMINATOR]}, n#{result[QME::QualityReport::NUMERATOR]}, excl#{result[QME::QualityReport::EXCLUSIONS]}, excep#{result[QME::QualityReport::EXCEPTIONS]}")
+          QME::QualityReport.queue_staged_rollups(@quality_report.measure_id,@quality_report.sub_id,@quality_report.effective_date)
         end
       end
 
@@ -58,6 +59,7 @@ module QME
 
       def enqueue(job)
         @quality_report.status = {"state" => "queued", "log" => ["Queued at #{Time.now}"], "job_id" => job.id} 
+        @quality_report.save
       end
 
 

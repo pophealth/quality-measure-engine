@@ -5,6 +5,10 @@
     store_in collection: 'patient_cache'
     index "value.last" => 1
     index "bundle_id" => 1
+    index "value.measure_id" => 1
+    index "value.sub_id" => 1
+    index "value.filters.provider_performances.provider_id" => 1
+    index "value.medical_record_id" => 1
     embeds_one :value, class_name: "QME::PatientCacheValue", inverse_of: :patient_cache
   end
 
