@@ -134,7 +134,15 @@ module QME
         if aggregate['ok'] != 1
           raise RuntimeError, "Aggregation Failed"
         elsif aggregate['result'].size !=1
-          raise RuntimeError, "Expected one group from patient_cache aggregation, got #{aggregate['result'].size}"
+           aggregate['result'] =[{"defaults" => true,
+                                 QME::QualityReport::POPULATION => 0, 
+                                 QME::QualityReport::DENOMINATOR => 0,
+                                 QME::QualityReport::NUMERATOR =>0,
+                                 QME::QualityReport::ANTINUMERATOR => 0,
+                                 QME::QualityReport::EXCLUSIONS => 0,
+                                 QME::QualityReport::EXCEPTIONS => 0,
+                                 QME::QualityReport::MSRPOPL => 0,
+                                 QME::QualityReport::CONSIDERED => 0}]
         end
 
         nqf_id = @measure_def.nqf_id || @measure_def['id']
