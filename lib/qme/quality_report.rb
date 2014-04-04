@@ -28,14 +28,16 @@ module QME
     field :nqf_id, type: String
     field :npi, type: String
     field :calculation_time, type: Time 
-    field :status, type: Hash, default: {"state" => "unkown", "log" => []}
+    field :status, type: Hash, default: {"state" => "unknown", "log" => []}
     field :measure_id, type: String
     field :sub_id, type: String
     field :test_id
     field :effective_date, type: Integer
     field :filters, type: Hash
     embeds_one :result, class_name: "QME::QualityReportResult", inverse_of: :quality_report
-
+    index "measure_id" => 1
+    index "sub_id" => 1
+    index "filters.provider_performances.provider_id" => 1
 
     POPULATION = 'IPP'
     DENOMINATOR = 'DENOM'
@@ -94,6 +96,14 @@ module QME
       query.merge! @parameter_values
       self.find_or_create_by(query)
     end
+
+    def self.queue_staged_rollups(measure_id,sub_id,effective_date)
+     query = Mongoid.default_session["rollup_buffer"].find({measure_id: measure_id, sub_id: sub_id, effective_date: effective_date})
+     query.each do |options|
+        QME::QualityReport.enque_job(options,:rollup)
+     end
+     query.remove_all
+    end
     
     # Determines whether the quality report has been calculated for the given
     # measure and parameters
@@ -105,9 +115,15 @@ module QME
     # Determines whether the patient mapping for the quality report has been
     # completed
     def patients_cached?
-      ! patient_result().nil?
+      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date,"status.state" => "completed" }).first.nil?
     end
     
+
+     # Determines whether the patient mapping for the quality report has been
+    # queued up by another quality report or if it is currently running 
+    def calculation_queued_or_running?
+      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date }).nin("status.state" =>["unknown","stagged"]).first.nil?
+    end
 
     # Kicks off a background job to calculate the measure
     # @return a unique id for the measure calculation job
@@ -122,8 +138,18 @@ module QME
       
       self.status["state"] = "queued"
       if (asynchronous)
-        job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options))
-        job._id
+        options[:asynchronous] = true
+        if patients_cached?
+          QME::QualityReport.enque_job(options,:rollup)
+        elsif calculation_queued_or_running?
+          self.status["state"] = "stagged"
+          self.save
+          options.merge!( {measure_id: self.measure_id, sub_id: self.sub_id, effective_date: self.effective_date })
+          Mongoid.default_session["rollup_buffer"].insert(options)
+        else
+          # queue the job for calculation
+          QME::QualityReport.enque_job(options,:calculation)
+        end
       else
         mcj = QME::MapReduce::MeasureCalculationJob.new(options)
         mcj.perform
@@ -192,6 +218,10 @@ module QME
      # sematics of the older version to highlight the issue
     def initialize(attrs = nil, options = nil)
       super(attrs, options)
+    end
+
+    def self.enque_job(options,queue)
+      Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new(options), {queue: queue})
     end
   end
 end
