@@ -4,7 +4,7 @@ module QME
     #
     #     Delayed::Job.enqueue QME::MapRedude::MeasureCalculationJob.new(quality_report, :effective_date => 1291352400, :test_id => xyzzy)
     #
-    # MeasureCalculationJob will check to see if a measure has been calculated before running the calculation. It will do this by 
+    # MeasureCalculationJob will check to see if a measure has been calculated before running the calculation. It will do this by
     # checking the status of the quality report that this calculation job was created with.
     #
     # When a measure needs calculation, the job will create a QME::MapReduce::Executor and interact with it to calculate
@@ -17,21 +17,21 @@ module QME
         @options = options
         @options.merge! @quality_report.attributes
       end
-      
+
       def perform
 
         if !@quality_report.calculated?
           map = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, @options.merge('start_time' => Time.now.to_i))
           if !@quality_report.patients_cached?
             tick('Starting MapReduce')
-            map.map_records_into_measure_groups
+            map.map_records_into_measure_groups(@options['prefilter'])
             tick('MapReduce complete')
           end
-          
+
           tick('Calculating group totals')
           result = map.count_records_in_measure_groups
           @quality_report.result=result
-          # backwards compatibility with previous q cahce users.  Should be reomved going foward 
+          # backwards compatibility with previous q cahce users.  Should be reomved going foward
           # and provide a means to update existing results to the newer format
           result.attributes.each_pair do |k,v|
             unless k.to_s == "_id"
@@ -58,7 +58,7 @@ module QME
       end
 
       def enqueue(job)
-        @quality_report.status = {"state" => "queued", "log" => ["Queued at #{Time.now}"], "job_id" => job.id} 
+        @quality_report.status = {"state" => "queued", "log" => ["Queued at #{Time.now}"], "job_id" => job.id}
         @quality_report.save
       end
 
@@ -96,7 +96,7 @@ module QME
             :failed
           else
             :running
-          end            
+          end
         end
       end
     end
