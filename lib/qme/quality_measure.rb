@@ -10,7 +10,6 @@ module QME
     field :nqf_id, type: String
     field :continuous_variable, type: Boolean, default: false
     field :aggregator, type: String
-    field :map_fn, type: String
     field :population_ids, type: Hash
     field :parameters, type: Hash, default: {}
 
