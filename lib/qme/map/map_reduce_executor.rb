@@ -19,13 +19,13 @@ module QME
 
         @measure_id = measure_id
         @sub_id =sub_id
-        
+
         @parameter_values = parameter_values
         q_filter = {hqmf_id: @measure_id,sub_id: @sub_id}
         if @parameter_values.keys.index("bundle_id")
           q_filter["bundle_id"] == @parameter_values['bundle_id']
           @bundle_id = @parameter_values['bundle_id']
-        end  
+        end
         @measure_def = QualityMeasure.where(q_filter).first
       end
 
@@ -34,8 +34,8 @@ module QME
 
         filters = @parameter_values["filters"]
 
-        
-        match = {'value.measure_id' => @measure_id, 
+
+        match = {'value.measure_id' => @measure_id,
                  'value.sub_id'           => @sub_id,
                  'value.effective_date'   => @parameter_values['effective_date'],
                  'value.test_id'          => @parameter_values['test_id'],
@@ -53,8 +53,8 @@ module QME
           end
           if (filters['providers'] && filters['providers'].size > 0)
             providers = filters['providers'].map { |pv| {'providers' => Moped::BSON::ObjectId(pv) } }
-            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}}, 
-                             {'$unwind' => '$providers'}, 
+            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}},
+                             {'$unwind' => '$providers'},
                              {'$match' => {'$or' => providers}},
                              {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
           end
@@ -74,32 +74,32 @@ module QME
       end
 
 
-      #Calculate all of the supoplemental data elements 
+      #Calculate all of the supoplemental data elements
       def calculate_supplemental_data_elements
 
-        match = {'value.measure_id' => @measure_id, 
+        match = {'value.measure_id' => @measure_id,
                  'value.sub_id'           => @sub_id,
                  'value.effective_date'   => @parameter_values['effective_date'],
                  'value.test_id'          => @parameter_values['test_id'],
-                 'value.manual_exclusion' => {'$in' => [nil, false]}}    
-       
+                 'value.manual_exclusion' => {'$in' => [nil, false]}}
+
         keys = @measure_def.population_ids.keys - [QME::QualityReport::OBSERVATION, "stratification"]
         supplemental_data = Hash[*keys.map{|k| [k,{QME::QualityReport::RACE => {},
                                                    QME::QualityReport::ETHNICITY => {},
                                                    QME::QualityReport::SEX => {},
                                                    QME::QualityReport::PAYER => {}}]}.flatten]
-                                                 
+
         keys.each do |pop_id|
           _match = match.clone
           _match["value.#{pop_id}"] = {"$gt" => 0}
           SUPPLEMENTAL_DATA_ELEMENTS.each_pair do |supp_element,location|
-            group1 = {"$group" => { "_id" => { "id" => "$_id", "val" => location}}} 
+            group1 = {"$group" => { "_id" => { "id" => "$_id", "val" => location}}}
             group2 = {"$group" => {"_id" => "$_id.val", "val" =>{"$sum" => 1} }}
             pipeline = [{"$match" =>_match},group1,group2]
             aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
 
             v = {}
-            (aggregate["result"] || []).each  do |entry| 
+            (aggregate["result"] || []).each  do |entry|
               code  = entry["_id"].nil? ? "UNK" : entry["_id"]
               v[code] = entry["val"]
             end
@@ -119,8 +119,8 @@ module QME
         pipeline = build_query
 
         pipeline << {'$group' => {
-          "_id" => "$value.measure_id", # we don't really need this, but Mongo requires that we group 
-          QME::QualityReport::POPULATION => {"$sum" => "$value.#{QME::QualityReport::POPULATION}"}, 
+          "_id" => "$value.measure_id", # we don't really need this, but Mongo requires that we group
+          QME::QualityReport::POPULATION => {"$sum" => "$value.#{QME::QualityReport::POPULATION}"},
           QME::QualityReport::DENOMINATOR => {"$sum" => "$value.#{QME::QualityReport::DENOMINATOR}"},
           QME::QualityReport::NUMERATOR => {"$sum" => "$value.#{QME::QualityReport::NUMERATOR}"},
           QME::QualityReport::ANTINUMERATOR => {"$sum" => "$value.#{QME::QualityReport::ANTINUMERATOR}"},
@@ -135,7 +135,7 @@ module QME
           raise RuntimeError, "Aggregation Failed"
         elsif aggregate['result'].size !=1
            aggregate['result'] =[{"defaults" => true,
-                                 QME::QualityReport::POPULATION => 0, 
+                                 QME::QualityReport::POPULATION => 0,
                                  QME::QualityReport::DENOMINATOR => 0,
                                  QME::QualityReport::NUMERATOR =>0,
                                  QME::QualityReport::ANTINUMERATOR => 0,
@@ -151,7 +151,7 @@ module QME
 
 
         if @measure_def.continuous_variable
-          aggregated_value = calculate_cv_aggregation 
+          aggregated_value = calculate_cv_aggregation
           result[QME::QualityReport::OBSERVATION] = aggregated_value
         end
 
@@ -167,8 +167,8 @@ module QME
 
       end
 
-      # This method calculates the aggregated value for a CV measure.  It extracts all 
-      # the values for patients in the MSRPOPL and uses the aggregator to combine those 
+      # This method calculates the aggregated value for a CV measure.  It extracts all
+      # the values for patients in the MSRPOPL and uses the aggregator to combine those
       # values into an aggregated value.  The currently supported aggregators are:
       #   MEDIAN
       #   MEAN
@@ -193,17 +193,17 @@ module QME
       # This method runs the MapReduce job for the measure which will create documents
       # in the patient_cache collection. These documents will state the measure groups
       # that the record belongs to, such as numerator, etc.
-      def map_records_into_measure_groups
+      def map_records_into_measure_groups(prefilter={})
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
         get_db().command(:mapreduce => 'records',
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
-                         :out => {:reduce => 'patient_cache', :sharded => true}, 
+                         :out => {:reduce => 'patient_cache', :sharded => true},
                          :finalize => measure.finalize_function,
-                         :query => {:test_id => @parameter_values['test_id']})
+                         :query => prefilter)
         QME::ManualExclusion.apply_manual_exclusions(@measure_id,@sub_id)
       end
-      
+
       # This method runs the MapReduce job for the measure and a specific patient.
       # This will create a document in the patient_cache collection. This document
       # will state the measure groups that the record belongs to, such as numerator, etc.
@@ -212,13 +212,13 @@ module QME
         get_db().command(:mapreduce => 'records',
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
-                         :out => {:reduce => 'patient_cache', :sharded => true}, 
+                         :out => {:reduce => 'patient_cache', :sharded => true},
                          :finalize => measure.finalize_function,
                          :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
         QME::ManualExclusion.apply_manual_exclusions(@measure_id,@sub_id)
 
       end
-      
+
       # This method runs the MapReduce job for the measure and a specific patient.
       # This will *not* create a document in the patient_cache collection, instead the
       # result is returned directly.
@@ -227,14 +227,14 @@ module QME
         result = get_db().command(:mapreduce => 'records',
                                   :map => measure.map_function,
                                   :reduce => "function(key, values){return values;}",
-                                  :out => {:inline => true}, 
-                                  :raw => true, 
+                                  :out => {:inline => true},
+                                  :raw => true,
                                   :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
 
         raise result['err'] if result['ok']!=1
         result['results'][0]['value']
       end
-      
+
 
     end
   end
