@@ -34,6 +34,7 @@ module QME
     field :test_id
     field :effective_date, type: Integer
     field :filters, type: Hash
+    field :prefilter, type: Hash
     embeds_one :result, class_name: "QME::QualityReportResult", inverse_of: :quality_report
     index "measure_id" => 1
     index "sub_id" => 1
