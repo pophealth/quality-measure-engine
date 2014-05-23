@@ -16,7 +16,7 @@ class MiniTest::Unit::TestCase
       Mongoid.default_session['system.js'].find('_id' => name).upsert(
         {
           "_id" => name,
-          "value" => Moped::BSON::Code.new(fn)
+          "value" => BSON::Code.new(fn)
         }
       )
     end
@@ -31,7 +31,7 @@ class MiniTest::Unit::TestCase
       #puts "Loading #{json_fixture_file}"
       fixture_json = JSON.parse(File.read(json_fixture_file))
       id_attributes.each do |attr|
-        fixture_json[attr] = Moped::BSON::ObjectId.from_string(fixture_json[attr])
+        fixture_json[attr] = BSON::ObjectId.from_string(fixture_json[attr])
       end
 
       db[collection].insert(fixture_json)
