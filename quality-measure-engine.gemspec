@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'moped', '~> 2.0.0.beta6'
-  gem.add_dependency 'mongoid', '~> 4.0.0.rc1'
+  gem.add_dependency 'mongoid', '~> 4.0.0'
   gem.add_dependency 'rubyzip', '~> 0.9.9'
   gem.add_dependency 'delayed_job_mongoid', '~> 2.1.0'
 
