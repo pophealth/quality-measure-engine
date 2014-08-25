@@ -93,6 +93,7 @@ module QME
       # map-reduce-utils.js
       # @return [String] the reduce function
       def finalize_function
+        reporting_period_start = Time.at(@params['effective_date']).prev_year.to_i
         reduce =
         "function (key, value) {
           var patient = value;
@@ -112,7 +113,14 @@ module QME
                      var tmp = [];
                      for(var i=0; i<patient.provider_performances.length; i++) {
                        var value = patient.provider_performances[i];
-                       if ((value['start_date'] <= #{@params['effective_date']} || value['start_date'] == null) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null))
+                       if (
+                        // Early Overlap
+                        ((value['start_date'] <= #{reporting_period_start} || value['start_date'] == null) && (value['end_date'] > #{reporting_period_start})) ||
+                        // Late Overlap
+                        ((value['start_date'] < #{@params['effective_date']}) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null)) ||
+                        // Full Overlap
+                        ((value['start_date'] <= #{reporting_period_start} || value['start_date'] == null) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null))
+                       )
                        tmp.push(value);
                      }
                      if (tmp.length == 0) tmp = null;

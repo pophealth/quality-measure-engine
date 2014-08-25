@@ -19,9 +19,9 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
   def test_map_records_into_measure_groups
     executor = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, {
                                             'effective_date' => Time.gm(2011, 1, 15).to_i})
-                                            
+
     executor.map_records_into_measure_groups
-    
+
 
     assert_equal 4, get_db['patient_cache'].find().count
     assert_equal 3, get_db['patient_cache'].find("value.#{QME::QualityReport::POPULATION}" => 1).count
@@ -31,13 +31,13 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
   end
 
 
- def test_calculate_supplemental_data_elements
+  def test_calculate_supplemental_data_elements
     executor = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, {
                                             'effective_date' => Time.gm(2011, 1, 15).to_i})
-                                            
+
     executor.map_records_into_measure_groups
     result = executor.count_records_in_measure_groups
-    
+
     suppl = result["supplemental_data"]
 
     assert !suppl.empty?, "should contain supplemental data entries"
@@ -59,13 +59,13 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
      QME::QualityReport::SEX => {"F"=>1}
      }
 
-     
+
 
     assert_equal ipp, suppl[QME::QualityReport::POPULATION]
     assert_equal denom, suppl[QME::QualityReport::DENOMINATOR]
     assert_equal numer, suppl[QME::QualityReport::NUMERATOR]
 
-   
+
   end
 
   def test_count_records_in_measure_groups
@@ -79,7 +79,7 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
 
     executor = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, {
                                             'effective_date' => Time.gm(2011, 1, 14).to_i})
- 
+
     result = executor.count_records_in_measure_groups
     assert_equal 0, result[QME::QualityReport::POPULATION]
     assert_equal 0, result[QME::QualityReport::DENOMINATOR]
@@ -104,6 +104,13 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     result = executor.get_patient_result("12345")
     assert_equal 0, QME::PatientCache.count
     assert result[QME::QualityReport::NUMERATOR]
+  end
+
+  def test_provider_assignment
+    executor = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, {
+                                            'effective_date' => Time.gm(2011, 1, 15).to_i})
+    executor.map_records_into_measure_groups
+    assert_equal 3, get_db['patient_cache'].find("value.provider_performances" => {'$size' => 1}).count
   end
 
   def test_get_patient_result_with_bundle_id

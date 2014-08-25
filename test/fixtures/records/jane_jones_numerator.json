@@ -82,6 +82,13 @@
             }
         }
     ],
+    "provider_performances" : [
+        {
+            "start_date" : 946684800,
+            "end_date" : 978307200,
+            "provider_id" : "too_early_provider"
+        }
+    ],
     "vital_signs": [
         {
             "codes": {

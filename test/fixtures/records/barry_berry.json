@@ -446,7 +446,7 @@
       "codes": {
         "SNOMED-CT": [
           "273447005"
-        ]        
+        ]
       },
       "start_time": 1269762691,
       "end_time": 1269762693,
@@ -462,11 +462,18 @@
       "codes": {
         "SNOMED-CT": [
           "273447005"
-        ]        
+        ]
       },
       "start_time": 1269762691,
       "end_time": 1269762693,
       "anatomicalStructure" : {"code": "13648007", "codeSystem": "SNOMED-CT"}
+    }
+  ],
+  "provider_performances" : [
+    {
+      "start_date" : 946684800,
+      "end_date" : 1291161600,
+      "provider_id" : "early_overlap"
     }
   ]
 }
