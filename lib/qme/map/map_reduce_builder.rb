@@ -119,7 +119,9 @@ module QME
                         // Late Overlap
                         ((value['start_date'] < #{@params['effective_date']}) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null)) ||
                         // Full Overlap
-                        ((value['start_date'] <= #{reporting_period_start} || value['start_date'] == null) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null))
+                        ((value['start_date'] <= #{reporting_period_start} || value['start_date'] == null) && (value['end_date'] >= #{@params['effective_date']} || value['end_date'] == null)) ||
+                        // Full Containment
+                        (value['start_date'] > #{reporting_period_start} && value['end_date'] < #{@params['effective_date']})
                        )
                        tmp.push(value);
                      }
