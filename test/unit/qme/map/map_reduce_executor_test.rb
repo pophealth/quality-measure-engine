@@ -110,7 +110,8 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
     executor = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, {
                                             'effective_date' => Time.gm(2011, 1, 15).to_i})
     executor.map_records_into_measure_groups
-    assert_equal 3, get_db['patient_cache'].find("value.provider_performances" => {'$size' => 1}).count
+    assert_equal 4, get_db['patient_cache'].find("value.provider_performances" => {'$size' => 1}).count
+    assert_equal 1, QME::PatientCache.where('value.medical_record_id' => '12345', 'value.provider_performances.provider_id' => 'too_early_provider').count
   end
 
   def test_get_patient_result_with_bundle_id

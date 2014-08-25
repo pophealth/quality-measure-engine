@@ -125,8 +125,12 @@ module QME
                        )
                        tmp.push(value);
                      }
-                     if (tmp.length == 0) tmp = null;
-                     patient.provider_performances = tmp;
+                     if (tmp.length > 0) {
+                        patient.provider_performances = tmp;
+                     } else {
+                        sortedProviders = _.sortBy(patient.provider_performances, function(performance){return performance['end_date']});
+                        patient.provider_performances = [_.last(sortedProviders)];
+                     }
                    }
                    return patient;}"
 
