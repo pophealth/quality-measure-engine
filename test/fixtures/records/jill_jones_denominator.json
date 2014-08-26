@@ -81,5 +81,12 @@
                 ]
             }
         }
+    ],
+    "provider_performances" : [
+        {
+            "start_date" : 946684800,
+            "end_date" : 1417392000,
+            "provider_id" : "late_overlap"
+        }
     ]
 }
