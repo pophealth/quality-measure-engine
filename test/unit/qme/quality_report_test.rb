@@ -2,12 +2,12 @@ require 'test_helper'
 
 class QualityReportTest < MiniTest::Unit::TestCase
   include QME::DatabaseAccess
-  
+
   def setup
-   load_system_js
-   collection_fixtures(get_db(), 'bundles')
-   collection_fixtures(get_db(), 'records')
-   collection_fixtures(get_db(), 'measures')
+    load_system_js
+    collection_fixtures(get_db(), 'bundles')
+    collection_fixtures(get_db(), 'records')
+    collection_fixtures(get_db(), 'measures')
     get_db()['query_cache'].drop()
     get_db()['patient_cache'].drop()
     get_db()['query_cache'].insert(
@@ -45,7 +45,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
         },
         "measure_id" => "test2",
         "sub_id" =>  "b",
-        "effective_date" => Time.gm(2010, 9, 19).to_i 
+        "effective_date" => Time.gm(2010, 9, 19).to_i
       }
     )
     collection_fixtures(get_db(), 'delayed_backend_mongoid_jobs', '_id')
@@ -54,25 +54,25 @@ class QualityReportTest < MiniTest::Unit::TestCase
   def test_calculated
     qr = QME::QualityReport.find_or_create('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
     assert qr.calculated?
-    
+
     qr = QME::QualityReport.find_or_create('test2', 'b', "effective_date" => Time.gm(2010, 9, 20).to_i)
     assert !qr.calculated?
   end
-  
+
   def test_result
     qr = QME::QualityReport.find_or_create('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
     result = qr.result
-    
+
     assert_equal 1, result[QME::QualityReport::NUMERATOR]
   end
-  
+
   def test_destroy_all
     QME::QualityReport.destroy_all
-    
+
     qr = QME::QualityReport.find_or_create('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
     assert !qr.calculated?
   end
-  
+
   def test_update_patient_results
     qr = QME::QualityReport.find_or_create('test2', 'b', "effective_date" => Time.gm(2010, 9, 19).to_i)
     assert qr.calculated?
@@ -84,7 +84,6 @@ class QualityReportTest < MiniTest::Unit::TestCase
   end
 
   def test_status
-
     status = QME::MapReduce::MeasureCalculationJob.status('not really a job id')
     assert_equal :complete, status
     status = QME::MapReduce::MeasureCalculationJob.status("508aeff07042f9f88900000d")
@@ -107,7 +106,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
 
     assert !qr.calculation_queued_or_running?
     assert !qr2.calculation_queued_or_running?
- 
+
     qr.calculate({"oid_dictionary"=>{}},true)
 
     assert qr.calculation_queued_or_running?
@@ -130,6 +129,4 @@ class QualityReportTest < MiniTest::Unit::TestCase
 
     assert_equal 0, Mongoid.default_session["rollup_buffer"].find({}).count
   end
-
-
 end
