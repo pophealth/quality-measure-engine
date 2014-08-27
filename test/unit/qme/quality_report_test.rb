@@ -6,6 +6,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
   def setup
    load_system_js
    collection_fixtures(get_db(), 'bundles')
+   collection_fixtures(get_db(), 'records')
    collection_fixtures(get_db(), 'measures')
     get_db()['query_cache'].drop()
     get_db()['patient_cache'].drop()
