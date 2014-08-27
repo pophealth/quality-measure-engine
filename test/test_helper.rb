@@ -1,9 +1,8 @@
 require 'simplecov_setup'
 require 'minitest/autorun'
 require 'quality-measure-engine'
-require 'test/unit'
-require 'turn'
 require 'pry-nav'
+
 Mongoid.load!(File.join(File.dirname(__FILE__),"mongoid.yml"), :test)
 
 class MiniTest::Unit::TestCase
@@ -20,11 +19,11 @@ class MiniTest::Unit::TestCase
         }
       )
     end
- 
+
   end
 
   # Add more helper methods to be used by all tests here...
-  
+
   def collection_fixtures(db, collection, *id_attributes)
     db[collection].drop
     Dir.glob(File.join(File.dirname(__FILE__), 'fixtures', collection, '*.json')).each do |json_fixture_file|
