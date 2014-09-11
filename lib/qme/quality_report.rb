@@ -101,7 +101,9 @@ module QME
     def self.queue_staged_rollups(measure_id,sub_id,effective_date)
      query = Mongoid.default_session["rollup_buffer"].find({measure_id: measure_id, sub_id: sub_id, effective_date: effective_date})
      query.each do |options|
-        QME::QualityReport.enque_job(options,:rollup)
+        if QME::QualityReport.where("_id" => options["quality_report_id"]).count == 1
+           QME::QualityReport.enque_job(options,:rollup)
+        end
      end
      query.remove_all
     end
