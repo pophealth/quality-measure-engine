@@ -1,5 +1,5 @@
 module QME
-  
+
   class QualityReportResult
     include Mongoid::Document
     include Mongoid::Timestamps
@@ -20,14 +20,15 @@ module QME
   # A class that allows you to create and obtain the results of running a
   # quality measure against a set of patient records.
   class QualityReport
-    
+
     include Mongoid::Document
     include Mongoid::Timestamps
+    include Mongoid::Attributes::Dynamic
     store_in collection: 'query_cache'
 
     field :nqf_id, type: String
     field :npi, type: String
-    field :calculation_time, type: Time 
+    field :calculation_time, type: Time
     field :status, type: Hash, default: {"state" => "unknown", "log" => []}
     field :measure_id, type: String
     field :sub_id, type: String
@@ -56,8 +57,8 @@ module QME
     POSTAL_CODE = 'POSTAL_CODE'
     PAYER   = 'PAYER'
 
-   
-    
+
+
     # Removes the cached results for the patient with the supplied id and
     # recalculates as necessary
     def self.update_patient_results(id)
@@ -66,12 +67,12 @@ module QME
 
       # drop any cached measure result calculations for the modified patient
      QME::PatientCache.where('value.medical_record_id' => id).destroy()
-      
+
       # get a list of cached measure results for a single patient
       sample_patient = QME::PatientCache.where({}).first
       if sample_patient
         cached_results = QME::PatientCache.where({'value.patient_id' => sample_patient['value']['patient_id']})
-        
+
         # for each cached result (a combination of measure_id, sub_id, effective_date and test_id)
         cached_results.each do |measure|
           # recalculate patient_cache value for modified patient
@@ -81,13 +82,13 @@ module QME
           map.map_record_into_measure_groups(id)
         end
       end
-      
+
       # remove the query totals so they will be recalculated using the new results for
       # the modified patient
       self.destroy_all
     end
 
-   
+
 
 
     def self.find_or_create(measure_id, sub_id, parameter_values)
@@ -105,7 +106,7 @@ module QME
      end
      query.remove_all
     end
-    
+
     # Determines whether the quality report has been calculated for the given
     # measure and parameters
     # @return [true|false]
@@ -116,14 +117,14 @@ module QME
     # Determines whether the patient mapping for the quality report has been
     # completed
     def patients_cached?
-      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date,"status.state" => "completed" }).first.nil?
+      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date, test_id: self.test_id, "status.state" => "completed" }).first.nil?
     end
-    
+
 
      # Determines whether the patient mapping for the quality report has been
-    # queued up by another quality report or if it is currently running 
+    # queued up by another quality report or if it is currently running
     def calculation_queued_or_running?
-      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date }).nin("status.state" =>["unknown","stagged"]).first.nil?
+      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date, test_id: self.test_id }).nin("status.state" =>["unknown","stagged"]).first.nil?
     end
 
     # Kicks off a background job to calculate the measure
@@ -132,11 +133,11 @@ module QME
 
       options = {'quality_report_id' => self.id}
       options.merge! parameters || {}
-      
+
       if self.status["state"] == "completed" && !options["recalculate"]
         return self
       end
-      
+
       self.status["state"] = "queued"
       if (asynchronous)
         options[:asynchronous] = true
@@ -156,7 +157,7 @@ module QME
         mcj.perform
       end
     end
-    
+
     def patient_results
      ex = QME::MapReduce::Executor.new(self.measure_id,self.sub_id, self.attributes)
      QME::PatientCache.where(patient_cache_matcher)
@@ -170,7 +171,7 @@ module QME
     def self.normalize_filters(filters)
       filters.each {|key, value| value.sort_by! {|v| (v.is_a? Hash) ? "#{v}" : v} if value.is_a? Array} unless filters.nil?
     end
-    
+
     def patient_result(patient_id = nil)
       query = patient_cache_matcher
       if patient_id
@@ -181,7 +182,7 @@ module QME
 
 
     def patient_cache_matcher
-      match = {'value.measure_id' => self.measure_id, 
+      match = {'value.measure_id' => self.measure_id,
                'value.sub_id'           => self.sub_id,
                'value.effective_date'   => self.effective_date,
                'value.test_id'          => test_id,
@@ -215,7 +216,7 @@ module QME
      # a new QR object which would then go to the db and see if the calculation was performed or
      # not yet and then return the results.  Now that QR objects are persisted you need to go through
      # the find_or_create by method to ensure that duplicate entries are not being created.  Protecting
-     # this method causes an exception to be thrown for anyone attempting to use this version of QME with the 
+     # this method causes an exception to be thrown for anyone attempting to use this version of QME with the
      # sematics of the older version to highlight the issue.
     def initialize(attrs = nil)
       super(attrs)

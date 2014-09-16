@@ -19,7 +19,6 @@ module QME
       end
 
       def perform
-
         if !@quality_report.calculated?
           map = QME::MapReduce::Executor.new(@quality_report.measure_id,@quality_report.sub_id, @options.merge('start_time' => Time.now.to_i))
           if !@quality_report.patients_cached?
@@ -42,6 +41,7 @@ module QME
           completed("#{@measure_id}#{@sub_id}: p#{result[QME::QualityReport::POPULATION]}, d#{result[QME::QualityReport::DENOMINATOR]}, n#{result[QME::QualityReport::NUMERATOR]}, excl#{result[QME::QualityReport::EXCLUSIONS]}, excep#{result[QME::QualityReport::EXCEPTIONS]}")
           QME::QualityReport.queue_staged_rollups(@quality_report.measure_id,@quality_report.sub_id,@quality_report.effective_date)
         end
+        @quality_report
       end
 
       def completed(message)
