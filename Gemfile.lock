@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quality-measure-engine (3.0.3)
+    quality-measure-engine (3.1.0)
       delayed_job_mongoid (~> 2.1.0)
       mongoid (~> 4.0.0)
       moped (~> 2.0.0)
@@ -44,7 +44,7 @@ GEM
     coderay (1.1.0)
     connection_pool (2.0.0)
     debug_inspector (0.0.2)
-    delayed_job (4.0.2)
+    delayed_job (4.0.3)
       activesupport (>= 3.0, < 4.2)
     delayed_job_mongoid (2.1.0)
       delayed_job (>= 3.0, < 5)
