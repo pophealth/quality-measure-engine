@@ -32,6 +32,9 @@ module QME
           if !vars.has_key?('enable_rationale')
             vars['enable_rationale'] = false
           end
+          if !vars.has_key?('short_circuit')
+            vars['short_circuit'] = false
+          end
           vars
         end
 
