@@ -24,5 +24,5 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "minitest", "~> 5.4.0"
   gem.add_development_dependency "simplecov", "~> 0.9.0"
-  gem.add_development_dependency "rails", "~> 4.1.5"
+  gem.add_development_dependency "rails", "~> 4.1.7"
 end
