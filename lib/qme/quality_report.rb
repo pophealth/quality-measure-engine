@@ -207,6 +207,9 @@ module QME
         if (filters['languages'] && filters['languages'].size > 0)
           match["value.languages"] = {'$in' => filters['languages']}
         end
+        if (filters['patients'] && filters['patients'].size > 0)
+          match["value.patient_id"] = {'$in' => filters['patients']}
+        end
       end
       match
     end
