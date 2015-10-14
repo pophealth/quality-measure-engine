@@ -1,6 +1,5 @@
 require "bundler/setup"
 
-require 'moped'
 require 'delayed_job_mongoid'
 require 'zip/zip'
 

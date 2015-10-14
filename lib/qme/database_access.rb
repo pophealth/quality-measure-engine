@@ -4,7 +4,7 @@ module QME
     # JavaScript environment
     # @return [Moped::Session]
     def get_db
-      Mongoid.default_session
+      Mongoid.default_client
     end
   end
 end

@@ -97,9 +97,9 @@ module QME
             group2 = {"$group" => {"_id" => "$_id.val", "val" =>{"$sum" => 1} }}
             pipeline = [{"$match" =>_match},group1,group2]
             aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
-
+            aggregate_document = aggregate.documents[0]
             v = {}
-            (aggregate["result"] || []).each  do |entry|
+            (aggregate_document["result"] || []).each  do |entry|
               code  = entry["_id"].nil? ? "UNK" : entry["_id"]
               v[code] = entry["val"]
             end
@@ -131,10 +131,11 @@ module QME
         }}
 
         aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
-        if aggregate['ok'] != 1
+        aggregate_document = aggregate.documents[0]
+        if !aggregate.successful?
           raise RuntimeError, "Aggregation Failed"
-        elsif aggregate['result'].size !=1
-           aggregate['result'] =[{"defaults" => true,
+        elsif aggregate_document['result'].size !=1
+           aggregate_document['result'] =[{"defaults" => true,
                                  QME::QualityReport::POPULATION => 0,
                                  QME::QualityReport::DENOMINATOR => 0,
                                  QME::QualityReport::NUMERATOR =>0,
@@ -155,7 +156,7 @@ module QME
           result[QME::QualityReport::OBSERVATION] = aggregated_value
         end
 
-        agg_result = aggregate['result'].first
+        agg_result = aggregate_document['result'].first
         agg_result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
         # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
         agg_result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
@@ -183,7 +184,7 @@ module QME
         raise RuntimeError, "Aggregation Failed" if aggregate['ok'] != 1
 
         frequencies = {}
-        aggregate['result'].each do |freq_count_pair|
+        aggregate.documents[0]['result'].each do |freq_count_pair|
           frequencies[freq_count_pair['_id']] = freq_count_pair['count']
         end
         QME::MapReduce::CVAggregator.send(@measure_def.aggregator.parameterize, frequencies)
@@ -224,15 +225,16 @@ module QME
       # result is returned directly.
       def get_patient_result(patient_id)
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
-        result = get_db().command(:mapreduce => 'records',
+        operation = get_db().command(:mapreduce => 'records',
                                   :map => measure.map_function,
                                   :reduce => "function(key, values){return values;}",
                                   :out => {:inline => true},
                                   :raw => true,
                                   :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
 
-        raise result['err'] if result['ok']!=1
-        result['results'][0]['value']
+        
+        raise operation.documents[0]['err'] if !operation.successful?
+          operation.documents[0]['results'][0]['value']
       end
 
 
