@@ -101,13 +101,13 @@ module QME
     end
 
     def self.queue_staged_rollups(measure_id,sub_id,effective_date)
-     query = Mongoid.default_session["rollup_buffer"].find({measure_id: measure_id, sub_id: sub_id, effective_date: effective_date})
+     query = Mongoid.default_client["rollup_buffer"].find({measure_id: measure_id, sub_id: sub_id, effective_date: effective_date})
      query.each do |options|
         if QME::QualityReport.where("_id" => options["quality_report_id"]).count == 1
            QME::QualityReport.enque_job(options,:rollup)
         end
      end
-     query.remove_all
+     query.delete_many
     end
 
     # Determines whether the quality report has been calculated for the given
@@ -150,7 +150,7 @@ module QME
           self.status["state"] = "stagged"
           self.save
           options.merge!( {measure_id: self.measure_id, sub_id: self.sub_id, effective_date: self.effective_date })
-          Mongoid.default_session["rollup_buffer"].insert(options)
+          Mongoid.default_client["rollup_buffer"].insert_one(options)
         else
           # queue the job for calculation
           QME::QualityReport.enque_job(options,:calculation)

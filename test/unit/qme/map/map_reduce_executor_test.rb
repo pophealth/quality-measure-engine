@@ -117,7 +117,7 @@ class MapReduceExecutorTest < MiniTest::Unit::TestCase
   def test_get_patient_result_with_bundle_id
     measure_id = "2E679CD2-3FEC-4A75-A75A-61403E5EFEE8"
     bundle_id = get_db()['bundles'].find.first
-    get_db()['measures'].find('id' => measure_id).update(:$set => {'bundle_id' => bundle_id})
+    get_db()['measures'].update_many({'id' => measure_id}, {:$set => {'bundle_id' => bundle_id}})
     executor = QME::MapReduce::Executor.new(measure_id, nil,
                                             'effective_date' => Time.gm(2011, 1, 15).to_i, 'bundle_id' => bundle_id)
     result = executor.get_patient_result("12345")
