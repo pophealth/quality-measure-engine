@@ -184,11 +184,12 @@ module QME
         cv_pipeline << {'$group' => {'_id' => '$value.values', 'count' => {'$sum' => 1}}}
 
         aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => cv_pipeline)
+        aggregate_document = aggregate.documents[0]
 
-        raise RuntimeError, "Aggregation Failed" if aggregate['ok'] != 1
+        raise RuntimeError, "Aggregation Failed" if aggregate_document['ok'] != 1
 
         frequencies = {}
-        aggregate.documents[0]['result'].each do |freq_count_pair|
+        aggregate_document['result'].each do |freq_count_pair|
           frequencies[freq_count_pair['_id']] = freq_count_pair['count']
         end
         QME::MapReduce::CVAggregator.send(@measure_def.aggregator.parameterize, frequencies)
