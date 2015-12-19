@@ -41,6 +41,8 @@ GEM
       debug_inspector (>= 0.0.1)
     bson (4.0.0)
     builder (3.2.2)
+    codeclimate-test-reporter (0.6.0)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     concurrent-ruby (1.0.2)
     debug_inspector (0.0.2)
@@ -130,6 +132,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  codeclimate-test-reporter
   minitest (~> 5.4.0)
   pry
   pry-nav
