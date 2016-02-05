@@ -87,15 +87,19 @@ module QME
         supplemental_data = Hash[*keys.map{|k| [k,{QME::QualityReport::RACE => {},
                                                    QME::QualityReport::ETHNICITY => {},
                                                    QME::QualityReport::SEX => {},
-                                                   QME::QualityReport::PAYER => {}}]}.flatten]
-
+                                                   QME::QualityReport::PAYER => {}}]}.flatten]                                      
         keys.each do |pop_id|
-          _match = match.clone
+          pline = build_query
+
+          _match = pline[0]["$match"]
           _match["value.#{pop_id}"] = {"$gt" => 0}
           SUPPLEMENTAL_DATA_ELEMENTS.each_pair do |supp_element,location|
             group1 = {"$group" => { "_id" => { "id" => "$_id", "val" => location}}}
             group2 = {"$group" => {"_id" => "$_id.val", "val" =>{"$sum" => 1} }}
-            pipeline = [{"$match" =>_match},group1,group2]
+            pipeline = pline.clone
+            pipeline << group1
+            pipeline << group2
+
             aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
             aggregate_document = aggregate.documents[0]
             v = {}
