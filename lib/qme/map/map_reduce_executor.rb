@@ -51,6 +51,9 @@ module QME
           if (filters['genders'] && filters['genders'].size > 0)
             match['value.gender'] = {'$in' => filters['genders']}
           end
+          if (filters['patients'] && filters['patients'].size > 0)
+            match['value.patient_id'] = {'$in' => filters['patients']}
+          end
           if (filters['providers'] && filters['providers'].size > 0)
             providers = filters['providers'].map { |pv| {'providers' => BSON::ObjectId.from_string(pv) } }
             pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}},
