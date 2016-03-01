@@ -210,6 +210,9 @@ module QME
       # that the record belongs to, such as numerator, etc.
       def map_records_into_measure_groups(prefilter={})
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
+        prefilter = (prefilter || {}).merge({
+          :facility_id => @parameter_values['facility_id']
+        })
         get_db().command(:mapreduce => 'records',
                          :map => measure.map_function,
                          :reduce => "function(key, values){return values;}",
