@@ -47,6 +47,7 @@ module QME
     EXCLUSIONS = 'DENEX'
     EXCEPTIONS = 'DENEXCEP'
     MSRPOPL = 'MSRPOPL'
+    MSRPOPLEX = 'MSRPOPLEX'
     OBSERVATION = 'OBSERV'
     ANTINUMERATOR = 'antinumerator'
     CONSIDERED = 'considered'
