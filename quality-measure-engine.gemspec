@@ -17,12 +17,15 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency 'mongoid', '~> 6.0.0'
+  gem.add_dependency 'delayed_job', ['>= 3.0', '< 5']
+  gem.add_dependency 'mongoid', ['>= 3.0', '< 7']
+  gem.add_dependency 'mongoid-compatibility'
+
   gem.add_dependency 'rubyzip', '>= 1.0.0'
   gem.add_dependency 'zip-zip'
-  
-  gem.add_development_dependency 'delayed_job_mongoid', '~> 2.2.0'
+
+  gem.add_dependency 'delayed_job_mongoid', '~> 2.2.0'
   gem.add_development_dependency "minitest", "~> 5.4.0"
   gem.add_development_dependency "simplecov", "~> 0.9.0"
-  gem.add_development_dependency "rails", "~> 5.0"
+  gem.add_development_dependency 'rails', '~> 5.0.0', '>= 5.0.0.1'
 end
