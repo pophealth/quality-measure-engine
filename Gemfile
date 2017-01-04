@@ -12,7 +12,7 @@ gem(
   branch: 'chores/upgrade_rails_5'
 )
 
-gem 'pry'
-gem 'pry-nav'
-gem 'pry-rescue'
-gem 'pry-stack_explorer'
+# gem 'pry'
+# gem 'pry-nav'
+# gem 'pry-rescue'
+# gem 'pry-stack_explorer'
