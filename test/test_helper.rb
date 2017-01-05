@@ -2,6 +2,8 @@ require 'simplecov_setup'
 require 'minitest/autorun'
 require 'quality-measure-engine'
 # require 'pry-nav'
+# require 'pry'
+
 Mongo::Logger.logger.level = Logger::WARN
 Mongoid.load!(File.join(File.dirname(__FILE__),"mongoid.yml"), :test)
 
@@ -33,7 +35,6 @@ class MiniTest::Unit::TestCase
       id_attributes.each do |attr|
         fixture_json[attr] = BSON::ObjectId.from_string(fixture_json[attr])
       end
-
       db[collection].insert_one(fixture_json)
     end
   end

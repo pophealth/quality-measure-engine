@@ -26,6 +26,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'delayed_job_mongoid', '~> 2.2.0'
   gem.add_development_dependency "minitest", "~> 5.4.0"
-  gem.add_development_dependency "simplecov", "~> 0.9.0"
+  gem.add_development_dependency "simplecov", "~> 0.12.0"
   gem.add_development_dependency 'rails', '~> 5.0.0', '>= 5.0.0.1'
 end
