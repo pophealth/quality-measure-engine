@@ -35,11 +35,12 @@ module QME
         filters = @parameter_values["filters"]
 
 
-        match = {'value.measure_id' => @measure_id,
+        match = {'value.measure_id'       => @measure_id,
                  'value.sub_id'           => @sub_id,
                  'value.effective_date'   => @parameter_values['effective_date'],
                  'value.test_id'          => @parameter_values['test_id'],
                  'value.facility_id'      => @parameter_values['facility_id'],
+                 'value.expired_at'       => nil,
                  'value.manual_exclusion' => {'$in' => [nil, false]}}
 
         if(filters)

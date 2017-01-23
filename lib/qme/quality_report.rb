@@ -168,6 +168,10 @@ module QME
      QME::PatientCache.where(patient_cache_matcher)
     end
 
+    def expire_patient_results
+      patient_results.update_all("value.expired_at" => Time.now)
+    end
+
     def measure
       QME::QualityMeasure.where({"hqmf_id"=>self.measure_id, "sub_id" => self.sub_id}).first
     end
@@ -192,6 +196,7 @@ module QME
                'value.effective_date'   => self.effective_date,
                'value.test_id'          => test_id,
                'value.facility_id'      => facility_id,
+               'value.expired_at'       => nil,
                'value.manual_exclusion' => {'$in' => [nil, false]}}
 
       if(filters)

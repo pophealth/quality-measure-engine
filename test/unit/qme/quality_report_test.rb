@@ -45,7 +45,8 @@ class QualityReportTest < MiniTest::Unit::TestCase
             },
             "measure_id" => "test2",
             "sub_id" =>  "b",
-            "effective_date" => Time.gm(2010, 9, 19).to_i
+            "effective_date" => Time.gm(2010, 9, 19).to_i,
+            "expired_at" => nil
           }}
     )
     collection_fixtures(get_db(), 'delayed_backend_mongoid_jobs', '_id')
@@ -128,5 +129,43 @@ class QualityReportTest < MiniTest::Unit::TestCase
     assert_equal "rollup", job.queue
 
     assert_equal 0, Mongoid.default_client["rollup_buffer"].count({})
+  end
+
+  def test_expire_patient_results
+    qr = QME::QualityReport.find_or_create(
+      'test2',
+      'b',
+      'effective_date' => Time.gm(2010, 9, 19).to_i
+    )
+
+
+    assert_equal 1, qr.patient_results.count
+
+    qr.expire_patient_results
+
+    assert_equal 0, qr.patient_results.count
+  end
+
+  def test_patient_cache_matcher
+    effective_date = Time.gm(2010, 9, 19).to_i
+    qr = QME::QualityReport.find_or_create(
+      'test2',
+      'b',
+      'effective_date' => effective_date
+    )
+
+    expected_results = {
+      'value.measure_id' => 'test2',
+      'value.sub_id' => 'b',
+      'value.effective_date' => effective_date,
+      'value.test_id' => nil,
+      'value.facility_id' => nil,
+      'value.expired_at' => nil,
+      'value.manual_exclusion' => {
+        '$in' => [nil, false]
+      }
+    }
+
+    assert_equal expected_results, qr.patient_cache_matcher
   end
 end
