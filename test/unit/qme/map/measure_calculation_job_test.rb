@@ -21,4 +21,47 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
     job = Delayed::Job.enqueue(QME::MapReduce::MeasureCalculationJob.new({'quality_report_id' => qr.id,"oid_dictionary"=>{}}))
     assert job
   end
+
+  def test_perform_recalculate
+    options = {
+      'measure_id' => '2E679CD2-3FEC-4A75-A75A-61403E5EFEE8',
+      'effective_date' => Time.gm(2011, 1, 15).to_i,
+    }
+
+    qr = QME::QualityReport.find_or_create_by(options)
+    job = QME::MapReduce::MeasureCalculationJob.new(
+      {
+        'quality_report_id' => qr.id,
+        'oid_dictionary' => {},
+        'recalculate' => true
+      }
+    )
+    job.perform
+    job.perform # Perform second time to expire the originals
+
+    assert_equal 4, qr.patient_results.count
+    assert_equal(
+      4, QME::PatientCache.where(:'value.expired_at'.exists => true).count
+    )
+  end
+
+  def test_perform_no_recalculate
+    options = {
+      'measure_id' => '2E679CD2-3FEC-4A75-A75A-61403E5EFEE8',
+      'effective_date' => Time.gm(2011, 1, 15).to_i,
+      'status.state' => 'complete'
+    }
+
+    qr = QME::QualityReport.find_or_create_by(options)
+    job = QME::MapReduce::MeasureCalculationJob.new(
+      {
+        'quality_report_id' => qr.id,
+        'oid_dictionary' => {},
+        'recalculate' => false
+      }
+    )
+    job.perform
+
+    assert_equal 0, qr.patient_results.count
+  end
 end
