@@ -61,7 +61,11 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
       }
     )
     job.perform
+    job.perform
 
-    assert_equal 0, qr.patient_results.count
+    assert_equal 4, qr.patient_results.count
+    assert_equal(
+      0, QME::PatientCache.where(:'value.expired_at'.exists => true).count
+    )
   end
 end
