@@ -79,7 +79,11 @@ module QME
         # taken from the supplied params
         # always true for actual measures, not always true for unit tests
         if (@measure_def.map_fn)
-          template = ERB.new(@measure_def.map_fn)
+          map_fn = QME::MapReduce::EffectiveStartDateInjector.new(
+            map_fn: @measure_def.map_fn,
+            effective_start_date: @params['effective_start_date']
+          ).execute
+          template = ERB.new(map_fn)
           context = Context.new(@db, @params)
           @measure_def.map_fn = template.result(context.get_binding)
         end
