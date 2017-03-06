@@ -111,6 +111,10 @@ module QME
         if @params['facility_id']
           reduce += "  patient.facility_id = \"#{@params['facility_id']}\";\n"
         end
+        if @params['effective_start_date']
+          reporting_period_start = @params['effective_start_date']
+          reduce += "  patient.effective_start_date = #{@params['effective_start_date']};\n"
+        end
         if @measure_def.sub_id
           reduce += "  patient.sub_id = \"#{@measure_def.sub_id}\";\n"
         end
