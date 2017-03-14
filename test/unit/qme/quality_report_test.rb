@@ -148,16 +148,19 @@ class QualityReportTest < MiniTest::Unit::TestCase
 
   def test_patient_cache_matcher
     effective_date = Time.gm(2010, 9, 19).to_i
+    effective_start_date = Time.gm(2010, 1, 1).to_i
     qr = QME::QualityReport.find_or_create(
       'test2',
       'b',
-      'effective_date' => effective_date
+      'effective_date' => effective_date,
+      'effective_start_date' => effective_start_date
     )
 
     expected_results = {
       'value.measure_id' => 'test2',
       'value.sub_id' => 'b',
       'value.effective_date' => effective_date,
+      'value.effective_start_date' => effective_start_date,
       'value.test_id' => nil,
       'value.facility_id' => nil,
       'value.expired_at' => nil,
