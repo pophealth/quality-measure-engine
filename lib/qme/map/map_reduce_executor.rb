@@ -185,8 +185,6 @@ module QME
       def calculate_cv_aggregation
         cv_pipeline = build_query
         cv_pipeline.first['$match']["value.#{QME::QualityReport::MSRPOPL}"] = {'$gt'=>0}
-        # Don't include patients that are in MSRPOPLEX
-        #cv_pipeline.first['$match']["value.#{QME::QualityReport::MSRPOPLEX}"] = {'$lt'=>1}
         cv_pipeline << {'$unwind' => '$value.values'}
         cv_pipeline << {'$group' => {'_id' => '$value.values', 'count' => {'$sum' => 1}}}
 
