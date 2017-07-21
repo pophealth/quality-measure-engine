@@ -1,7 +1,8 @@
 require 'simplecov_setup'
 require 'minitest/autorun'
 require 'quality-measure-engine'
-require 'pry-nav'
+# require 'pry-nav'
+# require 'pry'
 
 Mongo::Logger.logger.level = Logger::WARN
 Mongoid.load!(File.join(File.dirname(__FILE__),"mongoid.yml"), :test)

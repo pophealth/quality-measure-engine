@@ -12,9 +12,7 @@ PATH
   remote: .
   specs:
     quality-measure-engine (3.1.2)
-      delayed_job (>= 3.0, < 5)
-      mongoid (>= 3.0, < 7)
-      mongoid-compatibility
+      mongoid (< 7)
       rubyzip (>= 1.0.0)
       zip-zip
 
