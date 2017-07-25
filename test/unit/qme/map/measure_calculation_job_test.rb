@@ -46,11 +46,9 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
   end
 
   def test_perform_no_recalculate
-    status_state = 'status_state'
     options = {
       'measure_id' => '2E679CD2-3FEC-4A75-A75A-61403E5EFEE8',
-      'effective_date' => Time.gm(2011, 1, 15).to_i,
-      'status_state' => 'complete'
+      'effective_date' => Time.gm(2011, 1, 15).to_i
     }
 
     qr = QME::QualityReport.find_or_create_by(options)
