@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     quality-measure-engine (3.1.2)
-      delayed_job_mongoid (~> 2.3.0)
       mongoid (~> 6.0.0)
       rubyzip (>= 1.0.0)
       zip-zip
@@ -159,6 +158,7 @@ PLATFORMS
 
 DEPENDENCIES
   codeclimate-test-reporter
+  delayed_job_mongoid (~> 2.3.0)
   minitest (~> 5.4.0)
   pry
   pry-nav
@@ -169,4 +169,4 @@ DEPENDENCIES
   simplecov (~> 0.9.0)
 
 BUNDLED WITH
-   1.14.3
+   1.15.3
