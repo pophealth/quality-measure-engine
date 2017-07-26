@@ -17,7 +17,7 @@
             },
             "mood_code": "EVN",
             "_id": {
-                "$oid": "507ecc2b7042f9362c000061"
+                "oid": "507ecc2b7042f9362c000061"
             },
             "_type": "Condition",
             "description": "Diagnosis, Active: pharyngitis (Code List: 2.16.840.1.113883.3.464.0001.369)",

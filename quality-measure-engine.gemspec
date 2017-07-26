@@ -17,12 +17,12 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency 'moped', '~> 2.0.0'
-  gem.add_dependency 'mongoid', '~> 4.0.0'
-  gem.add_dependency 'rubyzip', '~> 0.9.9'
-  gem.add_dependency 'delayed_job_mongoid', '~> 2.1.0'
+  gem.add_dependency 'mongoid', '~> 6.0.0'
+  gem.add_dependency 'rubyzip', '>= 1.0.0'
+  gem.add_dependency 'zip-zip'
 
+  gem.add_dependency 'delayed_job_mongoid', '~> 2.3.0'
   gem.add_development_dependency "minitest", "~> 5.4.0"
   gem.add_development_dependency "simplecov", "~> 0.9.0"
-  gem.add_development_dependency "rails", "~> 4.1.5"
+  gem.add_development_dependency 'rails', '~> 5.0.0'
 end

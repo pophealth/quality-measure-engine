@@ -33,7 +33,9 @@ module QME
     field :measure_id, type: String
     field :sub_id, type: String
     field :test_id
+    field :facility_id, type: String
     field :effective_date, type: Integer
+    field :effective_start_date, type: Integer
     field :filters, type: Hash
     field :prefilter, type: Hash
     embeds_one :result, class_name: "QME::QualityReportResult", inverse_of: :quality_report
@@ -47,6 +49,7 @@ module QME
     EXCLUSIONS = 'DENEX'
     EXCEPTIONS = 'DENEXCEP'
     MSRPOPL = 'MSRPOPL'
+    MSRPOPLEX = 'MSRPOPLEX'
     OBSERVATION = 'OBSERV'
     ANTINUMERATOR = 'antinumerator'
     CONSIDERED = 'considered'
@@ -78,7 +81,8 @@ module QME
           # recalculate patient_cache value for modified patient
           value = measure['value']
           map = QME::MapReduce::Executor.new(value['measure_id'], value['sub_id'],
-            'effective_date' => value['effective_date'], 'test_id' => value['test_id'])
+            'effective_date' => value['effective_date'], 'test_id' => value['test_id'],
+            'facility_id' => value['facility_id'], 'effective_start_date' => value['effective_start_date'])
           map.map_record_into_measure_groups(id)
         end
       end
@@ -100,13 +104,13 @@ module QME
     end
 
     def self.queue_staged_rollups(measure_id,sub_id,effective_date)
-     query = Mongoid.default_session["rollup_buffer"].find({measure_id: measure_id, sub_id: sub_id, effective_date: effective_date})
+     query = Mongoid.default_client["rollup_buffer"].find({measure_id: measure_id, sub_id: sub_id, effective_date: effective_date})
      query.each do |options|
         if QME::QualityReport.where("_id" => options["quality_report_id"]).count == 1
            QME::QualityReport.enque_job(options,:rollup)
         end
      end
-     query.remove_all
+     query.delete_many
     end
 
     # Determines whether the quality report has been calculated for the given
@@ -119,14 +123,14 @@ module QME
     # Determines whether the patient mapping for the quality report has been
     # completed
     def patients_cached?
-      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date, test_id: self.test_id, "status.state" => "completed" }).first.nil?
+      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date, effective_start_date: self.effective_start_date, test_id: self.test_id, facility_id: self.facility_id, status: { state: 'completed' } }).first.nil?
     end
 
 
      # Determines whether the patient mapping for the quality report has been
     # queued up by another quality report or if it is currently running
     def calculation_queued_or_running?
-      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date, test_id: self.test_id }).nin("status.state" =>["unknown","stagged"]).first.nil?
+      !QME::QualityReport.where({measure_id: self.measure_id,sub_id:self.sub_id, effective_date: self.effective_date, effective_start_date: self.effective_start_date, test_id: self.test_id, facility_id: self.facility_id }).nin("status.state" =>["unknown","stagged"]).first.nil?
     end
 
     # Kicks off a background job to calculate the measure
@@ -148,8 +152,8 @@ module QME
         elsif calculation_queued_or_running?
           self.status["state"] = "stagged"
           self.save
-          options.merge!( {measure_id: self.measure_id, sub_id: self.sub_id, effective_date: self.effective_date })
-          Mongoid.default_session["rollup_buffer"].insert(options)
+          options.merge!( {measure_id: self.measure_id, sub_id: self.sub_id, effective_date: self.effective_date, effective_start_date: self.effective_start_date, facility_id: self.facility_id })
+          Mongoid.default_client["rollup_buffer"].insert_one(options)
         else
           # queue the job for calculation
           QME::QualityReport.enque_job(options,:calculation)
@@ -163,6 +167,10 @@ module QME
     def patient_results
      ex = QME::MapReduce::Executor.new(self.measure_id,self.sub_id, self.attributes)
      QME::PatientCache.where(patient_cache_matcher)
+    end
+
+    def expire_patient_results
+      patient_results.update_all("value.expired_at" => Time.now)
     end
 
     def measure
@@ -185,10 +193,13 @@ module QME
 
     def patient_cache_matcher
       match = {'value.measure_id' => self.measure_id,
-               'value.sub_id'           => self.sub_id,
-               'value.effective_date'   => self.effective_date,
-               'value.test_id'          => test_id,
-               'value.manual_exclusion' => {'$in' => [nil, false]}}
+               'value.sub_id'               => self.sub_id,
+               'value.effective_date'       => self.effective_date,
+               'value.effective_start_date' => self.effective_start_date,
+               'value.test_id'              => test_id,
+               'value.facility_id'          => facility_id,
+               'value.expired_at'           => nil,
+               'value.manual_exclusion'     => {'$in' => [nil, false]}}
 
       if(filters)
         if (filters['races'] && filters['races'].size > 0)

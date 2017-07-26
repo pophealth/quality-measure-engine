@@ -9,4 +9,5 @@ doc
 coverage*
 tmp*
 dump.rdb
-
+.ruby-version
+.ruby-gemset

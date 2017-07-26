@@ -1,22 +1,25 @@
 require 'simplecov_setup'
 require 'minitest/autorun'
 require 'quality-measure-engine'
-require 'pry-nav'
+# require 'pry-nav'
+# require 'pry'
 
+Mongo::Logger.logger.level = Logger::WARN
 Mongoid.load!(File.join(File.dirname(__FILE__),"mongoid.yml"), :test)
 
 class MiniTest::Unit::TestCase
 
   def load_system_js
-    Mongoid.default_session['system.js'].find.remove_all
+    Mongoid.default_client['system.js'].delete_many({})
     Dir.glob(File.join(File.dirname(__FILE__), 'fixtures', "library_functions", '*.js')).each do |json_fixture_file|
       name = File.basename(json_fixture_file,".*")
       fn = "function () {\n #{File.read(json_fixture_file)} \n }"
-      Mongoid.default_session['system.js'].find('_id' => name).upsert(
+      Mongoid.default_client['system.js'].update_one({
+          "_id" => name},
         {
           "_id" => name,
           "value" => BSON::Code.new(fn)
-        }
+        },{upsert: true}
       )
     end
 
@@ -32,8 +35,7 @@ class MiniTest::Unit::TestCase
       id_attributes.each do |attr|
         fixture_json[attr] = BSON::ObjectId.from_string(fixture_json[attr])
       end
-
-      db[collection].insert(fixture_json)
+      db[collection].insert_one(fixture_json)
     end
   end
 end
