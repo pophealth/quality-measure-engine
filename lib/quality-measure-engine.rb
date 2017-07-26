@@ -1,6 +1,5 @@
 require "bundler/setup"
 
-require 'moped'
 require 'delayed_job_mongoid'
 require 'zip/zip'
 
@@ -11,6 +10,7 @@ require 'qme/quality_report'
 require 'qme/patient_cache'
 require 'qme/manual_exclusion'
 
+require 'qme/map/effective_start_date_injector'
 require 'qme/map/map_reduce_builder'
 require 'qme/map/map_reduce_executor'
 require 'qme/map/measure_calculation_job'

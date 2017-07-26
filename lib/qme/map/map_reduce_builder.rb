@@ -79,7 +79,11 @@ module QME
         # taken from the supplied params
         # always true for actual measures, not always true for unit tests
         if (@measure_def.map_fn)
-          template = ERB.new(@measure_def.map_fn)
+          map_fn = QME::MapReduce::EffectiveStartDateInjector.new(
+            map_fn: @measure_def.map_fn,
+            effective_start_date: @params['effective_start_date']
+          ).execute
+          template = ERB.new(map_fn)
           context = Context.new(@db, @params)
           @measure_def.map_fn = template.result(context.get_binding)
         end
@@ -103,6 +107,13 @@ module QME
           patient.measure_id = \"#{@measure_def['id']}\";\n"
         if @params['test_id'] && @params['test_id'].class==BSON::ObjectId
           reduce += "  patient.test_id = new ObjectId(\"#{@params['test_id']}\");\n"
+        end
+        if @params['facility_id']
+          reduce += "  patient.facility_id = \"#{@params['facility_id']}\";\n"
+        end
+        if @params['effective_start_date']
+          reporting_period_start = @params['effective_start_date']
+          reduce += "  patient.effective_start_date = #{@params['effective_start_date']};\n"
         end
         if @measure_def.sub_id
           reduce += "  patient.sub_id = \"#{@measure_def.sub_id}\";\n"
