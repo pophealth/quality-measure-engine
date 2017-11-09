@@ -51,10 +51,13 @@ module QME
           if (filters['genders'] && filters['genders'].size > 0)
             match['value.gender'] = {'$in' => filters['genders']}
           end
+          if (filters['patients'] && filters['patients'].size > 0)
+            match['value.patient_id'] = {'$in' => filters['patients']}
+          end
           if (filters['providers'] && filters['providers'].size > 0)
             providers = filters['providers'].map { |pv| {'providers' => BSON::ObjectId.from_string(pv) } }
-            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}}, 
-                             {'$unwind' => '$providers'}, 
+            pipeline.concat [{'$project' => {'value' => 1, 'providers' => "$value.provider_performances.provider_id"}},
+                             {'$unwind' => '$providers'},
                              {'$match' => {'$or' => providers}},
                              {'$group' => {"_id" => "$_id", "value" => {"$first" => "$value"}}}]
           end
@@ -87,19 +90,23 @@ module QME
         supplemental_data = Hash[*keys.map{|k| [k,{QME::QualityReport::RACE => {},
                                                    QME::QualityReport::ETHNICITY => {},
                                                    QME::QualityReport::SEX => {},
-                                                   QME::QualityReport::PAYER => {}}]}.flatten]
-
+                                                   QME::QualityReport::PAYER => {}}]}.flatten]                                      
         keys.each do |pop_id|
-          _match = match.clone
+          pline = build_query
+
+          _match = pline[0]["$match"]
           _match["value.#{pop_id}"] = {"$gt" => 0}
           SUPPLEMENTAL_DATA_ELEMENTS.each_pair do |supp_element,location|
             group1 = {"$group" => { "_id" => { "id" => "$_id", "val" => location}}}
             group2 = {"$group" => {"_id" => "$_id.val", "val" =>{"$sum" => 1} }}
-            pipeline = [{"$match" =>_match},group1,group2]
-            aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
+            pipeline = pline.clone
+            pipeline << group1
+            pipeline << group2
 
+            aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
+            aggregate_document = aggregate.documents[0]
             v = {}
-            (aggregate["result"] || []).each  do |entry|
+            (aggregate_document["result"] || []).each  do |entry|
               code  = entry["_id"].nil? ? "UNK" : entry["_id"]
               v[code] = entry["val"]
             end
@@ -127,14 +134,16 @@ module QME
           QME::QualityReport::EXCLUSIONS => {"$sum" => "$value.#{QME::QualityReport::EXCLUSIONS}"},
           QME::QualityReport::EXCEPTIONS => {"$sum" => "$value.#{QME::QualityReport::EXCEPTIONS}"},
           QME::QualityReport::MSRPOPL => {"$sum" => "$value.#{QME::QualityReport::MSRPOPL}"},
+          QME::QualityReport::MSRPOPLEX => {"$sum" => "$value.#{QME::QualityReport::MSRPOPLEX}"},
           QME::QualityReport::CONSIDERED => {"$sum" => 1}
         }}
 
         aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => pipeline)
-        if aggregate['ok'] != 1
+        aggregate_document = aggregate.documents[0]
+        if !aggregate.successful?
           raise RuntimeError, "Aggregation Failed"
-        elsif aggregate['result'].size !=1
-           aggregate['result'] =[{"defaults" => true,
+        elsif aggregate_document['result'].size !=1
+           aggregate_document['result'] =[{"defaults" => true,
                                  QME::QualityReport::POPULATION => 0,
                                  QME::QualityReport::DENOMINATOR => 0,
                                  QME::QualityReport::NUMERATOR =>0,
@@ -142,6 +151,7 @@ module QME
                                  QME::QualityReport::EXCLUSIONS => 0,
                                  QME::QualityReport::EXCEPTIONS => 0,
                                  QME::QualityReport::MSRPOPL => 0,
+                                 QME::QualityReport::MSRPOPLEX => 0,
                                  QME::QualityReport::CONSIDERED => 0}]
         end
 
@@ -155,7 +165,7 @@ module QME
           result[QME::QualityReport::OBSERVATION] = aggregated_value
         end
 
-        agg_result = aggregate['result'].first
+        agg_result = aggregate_document['result'].first
         agg_result.reject! {|k, v| k == '_id'} # get rid of the group id the Mongo forced us to use
         # result['exclusions'] += get_db['patient_cache'].find(base_query.merge({'value.manual_exclusion'=>true})).count
         agg_result.merge!(execution_time: (Time.now.to_i - @parameter_values['start_time'].to_i)) if @parameter_values['start_time']
@@ -179,11 +189,12 @@ module QME
         cv_pipeline << {'$group' => {'_id' => '$value.values', 'count' => {'$sum' => 1}}}
 
         aggregate = get_db.command(:aggregate => 'patient_cache', :pipeline => cv_pipeline)
+        aggregate_document = aggregate.documents[0]
 
-        raise RuntimeError, "Aggregation Failed" if aggregate['ok'] != 1
+        raise RuntimeError, "Aggregation Failed" if aggregate_document['ok'] != 1
 
         frequencies = {}
-        aggregate['result'].each do |freq_count_pair|
+        aggregate_document['result'].each do |freq_count_pair|
           frequencies[freq_count_pair['_id']] = freq_count_pair['count']
         end
         QME::MapReduce::CVAggregator.send(@measure_def.aggregator.parameterize, frequencies)
@@ -224,15 +235,17 @@ module QME
       # result is returned directly.
       def get_patient_result(patient_id)
         measure = Builder.new(get_db(), @measure_def, @parameter_values)
-        result = get_db().command(:mapreduce => 'records',
+        operation = get_db().command(:mapreduce => 'records',
                                   :map => measure.map_function,
                                   :reduce => "function(key, values){return values;}",
                                   :out => {:inline => true},
-                                  :raw => true,
+                                  # :raw => true,
                                   :query => {:medical_record_number => patient_id, :test_id => @parameter_values["test_id"]})
 
-        raise result['err'] if result['ok']!=1
-        result['results'][0]['value']
+
+        raise operation.documents[0]['err'] if !operation.successful?
+        return nil if operation.documents[0]['results'].empty?
+        operation.documents[0]['results'][0]['value']
       end
 
 

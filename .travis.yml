@@ -1,8 +1,15 @@
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.1
+  - 2.3.5
+sudo: false
+dist: precise
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x9ECBEC467F0CEB10'
+    packages:
+      - mongodb-org-server=3.4.5
 script: bundle exec rake test
 services:
   - mongodb
@@ -12,7 +19,7 @@ notifications:
       - healthcare-ci@googlegroups.com
     on_failure: change
 
-branches: 
+branches:
   only:
     - master
     - mongoid_refactor
