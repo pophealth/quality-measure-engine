@@ -6,9 +6,9 @@ class MapCalculationJobTest < MiniTest::Unit::TestCase
   def setup
     get_db['query_cache'].drop()
     get_db['patient_cache'].drop()
-    collection_fixtures(get_db(), 'measures')
-    collection_fixtures(get_db(), 'records', '_id')
-    collection_fixtures(get_db(), 'bundles')
+    collection_fixtures('measures')
+    collection_fixtures('records')
+    collection_fixtures('bundles')
     load_system_js
 
     Delayed::Worker.delay_jobs = false

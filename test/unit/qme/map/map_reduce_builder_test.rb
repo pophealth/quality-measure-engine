@@ -4,7 +4,7 @@ class MapReduceBuilderTest < MiniTest::Unit::TestCase
   include QME::DatabaseAccess
 
   def setup
-    collection_fixtures(get_db(), 'measures')
+    collection_fixtures('measures')
     @measure_json = QME::QualityMeasure.where({"nqf_id" => '0043'}).first
      load_system_js
   end

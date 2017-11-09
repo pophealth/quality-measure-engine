@@ -5,9 +5,10 @@ class QualityReportTest < MiniTest::Unit::TestCase
 
   def setup
     load_system_js
-    collection_fixtures(get_db(), 'bundles')
-    collection_fixtures(get_db(), 'records')
-    collection_fixtures(get_db(), 'measures')
+    collection_fixtures('bundles')
+    collection_fixtures('records')
+    collection_fixtures('measures')
+
     get_db()['query_cache'].drop()
     get_db()['patient_cache'].drop()
     get_db()['query_cache'].insert_one({
@@ -48,7 +49,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
             "effective_date" => Time.gm(2010, 9, 19).to_i
           }}
     )
-    collection_fixtures(get_db(), 'delayed_backend_mongoid_jobs', '_id')
+    collection_fixtures('delayed_backend_mongoid_jobs')
   end
 
   def test_calculated
@@ -86,6 +87,7 @@ class QualityReportTest < MiniTest::Unit::TestCase
   def test_status
     status = QME::MapReduce::MeasureCalculationJob.status('not really a job id')
     assert_equal :complete, status
+
     status = QME::MapReduce::MeasureCalculationJob.status("508aeff07042f9f88900000d")
     assert_equal :queued, status
   end

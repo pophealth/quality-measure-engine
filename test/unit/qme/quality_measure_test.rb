@@ -4,8 +4,8 @@ class QualityMeasureTest < MiniTest::Unit::TestCase
   include QME::DatabaseAccess
   def setup
 
-    collection_fixtures(get_db(), 'measures')
-    collection_fixtures(get_db(), 'bundles')
+    collection_fixtures('measures')
+    collection_fixtures('bundles')
     load_system_js
   end
 
