@@ -2,10 +2,10 @@ PATH
   remote: .
   specs:
     quality-measure-engine (3.2.0)
-      delayed_job_mongoid (~> 2.2.0)
-      mongoid (~> 5.0.0)
-      rubyzip (>= 1.0.0)
-      zip-zip
+      delayed_job_mongoid (~> 2.2)
+      mongoid (~> 5.0)
+      rubyzip (~> 1.0)
+      zip-zip (~> 0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -115,10 +115,10 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  minitest (~> 5.4.0)
+  minitest (~> 5.4)
   quality-measure-engine!
-  rails (~> 4.1.7)
-  simplecov (~> 0.9.0)
+  rails (~> 4.1)
+  simplecov (~> 0.9)
 
 BUNDLED WITH
    1.15.4
