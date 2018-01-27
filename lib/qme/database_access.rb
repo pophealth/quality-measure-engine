@@ -1,5 +1,5 @@
 module QME
-  module DatabaseAccess 
+  module DatabaseAccess
     # Lazily creates a connection to the database and initializes the
     # JavaScript environment
     # @return [Moped::Session]
