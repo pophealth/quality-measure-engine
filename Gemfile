@@ -11,3 +11,9 @@ gem 'pry'
 gem 'pry-nav'
 gem 'pry-rescue'
 gem 'pry-stack_explorer'
+
+gem(
+  'delayed_job',
+  git: 'git@github.com:pixeltrix/delayed_job',
+  branch: 'allow-rails-5-2'
+)
