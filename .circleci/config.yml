@@ -1,0 +1,45 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.5.0
+        environment:
+          RAILS_ENV: test
+          TESTOPTS: "--ci-dir=/home/circleci/project/test/reports"
+    steps:
+      - checkout
+
+      - run:
+          name: Install and start MongoDB
+          command: |
+            sudo mkdir -p /data/db
+            sudo mkdir -p /data/log
+            wget http://downloads.mongodb.org/linux/mongodb-linux-x86_64-2.6.10.tgz && \
+            tar xvzf mongodb-linux-x86_64-2.6.10.tgz
+            sudo cp mongodb-linux-x86_64-2.6.10/bin/* /usr/local/bin
+            sudo mongod --fork --logpath /data/log/mongod.log
+
+      - run: gem install bundler
+
+      - run: sudo gem update --system
+
+      - restore_cache:
+          keys:
+            - quality-measure-engine-{{ checksum "Gemfile.lock" }}
+            - quality-measure-engine-
+
+      - run: bundle config --local path vendor/bundle
+
+      - run: bundle install --without staging doc --jobs=4
+
+      - save_cache:
+          key: quality-measure-engine-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+
+      - type: shell
+        name: Run rake test
+        command: rake test
+
+      - store_test_results:
+          path: test/reports

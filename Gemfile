@@ -5,6 +5,7 @@ gemspec
 
 group :test do
   gem 'codeclimate-test-reporter', '< 1.0', require: false
+  gem 'minitest-ci' # needed to upload test results on circle 2.0
 end
 
 gem 'pry'
