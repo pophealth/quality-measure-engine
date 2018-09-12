@@ -191,11 +191,9 @@ module QME
     def patient_cache_matcher
       puts "#############in patient cache matcher######################"
       match = {'value.measure_id' => self.measure_id,
-               'value.sub_id'           => self.sub_id,
                'value.effective_date'   => self.effective_date,
-               'value.test_id'          => test_id,
-               'value.manual_exclusion' => {'$in' => [nil, false]}}
-
+               'value.test_id'          => test_id}
+=begin
       if(filters)
         if (filters['races'] && filters['races'].size > 0)
           match['value.race.code'] = {'$in' => filters['races']}
@@ -214,6 +212,7 @@ module QME
           match["value.languages"] = {'$in' => filters['languages']}
         end
       end
+=end
       match
     end
 
