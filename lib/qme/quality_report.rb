@@ -190,7 +190,9 @@ module QME
 
     def patient_cache_matcher
       puts "#############in patient cache matcher######################"
-      match = {'measure_id' => self.measure_id,
+      measure_id = HealthDataStandards::CQM::Measure.where(hqmf_id: self.measure_id,).pluck('_id')
+      puts measure_id
+      match = {'measure_id' => measure_id
                'effective_date'   => Time.at(self.effective_date).in_time_zone.to_formatted_s(:number)}
 =begin
       if(filters)
