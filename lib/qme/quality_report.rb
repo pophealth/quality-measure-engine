@@ -190,9 +190,8 @@ module QME
 
     def patient_cache_matcher
       puts "#############in patient cache matcher######################"
-      match = {'value.measure_id' => self.measure_id,
-               'value.effective_date'   => self.effective_date,
-               'value.test_id'          => test_id}
+      match = {'measure_id' => self.measure_id,
+               'effective_date'   => Time.at(self.effective_date).in_time_zone.to_formatted_s(:number)}
 =begin
       if(filters)
         if (filters['races'] && filters['races'].size > 0)
