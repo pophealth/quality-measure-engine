@@ -167,7 +167,7 @@ module QME
      puts "################calling patient cache matcher######################" 
      puts patient_cache_matcher.to_s
      puts "################end patient cache matcher######################" 
-     QME::PatientCache.where(patient_cache_matcher)
+     QDM::IndividualResult.where(patient_cache_matcher)
     end
 
     def measure
