@@ -162,11 +162,7 @@ module QME
     end
 
     def patient_results
-     puts "#############patient results from qme################"
      ex = QME::MapReduce::Executor.new(self.measure_id,self.sub_id, self.attributes)
-     puts "################calling patient cache matcher######################" 
-     puts patient_cache_matcher.to_s
-     puts "################end patient cache matcher######################" 
      QDM::IndividualResult.where(patient_cache_matcher)
     end
 
