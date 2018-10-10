@@ -189,7 +189,9 @@ module QME
       measure_id = HealthDataStandards::CQM::Measure.where(hqmf_id: self.measure_id,).pluck(:_id).first.to_s
       puts measure_id
       match = {'measure_id' => measure_id,
-               'extendedData.effective_date'   => Time.at(self.effective_date).in_time_zone.to_formatted_s(:number)}
+               'extendedData.effective_date'   => Time.at(self.effective_date).in_time_zone.to_formatted_s(:number),
+               'extendedData.manual_exclusion' => {'$in' => [nil, false]}              
+              }
 =begin
       if(filters)
         if (filters['races'] && filters['races'].size > 0)
