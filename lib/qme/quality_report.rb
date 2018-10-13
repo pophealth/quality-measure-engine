@@ -186,7 +186,7 @@ module QME
 
     def patient_cache_matcher
       puts "#############in patient cache matcher######################"
-      measure_id = HealthDataStandards::CQM::Measure.where(hqmf_id: self.measure_id,).pluck(:_id).first.to_s
+      measure_id = HealthDataStandards::CQM::Measure.where(hqmf_id: self.measure_id, sub_id: self.sub_id).pluck(:_id).first.to_s
       puts measure_id
       puts self.sub_id
       match = {'measure_id' => measure_id,
