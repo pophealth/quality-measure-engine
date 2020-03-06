@@ -167,7 +167,9 @@ module QME
     end
 
     def measure
-      QME::QualityMeasure.where({"hqmf_id"=>self.measure_id, "sub_id" => self.sub_id}).first
+      # For EcqmApiV2, we use HealthDataStandards::CQM::Measure as a main measure model instead of QME::QualityMeasure
+      HealthDataStandards::CQM::Measure.where(hqmf_id: self.measure_id, sub_id: self.sub_id).first
+      # QME::QualityMeasure.where({"hqmf_id"=>self.measure_id, "sub_id" => self.sub_id}).first
     end
 
     # make sure all filter id arrays are sorted
