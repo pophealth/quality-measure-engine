@@ -1,6 +1,5 @@
 require "bundler/setup"
 
-require 'delayed_job_mongoid'
 require 'zip/zip'
 
 require "qme/version"
